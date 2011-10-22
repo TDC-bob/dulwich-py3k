@@ -289,7 +289,7 @@ def _split_proto_line(line, allowed):
         elif len(fields) == 2 and command in ('want', 'have'):
             hex_to_sha(fields[1])
             return tuple(fields)
-    except (TypeError, AssertionError), e:
+    except (TypeError, AssertionError) as e:
         raise GitProtocolError(e)
     raise GitProtocolError('Received invalid line from client: %s' % line)
 
@@ -597,7 +597,7 @@ class ReceivePackHandler(Handler):
             p = self.repo.object_store.add_thin_pack(self.proto.read,
                                                      self.proto.recv)
             status.append(('unpack', 'ok'))
-        except all_exceptions, e:
+        except all_exceptions as e:
             status.append(('unpack', str(e).replace('\n', '')))
             # The pack may still have been moved in, but it may contain broken
             # objects. We trust a later GC to clean it up.
@@ -619,7 +619,7 @@ class ReceivePackHandler(Handler):
                         self.repo.refs[ref] = sha
                     except all_exceptions:
                         ref_status = 'failed to write'
-            except KeyError, e:
+            except KeyError as e:
                 ref_status = 'bad ref'
             status.append((ref, ref_status))
 

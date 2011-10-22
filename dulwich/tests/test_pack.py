@@ -20,7 +20,7 @@
 """Tests for Dulwich packs."""
 
 
-from cStringIO import StringIO
+from io import StringIO
 import os
 import shutil
 import tempfile
@@ -73,7 +73,7 @@ from dulwich.pack import (
 from dulwich.tests import (
     TestCase,
     )
-from utils import (
+from .utils import (
     make_object,
     build_pack,
     )
@@ -110,7 +110,7 @@ class PackTests(TestCase):
     def assertSucceeds(self, func, *args, **kwargs):
         try:
             func(*args, **kwargs)
-        except ChecksumMismatch, e:
+        except ChecksumMismatch as e:
             self.fail(e)
 
 
@@ -213,18 +213,18 @@ class TestPackData(PackTests):
         for offset, type_num, chunks, crc32 in p.iterobjects():
             actual.append((offset, type_num, ''.join(chunks), crc32))
         self.assertEquals([
-          (12, 1, commit_data, 3775879613L),
-          (138, 2, tree_data, 912998690L),
-          (178, 3, 'test 1\n', 1373561701L)
+          (12, 1, commit_data, 3775879613),
+          (138, 2, tree_data, 912998690),
+          (178, 3, 'test 1\n', 1373561701)
           ], actual)
 
     def test_iterentries(self):
         p = self.get_pack_data(pack1_sha)
         entries = set((sha_to_hex(s), o, c) for s, o, c in p.iterentries())
         self.assertEquals(set([
-          ('6f670c0fb53f9463760b7295fbb814e965fb20c8', 178, 1373561701L),
-          ('b2a2766a2879c209ab1176e7e778b81ae422eeaa', 138, 912998690L),
-          ('f18faa16531ac570a3fdc8c7ca16682548dafd12', 12, 3775879613L),
+          ('6f670c0fb53f9463760b7295fbb814e965fb20c8', 178, 1373561701),
+          ('b2a2766a2879c209ab1176e7e778b81ae422eeaa', 138, 912998690),
+          ('f18faa16531ac570a3fdc8c7ca16682548dafd12', 12, 3775879613),
           ]), entries)
 
     def test_create_index_v1(self):
@@ -460,7 +460,7 @@ class BaseTestPackIndexWriting(object):
     def assertSucceeds(self, func, *args, **kwargs):
         try:
             func(*args, **kwargs)
-        except ChecksumMismatch, e:
+        except ChecksumMismatch as e:
             self.fail(e)
 
     def index(self, filename, entries, pack_checksum):
@@ -836,20 +836,20 @@ class DeltaChainIteratorTests(TestCase):
     def test_long_chain(self):
         n = 100
         objects_spec = [(Blob.type_num, 'blob')]
-        for i in xrange(n):
+        for i in range(n):
             objects_spec.append((OFS_DELTA, (i, 'blob%i' % i)))
         f = StringIO()
         entries = build_pack(f, objects_spec)
-        self.assertEntriesMatch(xrange(n + 1), entries, self.make_pack_iter(f))
+        self.assertEntriesMatch(range(n + 1), entries, self.make_pack_iter(f))
 
     def test_branchy_chain(self):
         n = 100
         objects_spec = [(Blob.type_num, 'blob')]
-        for i in xrange(n):
+        for i in range(n):
             objects_spec.append((OFS_DELTA, (0, 'blob%i' % i)))
         f = StringIO()
         entries = build_pack(f, objects_spec)
-        self.assertEntriesMatch(xrange(n + 1), entries, self.make_pack_iter(f))
+        self.assertEntriesMatch(range(n + 1), entries, self.make_pack_iter(f))
 
     def test_ext_ref(self):
         blob, = self.store_blobs(['blob'])
@@ -903,7 +903,7 @@ class DeltaChainIteratorTests(TestCase):
         try:
             list(pack_iter._walk_all_chains())
             self.fail()
-        except KeyError, e:
+        except KeyError as e:
             self.assertEqual(([blob.id],), e.args)
 
     def test_bad_ext_ref_thin_pack(self):
@@ -921,5 +921,5 @@ class DeltaChainIteratorTests(TestCase):
         try:
             list(pack_iter._walk_all_chains())
             self.fail()
-        except KeyError, e:
+        except KeyError as e:
             self.assertEqual((sorted([b2.id, b3.id]),), e.args)

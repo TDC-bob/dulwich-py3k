@@ -1,0 +1,8 @@
+build
+MANIFEST
+dist
+apidocs
+*,cover
+.testrepository
+docs/tutorial/index.html
+dulwich.egg-info

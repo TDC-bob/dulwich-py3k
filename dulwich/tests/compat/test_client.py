@@ -19,8 +19,8 @@
 
 """Compatibilty tests between the Dulwich client and the cgit server."""
 
-import BaseHTTPServer
-import SimpleHTTPServer
+import http.server
+import http.server
 import copy
 import os
 import select
@@ -29,7 +29,7 @@ import signal
 import subprocess
 import tempfile
 import threading
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
 from dulwich import (
     client,
@@ -111,7 +111,7 @@ class DulwichClientTestBase(object):
     def make_dummy_commit(self, dest):
         b = objects.Blob.from_string('hi')
         dest.object_store.add_object(b)
-        t = index.commit_tree(dest.object_store, [('hi', b.id, 0100644)])
+        t = index.commit_tree(dest.object_store, [('hi', b.id, 0o100644)])
         c = objects.Commit()
         c.author = c.committer = 'Foo Bar <foo@example.com>'
         c.author_time = c.commit_time = 0
@@ -143,7 +143,7 @@ class DulwichClientTestBase(object):
         c = self._client()
         try:
             c.send_pack(self._build_path('/dest'), lambda _: sendrefs, gen_pack)
-        except errors.UpdateRefsError, e:
+        except errors.UpdateRefsError as e:
             self.assertEqual('refs/heads/master failed to update', str(e))
             self.assertEqual({'refs/heads/branch': 'ok',
                               'refs/heads/master': 'non-fast-forward'},
@@ -157,7 +157,7 @@ class DulwichClientTestBase(object):
         c = self._client()
         try:
             c.send_pack(self._build_path('/dest'), lambda _: sendrefs, gen_pack)
-        except errors.UpdateRefsError, e:
+        except errors.UpdateRefsError as e:
             self.assertEqual('refs/heads/branch, refs/heads/master failed to '
                              'update', str(e))
             self.assertEqual({'refs/heads/branch': 'non-fast-forward',
@@ -168,7 +168,7 @@ class DulwichClientTestBase(object):
         c = self._client()
         dest = repo.Repo(os.path.join(self.gitroot, 'dest'))
         refs = c.fetch(self._build_path('/server_new.export'), dest)
-        map(lambda r: dest.refs.set_if_equals(r[0], None, r[1]), refs.items())
+        list(map(lambda r: dest.refs.set_if_equals(r[0], None, r[1]), list(refs.items())))
         self.assertDestEqualsSrc()
 
     def test_incremental_fetch_pack(self):
@@ -178,7 +178,7 @@ class DulwichClientTestBase(object):
         c = self._client()
         dest = repo.Repo(os.path.join(self.gitroot, 'server_new.export'))
         refs = c.fetch(self._build_path('/dest'), dest)
-        map(lambda r: dest.refs.set_if_equals(r[0], None, r[1]), refs.items())
+        list(map(lambda r: dest.refs.set_if_equals(r[0], None, r[1]), list(refs.items())))
         self.assertDestEqualsSrc()
 
     def test_send_remove_branch(self):
@@ -278,7 +278,7 @@ class DulwichSubprocessClientTest(CompatTestCase, DulwichClientTestBase):
         return self.gitroot + path
 
 
-class GitHTTPRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
+class GitHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
     """HTTP Request handler that calls out to 'git http-backend'."""
 
     # Make rfile unbuffered -- we need to read one line and then pass
@@ -320,7 +320,7 @@ class GitHTTPRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         env['GIT_PROJECT_ROOT'] = self.server.root_path
         env["GIT_HTTP_EXPORT_ALL"] = "1"
         env['REQUEST_METHOD'] = self.command
-        uqrest = urllib.unquote(rest)
+        uqrest = urllib.parse.unquote(rest)
         env['PATH_INFO'] = uqrest
         env['SCRIPT_NAME'] = "/"
         if query:
@@ -365,7 +365,7 @@ class GitHTTPRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         ua = self.headers.getheader('user-agent')
         if ua:
             env['HTTP_USER_AGENT'] = ua
-        co = filter(None, self.headers.getheaders('cookie'))
+        co = [_f for _f in self.headers.getheaders('cookie') if _f]
         if co:
             env['HTTP_COOKIE'] = ', '.join(co)
         # XXX Other HTTP_* headers
@@ -398,12 +398,12 @@ class GitHTTPRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         self.wfile.write(stdout)
 
 
-class HTTPGitServer(BaseHTTPServer.HTTPServer):
+class HTTPGitServer(http.server.HTTPServer):
 
     allow_reuse_address = True
 
     def __init__(self, server_address, root_path):
-        BaseHTTPServer.HTTPServer.__init__(self, server_address, GitHTTPRequestHandler)
+        http.server.HTTPServer.__init__(self, server_address, GitHTTPRequestHandler)
         self.root_path = root_path
 
     def get_url(self):

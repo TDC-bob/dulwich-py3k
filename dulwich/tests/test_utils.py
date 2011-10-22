@@ -28,7 +28,7 @@ from dulwich.objects import (
 from dulwich.tests import (
     TestCase,
     )
-from utils import (
+from .utils import (
     make_object,
     build_commit_graph,
     )
@@ -47,7 +47,7 @@ class BuildCommitGraphTest(TestCase):
         self.assertEqual([], c1.parents)
         self.assertEqual([c1.id], c2.parents)
         self.assertEqual(c1.tree, c2.tree)
-        self.assertEqual([], list(self.store[c1.tree].iteritems()))
+        self.assertEqual([], list(self.store[c1.tree].items()))
         self.assertTrue(c2.commit_time > c1.commit_time)
 
     def test_merge(self):
@@ -66,9 +66,9 @@ class BuildCommitGraphTest(TestCase):
         a2 = make_object(Blob, data='aaa2')
         c1, c2 = build_commit_graph(self.store, [[1], [2, 1]],
                                     trees={1: [('a', a1)],
-                                           2: [('a', a2, 0100644)]})
-        self.assertEqual((0100644, a1.id), self.store[c1.tree]['a'])
-        self.assertEqual((0100644, a2.id), self.store[c2.tree]['a'])
+                                           2: [('a', a2, 0o100644)]})
+        self.assertEqual((0o100644, a1.id), self.store[c1.tree]['a'])
+        self.assertEqual((0o100644, a2.id), self.store[c2.tree]['a'])
 
     def test_attrs(self):
         c1, c2 = build_commit_graph(self.store, [[1], [2, 1]],

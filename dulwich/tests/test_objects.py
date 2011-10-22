@@ -22,7 +22,7 @@
 # TODO: Round-trip parse-serialize-parse and serialize-parse-serialize tests.
 
 
-from cStringIO import StringIO
+from io import StringIO
 import datetime
 import os
 import stat
@@ -55,7 +55,7 @@ from dulwich.objects import (
 from dulwich.tests import (
     TestCase,
     )
-from utils import (
+from .utils import (
     make_commit,
     make_object,
     functest_builder,
@@ -151,8 +151,8 @@ class BlobReadTests(TestCase):
 
     def test_read_tree_from_file(self):
         t = self.get_tree(tree_sha)
-        self.assertEqual(t.items()[0], ('a', 33188, a_sha))
-        self.assertEqual(t.items()[1], ('b', 33188, b_sha))
+        self.assertEqual(list(t.items())[0], ('a', 33188, a_sha))
+        self.assertEqual(list(t.items())[1], ('b', 33188, b_sha))
 
     def test_read_tag_from_file(self):
         t = self.get_tag(tag_sha)
@@ -307,7 +307,7 @@ class CommitParseTests(ShaFileCheckTests):
         if encoding is not None:
             lines.append('encoding %s' % encoding)
         if extra is not None:
-            for name, value in sorted(extra.iteritems()):
+            for name, value in sorted(extra.items()):
                 lines.append('%s %s' % (name, value))
         lines.append('')
         if message is not None:
@@ -366,7 +366,7 @@ class CommitParseTests(ShaFileCheckTests):
 
     def test_check_duplicates(self):
         # duplicate each of the header fields
-        for i in xrange(5):
+        for i in range(5):
             lines = self.make_commit_lines(parents=[a_sha], encoding='UTF-8')
             lines.insert(i, lines[i])
             text = '\n'.join(lines)
@@ -391,13 +391,13 @@ class CommitParseTests(ShaFileCheckTests):
 
 
 _TREE_ITEMS = {
-  'a.c': (0100755, 'd80c186a03f423a81b39df39dc87fd269736ca86'),
+  'a.c': (0o100755, 'd80c186a03f423a81b39df39dc87fd269736ca86'),
   'a': (stat.S_IFDIR, 'd80c186a03f423a81b39df39dc87fd269736ca86'),
   'a/c': (stat.S_IFDIR, 'd80c186a03f423a81b39df39dc87fd269736ca86'),
   }
 
 _SORTED_TREE_ITEMS = [
-  TreeEntry('a.c', 0100755, 'd80c186a03f423a81b39df39dc87fd269736ca86'),
+  TreeEntry('a.c', 0o100755, 'd80c186a03f423a81b39df39dc87fd269736ca86'),
   TreeEntry('a', stat.S_IFDIR, 'd80c186a03f423a81b39df39dc87fd269736ca86'),
   TreeEntry('a/c', stat.S_IFDIR, 'd80c186a03f423a81b39df39dc87fd269736ca86'),
   ]
@@ -408,8 +408,8 @@ class TreeTests(ShaFileCheckTests):
     def test_add(self):
         myhexsha = "d80c186a03f423a81b39df39dc87fd269736ca86"
         x = Tree()
-        x.add("myname", 0100755, myhexsha)
-        self.assertEquals(x["myname"], (0100755, myhexsha))
+        x.add("myname", 0o100755, myhexsha)
+        self.assertEquals(x["myname"], (0o100755, myhexsha))
         self.assertEquals('100755 myname\0' + hex_to_sha(myhexsha),
                 x.as_raw_string())
 
@@ -418,43 +418,43 @@ class TreeTests(ShaFileCheckTests):
         x = Tree()
         warnings.simplefilter("ignore", DeprecationWarning)
         try:
-            x.add(0100755, "myname", myhexsha)
+            x.add(0o100755, "myname", myhexsha)
         finally:
             warnings.resetwarnings()
-        self.assertEquals(x["myname"], (0100755, myhexsha))
+        self.assertEquals(x["myname"], (0o100755, myhexsha))
         self.assertEquals('100755 myname\0' + hex_to_sha(myhexsha),
                 x.as_raw_string())
 
     def test_simple(self):
         myhexsha = "d80c186a03f423a81b39df39dc87fd269736ca86"
         x = Tree()
-        x["myname"] = (0100755, myhexsha)
+        x["myname"] = (0o100755, myhexsha)
         self.assertEquals('100755 myname\0' + hex_to_sha(myhexsha),
                 x.as_raw_string())
 
     def test_tree_update_id(self):
         x = Tree()
-        x["a.c"] = (0100755, "d80c186a03f423a81b39df39dc87fd269736ca86")
+        x["a.c"] = (0o100755, "d80c186a03f423a81b39df39dc87fd269736ca86")
         self.assertEquals("0c5c6bc2c081accfbc250331b19e43b904ab9cdd", x.id)
         x["a.b"] = (stat.S_IFDIR, "d80c186a03f423a81b39df39dc87fd269736ca86")
         self.assertEquals("07bfcb5f3ada15bbebdfa3bbb8fd858a363925c8", x.id)
 
     def test_tree_iteritems_dir_sort(self):
         x = Tree()
-        for name, item in _TREE_ITEMS.iteritems():
+        for name, item in _TREE_ITEMS.items():
             x[name] = item
-        self.assertEquals(_SORTED_TREE_ITEMS, list(x.iteritems()))
+        self.assertEquals(_SORTED_TREE_ITEMS, list(x.items()))
 
     def test_tree_items_dir_sort(self):
         x = Tree()
-        for name, item in _TREE_ITEMS.iteritems():
+        for name, item in _TREE_ITEMS.items():
             x[name] = item
-        self.assertEquals(_SORTED_TREE_ITEMS, x.items())
+        self.assertEquals(_SORTED_TREE_ITEMS, list(x.items()))
 
     def _do_test_parse_tree(self, parse_tree):
         dir = os.path.join(os.path.dirname(__file__), 'data', 'trees')
         o = Tree.from_path(hex_to_filename(dir, tree_sha))
-        self.assertEquals([('a', 0100644, a_sha), ('b', 0100644, b_sha)],
+        self.assertEquals([('a', 0o100644, a_sha), ('b', 0o100644, b_sha)],
                           list(parse_tree(o.as_raw_string())))
         # test a broken tree that has a leading 0 on the file mode
         broken_tree = '0100644 foo\0' + hex_to_sha(a_sha)
@@ -462,7 +462,7 @@ class TreeTests(ShaFileCheckTests):
         def eval_parse_tree(*args, **kwargs):
             return list(parse_tree(*args, **kwargs))
 
-        self.assertEquals([('foo', 0100644, a_sha)],
+        self.assertEquals([('foo', 0o100644, a_sha)],
                           eval_parse_tree(broken_tree))
         self.assertRaises(ObjectFormatException,
                           eval_parse_tree, broken_tree, strict=True)
@@ -489,7 +489,7 @@ class TreeTests(ShaFileCheckTests):
 
         myhexsha = 'd80c186a03f423a81b39df39dc87fd269736ca86'
         self.assertRaises(errors, do_sort, {'foo': ('xxx', myhexsha)})
-        self.assertRaises(errors, do_sort, {'foo': (0100755, 12345)})
+        self.assertRaises(errors, do_sort, {'foo': (0o100755, 12345)})
 
     test_sorted_tree_items = functest_builder(_do_test_sorted_tree_items,
                                               _sorted_tree_items_py)
@@ -500,7 +500,7 @@ class TreeTests(ShaFileCheckTests):
         self.assertEqual([
           TreeEntry('a', stat.S_IFDIR,
                     'd80c186a03f423a81b39df39dc87fd269736ca86'),
-          TreeEntry('a.c', 0100755, 'd80c186a03f423a81b39df39dc87fd269736ca86'),
+          TreeEntry('a.c', 0o100755, 'd80c186a03f423a81b39df39dc87fd269736ca86'),
           TreeEntry('a/c', stat.S_IFDIR,
                     'd80c186a03f423a81b39df39dc87fd269736ca86'),
           ], list(sorted_tree_items(_TREE_ITEMS, True)))
@@ -545,7 +545,7 @@ class TreeTests(ShaFileCheckTests):
 
     def test_iter(self):
         t = Tree()
-        t["foo"] = (0100644, a_sha)
+        t["foo"] = (0o100644, a_sha)
         self.assertEquals(set(["foo"]), set(t))
 
 
@@ -642,7 +642,7 @@ class TagParseTests(ShaFileCheckTests):
 
     def test_check_duplicates(self):
         # duplicate each of the header fields
-        for i in xrange(4):
+        for i in range(4):
             lines = self.make_tag_lines()
             lines.insert(i, lines[i])
             self.assertCheckFails(Tag, '\n'.join(lines))

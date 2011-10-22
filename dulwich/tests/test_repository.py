@@ -19,7 +19,7 @@
 
 """Tests for the repository."""
 
-from cStringIO import StringIO
+from io import StringIO
 import os
 import shutil
 import tempfile
@@ -238,7 +238,7 @@ class RepositoryTests(TestCase):
         r = self._repo = open_repo('a.git')
         commit = r[r.head()]
         tree = r[commit.tree]
-        blob_sha = tree.items()[0][2]
+        blob_sha = list(tree.items())[0][2]
         warnings.simplefilter("ignore", DeprecationWarning)
         self.addCleanup(warnings.resetwarnings)
         blob = r.get_blob(blob_sha)
@@ -350,13 +350,13 @@ class RepositoryTests(TestCase):
 
         try:
             r1 = Repo.init_bare(r1_dir)
-            map(lambda c: r1.object_store.add_object(r_base.get_object(c)), \
-                r1_commits)
+            list(map(lambda c: r1.object_store.add_object(r_base.get_object(c)), \
+                r1_commits))
             r1.refs['HEAD'] = r1_commits[0]
 
             r2 = Repo.init_bare(r2_dir)
-            map(lambda c: r2.object_store.add_object(r_base.get_object(c)), \
-                r2_commits)
+            list(map(lambda c: r2.object_store.add_object(r_base.get_object(c)), \
+                r2_commits))
             r2.refs['HEAD'] = r2_commits[0]
 
             # Finally, the 'real' testing!
@@ -442,7 +442,7 @@ class BuildRepoTests(TestCase):
         self.assertEqual([self._root_commit], r[commit_sha].parents)
         self.assertEqual([], list(r.open_index()))
         tree = r[r[commit_sha].tree]
-        self.assertEqual([], list(tree.iteritems()))
+        self.assertEqual([], list(tree.items()))
 
     def test_commit_encoding(self):
         r = self._repo
@@ -626,7 +626,7 @@ class RefsContainerTests(object):
         self.assertEqual(set(self._refs.allkeys()), actual_keys)
         # ignore the symref loop if it exists
         actual_keys.discard('refs/heads/loop')
-        self.assertEqual(set(_TEST_REFS.iterkeys()), actual_keys)
+        self.assertEqual(set(_TEST_REFS.keys()), actual_keys)
 
         actual_keys = self._refs.keys('refs/heads')
         actual_keys.discard('loop')

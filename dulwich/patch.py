@@ -49,7 +49,7 @@ def write_commit_patch(f, commit, contents, progress, version=None):
         import subprocess
         p = subprocess.Popen(["diffstat"], stdout=subprocess.PIPE,
                              stdin=subprocess.PIPE)
-    except (ImportError, OSError), e:
+    except (ImportError, OSError) as e:
         pass # diffstat not available?
     else:
         (diffstat, _) = p.communicate(contents)
@@ -103,8 +103,7 @@ def unified_diff(a, b, fromfile='', tofile='', n=3):
                     yield '+' + line
 
 
-def write_object_diff(f, store, (old_path, old_mode, old_id),
-                                (new_path, new_mode, new_id)):
+def write_object_diff(f, store, old_tuple, new_tuple):
     """Write the diff for an object.
 
     :param f: File-like object to write to
@@ -114,6 +113,10 @@ def write_object_diff(f, store, (old_path, old_mode, old_id),
 
     :note: the tuple elements should be None for nonexistant files
     """
+
+    (old_path, old_mode, old_id) = old_tuple
+    (new_path, new_mode, new_id) = new_tuple
+
     def shortid(hexsha):
         if hexsha is None:
             return "0" * 7
@@ -152,8 +155,7 @@ def write_object_diff(f, store, (old_path, old_mode, old_id),
         old_path, new_path))
 
 
-def write_blob_diff(f, (old_path, old_mode, old_blob),
-                       (new_path, new_mode, new_blob)):
+def write_blob_diff(f, old_tuple, new_tuple):
     """Write diff file header.
 
     :param f: File-like object to write to
@@ -162,6 +164,10 @@ def write_blob_diff(f, (old_path, old_mode, old_blob),
 
     :note: The use of write_object_diff is recommended over this function.
     """
+
+    (old_path, old_mode, old_id) = old_tuple
+    (new_path, new_mode, new_id) = new_tuple
+
     def blob_id(blob):
         if blob is None:
             return "0" * 7

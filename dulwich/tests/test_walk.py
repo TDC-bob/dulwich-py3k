@@ -46,7 +46,7 @@ from dulwich.walk import (
     _topo_reorder
     )
 from dulwich.tests import TestCase
-from utils import (
+from .utils import (
     F,
     make_object,
     build_commit_graph,
@@ -87,7 +87,7 @@ class WalkerTest(TestCase):
 
     def make_linear_commits(self, num_commits, **kwargs):
         commit_spec = []
-        for i in xrange(1, num_commits + 1):
+        for i in range(1, num_commits + 1):
             c = [i]
             if i > 1:
                 c.append(i - 1)
@@ -121,7 +121,7 @@ class WalkerTest(TestCase):
         # implementation (in particular the choice of _MAX_EXTRA_COMMITS), but
         # we should at least be able to walk some history in a broken repo.
         del self.store[cs[-1].id]
-        for i in xrange(1, 11):
+        for i in range(1, 11):
             self.assertWalkYields(cs[:i], [cs[0].id], max_entries=i)
         self.assertRaises(MissingCommitError, Walker, self.store, cs[0].id)
 

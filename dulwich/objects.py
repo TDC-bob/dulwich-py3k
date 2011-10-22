@@ -61,7 +61,7 @@ _TAG_HEADER = "tag"
 _TAGGER_HEADER = "tagger"
 
 
-S_IFGITLINK = 0160000
+S_IFGITLINK = 0o160000
 
 def S_ISGITLINK(m):
     return (stat.S_IFMT(m) == S_IFGITLINK)
@@ -360,7 +360,7 @@ class ShaFile(object):
             obj._needs_serialization = True
             obj._file = f
             return obj
-        except (IndexError, ValueError), e:
+        except (IndexError, ValueError) as e:
             raise ObjectFormatException("invalid object header")
 
     @staticmethod
@@ -419,7 +419,7 @@ class ShaFile(object):
             self._deserialize(self.as_raw_chunks())
             self._sha = None
             new_sha = self.id
-        except Exception, e:
+        except Exception as e:
             raise ObjectFormatException(e)
         if old_sha != new_sha:
             raise ChecksumMismatch(new_sha, old_sha)
@@ -656,7 +656,7 @@ class Tag(ShaFile):
                         self._tag_time = int(timetext)
                         self._tag_timezone, self._tag_timezone_neg_utc = \
                                 parse_timezone(timezonetext)
-                    except ValueError, e:
+                    except ValueError as e:
                         raise ObjectFormatException(e)
             elif field is None:
                 self._message = value
@@ -753,8 +753,11 @@ def sorted_tree_items(entries, name_order):
         yield TreeEntry(name, mode, hexsha)
 
 
-def cmp_entry((name1, value1), (name2, value2)):
+def cmp_entry(tuple_1, tuple_2):
     """Compare two tree entries in tree order."""
+    (name1, value1) = tuple_1
+    (name2, value2) = tuple_2
+
     if stat.S_ISDIR(value1[0]):
         name1 += "/"
     if stat.S_ISDIR(value2[0]):
@@ -872,7 +875,7 @@ class Tree(ShaFile):
         """Grab the entries in the tree"""
         try:
             parsed_entries = parse_tree("".join(chunks))
-        except ValueError, e:
+        except ValueError as e:
             raise ObjectFormatException(e)
         # TODO: list comprehension is for efficiency in the common (small) case;
         # if memory efficiency in the large case is a concern, use a genexp.
@@ -885,10 +888,10 @@ class Tree(ShaFile):
         """
         super(Tree, self).check()
         last = None
-        allowed_modes = (stat.S_IFREG | 0755, stat.S_IFREG | 0644,
+        allowed_modes = (stat.S_IFREG | 0o755, stat.S_IFREG | 0o644,
                          stat.S_IFLNK, stat.S_IFDIR, S_IFGITLINK,
                          # TODO: optionally exclude as in git fsck --strict
-                         stat.S_IFREG | 0664)
+                         stat.S_IFREG | 0o664)
         for name, mode, sha in parse_tree(''.join(self._chunked_text),
                                           True):
             check_hexsha(sha, 'invalid sha %s' % sha)

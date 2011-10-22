@@ -18,7 +18,7 @@
 
 """Tests for the Git HTTP server."""
 
-from cStringIO import StringIO
+from io import StringIO
 import re
 
 from dulwich.object_store import (
@@ -107,7 +107,7 @@ def _test_backend(objects, refs=None, named_files=None):
     if not named_files:
         named_files = {}
     repo = MemoryRepo.init_bare(objects, refs)
-    for path, contents in named_files.iteritems():
+    for path, contents in list(named_files.items()):
         repo._put_named_file(path, contents)
     return DictBackend({'/': repo})
 
@@ -258,7 +258,7 @@ class DumbHandlersTestCase(WebTestCase):
             def name(self):
                 return self._sha
 
-        packs = [TestPack(str(i) * 40) for i in xrange(1, 4)]
+        packs = [TestPack(str(i) * 40) for i in range(1, 4)]
 
         class TestObjectStore(MemoryObjectStore):
             # property must be overridden, can't be assigned

@@ -714,8 +714,9 @@ def unpack_object(read_all, read_some=None, compute_crc32=False,
     return unpacked, unused
 
 
-def _compute_object_size((num, obj)):
+def _compute_object_size(no_tuple):
     """Compute the size of a unresolved object for use with LRUSizeCache."""
+    (num, obj) = no_tuple
     if num in DELTA_TYPES:
         return chunks_length(obj[1])
     return chunks_length(obj)

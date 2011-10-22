@@ -99,7 +99,7 @@ def check_ref_format(refname):
     if '..' in refname:
         return False
     for c in refname:
-        if ord(c) < 040 or c in '\177 ~^:?*[':
+        if ord(c) < 0o40 or c in '\177 ~^:?*[':
             return False
     if refname[-1] in '/.':
         return False
@@ -454,7 +454,7 @@ class DiskRefsContainer(RefsContainer):
             path = os.path.join(self.path, 'packed-refs')
             try:
                 f = GitFile(path, 'rb')
-            except IOError, e:
+            except IOError as e:
                 if e.errno == errno.ENOENT:
                     return {}
                 raise
@@ -516,7 +516,7 @@ class DiskRefsContainer(RefsContainer):
                     return header + f.read(40-len(SYMREF))
             finally:
                 f.close()
-        except IOError, e:
+        except IOError as e:
             if e.errno == errno.ENOENT:
                 return None
             raise
@@ -661,7 +661,7 @@ class DiskRefsContainer(RefsContainer):
             # may only be packed
             try:
                 os.remove(filename)
-            except OSError, e:
+            except OSError as e:
                 if e.errno != errno.ENOENT:
                     raise
             self._remove_packed_ref(name)
@@ -679,7 +679,7 @@ def _split_ref_line(line):
     sha, name = fields
     try:
         hex_to_sha(sha)
-    except (AssertionError, TypeError), e:
+    except (AssertionError, TypeError) as e:
         raise PackedRefsException(e)
     if not check_ref_format(name):
         raise PackedRefsException("invalid ref name '%s'" % name)
@@ -720,7 +720,7 @@ def read_packed_refs_with_peeled(f):
                 raise PackedRefsException("unexpected peeled ref line")
             try:
                 hex_to_sha(l[1:])
-            except (AssertionError, TypeError), e:
+            except (AssertionError, TypeError) as e:
                 raise PackedRefsException(e)
             sha, name = _split_ref_line(last)
             last = None
@@ -1158,7 +1158,7 @@ class Repo(BaseRepo):
         path = path.lstrip(os.path.sep)
         try:
             return open(os.path.join(self.controldir(), path), 'rb')
-        except (IOError, OSError), e:
+        except (IOError, OSError) as e:
             if e.errno == errno.ENOENT:
                 return None
             raise

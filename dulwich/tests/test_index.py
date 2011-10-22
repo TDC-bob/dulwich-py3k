@@ -19,7 +19,7 @@
 """Tests for the index."""
 
 
-from cStringIO import (
+from io import (
     StringIO,
     )
 import os
@@ -134,19 +134,19 @@ class CommitTreeTests(TestCase):
 class CleanupModeTests(TestCase):
 
     def test_file(self):
-        self.assertEquals(0100644, cleanup_mode(0100000))
+        self.assertEquals(0o100644, cleanup_mode(0o100000))
 
     def test_executable(self):
-        self.assertEquals(0100755, cleanup_mode(0100711))
+        self.assertEquals(0o100755, cleanup_mode(0o100711))
 
     def test_symlink(self):
-        self.assertEquals(0120000, cleanup_mode(0120711))
+        self.assertEquals(0o120000, cleanup_mode(0o120711))
 
     def test_dir(self):
-        self.assertEquals(0040000, cleanup_mode(040531))
+        self.assertEquals(0o40000, cleanup_mode(0o40531))
 
     def test_submodule(self):
-        self.assertEquals(0160000, cleanup_mode(0160744))
+        self.assertEquals(0o160000, cleanup_mode(0o160744))
 
 
 class WriteCacheTimeTests(TestCase):

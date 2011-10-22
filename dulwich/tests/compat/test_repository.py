@@ -20,7 +20,7 @@
 """Compatibility tests for dulwich repositories."""
 
 
-from cStringIO import StringIO
+from io import StringIO
 import itertools
 import os
 
@@ -85,7 +85,7 @@ class ObjectStoreTestCase(CompatTestCase):
         expected_refs = self._parse_refs(output)
 
         actual_refs = {}
-        for refname, sha in self._repo.refs.as_dict().iteritems():
+        for refname, sha in self._repo.refs.as_dict().items():
             if refname == 'HEAD':
                 continue  # handled in test_head
             obj = self._repo[sha]

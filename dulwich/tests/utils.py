@@ -50,7 +50,7 @@ from dulwich.tests import (
     )
 
 # Plain files are very frequently used in tests, so let the mode be very short.
-F = 0100644  # Shorthand mode for Files.
+F = 0o100644  # Shorthand mode for Files.
 
 
 def open_repo(name):
@@ -97,7 +97,7 @@ def make_object(cls, **attrs):
         pass
 
     obj = TestObject()
-    for name, value in attrs.iteritems():
+    for name, value in attrs.items():
         if name == 'id':
             # id property is read-only, so we overwrite sha instead.
             sha = FixedSha(value)
@@ -159,7 +159,7 @@ def ext_functest_builder(method, func):
 
     def do_test(self):
         if not isinstance(func, types.BuiltinFunctionType):
-            raise SkipTest("%s extension not found", func.func_name)
+            raise SkipTest("%s extension not found", func.__name__)
         method(self, func)
 
     return do_test
@@ -228,7 +228,7 @@ def build_pack(f, objects_spec, store=None):
         crc32s[i] = crc32
 
     expected = []
-    for i in xrange(num_objects):
+    for i in range(num_objects):
         type_num, data, sha = full_objects[i]
         expected.append((offsets[i], type_num, data, sha, crc32s[i]))
 
@@ -278,7 +278,7 @@ def build_commit_graph(object_store, commit_spec, trees=None, attrs=None):
         commit_num = commit[0]
         try:
             parent_ids = [nums[pn] for pn in commit[1:]]
-        except KeyError, e:
+        except KeyError as e:
             missing_parent, = e.args
             raise ValueError('Unknown parent %i' % missing_parent)
 

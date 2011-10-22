@@ -474,7 +474,7 @@ class TCPGitClient(TraditionalGitClient):
             try:
                 s.connect(sockaddr)
                 break
-            except socket.error, err:
+            except socket.error as err:
                 if s is not None:
                     s.close()
                 s = None

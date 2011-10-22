@@ -18,7 +18,7 @@
 
 """Tests for the smart protocol server."""
 
-from cStringIO import StringIO
+from io import StringIO
 import os
 import tempfile
 
@@ -108,7 +108,7 @@ class HandlerTestCase(TestCase):
     def assertSucceeds(self, func, *args, **kwargs):
         try:
             func(*args, **kwargs)
-        except GitProtocolError, e:
+        except GitProtocolError as e:
             self.fail(e)
 
     def test_capability_line(self):
@@ -386,7 +386,7 @@ class AckGraphWalkerImplTestCase(TestCase):
         self.assertAck(None, 'nak')
 
     def assertNextEquals(self, sha):
-        self.assertEquals(sha, self._impl.next())
+        self.assertEquals(sha, next(self._impl))
 
 
 class SingleAckGraphWalkerImplTestCase(AckGraphWalkerImplTestCase):
