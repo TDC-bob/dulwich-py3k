@@ -703,16 +703,12 @@ class Tag(ShaFile):
 class TreeEntry(namedtuple('TreeEntry', ['path', 'mode', 'sha'])):
     """Named tuple encapsulating a single tree entry."""
 
-    def __init__(self, path, mode, sha):
-        if path is not None and not isinstance(path, str):
-            raise TypeError('blarg')
-
     @wrap3kstr(path=STRING)
     def in_path(self, path):
         """Return a copy of this entry with the given path prepended."""
 
         if not isinstance(self.path, str) or not isinstance(path, str):
-            raise TypeError('in_path only accepts strings as paths')
+            raise TypeError
         return TreeEntry(posixpath.join(path, self.path), self.mode, self.sha)
 
 @wrap3kstr(text=BYTES)
@@ -785,6 +781,8 @@ def sorted_tree_items(entries, name_order):
     for name, entry in sorted(iter(entries.items()), key=cmp_to_key(cmp_func)):
         mode, hexsha = entry
         # Stricter type checks than normal to mirror checks in the C version.
+        if not isinstance(mode, int) and not isinstance(mode, long):
+            raise TypeError('Expected integer/long for mode, got %r' % mode)
         mode = int(mode)
         if not isinstance(hexsha, str):
             raise TypeError('Expected a string for SHA, got %r' % hexsha)
