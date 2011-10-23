@@ -20,7 +20,7 @@
 
 
 from io import (
-    StringIO,
+    BytesIO,
     )
 import os
 import shutil
@@ -64,7 +64,7 @@ class SimpleIndexTestCase(IndexTestCase):
     def test_getitem(self):
         self.assertEqual(((1230680220, 0), (1230680220, 0), 2050, 3761020,
                            33188, 1000, 1000, 0,
-                           'e69de29bb2d1d6434b8b29ae775ad8c2e48c5391', 0),
+                           b'e69de29bb2d1d6434b8b29ae775ad8c2e48c5391', 0),
                           self.get_simple_index("index")["bla"])
 
     def test_empty(self):
@@ -84,9 +84,9 @@ class SimpleIndexWriterTestCase(IndexTestCase):
         shutil.rmtree(self.tempdir)
 
     def test_simple_write(self):
-        entries = [('barbla', (1230680220, 0), (1230680220, 0), 2050, 3761020,
+        entries = [(b'barbla', (1230680220, 0), (1230680220, 0), 2050, 3761020,
                     33188, 1000, 1000, 0,
-                    'e69de29bb2d1d6434b8b29ae775ad8c2e48c5391', 0)]
+                    b'e69de29bb2d1d6434b8b29ae775ad8c2e48c5391', 0)]
         filename = os.path.join(self.tempdir, 'test-simple-write-index')
         x = open(filename, 'wb+')
         try:
@@ -118,9 +118,9 @@ class CommitTreeTests(TestCase):
 
     def test_nested(self):
         blob = Blob()
-        blob.data = "foo"
+        blob.data = b"foo"
         self.store.add_object(blob)
-        blobs = [("bla/bar", blob.id, stat.S_IFREG)]
+        blobs = [(b"bla/bar", blob.id, stat.S_IFREG)]
         rootid = commit_tree(self.store, blobs)
         self.assertEqual(rootid, "d92b959b216ad0d044671981196781b3258fa537")
         dirid = self.store[rootid]["bla"][1]
@@ -152,20 +152,20 @@ class CleanupModeTests(TestCase):
 class WriteCacheTimeTests(TestCase):
 
     def test_write_string(self):
-        f = StringIO()
+        f = BytesIO()
         self.assertRaises(TypeError, write_cache_time, f, "foo")
 
     def test_write_int(self):
-        f = StringIO()
+        f = BytesIO()
         write_cache_time(f, 434343)
         self.assertEqual(struct.pack(">LL", 434343, 0), f.getvalue())
 
     def test_write_tuple(self):
-        f = StringIO()
+        f = BytesIO()
         write_cache_time(f, (434343, 21))
         self.assertEqual(struct.pack(">LL", 434343, 21), f.getvalue())
 
     def test_write_float(self):
-        f = StringIO()
+        f = BytesIO()
         write_cache_time(f, 434343.000000021)
         self.assertEqual(struct.pack(">LL", 434343, 21), f.getvalue())

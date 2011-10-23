@@ -256,6 +256,7 @@ class ShaFile(object):
             self._deserialize(self._chunked_text)
             self._needs_parsing = False
 
+    @wrap3kstr(text=STRING)
     def set_raw_string(self, text):
         if type(text) != str:
             raise TypeError(text)

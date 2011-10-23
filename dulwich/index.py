@@ -37,6 +37,7 @@ from dulwich.pack import (
 
 from dulwich.py3k import *
 
+@wrap3kstr(path=BYTES, returns=STRING)
 def pathsplit(path):
     """Split a /-delimited path into a directory part and a basename.
 
@@ -44,7 +45,7 @@ def pathsplit(path):
     :return: Tuple with directory name and basename
     """
     try:
-        (dirname, basename) = path.rsplit("/", 1)
+        (dirname, basename) = path.rsplit(b"/", 1)
     except ValueError:
         return ("", path)
     else:
@@ -116,15 +117,15 @@ def write_cache_entry(f, entry):
     write_cache_time(f, mtime)
     flags = len(name) | (flags &~ 0x0fff)
     f.write(struct.pack(">LLLLLL20sH", dev, ino, mode, uid, gid, size, hex_to_sha(sha), flags))
-    f.write(name)
+    f.write(convert3kstr(name, BYTES))
     real_size = ((f.tell() - beginoffset + 8) & ~7)
-    f.write("\0" * ((beginoffset + real_size) - f.tell()))
+    f.write(b"\0" * ((beginoffset + real_size) - f.tell()))
 
 
 def read_index(f):
     """Read an index file, yielding the individual entries."""
     header = f.read(4)
-    if header != "DIRC":
+    if header != b"DIRC":
         raise AssertionError("Invalid index file header: %r" % header)
     (version, num_entries) = struct.unpack(">LL", f.read(4 * 2))
     assert version in (1, 2)
@@ -149,7 +150,7 @@ def write_index(f, entries):
     :param f: File-like object to write to
     :param entries: Iterable over the entries to write
     """
-    f.write("DIRC")
+    f.write(b"DIRC")
     f.write(struct.pack(">LL", 2, len(entries)))
     for x in entries:
         write_cache_entry(f, x)
@@ -252,6 +253,7 @@ class Index(object):
         """Remove all contents from this index."""
         self._byname = {}
 
+    @wrap3kstr(name=STRING)
     def __setitem__(self, name, x):
         assert isinstance(name, str)
         assert len(x) == 10
