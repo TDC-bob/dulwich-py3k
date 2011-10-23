@@ -56,20 +56,20 @@ class IndexTestCase(TestCase):
 class SimpleIndexTestCase(IndexTestCase):
 
     def test_len(self):
-        self.assertEquals(1, len(self.get_simple_index("index")))
+        self.assertEqual(1, len(self.get_simple_index("index")))
 
     def test_iter(self):
-        self.assertEquals(['bla'], list(self.get_simple_index("index")))
+        self.assertEqual(['bla'], list(self.get_simple_index("index")))
 
     def test_getitem(self):
-        self.assertEquals(((1230680220, 0), (1230680220, 0), 2050, 3761020,
+        self.assertEqual(((1230680220, 0), (1230680220, 0), 2050, 3761020,
                            33188, 1000, 1000, 0,
                            'e69de29bb2d1d6434b8b29ae775ad8c2e48c5391', 0),
                           self.get_simple_index("index")["bla"])
 
     def test_empty(self):
         i = self.get_simple_index("notanindex")
-        self.assertEquals(0, len(i))
+        self.assertEqual(0, len(i))
         self.assertFalse(os.path.exists(i._filename))
 
 
@@ -95,7 +95,7 @@ class SimpleIndexWriterTestCase(IndexTestCase):
             x.close()
         x = open(filename, 'r')
         try:
-            self.assertEquals(entries, list(read_index(x)))
+            self.assertEqual(entries, list(read_index(x)))
         finally:
             x.close()
 
@@ -112,9 +112,9 @@ class CommitTreeTests(TestCase):
         self.store.add_object(blob)
         blobs = [("bla", blob.id, stat.S_IFREG)]
         rootid = commit_tree(self.store, blobs)
-        self.assertEquals(rootid, "1a1e80437220f9312e855c37ac4398b68e5c1d50")
-        self.assertEquals((stat.S_IFREG, blob.id), self.store[rootid]["bla"])
-        self.assertEquals(set([rootid, blob.id]), set(self.store._data.keys()))
+        self.assertEqual(rootid, "1a1e80437220f9312e855c37ac4398b68e5c1d50")
+        self.assertEqual((stat.S_IFREG, blob.id), self.store[rootid]["bla"])
+        self.assertEqual(set([rootid, blob.id]), set(self.store._data.keys()))
 
     def test_nested(self):
         blob = Blob()
@@ -122,31 +122,31 @@ class CommitTreeTests(TestCase):
         self.store.add_object(blob)
         blobs = [("bla/bar", blob.id, stat.S_IFREG)]
         rootid = commit_tree(self.store, blobs)
-        self.assertEquals(rootid, "d92b959b216ad0d044671981196781b3258fa537")
+        self.assertEqual(rootid, "d92b959b216ad0d044671981196781b3258fa537")
         dirid = self.store[rootid]["bla"][1]
-        self.assertEquals(dirid, "c1a1deb9788150829579a8b4efa6311e7b638650")
-        self.assertEquals((stat.S_IFDIR, dirid), self.store[rootid]["bla"])
-        self.assertEquals((stat.S_IFREG, blob.id), self.store[dirid]["bar"])
-        self.assertEquals(set([rootid, dirid, blob.id]),
+        self.assertEqual(dirid, "c1a1deb9788150829579a8b4efa6311e7b638650")
+        self.assertEqual((stat.S_IFDIR, dirid), self.store[rootid]["bla"])
+        self.assertEqual((stat.S_IFREG, blob.id), self.store[dirid]["bar"])
+        self.assertEqual(set([rootid, dirid, blob.id]),
                           set(self.store._data.keys()))
 
 
 class CleanupModeTests(TestCase):
 
     def test_file(self):
-        self.assertEquals(0o100644, cleanup_mode(0o100000))
+        self.assertEqual(0o100644, cleanup_mode(0o100000))
 
     def test_executable(self):
-        self.assertEquals(0o100755, cleanup_mode(0o100711))
+        self.assertEqual(0o100755, cleanup_mode(0o100711))
 
     def test_symlink(self):
-        self.assertEquals(0o120000, cleanup_mode(0o120711))
+        self.assertEqual(0o120000, cleanup_mode(0o120711))
 
     def test_dir(self):
-        self.assertEquals(0o40000, cleanup_mode(0o40531))
+        self.assertEqual(0o40000, cleanup_mode(0o40531))
 
     def test_submodule(self):
-        self.assertEquals(0o160000, cleanup_mode(0o160744))
+        self.assertEqual(0o160000, cleanup_mode(0o160744))
 
 
 class WriteCacheTimeTests(TestCase):
@@ -158,14 +158,14 @@ class WriteCacheTimeTests(TestCase):
     def test_write_int(self):
         f = StringIO()
         write_cache_time(f, 434343)
-        self.assertEquals(struct.pack(">LL", 434343, 0), f.getvalue())
+        self.assertEqual(struct.pack(">LL", 434343, 0), f.getvalue())
 
     def test_write_tuple(self):
         f = StringIO()
         write_cache_time(f, (434343, 21))
-        self.assertEquals(struct.pack(">LL", 434343, 21), f.getvalue())
+        self.assertEqual(struct.pack(">LL", 434343, 21), f.getvalue())
 
     def test_write_float(self):
         f = StringIO()
         write_cache_time(f, 434343.000000021)
-        self.assertEquals(struct.pack(">LL", 434343, 21), f.getvalue())
+        self.assertEqual(struct.pack(">LL", 434343, 21), f.getvalue())

@@ -1,7 +1,7 @@
 PYTHON = python
 SETUP = $(PYTHON) setup.py
 PYDOCTOR ?= pydoctor
-ifeq ($(shell $(PYTHON) -c "import sys; print sys.version_info >= (2, 7)"),True)
+ifeq ($(shell $(PYTHON) -c "import sys; print(sys.version_info[0:2] >= (3, 0))"),True)
 TESTRUNNER ?= unittest
 else
 TESTRUNNER ?= unittest2.__main__

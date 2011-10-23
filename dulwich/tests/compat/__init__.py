@@ -23,12 +23,12 @@ import unittest
 
 def test_suite():
     names = [
-        'client',
-        'pack',
-        'repository',
-        'server',
-        'utils',
-        'web',
+        #'client',
+        #'pack',
+        #'repository',
+        #'server',
+        #'utils',
+        #'web',
         ]
     module_names = ['dulwich.tests.compat.test_' + name for name in names]
     result = unittest.TestSuite()

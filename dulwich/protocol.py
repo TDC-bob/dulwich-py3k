@@ -19,7 +19,7 @@
 
 """Generic functions for talking the git smart server protocol."""
 
-from cStringIO import StringIO
+from io import StringIO
 import socket
 
 from dulwich.errors import (

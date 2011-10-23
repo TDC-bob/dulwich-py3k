@@ -21,7 +21,7 @@
 
 """Repository access."""
 
-from cStringIO import StringIO
+from io import StringIO
 import errno
 import os
 
@@ -53,7 +53,7 @@ from dulwich.objects import (
     hex_to_sha,
     )
 import warnings
-
+from dulwich.py3k import *
 
 OBJECTDIR = 'objects'
 SYMREF = 'ref: '
@@ -150,7 +150,7 @@ class RefsContainer(object):
         return None
 
     def import_refs(self, base, other):
-        for name, value in other.iteritems():
+        for name, value in other.items():
             self["%s/%s" % (base, name)] = value
 
     def allkeys(self):
@@ -215,6 +215,7 @@ class RefsContainer(object):
         if not name.startswith('refs/') or not check_ref_format(name[5:]):
             raise RefFormatError(name)
 
+    @wrap3kstr(refname=BYTES, returns=BYTES)
     def read_ref(self, refname):
         """Read a reference without following any references.
 
@@ -236,16 +237,20 @@ class RefsContainer(object):
         """
         raise NotImplementedError(self.read_loose_ref)
 
+    @wrap3kstr(name=BYTES)
     def _follow(self, name):
         """Follow a reference name.
 
         :return: a tuple of (refname, sha), where refname is the name of the
             last reference in the symbolic reference chain
         """
-        contents = SYMREF + name
+
+        SRNAME = convert3kstr(SYMREF, BYTES)
+        contents = SRNAME + name
+
         depth = 0
-        while contents.startswith(SYMREF):
-            refname = contents[len(SYMREF):]
+        while contents.startswith(SRNAME):
+            refname = contents[len(SRNAME):]
             contents = self.read_ref(refname)
             if not contents:
                 break
@@ -343,7 +348,7 @@ class DictRefsContainer(RefsContainer):
         self._peeled = {}
 
     def allkeys(self):
-        return self._refs.keys()
+        return list(self._refs.keys())
 
     def read_loose_ref(self, name):
         return self._refs.get(name, None)
@@ -429,6 +434,7 @@ class DiskRefsContainer(RefsContainer):
         keys.update(self.get_packed_refs())
         return keys
 
+    @wrap3kstr(name=STRING)
     def refpath(self, name):
         """Return the disk path of a ref.
 
@@ -554,7 +560,7 @@ class DiskRefsContainer(RefsContainer):
         try:
             f = GitFile(filename, 'wb')
             try:
-                f.write(SYMREF + other + '\n')
+                f.write(convert3kstr(SYMREF + other + '\n', BYTES))
             except (IOError, OSError):
                 f.abort()
                 raise
@@ -746,7 +752,7 @@ def write_packed_refs(f, packed_refs, peeled_refs=None):
         peeled_refs = {}
     else:
         f.write('# pack-refs with: peeled\n')
-    for refname in sorted(packed_refs.iterkeys()):
+    for refname in sorted(packed_refs.keys()):
         f.write('%s %s\n' % (packed_refs[refname], refname))
         if refname in peeled_refs:
             f.write('^%s\n' % peeled_refs[refname])
@@ -811,7 +817,7 @@ class BaseRepo(object):
         :param progress: Optional progress function
         """
         if determine_wants is None:
-            determine_wants = lambda heads: heads.values()
+            determine_wants = lambda heads: list(heads.values())
         target.object_store.add_objects(
           self.fetch_objects(determine_wants, target.get_graph_walker(),
                              progress))
@@ -844,7 +850,7 @@ class BaseRepo(object):
 
     def get_graph_walker(self, heads=None):
         if heads is None:
-            heads = self.refs.as_dict('refs/heads').values()
+            heads = list(self.refs.as_dict('refs/heads').values())
         return self.object_store.get_graph_walker(heads)
 
     def ref(self, name):
@@ -883,8 +889,8 @@ class BaseRepo(object):
         return self.commit(sha).parents
 
     def get_config(self):
-        import ConfigParser
-        p = ConfigParser.RawConfigParser()
+        import configparser
+        p = configparser.RawConfigParser()
         p.read(os.path.join(self._controldir, 'config'))
         return dict((section, dict(p.items(section)))
                     for section in p.sections())
@@ -1139,7 +1145,7 @@ class Repo(BaseRepo):
         path = path.lstrip(os.path.sep)
         f = GitFile(os.path.join(self.controldir(), path), 'wb')
         try:
-            f.write(contents)
+            f.write(convert3kstr(contents, BYTES))
         finally:
             f.close()
 
@@ -1309,7 +1315,7 @@ class MemoryRepo(BaseRepo):
         ret = cls()
         for obj in objects:
             ret.object_store.add_object(obj)
-        for refname, sha in refs.iteritems():
+        for refname, sha in refs.items():
             ret.refs[refname] = sha
         ret._init_files(bare=True)
         return ret

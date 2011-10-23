@@ -82,7 +82,7 @@ def GitFile(filename, mode='rb', bufsize=-1):
     if 'w' in mode:
         return _GitFile(filename, mode, bufsize)
     else:
-        return file(filename, mode, bufsize)
+        return open(filename, mode, bufsize)
 
 
 class _GitFile(object):
@@ -98,8 +98,8 @@ class _GitFile(object):
 
     PROXY_PROPERTIES = set(['closed', 'encoding', 'errors', 'mode', 'name',
                             'newlines', 'softspace'])
-    PROXY_METHODS = ('__iter__', 'flush', 'fileno', 'isatty', 'next', 'read',
-                     'readline', 'readlines', 'xreadlines', 'seek', 'tell',
+    PROXY_METHODS = ('__iter__', 'flush', 'fileno', 'isatty', '__next__', 'read',
+                     'readline', 'readlines', 'seek', 'tell',
                      'truncate', 'write', 'writelines')
     def __init__(self, filename, mode, bufsize):
         self._filename = filename

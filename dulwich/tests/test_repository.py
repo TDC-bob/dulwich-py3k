@@ -67,7 +67,7 @@ class CreateRepositoryTests(TestCase):
                 f.close()
 
     def _check_repo_contents(self, repo, expect_bare):
-        self.assertEquals(expect_bare, repo.bare)
+        self.assertEqual(expect_bare, repo.bare)
         self.assertFileContentsEqual('Unnamed repository', repo, 'description')
         self.assertFileContentsEqual('', repo, os.path.join('info', 'exclude'))
         self.assertFileContentsEqual(None, repo, 'nonexistent file')
@@ -78,14 +78,14 @@ class CreateRepositoryTests(TestCase):
         tmp_dir = tempfile.mkdtemp()
         self.addCleanup(shutil.rmtree, tmp_dir)
         repo = Repo.init_bare(tmp_dir)
-        self.assertEquals(tmp_dir, repo._controldir)
+        self.assertEqual(tmp_dir, repo._controldir)
         self._check_repo_contents(repo, True)
 
     def test_create_disk_non_bare(self):
         tmp_dir = tempfile.mkdtemp()
         self.addCleanup(shutil.rmtree, tmp_dir)
         repo = Repo.init(tmp_dir)
-        self.assertEquals(os.path.join(tmp_dir, '.git'), repo._controldir)
+        self.assertEqual(os.path.join(tmp_dir, '.git'), repo._controldir)
         self._check_repo_contents(repo, False)
 
     def test_create_memory(self):
@@ -120,7 +120,7 @@ class RepositoryTests(TestCase):
     def test_setitem(self):
         r = self._repo = open_repo('a.git')
         r["refs/tags/foo"] = 'a90fa2d900a17e99b433217e988c4eb4a2e9a097'
-        self.assertEquals('a90fa2d900a17e99b433217e988c4eb4a2e9a097',
+        self.assertEqual('a90fa2d900a17e99b433217e988c4eb4a2e9a097',
                           r["refs/tags/foo"].id)
 
     def test_delitem(self):
@@ -318,7 +318,7 @@ class RepositoryTests(TestCase):
 
     def test_get_config(self):
         r = self._repo = open_repo('ooo_merge.git')
-        self.assertEquals({}, r.get_config())
+        self.assertEqual({}, r.get_config())
 
     def test_common_revisions(self):
         """
@@ -452,7 +452,7 @@ class BuildRepoTests(TestCase):
              commit_timestamp=12395, commit_timezone=0,
              author_timestamp=12395, author_timezone=0,
              encoding="iso8859-1")
-        self.assertEquals("iso8859-1", r[commit_sha].encoding)
+        self.assertEqual("iso8859-1", r[commit_sha].encoding)
 
     def test_commit_fail_ref(self):
         r = self._repo
@@ -518,7 +518,7 @@ class BuildRepoTests(TestCase):
              commit_timestamp=12395, commit_timezone=0,
              author_timestamp=12395, author_timezone=0,
              merge_heads=[merge_1])
-        self.assertEquals(
+        self.assertEqual(
             [self._root_commit, merge_1],
             r[commit_sha].parents)
 
@@ -727,7 +727,7 @@ class DictRefsContainerTests(RefsContainerTests, TestCase):
         self._refs._refs["refs/stash"] = "00" * 20
         expected_refs = dict(_TEST_REFS)
         expected_refs["refs/stash"] = "00" * 20
-        self.assertEquals(expected_refs, self._refs.as_dict())
+        self.assertEqual(expected_refs, self._refs.as_dict())
 
 
 class DiskRefsContainerTests(RefsContainerTests, TestCase):
@@ -821,10 +821,10 @@ class DiskRefsContainerTests(RefsContainerTests, TestCase):
         self.assertEqual(nines, refs['refs/heads/master'])
 
     def test_follow(self):
-        self.assertEquals(
+        self.assertEqual(
           ('refs/heads/master', '42d06bd4b77fed026b154d16493e5deab78f02ec'),
           self._refs._follow('HEAD'))
-        self.assertEquals(
+        self.assertEqual(
           ('refs/heads/master', '42d06bd4b77fed026b154d16493e5deab78f02ec'),
           self._refs._follow('refs/heads/master'))
         self.assertRaises(KeyError, self._refs._follow, 'refs/heads/loop')

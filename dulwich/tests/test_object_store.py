@@ -63,15 +63,15 @@ testobject = make_object(Blob, data="yummy data")
 class ObjectStoreTests(object):
 
     def test_determine_wants_all(self):
-        self.assertEquals(["1" * 40],
+        self.assertEqual(["1" * 40],
             self.store.determine_wants_all({"refs/heads/foo": "1" * 40}))
 
     def test_determine_wants_all_zero(self):
-        self.assertEquals([],
+        self.assertEqual([],
             self.store.determine_wants_all({"refs/heads/foo": "0" * 40}))
 
     def test_iter(self):
-        self.assertEquals([], list(self.store))
+        self.assertEqual([], list(self.store))
 
     def test_get_nonexistant(self):
         self.assertRaises(KeyError, lambda: self.store["a" * 40])
@@ -89,18 +89,18 @@ class ObjectStoreTests(object):
 
     def test_add_object(self):
         self.store.add_object(testobject)
-        self.assertEquals(set([testobject.id]), set(self.store))
+        self.assertEqual(set([testobject.id]), set(self.store))
         self.assertTrue(testobject.id in self.store)
         r = self.store[testobject.id]
-        self.assertEquals(r, testobject)
+        self.assertEqual(r, testobject)
 
     def test_add_objects(self):
         data = [(testobject, "mypath")]
         self.store.add_objects(data)
-        self.assertEquals(set([testobject.id]), set(self.store))
+        self.assertEqual(set([testobject.id]), set(self.store))
         self.assertTrue(testobject.id in self.store)
         r = self.store[testobject.id]
-        self.assertEquals(r, testobject)
+        self.assertEqual(r, testobject)
 
     def test_tree_changes(self):
         blob_a1 = make_object(Blob, data='a1')
@@ -114,9 +114,9 @@ class ObjectStoreTests(object):
         blobs_2 = [('a', blob_a2.id, 0o100644), ('b', blob_b.id, 0o100644)]
         tree2_id = commit_tree(self.store, blobs_2)
         change_a = (('a', 'a'), (0o100644, 0o100644), (blob_a1.id, blob_a2.id))
-        self.assertEquals([change_a],
+        self.assertEqual([change_a],
                           list(self.store.tree_changes(tree1_id, tree2_id)))
-        self.assertEquals(
+        self.assertEqual(
           [change_a, (('b', 'b'), (0o100644, 0o100644), (blob_b.id, blob_b.id))],
           list(self.store.tree_changes(tree1_id, tree2_id,
                                        want_unchanged=True)))
@@ -136,7 +136,7 @@ class ObjectStoreTests(object):
           ('c', blob_c.id, 0o100644),
           ]
         tree_id = commit_tree(self.store, blobs)
-        self.assertEquals([TreeEntry(p, m, h) for (p, h, m) in blobs],
+        self.assertEqual([TreeEntry(p, m, h) for (p, h, m) in blobs],
                           list(self.store.iter_tree_contents(tree_id)))
 
     def test_iter_tree_contents_include_trees(self):
@@ -165,7 +165,7 @@ class ObjectStoreTests(object):
           TreeEntry('ad/bd/c', 0o100755, blob_c.id),
           ]
         actual = self.store.iter_tree_contents(tree_id, include_trees=True)
-        self.assertEquals(expected, list(actual))
+        self.assertEqual(expected, list(actual))
 
     def make_tag(self, name, obj):
         tag = make_object(Tag, name=name, message='',
@@ -203,17 +203,17 @@ class PackBasedObjectStoreTests(ObjectStoreTests):
             pack.close()
 
     def test_empty_packs(self):
-        self.assertEquals([], self.store.packs)
+        self.assertEqual([], self.store.packs)
 
     def test_pack_loose_objects(self):
         b1 = make_object(Blob, data="yummy data")
         self.store.add_object(b1)
         b2 = make_object(Blob, data="more yummy data")
         self.store.add_object(b2)
-        self.assertEquals([], self.store.packs)
-        self.assertEquals(2, self.store.pack_loose_objects())
+        self.assertEqual([], self.store.packs)
+        self.assertEqual(2, self.store.pack_loose_objects())
         self.assertNotEquals([], self.store.packs)
-        self.assertEquals(0, self.store.pack_loose_objects())
+        self.assertEqual(0, self.store.pack_loose_objects())
 
 
 class DiskObjectStoreTests(PackBasedObjectStoreTests, TestCase):
@@ -237,21 +237,21 @@ class DiskObjectStoreTests(PackBasedObjectStoreTests, TestCase):
         store = DiskObjectStore(self.store_dir)
         self.assertRaises(KeyError, store.__getitem__, b2.id)
         store.add_alternate_path(alternate_dir)
-        self.assertEquals(b2, store[b2.id])
+        self.assertEqual(b2, store[b2.id])
 
     def test_add_alternate_path(self):
         store = DiskObjectStore(self.store_dir)
-        self.assertEquals([], store._read_alternate_paths())
+        self.assertEqual([], store._read_alternate_paths())
         store.add_alternate_path("/foo/path")
-        self.assertEquals(["/foo/path"], store._read_alternate_paths())
+        self.assertEqual(["/foo/path"], store._read_alternate_paths())
         store.add_alternate_path("/bar/path")
-        self.assertEquals(
+        self.assertEqual(
             ["/foo/path", "/bar/path"],
             store._read_alternate_paths())
 
     def test_pack_dir(self):
         o = DiskObjectStore(self.store_dir)
-        self.assertEquals(os.path.join(self.store_dir, "pack"), o.pack_dir)
+        self.assertEqual(os.path.join(self.store_dir, "pack"), o.pack_dir)
 
     def test_add_pack(self):
         o = DiskObjectStore(self.store_dir)
@@ -337,8 +337,8 @@ class ObjectStoreGraphWalkerTests(TestCase):
 
     def test_descends(self):
         gw = self.get_walker(["a"], {"a": ["b"], "b": []})
-        self.assertEquals("a", next(gw))
-        self.assertEquals("b", next(gw))
+        self.assertEqual("a", next(gw))
+        self.assertEqual("b", next(gw))
 
     def test_present(self):
         gw = self.get_walker(["a"], {"a": ["b"], "b": []})
@@ -347,14 +347,14 @@ class ObjectStoreGraphWalkerTests(TestCase):
 
     def test_parent_present(self):
         gw = self.get_walker(["a"], {"a": ["b"], "b": []})
-        self.assertEquals("a", next(gw))
+        self.assertEqual("a", next(gw))
         gw.ack("a")
         self.assertIs(None, next(gw))
 
     def test_child_ack_later(self):
         gw = self.get_walker(["a"], {"a": ["b"], "b": ["c"], "c": []})
-        self.assertEquals("a", next(gw))
-        self.assertEquals("b", next(gw))
+        self.assertEqual("a", next(gw))
+        self.assertEqual("b", next(gw))
         gw.ack("a")
         self.assertIs(None, next(gw))
 
@@ -371,9 +371,9 @@ class ObjectStoreGraphWalkerTests(TestCase):
                 "d": ["e"],
                 "e": [],
                 })
-        self.assertEquals("a", next(gw))
-        self.assertEquals("c", next(gw))
+        self.assertEqual("a", next(gw))
+        self.assertEqual("c", next(gw))
         gw.ack("a")
-        self.assertEquals("b", next(gw))
-        self.assertEquals("d", next(gw))
+        self.assertEqual("b", next(gw))
+        self.assertEqual("d", next(gw))
         self.assertIs(None, next(gw))

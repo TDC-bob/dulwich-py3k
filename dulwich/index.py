@@ -261,10 +261,10 @@ class Index(object):
         del self._byname[name]
 
     def iteritems(self):
-        return self._byname.iteritems()
+        return iter(self._byname.items())
 
     def update(self, entries):
-        for name, value in entries.iteritems():
+        for name, value in entries.items():
             self[name] = value
 
     def changes_from_tree(self, object_store, tree, want_unchanged=False):
@@ -324,7 +324,7 @@ def commit_tree(object_store, blobs):
 
     def build_tree(path):
         tree = Tree()
-        for basename, entry in trees[path].iteritems():
+        for basename, entry in trees[path].items():
             if type(entry) == dict:
                 mode = stat.S_IFDIR
                 sha = build_tree(pathjoin(path, basename))

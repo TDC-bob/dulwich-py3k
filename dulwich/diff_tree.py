@@ -23,7 +23,7 @@ try:
 except ImportError:
     from dulwich._compat import defaultdict
 
-from cStringIO import StringIO
+from io import StringIO
 import itertools
 import stat
 
@@ -105,9 +105,9 @@ def _merge_entries(path, tree1, tree2):
             result.append((entry1, entry2))
             i1 += 1
             i2 += 1
-    for i in xrange(i1, len1):
+    for i in range(i1, len1):
         result.append((entries1[i], _NULL_ENTRY))
-    for i in xrange(i2, len2):
+    for i in range(i2, len2):
         result.append((_NULL_ENTRY, entries2[i]))
     return result
 
@@ -257,7 +257,7 @@ def tree_changes_for_merge(store, parent_tree_ids, tree_id,
     change_type = lambda c: c.type
 
     # Yield only conflicting changes.
-    for _, changes in sorted(changes_by_path.iteritems()):
+    for _, changes in sorted(changes_by_path.items()):
         assert len(changes) == num_parents
         have = [c for c in changes if c is not None]
         if _all_eq(have, change_type, CHANGE_DELETE):
@@ -319,7 +319,7 @@ def _common_bytes(blocks1, blocks2):
     if len(blocks1) > len(blocks2):
         blocks1, blocks2 = blocks2, blocks1
     score = 0
-    for block, count1 in blocks1.iteritems():
+    for block, count1 in blocks1.items():
         count2 = blocks2.get(block)
         if count2:
             score += min(count1, count2)
@@ -447,9 +447,9 @@ class RenameDetector(object):
 
         add_paths = set()
         delete_paths = set()
-        for sha, sha_deletes in delete_map.iteritems():
+        for sha, sha_deletes in delete_map.items():
             sha_adds = add_map[sha]
-            for (old, is_delete), new in itertools.izip(sha_deletes, sha_adds):
+            for (old, is_delete), new in zip(sha_deletes, sha_adds):
                 if stat.S_IFMT(old.mode) != stat.S_IFMT(new.mode):
                     continue
                 if is_delete:
@@ -548,7 +548,7 @@ class RenameDetector(object):
 
         self._adds = [a for a in self._adds if a.new.path not in modifies]
         self._deletes = [a for a in self._deletes if a.new.path not in modifies]
-        self._changes += modifies.values()
+        self._changes += list(modifies.values())
 
     def _sorted_changes(self):
         result = []

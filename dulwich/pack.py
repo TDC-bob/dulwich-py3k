@@ -36,7 +36,7 @@ except ImportError:
     from dulwich._compat import defaultdict
 
 import binascii
-from cStringIO import (
+from io import (
     StringIO,
     )
 from collections import (
@@ -45,8 +45,6 @@ from collections import (
 import difflib
 from itertools import (
     chain,
-    imap,
-    izip,
     )
 try:
     import mmap
@@ -349,7 +347,7 @@ class PackIndex(object):
         if not isinstance(other, PackIndex):
             return False
 
-        for (name1, _, _), (name2, _, _) in izip(self.iterentries(),
+        for (name1, _, _), (name2, _, _) in zip(self.iterentries(),
                                                  other.iterentries()):
             if name1 != name2:
                 return False
@@ -364,7 +362,7 @@ class PackIndex(object):
 
     def __iter__(self):
         """Iterate over the SHAs in this pack."""
-        return imap(sha_to_hex, self._itersha())
+        return map(sha_to_hex, self._itersha())
 
     def iterentries(self):
         """Iterate over the entries in this pack index.
@@ -649,7 +647,7 @@ def read_pack_header(read):
 
 
 def chunks_length(chunks):
-    return sum(imap(len, chunks))
+    return sum(map(len, chunks))
 
 
 def unpack_object(read_all, read_some=None, compute_crc32=False,
@@ -764,7 +762,7 @@ class PackStreamReader(object):
         else:
             to_pop = max(n + tn - 20, 0)
             to_add = n
-        for _ in xrange(to_pop):
+        for _ in range(to_pop):
             self.sha.update(self._trailer.popleft())
         self._trailer.extend(data[-to_add:])
 
@@ -828,7 +826,7 @@ class PackStreamReader(object):
         if pack_version is None:
             return
 
-        for i in xrange(self._num_objects):
+        for i in range(self._num_objects):
             offset = self.offset
             unpacked, unused = unpack_object(
               self.read, read_some=self.recv, compute_crc32=compute_crc32,
@@ -1054,7 +1052,7 @@ class PackData(object):
 
     def iterobjects(self, progress=None, compute_crc32=True):
         self._file.seek(self._header_size)
-        for i in xrange(1, self._num_objects + 1):
+        for i in range(1, self._num_objects + 1):
             offset = self._file.tell()
             unpacked, unused = unpack_object(
               self._file.read, compute_crc32=compute_crc32)
@@ -1068,7 +1066,7 @@ class PackData(object):
         # TODO(dborowitz): Merge this with iterobjects, if we can change its
         # return type.
         self._file.seek(self._header_size)
-        for _ in xrange(self._num_objects):
+        for _ in range(self._num_objects):
             offset = self._file.tell()
             unpacked, unused = unpack_object(
               self._file.read, compute_crc32=False)
@@ -1164,7 +1162,7 @@ class PackData(object):
         """
         if offset in self._offset_cache:
             return self._offset_cache[offset]
-        assert isinstance(offset, long) or isinstance(offset, int),\
+        assert isinstance(offset, int) or isinstance(offset, int),\
                 'offset was %r' % offset
         assert offset >= self._header_size
         self._file.seek(offset)
@@ -1244,7 +1242,7 @@ class DeltaChainIterator(object):
             self._ensure_no_pending()
             return
 
-        for base_sha, pending in sorted(self._pending_ref.iteritems()):
+        for base_sha, pending in sorted(self._pending_ref.items()):
             try:
                 type_num, chunks = self._resolve_ext_ref(base_sha)
             except KeyError:
@@ -1440,7 +1438,7 @@ def write_pack(filename, objects, num_objects=None):
             num_objects=num_objects)
     finally:
         f.close()
-    entries = [(k, v[0], v[1]) for (k, v) in entries.iteritems()]
+    entries = [(k, v[0], v[1]) for (k, v) in entries.items()]
     entries.sort()
     f = GitFile(filename + '.idx', 'wb')
     try:
@@ -1824,7 +1822,7 @@ class Pack(object):
     def get_raw(self, sha1):
         offset = self.index.object_index(sha1)
         obj_type, obj = self.data.get_object_at(offset)
-        if type(offset) is long:
+        if type(offset) is int:
           offset = int(offset)
         type_num, chunks = self.data.resolve_object(offset, obj_type, obj)
         return type_num, ''.join(chunks)

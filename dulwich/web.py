@@ -18,14 +18,14 @@
 
 """HTTP server for dulwich that implements the git smart HTTP protocol."""
 
-from cStringIO import StringIO
+from io import StringIO
 import os
 import re
 import sys
 import time
 
 try:
-    from urlparse import parse_qs
+    from urllib.parse import parse_qs
 except ImportError:
     from dulwich._compat import parse_qs
 from dulwich import log_utils
@@ -181,7 +181,7 @@ def get_info_refs(req, backend, mat):
         logger.info('Emulating dumb info/refs')
         repo = get_repo(backend, mat)
         refs = repo.get_refs()
-        for name in sorted(refs.iterkeys()):
+        for name in sorted(refs.keys()):
             # get_refs() includes HEAD as a special case, but we don't want to
             # advertise it
             if name == 'HEAD':
@@ -351,7 +351,7 @@ class HTTPGitApplication(object):
                              handlers=self.handlers)
         # environ['QUERY_STRING'] has qs args
         handler = None
-        for smethod, spath in self.services.iterkeys():
+        for smethod, spath in self.services.keys():
             if smethod != method:
                 continue
             mat = spath.search(path)

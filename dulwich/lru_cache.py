@@ -177,11 +177,11 @@ class LRUCache(object):
 
         :return: An unordered list of keys that are currently cached.
         """
-        return self._cache.keys()
+        return list(self._cache.keys())
 
     def items(self):
         """Get the key:value pairs as a dict."""
-        return dict((k, n.value) for k, n in self._cache.iteritems())
+        return dict((k, n.value) for k, n in self._cache.items())
 
     def cleanup(self):
         """Clear the cache until it shrinks to the requested size.

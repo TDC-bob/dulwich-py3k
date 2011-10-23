@@ -27,7 +27,7 @@ except ImportError:
     import sha
 
 try:
-    from urlparse import parse_qs
+    from urllib.parse import parse_qs
 except ImportError:
     from cgi import parse_qs
 
@@ -67,7 +67,7 @@ class defaultdict(dict):
             args = tuple()
         else:
             args = self.default_factory,
-        return type(self), args, None, None, self.items()
+        return type(self), args, None, None, list(self.items())
 
     def copy(self):
         return self.__copy__()
@@ -78,7 +78,7 @@ class defaultdict(dict):
     def __deepcopy__(self, memo):
         import copy
         return type(self)(self.default_factory,
-                          copy.deepcopy(self.items()))
+                          copy.deepcopy(list(self.items())))
     def __repr__(self):
         return 'defaultdict(%s, %s)' % (self.default_factory,
                                         dict.__repr__(self))
@@ -118,11 +118,11 @@ except ImportError:
             r = n
         if r > n:
             return
-        indices = range(n)
-        cycles = range(n, n-r, -1)
+        indices = list(range(n))
+        cycles = list(range(n, n-r, -1))
         yield tuple(pool[i] for i in indices[:r])
         while n:
-            for i in reversed(range(r)):
+            for i in reversed(list(range(r))):
                 cycles[i] -= 1
                 if cycles[i] == 0:
                     indices[i:] = indices[i+1:] + indices[i:i+1]
@@ -186,7 +186,7 @@ except ImportError:
 
         # Parse and validate the field names.  Validation serves two purposes,
         # generating informative error messages and preventing template injection attacks.
-        if isinstance(field_names, basestring):
+        if isinstance(field_names, str):
             field_names = field_names.replace(',', ' ').split() # names separated by whitespace and/or commas
         field_names = tuple(map(str, field_names))
         if rename:

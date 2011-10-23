@@ -64,15 +64,15 @@ def cmd_log(args):
             continue
         done.add(sha)
         commit = r[sha]
-        print "-" * 50
-        print "commit: %s" % sha
+        print("-" * 50)
+        print("commit: %s" % sha)
         if len(commit.parents) > 1:
-            print "merge: %s" % "...".join(commit.parents[1:])
-        print "author: %s" % commit.author
-        print "committer: %s" % commit.committer
-        print ""
-        print commit.message
-        print ""
+            print("merge: %s" % "...".join(commit.parents[1:]))
+        print("author: %s" % commit.author)
+        print("committer: %s" % commit.committer)
+        print("")
+        print(commit.message)
+        print("")
         todo.extend([p for p in commit.parents if p not in done])
 
 
@@ -80,37 +80,37 @@ def cmd_dump_pack(args):
     opts, args = getopt(args, "", [])
 
     if args == []:
-        print "Usage: dulwich dump-pack FILENAME"
+        print("Usage: dulwich dump-pack FILENAME")
         sys.exit(1)
 
     basename, _ = os.path.splitext(args[0])
     x = Pack(basename)
-    print "Object names checksum: %s" % x.name()
-    print "Checksum: %s" % sha_to_hex(x.get_stored_checksum())
+    print("Object names checksum: %s" % x.name())
+    print("Checksum: %s" % sha_to_hex(x.get_stored_checksum()))
     if not x.check():
-        print "CHECKSUM DOES NOT MATCH"
-    print "Length: %d" % len(x)
+        print("CHECKSUM DOES NOT MATCH")
+    print("Length: %d" % len(x))
     for name in x:
         try:
-            print "\t%s" % x[name]
-        except KeyError, k:
-            print "\t%s: Unable to resolve base %s" % (name, k)
-        except ApplyDeltaError, e:
-            print "\t%s: Unable to apply delta: %r" % (name, e)
+            print("\t%s" % x[name])
+        except KeyError as k:
+            print("\t%s: Unable to resolve base %s" % (name, k))
+        except ApplyDeltaError as e:
+            print("\t%s: Unable to apply delta: %r" % (name, e))
 
 
 def cmd_dump_index(args):
     opts, args = getopt(args, "", [])
 
     if args == []:
-        print "Usage: dulwich dump-index FILENAME"
+        print("Usage: dulwich dump-index FILENAME")
         sys.exit(1)
 
     filename = args[0]
     idx = Index(filename)
 
     for o in idx:
-        print o, idx[o]
+        print(o, idx[o])
 
 
 def cmd_init(args):
@@ -136,7 +136,7 @@ def cmd_clone(args):
     opts = dict(opts)
 
     if args == []:
-        print "usage: dulwich clone host:path [PATH]"
+        print("usage: dulwich clone host:path [PATH]")
         sys.exit(1)
     client, host_path = get_transport_and_path(args.pop(0))
 
@@ -176,11 +176,11 @@ commands = {
     }
 
 if len(sys.argv) < 2:
-    print "Usage: %s <%s> [OPTIONS...]" % (sys.argv[0], "|".join(commands.keys()))
+    print("Usage: %s <%s> [OPTIONS...]" % (sys.argv[0], "|".join(list(commands.keys()))))
     sys.exit(1)
 
 cmd = sys.argv[1]
 if not cmd in commands:
-    print "No such subcommand: %s" % cmd
+    print("No such subcommand: %s" % cmd)
     sys.exit(1)
 commands[cmd](sys.argv[2:])

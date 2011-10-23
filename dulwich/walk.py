@@ -22,7 +22,7 @@
 try:
     from collections import defaultdict
 except ImportError:
-    from _compat import defaultdict
+    from ._compat import defaultdict
 
 import collections
 import heapq
@@ -132,7 +132,7 @@ class _CommitTimeQueue(object):
                     todo.append(self._store[parent])
                 excluded.add(parent)
 
-    def next(self):
+    def __next__(self):
         if self._is_finished:
             return None
         while self._pq:
@@ -301,7 +301,7 @@ class Walker(object):
     def _next(self):
         max_entries = self.max_entries
         while max_entries is None or self._num_entries < max_entries:
-            entry = self._queue.next()
+            entry = next(self._queue)
             if entry is not None:
                 self._out_queue.append(entry)
             if entry is None or len(self._out_queue) > _MAX_EXTRA_COMMITS:

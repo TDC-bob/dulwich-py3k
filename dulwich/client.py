@@ -21,12 +21,12 @@
 
 __docformat__ = 'restructuredText'
 
-from cStringIO import StringIO
+from io import StringIO
 import select
 import socket
 import subprocess
-import urllib2
-import urlparse
+import urllib.request, urllib.error, urllib.parse
+import urllib.parse
 
 from dulwich.errors import (
     GitProtocolError,
@@ -49,8 +49,8 @@ from dulwich.pack import (
 # Python 2.6.6 included these in urlparse.uses_netloc upstream. Do
 # monkeypatching to enable similar behaviour in earlier Pythons:
 for scheme in ('git', 'git+ssh'):
-    if scheme not in urlparse.uses_netloc:
-        urlparse.uses_netloc.append(scheme)
+    if scheme not in urllib.parse.uses_netloc:
+        urllib.parse.uses_netloc.append(scheme)
 
 def _fileno_can_read(fileno):
     """Check if a file descriptor is readable."""
@@ -266,9 +266,9 @@ class GitClient(object):
         :return: (have, want) tuple
         """
         want = []
-        have = [x for x in old_refs.values() if not x == ZERO_SHA]
+        have = [x for x in list(old_refs.values()) if not x == ZERO_SHA]
         sent_capabilities = False
-        for refname in set(new_refs.keys() + old_refs.keys()):
+        for refname in set(list(new_refs.keys()) + list(old_refs.keys())):
             old_sha1 = old_refs.get(refname, ZERO_SHA)
             new_sha1 = new_refs.get(refname, ZERO_SHA)
             if old_sha1 != new_sha1:
@@ -330,7 +330,7 @@ class GitClient(object):
         for want in wants[1:]:
             proto.write_pkt_line('want %s\n' % want)
         proto.write_pkt_line(None)
-        have = graph_walker.next()
+        have = next(graph_walker)
         while have:
             proto.write_pkt_line('have %s\n' % have)
             if can_read():
@@ -346,7 +346,7 @@ class GitClient(object):
                         raise AssertionError(
                             "%s not in ('continue', 'ready', 'common)" %
                             parts[2])
-            have = graph_walker.next()
+            have = next(graph_walker)
         proto.write_pkt_line('done\n')
 
     def _handle_upload_pack_tail(self, proto, capabilities, graph_walker,
@@ -580,7 +580,7 @@ class HttpGitClient(GitClient):
         GitClient.__init__(self, *args, **kwargs)
 
     def _get_url(self, path):
-        return urlparse.urljoin(self.base_url, path).rstrip("/") + "/"
+        return urllib.parse.urljoin(self.base_url, path).rstrip("/") + "/"
 
     def _perform(self, req):
         """Perform a HTTP request.
@@ -590,16 +590,16 @@ class HttpGitClient(GitClient):
         :param req: urllib2.Request instance
         :return: matching response
         """
-        return urllib2.urlopen(req)
+        return urllib.request.urlopen(req)
 
     def _discover_references(self, service, url):
         assert url[-1] == "/"
-        url = urlparse.urljoin(url, "info/refs")
+        url = urllib.parse.urljoin(url, "info/refs")
         headers = {}
         if self.dumb != False:
             url += "?service=%s" % service
             headers["Content-Type"] = "application/x-%s-request" % service
-        req = urllib2.Request(url, headers=headers)
+        req = urllib.request.Request(url, headers=headers)
         resp = self._perform(req)
         if resp.getcode() == 404:
             raise NotGitRepository()
@@ -618,8 +618,8 @@ class HttpGitClient(GitClient):
 
     def _smart_request(self, service, url, data):
         assert url[-1] == "/"
-        url = urlparse.urljoin(url, service)
-        req = urllib2.Request(url,
+        url = urllib.parse.urljoin(url, service)
+        req = urllib.request.Request(url,
             headers={"Content-Type": "application/x-%s-request" % service},
             data=data)
         resp = self._perform(req)
@@ -708,14 +708,14 @@ def get_transport_and_path(uri):
     :param uri: URI or path
     :return: Tuple with client instance and relative path.
     """
-    parsed = urlparse.urlparse(uri)
+    parsed = urllib.parse.urlparse(uri)
     if parsed.scheme == 'git':
         return TCPGitClient(parsed.hostname, port=parsed.port), parsed.path
     elif parsed.scheme == 'git+ssh':
         return SSHGitClient(parsed.hostname, port=parsed.port,
                             username=parsed.username), parsed.path
     elif parsed.scheme in ('http', 'https'):
-        return HttpGitClient(urlparse.urlunparse(
+        return HttpGitClient(urllib.parse.urlunparse(
             parsed.scheme, parsed.netloc, path='/'))
 
     if parsed.scheme and not parsed.netloc:

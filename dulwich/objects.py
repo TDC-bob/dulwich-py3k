@@ -21,7 +21,7 @@
 
 
 import binascii
-from cStringIO import (
+from io import (
     StringIO,
     )
 import os
@@ -43,6 +43,7 @@ from dulwich._compat import (
     make_sha,
     namedtuple,
     )
+from dulwich.py3k import *
 
 ZERO_SHA = "0" * 40
 
@@ -80,7 +81,7 @@ def sha_to_hex(sha):
     assert len(hexsha) == 40, "Incorrect length of sha1 string: %d" % hexsha
     return hexsha
 
-
+@wrap3kstr(hex=BYTES)
 def hex_to_sha(hex):
     """Takes a hex sha and returns a binary sha"""
     assert len(hex) == 40, "Incorrent length of hexsha: %s" % hex
@@ -292,7 +293,7 @@ class ShaFile(object):
 
     @classmethod
     def _is_legacy_object(cls, magic):
-        b0, b1 = map(ord, magic)
+        b0, b1 = list(map(ord, magic))
         word = (b0 << 8) + b1
         return b0 == 0x78 and (word % 31) == 0
 
@@ -744,7 +745,7 @@ def sorted_tree_items(entries, name_order):
     :return: Iterator over (name, mode, hexsha)
     """
     cmp_func = name_order and cmp_entry_name_order or cmp_entry
-    for name, entry in sorted(entries.iteritems(), cmp=cmp_func):
+    for name, entry in sorted(iter(entries.items()), cmp=cmp_func):
         mode, hexsha = entry
         # Stricter type checks than normal to mirror checks in the C version.
         mode = int(mode)
@@ -853,7 +854,7 @@ class Tree(ShaFile):
         # The order of this is different from iteritems() for historical
         # reasons
         return [
-            (mode, name, hexsha) for (name, mode, hexsha) in self.iteritems()]
+            (mode, name, hexsha) for (name, mode, hexsha) in self.items()]
 
     def iteritems(self, name_order=False):
         """Iterate over entries.
@@ -869,7 +870,7 @@ class Tree(ShaFile):
 
         :return: List with (name, mode, sha) tuples
         """
-        return list(self.iteritems())
+        return list(self.items())
 
     def _deserialize(self, chunks):
         """Grab the entries in the tree"""
@@ -910,11 +911,11 @@ class Tree(ShaFile):
             last = entry
 
     def _serialize(self):
-        return list(serialize_tree(self.iteritems()))
+        return list(serialize_tree(iter(self.items())))
 
     def as_pretty_string(self):
         text = []
-        for name, mode, hexsha in self.iteritems():
+        for name, mode, hexsha in self.items():
             if mode & stat.S_IFDIR:
                 kind = "tree"
             else:

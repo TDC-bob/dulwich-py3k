@@ -67,7 +67,7 @@ class BaseObjectStore(object):
     """Object store interface."""
 
     def determine_wants_all(self, refs):
-        return [sha for (ref, sha) in refs.iteritems()
+        return [sha for (ref, sha) in refs.items()
                 if not sha in self and not ref.endswith("^{}") and
                    not sha == ZERO_SHA]
 
@@ -171,7 +171,7 @@ class BaseObjectStore(object):
         :return: Iterator over (sha, path) pairs.
         """
         finder = MissingObjectFinder(self, haves, wants, progress, get_tagged)
-        return iter(finder.next, None)
+        return iter(finder.__next__, None)
 
     def find_common_revisions(self, graphwalker):
         """Find which revisions this store has in common using graphwalker.
@@ -180,12 +180,12 @@ class BaseObjectStore(object):
         :return: List of SHAs that are in common
         """
         haves = []
-        sha = graphwalker.next()
+        sha = next(graphwalker)
         while sha:
             if sha in self:
                 haves.append(sha)
                 graphwalker.ack(sha)
-            sha = graphwalker.next()
+            sha = next(graphwalker)
         return haves
 
     def get_graph_walker(self, heads):
@@ -620,7 +620,7 @@ class MemoryObjectStore(BaseObjectStore):
 
     def __iter__(self):
         """Iterate over the SHAs that are present in this store."""
-        return self._data.iterkeys()
+        return iter(self._data.keys())
 
     @property
     def packs(self):
@@ -786,7 +786,7 @@ class MissingObjectFinder(object):
 
     def parse_tree(self, tree):
         self.add_todo([(sha, name, not stat.S_ISDIR(mode))
-                       for name, mode, sha in tree.iteritems()
+                       for name, mode, sha in tree.items()
                        if not S_ISGITLINK(mode)])
 
     def parse_commit(self, commit):
@@ -796,7 +796,7 @@ class MissingObjectFinder(object):
     def parse_tag(self, tag):
         self.add_todo([(tag.object[1], None, False)])
 
-    def next(self):
+    def __next__(self):
         while True:
             if not self.objects_to_send:
                 return None
@@ -859,7 +859,7 @@ class ObjectStoreGraphWalker(object):
 
             ancestors = new_ancestors
 
-    def next(self):
+    def __next__(self):
         """Iterate over ancestors of heads in the target."""
         if self.heads:
             ret = self.heads.pop()
