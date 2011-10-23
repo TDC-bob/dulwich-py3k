@@ -28,6 +28,7 @@ from dulwich.tests import (
     TestCase,
     )
 
+from dulwich.py3k import *
 
 class FancyRenameTests(TestCase):
 
@@ -47,7 +48,7 @@ class FancyRenameTests(TestCase):
 
     def create(self, path, contents):
         f = open(path, 'wb')
-        f.write(contents)
+        f.write(convert3kstr(contents, BYTES))
         f.close()
 
     def test_no_dest_exists(self):
@@ -56,7 +57,7 @@ class FancyRenameTests(TestCase):
         self.assertFalse(os.path.exists(self.foo))
 
         new_f = open(self.bar, 'rb')
-        self.assertEqual('foo contents', new_f.read())
+        self.assertEqual(b'foo contents', new_f.read())
         new_f.close()
          
     def test_dest_exists(self):
@@ -65,7 +66,7 @@ class FancyRenameTests(TestCase):
         self.assertFalse(os.path.exists(self.foo))
 
         new_f = open(self.bar, 'rb')
-        self.assertEqual('foo contents', new_f.read())
+        self.assertEqual(b'foo contents', new_f.read())
         new_f.close()
 
     def test_dest_opened(self):
@@ -92,7 +93,7 @@ class GitFileTests(TestCase):
         super(GitFileTests, self).setUp()
         self._tempdir = tempfile.mkdtemp()
         f = open(self.path('foo'), 'wb')
-        f.write('foo contents')
+        f.write(b'foo contents')
         f.close()
 
     def tearDown(self):
@@ -111,17 +112,18 @@ class GitFileTests(TestCase):
         self.assertRaises(IOError, GitFile, foo, mode='a+bU')
 
     def test_readonly(self):
+        import _io
         f = GitFile(self.path('foo'), 'rb')
-        self.assertTrue(isinstance(f, file))
-        self.assertEqual('foo contents', f.read())
-        self.assertEqual('', f.read())
+        self.assertTrue(isinstance(f, _io.BufferedReader))
+        self.assertEqual(b'foo contents', f.read())
+        self.assertEqual(b'', f.read())
         f.seek(4)
-        self.assertEqual('contents', f.read())
+        self.assertEqual(b'contents', f.read())
         f.close()
 
     def test_default_mode(self):
         f = GitFile(self.path('foo'))
-        self.assertEqual('foo contents', f.read())
+        self.assertEqual(b'foo contents', f.read())
         f.close()
 
     def test_write(self):
@@ -129,7 +131,7 @@ class GitFileTests(TestCase):
         foo_lock = '%s.lock' % foo
 
         orig_f = open(foo, 'rb')
-        self.assertEqual(orig_f.read(), 'foo contents')
+        self.assertEqual(orig_f.read(), b'foo contents')
         orig_f.close()
 
         self.assertFalse(os.path.exists(foo_lock))
@@ -138,31 +140,31 @@ class GitFileTests(TestCase):
         self.assertRaises(AttributeError, getattr, f, 'not_a_file_property')
 
         self.assertTrue(os.path.exists(foo_lock))
-        f.write('new stuff')
+        f.write(b'new stuff')
         f.seek(4)
-        f.write('contents')
+        f.write(b'contents')
         f.close()
         self.assertFalse(os.path.exists(foo_lock))
 
         new_f = open(foo, 'rb')
-        self.assertEqual('new contents', new_f.read())
+        self.assertEqual(b'new contents', new_f.read())
         new_f.close()
 
     def test_open_twice(self):
         foo = self.path('foo')
         f1 = GitFile(foo, 'wb')
-        f1.write('new')
+        f1.write(b'new')
         try:
             f2 = GitFile(foo, 'wb')
             self.fail()
         except OSError as e:
             self.assertEqual(errno.EEXIST, e.errno)
-        f1.write(' contents')
+        f1.write(b' contents')
         f1.close()
 
         # Ensure trying to open twice doesn't affect original.
         f = open(foo, 'rb')
-        self.assertEqual('new contents', f.read())
+        self.assertEqual(b'new contents', f.read())
         f.close()
 
     def test_abort(self):
@@ -170,17 +172,17 @@ class GitFileTests(TestCase):
         foo_lock = '%s.lock' % foo
 
         orig_f = open(foo, 'rb')
-        self.assertEqual(orig_f.read(), 'foo contents')
+        self.assertEqual(orig_f.read(), b'foo contents')
         orig_f.close()
 
         f = GitFile(foo, 'wb')
-        f.write('new contents')
+        f.write(b'new contents')
         f.abort()
         self.assertTrue(f.closed)
         self.assertFalse(os.path.exists(foo_lock))
 
         new_orig_f = open(foo, 'rb')
-        self.assertEqual(new_orig_f.read(), 'foo contents')
+        self.assertEqual(new_orig_f.read(), b'foo contents')
         new_orig_f.close()
 
     def test_abort_close(self):
