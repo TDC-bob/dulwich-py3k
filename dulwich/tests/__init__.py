@@ -74,8 +74,8 @@ class BlackboxTestCase(TestCase):
 def self_test_suite():
     names = [
         'blackbox',
-        #'client',
-        #'diff_tree',
+        'client',
+        'diff_tree',
         #'fastexport',
         #'file',
         #'index',

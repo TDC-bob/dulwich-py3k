@@ -38,7 +38,7 @@ except ImportError:
     SEEK_END = 2
 
 import struct
-
+from dulwich.py3k import *
 
 class defaultdict(dict):
     """A python 2.4 equivalent of collections.defaultdict."""
@@ -83,7 +83,7 @@ class defaultdict(dict):
         return 'defaultdict(%s, %s)' % (self.default_factory,
                                         dict.__repr__(self))
 
-
+@wrap3kstr(source=BYTES)
 def make_sha(source=''):
     """A python2.4 workaround for the sha/hashlib module fiasco."""
     try:

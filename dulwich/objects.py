@@ -447,9 +447,9 @@ class ShaFile(object):
         if self._sha is None or self._needs_serialization:
             # this is a local because as_raw_chunks() overwrites self._sha
             new_sha = make_sha()
-            new_sha.update(self._header())
+            new_sha.update(convert3kstr(self._header(), BYTES))
             for chunk in self.as_raw_chunks():
-                new_sha.update(chunk)
+                new_sha.update(convert3kstr(chunk, BYTES))
             self._sha = new_sha
         return self._sha
 
@@ -692,10 +692,13 @@ class Tag(ShaFile):
 class TreeEntry(namedtuple('TreeEntry', ['path', 'mode', 'sha'])):
     """Named tuple encapsulating a single tree entry."""
 
+    @wrap3kstr(path=STRING)
     def in_path(self, path):
         """Return a copy of this entry with the given path prepended."""
-        return TreeEntry(posixpath.join(path, self.path), self.mode, self.sha)
 
+        if not isinstance(self.path, str) or not isinstance(path, str):
+            raise TypeError('in_path only accepts strings as paths')
+        return TreeEntry(posixpath.join(path, self.path), self.mode, self.sha)
 
 def parse_tree(text, strict=False):
     """Parse a tree text.
@@ -734,6 +737,24 @@ def serialize_tree(items):
     for name, mode, hexsha in items:
         yield "%04o %s\0%s" % (mode, name, hex_to_sha(hexsha))
 
+def cmp_to_key(mycmp):
+    """Convert a cmp= function into a key= function"""
+    class K(object):
+        def __init__(self, obj, *args):
+            self.obj = obj
+        def __lt__(self, other):
+            return mycmp(self.obj, other.obj) < 0
+        def __gt__(self, other):
+            return mycmp(self.obj, other.obj) > 0
+        def __eq__(self, other):
+            return mycmp(self.obj, other.obj) == 0
+        def __le__(self, other):
+            return mycmp(self.obj, other.obj) <= 0
+        def __ge__(self, other):
+            return mycmp(self.obj, other.obj) >= 0
+        def __ne__(self, other):
+            return mycmp(self.obj, other.obj) != 0
+    return K
 
 def sorted_tree_items(entries, name_order):
     """Iterate over a tree entries dictionary.
@@ -745,7 +766,7 @@ def sorted_tree_items(entries, name_order):
     :return: Iterator over (name, mode, hexsha)
     """
     cmp_func = name_order and cmp_entry_name_order or cmp_entry
-    for name, entry in sorted(iter(entries.items()), cmp=cmp_func):
+    for name, entry in sorted(iter(entries.items()), key=cmp_to_key(cmp_func)):
         mode, hexsha = entry
         # Stricter type checks than normal to mirror checks in the C version.
         mode = int(mode)
@@ -763,12 +784,12 @@ def cmp_entry(tuple_1, tuple_2):
         name1 += "/"
     if stat.S_ISDIR(value2[0]):
         name2 += "/"
-    return cmp(name1, name2)
+    return (name1 > name2) - (name1 < name2)
 
 
 def cmp_entry_name_order(entry1, entry2):
     """Compare two tree entries in name order."""
-    return cmp(entry1[0], entry2[0])
+    return (entry1[0] > entry2[0]) - (entry1[0] < entry2[0])
 
 
 class Tree(ShaFile):
@@ -870,7 +891,7 @@ class Tree(ShaFile):
 
         :return: List with (name, mode, sha) tuples
         """
-        return list(self.items())
+        return list(self.iteritems())
 
     def _deserialize(self, chunks):
         """Grab the entries in the tree"""

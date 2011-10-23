@@ -99,6 +99,11 @@ class wrap3kstr(object):
             return tuple([self.toString(o) for o in obj])
         elif isinstance(obj, list):
             return [self.toString(o) for o in obj]
+        elif self.active_mask & AGGRESSIVE:
+            if hasattr(obj, __str__):
+                return str(obj)
+            else:
+                return obj
         else:
             return obj
 
