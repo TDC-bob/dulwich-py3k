@@ -35,6 +35,7 @@ from dulwich.pack import (
     SHA1Writer,
     )
 
+from dulwich.py3k import *
 
 def pathsplit(path):
     """Split a /-delimited path into a directory part and a basename.
@@ -79,6 +80,7 @@ def write_cache_time(f, t):
         t = (int(secs), int(nsecs * 1000000000))
     elif not isinstance(t, tuple):
         raise TypeError(t)
+
     f.write(struct.pack(">LL", *t))
 
 

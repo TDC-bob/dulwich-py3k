@@ -88,12 +88,12 @@ class SimpleIndexWriterTestCase(IndexTestCase):
                     33188, 1000, 1000, 0,
                     'e69de29bb2d1d6434b8b29ae775ad8c2e48c5391', 0)]
         filename = os.path.join(self.tempdir, 'test-simple-write-index')
-        x = open(filename, 'w+')
+        x = open(filename, 'wb+')
         try:
             write_index(x, entries)
         finally:
             x.close()
-        x = open(filename, 'r')
+        x = open(filename, 'rb')
         try:
             self.assertEqual(entries, list(read_index(x)))
         finally:
