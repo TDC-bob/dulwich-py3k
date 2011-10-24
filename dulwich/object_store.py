@@ -382,6 +382,7 @@ class DiskObjectStore(PackBasedObjectStore):
         finally:
             f.close()
 
+    @wrap3kstr(path=STRING)
     def add_alternate_path(self, path):
         """Add an alternate path to this object store.
         """
