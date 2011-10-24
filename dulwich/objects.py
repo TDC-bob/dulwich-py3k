@@ -22,7 +22,7 @@
 
 import binascii
 from io import (
-    StringIO,
+    BytesIO,
     )
 import os
 import posixpath
@@ -74,17 +74,17 @@ def _decompress(string):
     dcomped += dcomp.flush()
     return dcomped
 
-
+@wrap3kstr(sha=BYTES, returns=STRING)
 def sha_to_hex(sha):
     """Takes a string and returns the hex of the sha within"""
     hexsha = binascii.hexlify(sha)
-    assert len(hexsha) == 40, "Incorrect length of sha1 string: %d" % hexsha
+    assert len(hexsha) == 40, "Incorrect length of sha1 string: %d" % len(hexsha)
     return hexsha
 
-@wrap3kstr(hex=BYTES)
+@wrap3kstr(hex=BYTES, returns=BYTES)
 def hex_to_sha(hex):
     """Takes a hex sha and returns a binary sha"""
-    assert len(hex) == 40, "Incorrent length of hexsha: %s" % hex
+    assert len(hex) == 40, "Incorrent length of hexsha: %d" % len(hex)
     return binascii.unhexlify(hex)
 
 
@@ -95,7 +95,7 @@ def hex_to_filename(path, hex):
     # Check from object dir
     return os.path.join(path, dir, file)
 
-
+@wrap3kstr(filename=STRING)
 def filename_to_hex(filename):
     """Takes an object filename and returns its corresponding hex sha."""
     # grab the last (up to) two path components
@@ -114,6 +114,7 @@ def object_header(num_type, length):
     return "%s %d\0" % (object_class(num_type).type_name, length)
 
 
+@wrap3kstr(name=STRING, docstring=STRING)
 def serializable_property(name, docstring=None):
     def set(obj, value):
         obj._ensure_parsed()
@@ -121,6 +122,9 @@ def serializable_property(name, docstring=None):
         obj._needs_serialization = True
     def get(obj):
         obj._ensure_parsed()
+        if not hasattr(obj, "_"+name):
+            print('fail: ' + repr(obj))
+            print('name: ' + name)
         return getattr(obj, "_"+name)
     return property(get, set, doc=docstring)
 
@@ -141,7 +145,7 @@ def check_hexsha(hex, error_msg):
     except (TypeError, AssertionError):
         raise ObjectFormatException("%s %s" % (error_msg, hex))
 
-
+@wrap3kstr(identity=STRING, error_msg=STRING)
 def check_identity(identity, error_msg):
     """Check if the specified identity is valid.
 
@@ -193,10 +197,10 @@ class ShaFile(object):
             extra = f.read(bufsize)
             header += decomp.decompress(extra)
             magic += extra
-            end = header.find("\0", start)
+            end = header.find(b"\0", start)
             start = len(header)
         header = header[:end]
-        type_name, size = header.split(" ", 1)
+        type_name, size = convert3kstr(header.split(b" ", 1), STRING)
         size = int(size)  # sanity check
         obj_class = object_class(type_name)
         if not obj_class:
@@ -205,23 +209,24 @@ class ShaFile(object):
         ret._magic = magic
         return ret
 
+    @wrap3kstr(map=BYTES)
     def _parse_legacy_object(self, map):
         """Parse a legacy object, setting the raw string."""
         text = _decompress(map)
-        header_end = text.find('\0')
+        header_end = text.find(b'\0')
         if header_end < 0:
             raise ObjectFormatException("Invalid object header, no \\0")
         self.set_raw_string(text[header_end+1:])
 
     def as_legacy_object_chunks(self):
         compobj = zlib.compressobj()
-        yield compobj.compress(self._header())
+        yield compobj.compress(convert3kstr(self._header(), BYTES))
         for chunk in self.as_raw_chunks():
-            yield compobj.compress(chunk)
+            yield compobj.compress(convert3kstr(chunk, BYTES))
         yield compobj.flush()
 
     def as_legacy_object(self):
-        return "".join(self.as_legacy_object_chunks())
+        return b"".join(convert3kstr(self.as_legacy_object_chunks(), BYTES))
 
     def as_raw_chunks(self):
         if self._needs_parsing:
@@ -231,7 +236,7 @@ class ShaFile(object):
         return self._chunked_text
 
     def as_raw_string(self):
-        return "".join(self.as_raw_chunks())
+        return b"".join(convert3kstr(self.as_raw_chunks(), BYTES))
 
     def __str__(self):
         return self.as_raw_string()
@@ -256,12 +261,13 @@ class ShaFile(object):
             self._deserialize(self._chunked_text)
             self._needs_parsing = False
 
-    @wrap3kstr(text=STRING)
+    @wrap3kstr(text=BYTES)
     def set_raw_string(self, text):
-        if type(text) != str:
+        if type(text) != bytes:
             raise TypeError(text)
         self.set_raw_chunks([text])
 
+    @wrap3kstr(chunks=BYTES)
     def set_raw_chunks(self, chunks):
         self._chunked_text = chunks
         self._deserialize(chunks)
@@ -270,9 +276,10 @@ class ShaFile(object):
         self._needs_serialization = False
 
     @staticmethod
+    @wrap3kstr(magic=BYTES|AGGRESSIVE)
     def _parse_object_header(magic, f):
         """Parse a new style object, creating it but not reading the file."""
-        num_type = (ord(magic[0]) >> 4) & 7
+        num_type = (magic[0] >> 4) & 7
         obj_class = object_class(num_type)
         if not obj_class:
             raise ObjectFormatException("Not a known type %d" % num_type)
@@ -280,21 +287,23 @@ class ShaFile(object):
         ret._magic = magic
         return ret
 
+    @wrap3kstr(map=BYTES|AGGRESSIVE)
     def _parse_object(self, map):
         """Parse a new style object, setting self._text."""
         # skip type and size; type must have already been determined, and
         # we trust zlib to fail if it's otherwise corrupted
-        byte = ord(map[0])
+        byte = map[0]
         used = 1
         while (byte & 0x80) != 0:
-            byte = ord(map[used])
+            byte = map[used]
             used += 1
         raw = map[used:]
         self.set_raw_string(_decompress(raw))
 
     @classmethod
+    @wrap3kstr(magic=BYTES|AGGRESSIVE)
     def _is_legacy_object(cls, magic):
-        b0, b1 = list(map(ord, magic))
+        b0, b1 = magic[0:2]
         word = (b0 << 8) + b1
         return b0 == 0x78 and (word % 31) == 0
 
@@ -438,9 +447,9 @@ class ShaFile(object):
 
     def _make_sha(self):
         ret = make_sha()
-        ret.update(self._header())
+        ret.update(convert3kstr(self._header(), BYTES))
         for chunk in self.as_raw_chunks():
-            ret.update(chunk)
+            ret.update(convert3kstr(chunk, BYTES))
         return ret
 
     def sha(self):
@@ -538,7 +547,7 @@ class Blob(ShaFile):
         """
         super(Blob, self).check()
 
-
+@wrap3kstr(text=BYTES)
 def _parse_tag_or_commit(text):
     """Parse tag or commit text.
 
@@ -547,13 +556,15 @@ def _parse_tag_or_commit(text):
         order read from the text, possibly including duplicates. Includes a
         field named None for the freeform tag/commit text.
     """
-    f = StringIO(text)
+    f = BytesIO(text)
     for l in f:
-        l = l.rstrip("\n")
-        if l == "":
+        l = l.rstrip(b"\n")
+        if l == b"":
             # Empty line indicates end of headers
             break
-        yield l.split(" ", 1)
+
+        #print(convert3kstr(l.split(b" ", 1), STRING))
+        yield convert3kstr(l.split(b" ", 1), STRING)
     yield (None, f.read())
     f.close()
 
@@ -602,7 +613,7 @@ class Tag(ShaFile):
             check_identity(self._tagger, "invalid tagger")
 
         last = None
-        for field, _ in parse_tag("".join(self._chunked_text)):
+        for field, _ in parse_tag(b"".join(self._chunked_text)):
             if field == _OBJECT_HEADER and last is not None:
                 raise ObjectFormatException("unexpected object")
             elif field == _TYPE_HEADER and last != _OBJECT_HEADER:
@@ -633,7 +644,7 @@ class Tag(ShaFile):
     def _deserialize(self, chunks):
         """Grab the metadata attached to the tag"""
         self._tagger = None
-        for field, value in parse_tag("".join(chunks)):
+        for field, value in parse_tag(b"".join(chunks)):
             if field == _OBJECT_HEADER:
                 self._object_sha = value
             elif field == _TYPE_HEADER:
@@ -701,6 +712,7 @@ class TreeEntry(namedtuple('TreeEntry', ['path', 'mode', 'sha'])):
             raise TypeError('in_path only accepts strings as paths')
         return TreeEntry(posixpath.join(path, self.path), self.mode, self.sha)
 
+@wrap3kstr(text=BYTES)
 def parse_tree(text, strict=False):
     """Parse a tree text.
 
@@ -711,15 +723,15 @@ def parse_tree(text, strict=False):
     count = 0
     l = len(text)
     while count < l:
-        mode_end = text.index(' ', count)
+        mode_end = text.index(b' ', count)
         mode_text = text[count:mode_end]
-        if strict and mode_text.startswith('0'):
+        if strict and mode_text.startswith(b'0'):
             raise ObjectFormatException("Invalid mode '%s'" % mode_text)
         try:
             mode = int(mode_text, 8)
         except ValueError:
             raise ObjectFormatException("Invalid mode '%s'" % mode_text)
-        name_end = text.index('\0', mode_end)
+        name_end = text.index(b'\0', mode_end)
         name = text[mode_end+1:name_end]
         count = name_end+21
         sha = text[name_end+1:count]
@@ -728,7 +740,7 @@ def parse_tree(text, strict=False):
         hexsha = sha_to_hex(sha)
         yield (name, mode, hexsha)
 
-
+@wrap3kstr(items=STRING)
 def serialize_tree(items):
     """Serialize the items in a tree to a text.
 
@@ -736,7 +748,7 @@ def serialize_tree(items):
     :return: Serialized tree text as chunks
     """
     for name, mode, hexsha in items:
-        yield "%04o %s\0%s" % (mode, name, hex_to_sha(hexsha))
+        yield convert3kstr("%04o %s" % (mode, name), BYTES) + b'\0' + hex_to_sha(hexsha)
 
 def cmp_to_key(mycmp):
     """Convert a cmp= function into a key= function"""
@@ -897,7 +909,7 @@ class Tree(ShaFile):
     def _deserialize(self, chunks):
         """Grab the entries in the tree"""
         try:
-            parsed_entries = parse_tree("".join(chunks))
+            parsed_entries = parse_tree(b"".join(chunks))
         except ValueError as e:
             raise ObjectFormatException(e)
         # TODO: list comprehension is for efficiency in the common (small) case;
@@ -915,10 +927,10 @@ class Tree(ShaFile):
                          stat.S_IFLNK, stat.S_IFDIR, S_IFGITLINK,
                          # TODO: optionally exclude as in git fsck --strict
                          stat.S_IFREG | 0o664)
-        for name, mode, sha in parse_tree(''.join(self._chunked_text),
+        for name, mode, sha in parse_tree(b''.join(self._chunked_text),
                                           True):
             check_hexsha(sha, 'invalid sha %s' % sha)
-            if '/' in name or name in ('', '.', '..'):
+            if b'/' in name or name in (b'', b'.', b'..'):
                 raise ObjectFormatException('invalid name %s' % name)
 
             if mode not in allowed_modes:
@@ -942,7 +954,7 @@ class Tree(ShaFile):
                 kind = "tree"
             else:
                 kind = "blob"
-            text.append("%04o %s %s\t%s\n" % (mode, kind, hexsha, name))
+            text.append("%04o %s %s\t%s\n" % (mode, kind, convert3kstr(hexsha, STRING), convert3kstr(name, STRING)))
         return "".join(text)
 
     def lookup_path(self, lookup_obj, path):
@@ -1030,11 +1042,12 @@ class Commit(ShaFile):
             raise NotCommitError(path)
         return commit
 
+    @wrap3kstr(chunks=BYTES)
     def _deserialize(self, chunks):
         self._parents = []
         self._extra = []
         self._author = None
-        for field, value in parse_commit(''.join(self._chunked_text)):
+        for field, value in parse_commit(b''.join(self._chunked_text)):
             if field == _TREE_HEADER:
                 self._tree = value
             elif field == _PARENT_HEADER:
@@ -1075,7 +1088,7 @@ class Commit(ShaFile):
         check_identity(self._committer, "invalid committer")
 
         last = None
-        for field, _ in parse_commit("".join(self._chunked_text)):
+        for field, _ in parse_commit(b"".join(self._chunked_text)):
             if field == _TREE_HEADER and last is not None:
                 raise ObjectFormatException("unexpected tree")
             elif field == _PARENT_HEADER and last not in (_PARENT_HEADER,

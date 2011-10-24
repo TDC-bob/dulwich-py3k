@@ -64,7 +64,7 @@ class SimpleIndexTestCase(IndexTestCase):
     def test_getitem(self):
         self.assertEqual(((1230680220, 0), (1230680220, 0), 2050, 3761020,
                            33188, 1000, 1000, 0,
-                           b'e69de29bb2d1d6434b8b29ae775ad8c2e48c5391', 0),
+                           'e69de29bb2d1d6434b8b29ae775ad8c2e48c5391', 0),
                           self.get_simple_index("index")["bla"])
 
     def test_empty(self):
@@ -86,7 +86,7 @@ class SimpleIndexWriterTestCase(IndexTestCase):
     def test_simple_write(self):
         entries = [(b'barbla', (1230680220, 0), (1230680220, 0), 2050, 3761020,
                     33188, 1000, 1000, 0,
-                    b'e69de29bb2d1d6434b8b29ae775ad8c2e48c5391', 0)]
+                    'e69de29bb2d1d6434b8b29ae775ad8c2e48c5391', 0)]
         filename = os.path.join(self.tempdir, 'test-simple-write-index')
         x = open(filename, 'wb+')
         try:

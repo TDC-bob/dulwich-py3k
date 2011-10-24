@@ -23,7 +23,7 @@ try:
 except ImportError:
     from dulwich._compat import defaultdict
 
-from io import StringIO
+from io import BytesIO
 import itertools
 import stat
 
@@ -34,6 +34,8 @@ from dulwich.objects import (
     S_ISGITLINK,
     TreeEntry,
     )
+
+from dulwich.py3k import *
 
 # TreeChange type constants.
 CHANGE_ADD = 'add'
@@ -283,7 +285,7 @@ def _count_blocks(obj):
     :return: A dict of block hashcode -> total bytes occurring.
     """
     block_counts = defaultdict(int)
-    block = StringIO()
+    block = BytesIO()
     n = 0
 
     # Cache attrs as locals to avoid expensive lookups in the inner loop.
@@ -293,9 +295,10 @@ def _count_blocks(obj):
     block_getvalue = block.getvalue
 
     for c in itertools.chain(*obj.as_raw_chunks()):
+        c = convert3kstr(c, BYTES|AGGRESSIVE)
         block_write(c)
         n += 1
-        if c == '\n' or n == _BLOCK_SIZE:
+        if c == b'\n' or n == _BLOCK_SIZE:
             value = block_getvalue()
             block_counts[hash(value)] += len(value)
             block_seek(0)
