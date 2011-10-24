@@ -79,7 +79,7 @@ def self_test_suite():
         'fastexport',
         'file',
         'index',
-        #'lru_cache',
+        'lru_cache',
         #'objects',
         #'object_store',
         #'pack',
