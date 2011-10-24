@@ -188,7 +188,7 @@ except ImportError:
         # generating informative error messages and preventing template injection attacks.
         if isinstance(field_names, str):
             field_names = field_names.replace(',', ' ').split() # names separated by whitespace and/or commas
-        field_names = tuple(map(str, field_names))
+        field_names = tuple([str(n) for n in field_names])
         if rename:
             names = list(field_names)
             seen = set()

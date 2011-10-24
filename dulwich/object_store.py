@@ -59,6 +59,8 @@ from dulwich.pack import (
     PackStreamCopier,
     )
 
+from dulwich.py3k import *
+
 INFODIR = 'info'
 PACKDIR = 'pack'
 
@@ -338,6 +340,7 @@ class PackBasedObjectStore(BaseObjectStore):
 class DiskObjectStore(PackBasedObjectStore):
     """Git-style object store that exists on disk."""
 
+    @wrap3kstr(path=STRING)
     def __init__(self, path):
         """Open an object store.
 
@@ -369,8 +372,8 @@ class DiskObjectStore(PackBasedObjectStore):
         ret = []
         try:
             for l in f.readlines():
-                l = l.rstrip("\n")
-                if l[0] == "#":
+                l = l.rstrip(b"\n")
+                if l[0] == b"#":
                     continue
                 if not os.path.isabs(l):
                     continue
@@ -400,7 +403,7 @@ class DiskObjectStore(PackBasedObjectStore):
                     f.write(orig_f.read())
                 finally:
                     orig_f.close()
-            f.write("%s\n" % path)
+            f.write(convert3kstr("%s\n" % path, BYTES))
         finally:
             f.close()
         self.alternates.append(DiskObjectStore(path))

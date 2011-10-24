@@ -182,6 +182,7 @@ def tree_changes(store, tree1_id, tree2_id, want_unchanged=False,
 
     entries = walk_trees(store, tree1_id, tree2_id,
                          prune_identical=(not want_unchanged))
+
     for entry1, entry2 in entries:
         if entry1 == entry2 and not want_unchanged:
             continue

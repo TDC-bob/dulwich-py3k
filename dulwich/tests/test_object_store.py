@@ -19,7 +19,7 @@
 """Tests for the object store interface."""
 
 
-from io import StringIO
+from io import BytesIO
 import os
 import shutil
 import tempfile
@@ -56,8 +56,9 @@ from dulwich.tests.utils import (
     build_pack,
     )
 
+from dulwich.py3k import *
 
-testobject = make_object(Blob, data="yummy data")
+testobject = make_object(Blob, data=b"yummy data")
 
 
 class ObjectStoreTests(object):
@@ -185,7 +186,7 @@ class ObjectStoreTests(object):
 
     def test_get_raw(self):
         self.store.add_object(testobject)
-        self.assertEqual((Blob.type_num, 'yummy data'),
+        self.assertEqual((Blob.type_num, b'yummy data'),
                          self.store.get_raw(testobject.id))
 
 
@@ -206,13 +207,13 @@ class PackBasedObjectStoreTests(ObjectStoreTests):
         self.assertEqual([], self.store.packs)
 
     def test_pack_loose_objects(self):
-        b1 = make_object(Blob, data="yummy data")
+        b1 = make_object(Blob, data=b"yummy data")
         self.store.add_object(b1)
-        b2 = make_object(Blob, data="more yummy data")
+        b2 = make_object(Blob, data=b"more yummy data")
         self.store.add_object(b2)
         self.assertEqual([], self.store.packs)
         self.assertEqual(2, self.store.pack_loose_objects())
-        self.assertNotEquals([], self.store.packs)
+        self.assertNotEqual([], self.store.packs)
         self.assertEqual(0, self.store.pack_loose_objects())
 
 
@@ -232,7 +233,7 @@ class DiskObjectStoreTests(PackBasedObjectStoreTests, TestCase):
         alternate_dir = tempfile.mkdtemp()
         self.addCleanup(shutil.rmtree, alternate_dir)
         alternate_store = DiskObjectStore(alternate_dir)
-        b2 = make_object(Blob, data="yummy data")
+        b2 = make_object(Blob, data=b"yummy data")
         alternate_store.add_object(b2)
         store = DiskObjectStore(self.store_dir)
         self.assertRaises(KeyError, store.__getitem__, b2.id)
@@ -243,10 +244,10 @@ class DiskObjectStoreTests(PackBasedObjectStoreTests, TestCase):
         store = DiskObjectStore(self.store_dir)
         self.assertEqual([], store._read_alternate_paths())
         store.add_alternate_path("/foo/path")
-        self.assertEqual(["/foo/path"], store._read_alternate_paths())
+        self.assertEqual([b"/foo/path"], store._read_alternate_paths())
         store.add_alternate_path("/bar/path")
         self.assertEqual(
-            ["/foo/path", "/bar/path"],
+            [b"/foo/path", b"/bar/path"],
             store._read_alternate_paths())
 
     def test_pack_dir(self):
@@ -256,16 +257,17 @@ class DiskObjectStoreTests(PackBasedObjectStoreTests, TestCase):
     def test_add_pack(self):
         o = DiskObjectStore(self.store_dir)
         f, commit = o.add_pack()
-        b = make_object(Blob, data="more yummy data")
+        b = make_object(Blob, data=b"more yummy data")
         write_pack_objects(f, [(b, None)])
         commit()
 
     def test_add_thin_pack(self):
         o = DiskObjectStore(self.store_dir)
-        blob = make_object(Blob, data='yummy data')
+        blob = make_object(Blob, data=b'yummy data')
         o.add_object(blob)
 
-        f = StringIO()
+        f = BytesIO()
+        # BUG IS ON THE NEXT LINE
         entries = build_pack(f, [
           (REF_DELTA, (blob.id, 'more yummy data')),
           ], store=o)
@@ -276,7 +278,7 @@ class DiskObjectStoreTests(PackBasedObjectStoreTests, TestCase):
         self.assertEqual(sorted([blob.id, packed_blob_sha]), list(pack))
         self.assertTrue(o.contains_packed(packed_blob_sha))
         self.assertTrue(o.contains_packed(blob.id))
-        self.assertEqual((Blob.type_num, 'more yummy data'),
+        self.assertEqual((Blob.type_num, b'more yummy data'),
                          o.get_raw(packed_blob_sha))
 
 

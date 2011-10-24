@@ -704,11 +704,16 @@ class Tag(ShaFile):
 class TreeEntry(namedtuple('TreeEntry', ['path', 'mode', 'sha'])):
     """Named tuple encapsulating a single tree entry."""
 
+    def __init__(self, path, mode, sha):
+        if path is not None and not isinstance(path, str):
+            raise TypeError('blarg')
+
     @wrap3kstr(path=STRING)
     def in_path(self, path):
         """Return a copy of this entry with the given path prepended."""
 
         if not isinstance(self.path, str) or not isinstance(path, str):
+            #print(repr(self))
             raise TypeError('in_path only accepts strings as paths')
         return TreeEntry(posixpath.join(path, self.path), self.mode, self.sha)
 
@@ -785,7 +790,7 @@ def sorted_tree_items(entries, name_order):
         mode = int(mode)
         if not isinstance(hexsha, str):
             raise TypeError('Expected a string for SHA, got %r' % hexsha)
-        yield TreeEntry(name, mode, hexsha)
+        yield TreeEntry(convert3kstr(name, STRING), mode, hexsha)
 
 
 def cmp_entry(tuple_1, tuple_2):
@@ -824,14 +829,17 @@ class Tree(ShaFile):
             raise NotTreeError(filename)
         return tree
 
+    @wrap3kstr(name=STRING)
     def __contains__(self, name):
         self._ensure_parsed()
         return name in self._entries
 
+    @wrap3kstr(name=STRING)
     def __getitem__(self, name):
         self._ensure_parsed()
         return self._entries[name]
 
+    @wrap3kstr(name=STRING)
     def __setitem__(self, name, value):
         """Set a tree entry by name.
 
@@ -845,6 +853,7 @@ class Tree(ShaFile):
         self._entries[name] = (mode, hexsha)
         self._needs_serialization = True
 
+    @wrap3kstr(name=STRING)
     def __delitem__(self, name):
         self._ensure_parsed()
         del self._entries[name]
@@ -858,6 +867,7 @@ class Tree(ShaFile):
         self._ensure_parsed()
         return iter(self._entries)
 
+    @wrap3kstr(name=STRING, hexsha=STRING)
     def add(self, name, mode, hexsha):
         """Add an entry to the tree.
 
@@ -914,7 +924,7 @@ class Tree(ShaFile):
             raise ObjectFormatException(e)
         # TODO: list comprehension is for efficiency in the common (small) case;
         # if memory efficiency in the large case is a concern, use a genexp.
-        self._entries = dict([(n, (m, s)) for n, m, s in parsed_entries])
+        self._entries = dict([(convert3kstr(n, STRING), (m, s)) for n, m, s in parsed_entries])
 
     def check(self):
         """Check this object for internal consistency.
@@ -957,6 +967,7 @@ class Tree(ShaFile):
             text.append("%04o %s %s\t%s\n" % (mode, kind, convert3kstr(hexsha, STRING), convert3kstr(name, STRING)))
         return "".join(text)
 
+    @wrap3kstr(path=STRING)
     def lookup_path(self, lookup_obj, path):
         """Look up an object in a Git tree.
 
