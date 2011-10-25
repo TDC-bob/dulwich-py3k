@@ -303,8 +303,9 @@ def load_pack_index_file(path, f):
     :param f: File-like object
     :return: A PackIndex loaded from the given file
     """
+
     contents, size = _load_file_contents(f)
-    if contents[:4] == '\377tOc':
+    if contents[:4] == b'\377tOc':
         version = struct.unpack('>L', contents[4:8])[0]
         if version == 2:
             return PackIndex2(path, file=f, contents=contents,
@@ -326,9 +327,9 @@ def bisect_find_sha(start, end, sha, unpack_name):
     """
     assert start <= end
     while start <= end:
-        i = (start + end)/2
+        i = (start + end) // 2
         file_sha = unpack_name(i)
-        x = cmp(file_sha, sha)
+        x = (file_sha > sha) - (file_sha < sha)
         if x < 0:
             start = i + 1
         elif x > 0:
@@ -556,13 +557,14 @@ class FilePackIndex(PackIndex):
         """
         return str(self._contents[-20:])
 
+    @wrap3kstr(sha=BYTES)
     def _object_index(self, sha):
         """See object_index.
 
         :param sha: A *binary* SHA string. (20 characters long)_
         """
         assert len(sha) == 20
-        idx = ord(sha[0])
+        idx = sha[0]
         if idx == 0:
             start = 0
         else:
@@ -588,10 +590,12 @@ class PackIndex1(FilePackIndex):
         return (name, offset, None)
 
     def _unpack_name(self, i):
+        assert isinstance(i, int)
         offset = (0x100 * 4) + (i * 24) + 4
         return self._contents[offset:offset+20]
 
     def _unpack_offset(self, i):
+        assert isinstance(i, int)
         offset = (0x100 * 4) + (i * 24)
         return unpack_from('>L', self._contents, offset)[0]
 
@@ -605,7 +609,7 @@ class PackIndex2(FilePackIndex):
 
     def __init__(self, filename, file=None, contents=None, size=None):
         super(PackIndex2, self).__init__(filename, file, contents, size)
-        assert self._contents[:4] == '\377tOc', 'Not a v2 pack index file'
+        assert self._contents[:4] == b'\377tOc', 'Not a v2 pack index file'
         (self.version, ) = unpack_from('>L', self._contents, 4)
         assert self.version == 2, 'Version was %d' % self.version
         self._fan_out_table = self._read_fan_out_table(8)
@@ -1042,7 +1046,7 @@ class PackData(object):
             assert isinstance(type, int)
         elif type == REF_DELTA:
             (basename, delta) = obj
-            assert isinstance(basename, str) and len(basename) == 20
+            assert isinstance(basename, bytes) and len(basename) == 20
             base_offset, type, base_obj = get_ref(basename)
             assert isinstance(type, int)
         type, base_chunks = self.resolve_object(base_offset, type, base_obj)
@@ -1412,6 +1416,7 @@ def write_pack_object(f, type, object, sha=None):
     :param object: Object to write
     :return: Tuple with offset at which the object was written, and crc32
     """
+
     if type in DELTA_TYPES:
         delta_base, object = object
     else:
@@ -1522,6 +1527,7 @@ def write_pack_data(f, num_records, records):
     :param records: Iterator over type_num, object_id, delta_base, raw
     :return: Dict mapping id -> (offset, crc32 checksum), pack checksum
     """
+
     # Write the pack
     entries = {}
     f = SHA1Writer(f)
@@ -1551,6 +1557,7 @@ def write_pack_index_v1(f, entries, pack_checksum):
     :param pack_checksum: Checksum of the pack file.
     :return: The SHA of the written index file
     """
+
     f = SHA1Writer(f)
     fan_out_table = defaultdict(lambda: 0)
     for (name, offset, entry_checksum) in entries:
@@ -1702,6 +1709,7 @@ def write_pack_index_v2(f, entries, pack_checksum):
     :param pack_checksum: Checksum of the pack file.
     :return: The SHA of the index file written
     """
+
     f = SHA1Writer(f)
     f.write(b'\377tOc') # Magic!
     f.write(struct.pack('>L', 2))
@@ -1834,7 +1842,7 @@ class Pack(object):
         if type(offset) is int:
           offset = int(offset)
         type_num, chunks = self.data.resolve_object(offset, obj_type, obj)
-        return type_num, ''.join(chunks)
+        return type_num, b''.join(chunks)
 
     def __getitem__(self, sha1):
         """Retrieve the specified SHA1."""

@@ -563,7 +563,6 @@ def _parse_tag_or_commit(text):
             # Empty line indicates end of headers
             break
 
-        #print(convert3kstr(l.split(b" ", 1), STRING))
         yield convert3kstr(l.split(b" ", 1), STRING)
     yield (None, f.read())
     f.close()
@@ -713,7 +712,6 @@ class TreeEntry(namedtuple('TreeEntry', ['path', 'mode', 'sha'])):
         """Return a copy of this entry with the given path prepended."""
 
         if not isinstance(self.path, str) or not isinstance(path, str):
-            #print(repr(self))
             raise TypeError('in_path only accepts strings as paths')
         return TreeEntry(posixpath.join(path, self.path), self.mode, self.sha)
 
