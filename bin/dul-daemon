@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python2
 # dul-daemon - Simple git-daemon-like server
 # Copyright (C) 2008 John Carr <john.carr@unrouted.co.uk>
 #

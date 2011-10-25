@@ -1,4 +1,4 @@
-PYTHON = python
+PYTHON = python2
 SETUP = $(PYTHON) setup.py
 PYDOCTOR ?= pydoctor
 ifeq ($(shell $(PYTHON) -c "import sys; print sys.version_info >= (2, 7)"),True)

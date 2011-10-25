@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python2
 # dul-web - HTTP-based git server
 # Copyright (C) 2010 Google, Inc. <dborowitz@google.com>
 #
