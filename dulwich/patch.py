@@ -23,7 +23,7 @@ on.
 """
 
 from difflib import SequenceMatcher
-import rfc822
+import email
 import time
 
 from dulwich.objects import (
@@ -223,10 +223,12 @@ def git_am_patch_split(f):
     :param f: File-like object to parse
     :return: Tuple with commit object, diff contents and git version
     """
-    msg = rfc822.Message(f)
+
+    msg = email.message_from_file(f)
     c = Commit()
     c.author = msg["from"]
     c.committer = msg["from"]
+
     try:
         patch_tag_start = msg["subject"].index("[PATCH")
     except ValueError:
