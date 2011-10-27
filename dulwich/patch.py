@@ -22,14 +22,18 @@ These patches are basically unified diffs with some extra metadata tacked
 on.
 """
 
+from io import StringIO
 from difflib import SequenceMatcher
 import email
+import email.parser
 import time
 
 from dulwich.objects import (
     Commit,
     S_ISGITLINK,
     )
+
+from dulwich.py3k import *
 
 def write_commit_patch(f, commit, contents, progress, version=None):
     """Write a individual file patch.
@@ -72,7 +76,7 @@ def get_summary(commit):
     """
     return commit.message.splitlines()[0].replace(" ", "-")
 
-
+@wrap3kstr(a=STRING, b=STRING)
 def unified_diff(a, b, fromfile='', tofile='', n=3):
     """difflib.unified_diff that doesn't write any dates or trailing spaces.
 
@@ -137,23 +141,22 @@ def write_object_diff(f, store, old_tuple, new_tuple):
         new_path = "/dev/null"
     else:
         new_path = "b/%s" % new_path
-    f.write("diff --git %s %s\n" % (old_path, new_path))
+    f.write(("diff --git %s %s\n" % (old_path, new_path)).encode())
     if old_mode != new_mode:
         if new_mode is not None:
             if old_mode is not None:
-                f.write("old mode %o\n" % old_mode)
-            f.write("new mode %o\n" % new_mode)
+                f.write(("old mode %o\n" % old_mode).encode())
+            f.write(("new mode %o\n" % new_mode).encode())
         else:
-            f.write("deleted mode %o\n" % old_mode)
-    f.write("index %s..%s" % (shortid(old_id), shortid(new_id)))
+            f.write(("deleted mode %o\n" % old_mode).encode())
+    f.write(("index %s..%s" % (shortid(old_id), shortid(new_id))).encode())
     if new_mode is not None:
-        f.write(" %o" % new_mode)
-    f.write("\n")
+        f.write((" %o" % new_mode).encode())
+    f.write(("\n").encode())
     old_contents = lines(old_mode, old_id)
     new_contents = lines(new_mode, new_id)
-    f.writelines(unified_diff(old_contents, new_contents,
-        old_path, new_path))
-
+    for line in unified_diff(old_contents, new_contents, old_path, new_path):
+        f.write(line.encode())
 
 def write_blob_diff(f, old_tuple, new_tuple):
     """Write diff file header.
@@ -165,8 +168,8 @@ def write_blob_diff(f, old_tuple, new_tuple):
     :note: The use of write_object_diff is recommended over this function.
     """
 
-    (old_path, old_mode, old_id) = old_tuple
-    (new_path, new_mode, new_id) = new_tuple
+    (old_path, old_mode, old_blob) = old_tuple
+    (new_path, new_mode, new_blob) = new_tuple
 
     def blob_id(blob):
         if blob is None:
@@ -186,23 +189,22 @@ def write_blob_diff(f, old_tuple, new_tuple):
         new_path = "/dev/null"
     else:
         new_path = "b/%s" % new_path
-    f.write("diff --git %s %s\n" % (old_path, new_path))
+    f.write(("diff --git %s %s\n" % (old_path, new_path)).encode())
     if old_mode != new_mode:
         if new_mode is not None:
             if old_mode is not None:
                 f.write("old mode %o\n" % old_mode)
-            f.write("new mode %o\n" % new_mode)
+            f.write(("new mode %o\n" % new_mode).encode())
         else:
-            f.write("deleted mode %o\n" % old_mode)
-    f.write("index %s..%s" % (blob_id(old_blob), blob_id(new_blob)))
+            f.write(("deleted mode %o\n" % old_mode).encode())
+    f.write(("index %s..%s" % (blob_id(old_blob), blob_id(new_blob))).encode())
     if new_mode is not None:
-        f.write(" %o" % new_mode)
-    f.write("\n")
+        f.write((" %o" % new_mode).encode())
+    f.write(("\n").encode())
     old_contents = lines(old_blob)
     new_contents = lines(new_blob)
-    f.writelines(unified_diff(old_contents, new_contents,
-        old_path, new_path))
-
+    for line in unified_diff(old_contents, new_contents, old_path, new_path):
+        f.write(line.encode())
 
 def write_tree_diff(f, store, old_tree, new_tree):
     """Write tree diff.
@@ -224,7 +226,9 @@ def git_am_patch_split(f):
     :return: Tuple with commit object, diff contents and git version
     """
 
-    msg = email.message_from_file(f)
+    parser = email.parser.Parser()
+    msg = parser.parse(f)
+
     c = Commit()
     c.author = msg["from"]
     c.committer = msg["from"]
@@ -238,7 +242,10 @@ def git_am_patch_split(f):
         subject = msg["subject"][close+2:]
     c.message = subject.replace("\n", "") + "\n"
     first = True
-    for l in f:
+
+    body = StringIO(msg.get_payload())
+
+    for l in body:
         if l == "---\n":
             break
         if first:
@@ -249,13 +256,14 @@ def git_am_patch_split(f):
             first = False
         else:
             c.message += l
-    diff = ""
-    for l in f:
+    diff = ''
+    for l in body:
         if l == "-- \n":
             break
         diff += l
     try:
-        version = f.next().rstrip("\n")
+        version = body.__next__().rstrip("\n")
     except StopIteration:
         version = None
+
     return c, diff, version
