@@ -82,7 +82,7 @@ def self_test_suite():
         'lru_cache',
         'objects',
         'object_store',
-        #'pack',
+        'pack',
         #'patch',
         #'protocol',
         #'repository',

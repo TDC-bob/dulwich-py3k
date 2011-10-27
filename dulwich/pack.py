@@ -104,7 +104,7 @@ def take_msb_bytes(read, crc32=None):
         b = read(1)
         if crc32 is not None:
             crc32 = binascii.crc32(b, crc32)
-        ret.append(ord(b))
+        ret.extend(b)
     return ret, crc32
 
 
@@ -533,6 +533,7 @@ class FilePackIndex(PackIndex):
         """Check that the stored checksum matches the actual checksum."""
         actual = self.calculate_checksum()
         stored = self.get_stored_checksum()
+
         if actual != stored:
             raise ChecksumMismatch(stored, actual)
 
@@ -555,7 +556,7 @@ class FilePackIndex(PackIndex):
 
         :return: 20-byte binary digest
         """
-        return str(self._contents[-20:])
+        return bytes(self._contents[-20:])
 
     @wrap3kstr(sha=BYTES)
     def _object_index(self, sha):
@@ -1401,13 +1402,13 @@ def pack_object_header(type_num, delta_base, size):
             delta_base -= 1
             ret.insert(0, 0x80 | (delta_base & 0x7f))
             delta_base >>= 7
-        header += b''.join([bytes((x),) for x in ret])
+        header += b''.join([bytes((x,)) for x in ret])
     elif type_num == REF_DELTA:
         assert len(delta_base) == 20
         header += delta_base
     return header
 
-
+@wrap3kstr(object=BYTES)
 def write_pack_object(f, type, object, sha=None):
     """Write pack object to a file.
 
@@ -1428,7 +1429,7 @@ def write_pack_object(f, type, object, sha=None):
         f.write(data)
         if sha is not None:
             sha.update(data)
-        crc32 = binascii.crc32(convert3kstr(data, BYTES), crc32)
+        crc32 = binascii.crc32(data, crc32)
     return crc32 & 0xffffffff
 
 
@@ -1561,7 +1562,7 @@ def write_pack_index_v1(f, entries, pack_checksum):
     f = SHA1Writer(f)
     fan_out_table = defaultdict(lambda: 0)
     for (name, offset, entry_checksum) in entries:
-        fan_out_table[ord(name[0])] += 1
+        fan_out_table[name[0]] += 1
     # Fan-out table
     for i in range(0x100):
         f.write(struct.pack('>L', fan_out_table[i]))
@@ -1589,7 +1590,7 @@ def create_delta(base_buf, target_buf):
         c = size & 0x7f
         size >>= 7
         while size:
-            ret += c | 0x80
+            ret += bytes((c | 0x80,))
             c = size & 0x7f
             size >>= 7
         ret += bytes((c,))
@@ -1872,6 +1873,7 @@ class Pack(object):
 
         return PackTupleIterable(self)
 
+    @wrap3kstr(msg=BYTES)
     def keep(self, msg=None):
         """Add a .keep file for the pack, preventing git from garbage collecting it.
 
@@ -1884,7 +1886,7 @@ class Pack(object):
         try:
             if msg:
                 keepfile.write(msg)
-                keepfile.write('\n')
+                keepfile.write(b'\n')
         finally:
             keepfile.close()
         return keepfile_name
