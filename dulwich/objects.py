@@ -781,7 +781,7 @@ def sorted_tree_items(entries, name_order):
     for name, entry in sorted(iter(entries.items()), key=cmp_to_key(cmp_func)):
         mode, hexsha = entry
         # Stricter type checks than normal to mirror checks in the C version.
-        if not isinstance(mode, int) and not isinstance(mode, long):
+        if not isinstance(mode, int):
             raise TypeError('Expected integer/long for mode, got %r' % mode)
         mode = int(mode)
         if not isinstance(hexsha, str):
