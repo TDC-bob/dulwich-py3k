@@ -16,7 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 # MA  02110-1301, USA.
 
-from io import StringIO
+from io import BytesIO
 
 from dulwich.client import (
     TraditionalGitClient,
@@ -54,8 +54,8 @@ class GitClientTests(TestCase):
 
     def setUp(self):
         super(GitClientTests, self).setUp()
-        self.rout = StringIO()
-        self.rin = StringIO()
+        self.rout = BytesIO()
+        self.rin = BytesIO()
         self.client = DummyClient(lambda x: True, self.rin.read,
                                   self.rout.write)
 
@@ -68,13 +68,13 @@ class GitClientTests(TestCase):
 
     def test_fetch_pack_none(self):
         self.rin.write(
-            '008855dcc6bf963f922e1ed5c4bbaaefcfacef57b1d7 HEAD.multi_ack '
-            'thin-pack side-band side-band-64k ofs-delta shallow no-progress '
-            'include-tag\n'
-            '0000')
+            b'008855dcc6bf963f922e1ed5c4bbaaefcfacef57b1d7 HEAD.multi_ack '
+            b'thin-pack side-band side-band-64k ofs-delta shallow no-progress '
+            b'include-tag\n'
+            b'0000')
         self.rin.seek(0)
         self.client.fetch_pack('bla', lambda heads: [], None, None, None)
-        self.assertEqual(self.rout.getvalue(), '0000')
+        self.assertEqual(self.rout.getvalue(), b'0000')
 
     def test_get_transport_and_path_tcp(self):
         client, path = get_transport_and_path('git://foo.com/bar/baz')

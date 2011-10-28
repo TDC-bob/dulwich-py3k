@@ -84,7 +84,7 @@ def self_test_suite():
         'object_store',
         'pack',
         'patch',
-        #'protocol',
+        'protocol',
         #'repository',
         #'server',
         #'walk',

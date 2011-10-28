@@ -256,7 +256,7 @@ class UploadPackHandler(Handler):
         write_pack_objects(ProtocolFile(None, write), objects_iter)
         self.progress("how was that, then?\n")
         # we are done
-        self.proto.write("0000")
+        self.proto.write(b"0000")
 
 
 def _split_proto_line(line, allowed):
@@ -663,7 +663,7 @@ class ReceivePackHandler(Handler):
                 self.proto.write_pkt_line("%s capabilities^{}\0%s" % (
                   ZERO_SHA, self.capability_line()))
 
-            self.proto.write("0000")
+            self.proto.write(b"0000")
             if self.advertise_refs:
                 return
 
@@ -770,9 +770,19 @@ def serve_command(handler_cls, argv=sys.argv, backend=None, inf=sys.stdin,
     """
     if backend is None:
         backend = FileSystemBackend()
-    def send_fn(data):
-        outf.write(data)
-        outf.flush()
+
+    if hasattr(outf, 'buffer'):
+        # it's a text writer like stdout or something
+        def send_fn(data):
+            outf.flush()
+            outf.buffer.write(data)
+            outf.flush()
+    else:
+        # it's a binary writer
+        def send_fn(data):
+            outf.write(data)
+            outf.flush()
+        
     proto = Protocol(inf.read, send_fn)
     handler = handler_cls(backend, argv[1:], proto)
     # FIXME: Catch exceptions and write a single-line summary to outf.

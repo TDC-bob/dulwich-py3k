@@ -145,7 +145,7 @@ class GitClient(object):
         refs = {}
         # Receive refs from server
         for pkt in proto.read_pkt_seq():
-            (sha, ref) = pkt.rstrip('\n').split(' ', 1)
+            (sha, ref) = pkt.rstrip(b'\n').split(b' ', 1)
             if sha == 'ERR':
                 raise GitProtocolError(ref)
             if server_capabilities is None:

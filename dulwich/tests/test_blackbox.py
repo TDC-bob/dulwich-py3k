@@ -39,9 +39,9 @@ class GitReceivePackTests(BlackboxTestCase):
 
     def test_basic(self):
         process = self.run_command("dul-receive-pack", [self.path])
-        (stdout, stderr) = process.communicate(convert3kstr("0000", BYTES))
+        (stdout, stderr) = process.communicate(b'0000')
         self.assertEqual('', convert3kstr(stderr, STRING))
-        self.assertEqual('0000', convert3kstr(stdout[-4:], STRING))
+        self.assertEqual(b'0000', stdout[-4:])
         self.assertEqual(0, process.returncode)
 
     def test_missing_arg(self):
