@@ -1,4 +1,4 @@
-This is the Dulwich project.
+This is the Dulwich project, ported to Python 3
 
 It aims to give an interface to git repos (both local and remote) that doesn't
 call out to git directly but instead uses pure Python.
