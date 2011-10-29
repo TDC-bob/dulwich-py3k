@@ -39,3 +39,9 @@ check-all: check check-pypy check-noextensions
 clean::
 	$(SETUP) clean --all
 	rm -f dulwich/*.so
+	rm -f dulwich/*.pyc
+	rm -f dulwich/tests/*.pyc
+	rm -f dulwich/tests/compat/*.pyc
+	rm -rf dulwich/__pycache__
+	rm -rf dulwich/tests/__pycache__
+	rm -rf dulwich/tests/compat/__pycache__
