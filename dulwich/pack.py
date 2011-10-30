@@ -1247,7 +1247,7 @@ class DeltaChainIterator(object):
 
     def _ensure_no_pending(self):
         if self._pending_ref:
-            raise KeyError([sha_to_hex(s) for s in self._pending_ref])
+            raise KeyError([convert3kstr(sha_to_hex(s), BYTES) for s in self._pending_ref])
 
     def _walk_ref_chains(self):
         if not self._resolve_ext_ref:

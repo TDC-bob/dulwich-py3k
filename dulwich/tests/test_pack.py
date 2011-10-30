@@ -78,11 +78,13 @@ from .utils import (
     build_pack,
     )
 
-pack1_sha = 'bc63ddad95e7321ee734ea11a7a62d314e0d7481'
+from dulwich.py3k import *
 
-a_sha = '6f670c0fb53f9463760b7295fbb814e965fb20c8'
-tree_sha = 'b2a2766a2879c209ab1176e7e778b81ae422eeaa'
-commit_sha = 'f18faa16531ac570a3fdc8c7ca16682548dafd12'
+pack1_sha = b'bc63ddad95e7321ee734ea11a7a62d314e0d7481'
+
+a_sha = b'6f670c0fb53f9463760b7295fbb814e965fb20c8'
+tree_sha = b'b2a2766a2879c209ab1176e7e778b81ae422eeaa'
+commit_sha = b'f18faa16531ac570a3fdc8c7ca16682548dafd12'
 
 
 class PackTests(TestCase):
@@ -96,14 +98,17 @@ class PackTests(TestCase):
     datadir = os.path.abspath(os.path.join(os.path.dirname(__file__),
         'data/packs'))
 
+    @wrap3kstr(sha=STRING)
     def get_pack_index(self, sha):
         """Returns a PackIndex from the datadir with the given sha"""
         return load_pack_index(os.path.join(self.datadir, 'pack-%s.idx' % sha))
 
+    @wrap3kstr(sha=STRING)
     def get_pack_data(self, sha):
         """Returns a PackData object from the datadir with the given sha"""
         return PackData(os.path.join(self.datadir, 'pack-%s.pack' % sha))
 
+    @wrap3kstr(sha=STRING)
     def get_pack(self, sha):
         return Pack(os.path.join(self.datadir, 'pack-%s' % sha))
 
@@ -187,7 +192,7 @@ class TestPackData(PackTests):
         p = self.get_pack_data(pack1_sha)
 
     def test_from_file(self):
-        path = os.path.join(self.datadir, 'pack-%s.pack' % pack1_sha)
+        path = os.path.join(self.datadir, 'pack-%s.pack' % convert3kstr(pack1_sha, STRING))
         PackData.from_file(open(path, 'rb'), os.path.getsize(path))
 
     def test_pack_len(self):
@@ -207,7 +212,7 @@ class TestPackData(PackTests):
                        b'1174945067 +0100\n'
                        b'\n'
                        b'Test commit\n')
-        blob_sha = '6f670c0fb53f9463760b7295fbb814e965fb20c8'
+        blob_sha = b'6f670c0fb53f9463760b7295fbb814e965fb20c8'
         tree_data = b'100644 a\0' + hex_to_sha(blob_sha)
         actual = []
         for offset, type_num, chunks, crc32 in p.iterobjects():
@@ -294,13 +299,13 @@ class TestPack(PackTests):
         p = self.get_pack(pack1_sha)
         obj = p[a_sha]
         self.assertEqual(obj.type_name, 'blob')
-        self.assertEqual(obj.sha().hexdigest(), a_sha)
+        self.assertEqual(convert3kstr(obj.sha().hexdigest(), BYTES), a_sha)
         obj = p[tree_sha]
         self.assertEqual(obj.type_name, 'tree')
-        self.assertEqual(obj.sha().hexdigest(), tree_sha)
+        self.assertEqual(convert3kstr(obj.sha().hexdigest(), BYTES), tree_sha)
         obj = p[commit_sha]
         self.assertEqual(obj.type_name, 'commit')
-        self.assertEqual(obj.sha().hexdigest(), commit_sha)
+        self.assertEqual(convert3kstr(obj.sha().hexdigest(), BYTES), commit_sha)
 
     def test_copy(self):
         origpack = self.get_pack(pack1_sha)
@@ -374,7 +379,7 @@ class TestPack(PackTests):
 
     def test_name(self):
         p = self.get_pack(pack1_sha)
-        self.assertEqual(pack1_sha, p.name())
+        self.assertEqual(pack1_sha, convert3kstr(p.name(), BYTES))
 
     def test_length_mismatch(self):
         data = self.get_pack_data(pack1_sha)
