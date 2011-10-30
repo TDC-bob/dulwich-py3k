@@ -444,7 +444,7 @@ class DiskObjectStore(PackBasedObjectStore):
             if len(base) != 2:
                 continue
             for rest in os.listdir(os.path.join(self.path, base)):
-                yield base+rest
+                yield convert3kstr(base + rest, BYTES)
 
     def _get_loose_object(self, sha):
         path = self._get_shafile_path(sha)

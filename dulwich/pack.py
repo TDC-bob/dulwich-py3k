@@ -365,7 +365,9 @@ class PackIndex(object):
 
     def __iter__(self):
         """Iterate over the SHAs in this pack."""
-        return map(sha_to_hex, self._itersha())
+        def _sha_to_hex_bytes(sha):
+            return convert3kstr(sha_to_hex(sha), BYTES)
+        return map(_sha_to_hex_bytes, self._itersha())
 
     def iterentries(self):
         """Iterate over the entries in this pack index.
@@ -976,6 +978,7 @@ class PackData(object):
         self._size = size
         self._header_size = 12
         if file is None:
+            print('DERP')
             self._file = GitFile(self._filename, 'rb')
         else:
             self._file = file

@@ -275,7 +275,7 @@ class DiskObjectStoreTests(PackBasedObjectStoreTests, TestCase):
 
         packed_blob_sha = sha_to_hex(entries[0][3])
         pack.check_length_and_checksum()
-        self.assertEqual(sorted([blob.id, packed_blob_sha]), list(pack))
+        self.assertEqual(sorted([blob.id, convert3kstr(packed_blob_sha, BYTES)]), list(pack))
         self.assertTrue(o.contains_packed(packed_blob_sha))
         self.assertTrue(o.contains_packed(blob.id))
         self.assertEqual((Blob.type_num, b'more yummy data'),
