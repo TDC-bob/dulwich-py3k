@@ -520,6 +520,7 @@ class Blob(ShaFile):
         self._ensure_parsed()
         return self._chunked_text
 
+    @wrap3kstr(chunks=BYTES)
     def _set_chunked(self, chunks):
         self._chunked_text = chunks
 
@@ -615,6 +616,7 @@ class Tag(ShaFile):
 
         last = None
         for field, _ in parse_tag(b"".join(self._chunked_text)):
+            field = convert3kstr(field, STRING)
             if field == _OBJECT_HEADER and last is not None:
                 raise ObjectFormatException("unexpected object")
             elif field == _TYPE_HEADER and last != _OBJECT_HEADER:

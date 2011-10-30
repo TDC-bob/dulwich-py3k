@@ -65,11 +65,11 @@ from .utils import (
 
 from dulwich.py3k import *
 
-a_sha = '6f670c0fb53f9463760b7295fbb814e965fb20c8'
-b_sha = '2969be3e8ee1c0222396a5611407e4769f14e54b'
-c_sha = '954a536f7819d40e6f637f849ee187dd10066349'
-tree_sha = '70c190eb48fa8bbb50ddc692a17b44cb781af7f6'
-tag_sha = '71033db03a03c6a36721efcf1968dd8f8e0cf023'
+a_sha = b'6f670c0fb53f9463760b7295fbb814e965fb20c8'
+b_sha = b'2969be3e8ee1c0222396a5611407e4769f14e54b'
+c_sha = b'954a536f7819d40e6f637f849ee187dd10066349'
+tree_sha = b'70c190eb48fa8bbb50ddc692a17b44cb781af7f6'
+tag_sha = b'71033db03a03c6a36721efcf1968dd8f8e0cf023'
 
 
 class TestHexToSha(TestCase):
@@ -104,24 +104,24 @@ class BlobReadTests(TestCase):
     def test_decompress_simple_blob(self):
         b = self.get_blob(a_sha)
         self.assertEqual(b.data, b'test 1\n')
-        self.assertEqual(b.sha().hexdigest(), a_sha)
+        self.assertEqual(convert3kstr(b.sha().hexdigest(), BYTES), a_sha)
 
     def test_hash(self):
         b = self.get_blob(a_sha)
         self.assertEqual(hash(b.id), hash(b))
 
     def test_parse_empty_blob_object(self):
-        sha = 'e69de29bb2d1d6434b8b29ae775ad8c2e48c5391'
+        sha = b'e69de29bb2d1d6434b8b29ae775ad8c2e48c5391'
         b = self.get_blob(sha)
         self.assertEqual(b.data, b'')
         self.assertEqual(b.id, sha)
-        self.assertEqual(b.sha().hexdigest(), sha)
+        self.assertEqual(convert3kstr(b.sha().hexdigest(), BYTES), sha)
 
     def test_create_blob_from_string(self):
         string = b'test 2\n'
         b = Blob.from_string(string)
         self.assertEqual(b.data, string)
-        self.assertEqual(b.sha().hexdigest(), b_sha)
+        self.assertEqual(convert3kstr(b.sha().hexdigest(), BYTES), b_sha)
 
     def test_legacy_from_file(self):
         b1 = Blob.from_string("foo")
@@ -145,7 +145,7 @@ class BlobReadTests(TestCase):
         string = b'test 3\n'
         b = self.get_blob(c_sha)
         self.assertEqual(b.data, string)
-        self.assertEqual(b.sha().hexdigest(), c_sha)
+        self.assertEqual(convert3kstr(b.sha().hexdigest(), BYTES), c_sha)
 
     def test_eq(self):
         blob1 = self.get_blob(a_sha)
@@ -159,18 +159,18 @@ class BlobReadTests(TestCase):
 
     def test_read_tag_from_file(self):
         t = self.get_tag(tag_sha)
-        self.assertEqual(t.object, (Commit, '51b668fd5bf7061b7d6fa525f88803e6cfadaa51'))
-        self.assertEqual(t.name,'signed')
+        self.assertEqual(t.object, (Commit, b'51b668fd5bf7061b7d6fa525f88803e6cfadaa51'))
+        self.assertEqual(t.name,b'signed')
         self.assertEqual(t.tagger,'Ali Sabil <ali.sabil@gmail.com>')
         self.assertEqual(t.tag_time, 1231203091)
-        self.assertEqual(t.message, b'This is a signed tag\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1.4.9 (GNU/Linux)\n\niEYEABECAAYFAkliqx8ACgkQqSMmLy9u/kcx5ACfakZ9NnPl02tOyYP6pkBoEkU1\n5EcAn0UFgokaSvS371Ym/4W9iJj6vh3h\n=ql7y\n-----END PGP SIGNATURE-----\n')
+        self.assertEqual(t.message, 'This is a signed tag\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1.4.9 (GNU/Linux)\n\niEYEABECAAYFAkliqx8ACgkQqSMmLy9u/kcx5ACfakZ9NnPl02tOyYP6pkBoEkU1\n5EcAn0UFgokaSvS371Ym/4W9iJj6vh3h\n=ql7y\n-----END PGP SIGNATURE-----\n')
 
     def test_read_commit_from_file(self):
-        sha = '60dacdc733de308bb77bb76ce0fb0f9b44c9769e'
+        sha = b'60dacdc733de308bb77bb76ce0fb0f9b44c9769e'
         c = self.commit(sha)
         self.assertEqual(c.tree, tree_sha)
         self.assertEqual(c.parents,
-            ['0d89f20333fbb1d2f3a94da77f4981373d8f4310'])
+            [b'0d89f20333fbb1d2f3a94da77f4981373d8f4310'])
         self.assertEqual(c.author,
             'James Westby <jw+debian@jameswestby.net>')
         self.assertEqual(c.committer,
@@ -178,12 +178,12 @@ class BlobReadTests(TestCase):
         self.assertEqual(c.commit_time, 1174759230)
         self.assertEqual(c.commit_timezone, 0)
         self.assertEqual(c.author_timezone, 0)
-        self.assertEqual(c.message, b'Test commit\n')
+        self.assertEqual(c.message, 'Test commit\n')
 
     def test_read_commit_no_parents(self):
-        sha = '0d89f20333fbb1d2f3a94da77f4981373d8f4310'
+        sha = b'0d89f20333fbb1d2f3a94da77f4981373d8f4310'
         c = self.commit(sha)
-        self.assertEqual(c.tree, '90182552c4a85a45ec2a835cadc3451bebdfe870')
+        self.assertEqual(c.tree, b'90182552c4a85a45ec2a835cadc3451bebdfe870')
         self.assertEqual(c.parents, [])
         self.assertEqual(c.author,
             'James Westby <jw+debian@jameswestby.net>')
@@ -192,14 +192,14 @@ class BlobReadTests(TestCase):
         self.assertEqual(c.commit_time, 1174758034)
         self.assertEqual(c.commit_timezone, 0)
         self.assertEqual(c.author_timezone, 0)
-        self.assertEqual(c.message, b'Test commit\n')
+        self.assertEqual(c.message, 'Test commit\n')
 
     def test_read_commit_two_parents(self):
         sha = '5dac377bdded4c9aeb8dff595f0faeebcc8498cc'
         c = self.commit(sha)
-        self.assertEqual(c.tree, 'd80c186a03f423a81b39df39dc87fd269736ca86')
-        self.assertEqual(c.parents, ['ab64bbdcc51b170d21588e5c5d391ee5c0c96dfd',
-                                       '4cffe90e0a41ad3f5190079d7c8f036bde29cbe6'])
+        self.assertEqual(c.tree, b'd80c186a03f423a81b39df39dc87fd269736ca86')
+        self.assertEqual(c.parents, [b'ab64bbdcc51b170d21588e5c5d391ee5c0c96dfd',
+                                       b'4cffe90e0a41ad3f5190079d7c8f036bde29cbe6'])
         self.assertEqual(c.author,
             'James Westby <jw+debian@jameswestby.net>')
         self.assertEqual(c.committer,
@@ -207,10 +207,10 @@ class BlobReadTests(TestCase):
         self.assertEqual(c.commit_time, 1174773719)
         self.assertEqual(c.commit_timezone, 0)
         self.assertEqual(c.author_timezone, 0)
-        self.assertEqual(c.message, b'Merge ../b\n')
+        self.assertEqual(c.message, 'Merge ../b\n')
 
     def test_stub_sha(self):
-        sha = '5' * 40
+        sha = b'5' * 40
         c = make_commit(id=sha, message='foo')
         self.assertTrue(isinstance(c, Commit))
         self.assertEqual(sha, c.id)
@@ -235,9 +235,9 @@ class ShaFileCheckTests(TestCase):
 class CommitSerializationTests(TestCase):
 
     def make_commit(self, **kwargs):
-        attrs = {'tree': 'd80c186a03f423a81b39df39dc87fd269736ca86',
-                 'parents': ['ab64bbdcc51b170d21588e5c5d391ee5c0c96dfd',
-                             '4cffe90e0a41ad3f5190079d7c8f036bde29cbe6'],
+        attrs = {'tree': b'd80c186a03f423a81b39df39dc87fd269736ca86',
+                 'parents': [b'ab64bbdcc51b170d21588e5c5d391ee5c0c96dfd',
+                             b'4cffe90e0a41ad3f5190079d7c8f036bde29cbe6'],
                  'author': 'James Westby <jw+debian@jameswestby.net>',
                  'committer': 'James Westby <jw+debian@jameswestby.net>',
                  'commit_time': 1174773719,
@@ -264,7 +264,7 @@ class CommitSerializationTests(TestCase):
 
     def test_simple(self):
         c = self.make_commit()
-        self.assertEqual(c.id, '5dac377bdded4c9aeb8dff595f0faeebcc8498cc')
+        self.assertEqual(c.id, b'5dac377bdded4c9aeb8dff595f0faeebcc8498cc')
         self.assertEqual(
                 b'tree d80c186a03f423a81b39df39dc87fd269736ca86\n'
                 b'parent ab64bbdcc51b170d21588e5c5d391ee5c0c96dfd\n'
@@ -290,9 +290,9 @@ default_committer = 'James Westby <jw+debian@jameswestby.net> 1174773719 +0000'
 class CommitParseTests(ShaFileCheckTests):
 
     def make_commit_lines(self,
-                          tree='d80c186a03f423a81b39df39dc87fd269736ca86',
-                          parents=['ab64bbdcc51b170d21588e5c5d391ee5c0c96dfd',
-                                   '4cffe90e0a41ad3f5190079d7c8f036bde29cbe6'],
+                          tree=b'd80c186a03f423a81b39df39dc87fd269736ca86',
+                          parents=[b'ab64bbdcc51b170d21588e5c5d391ee5c0c96dfd',
+                                   b'4cffe90e0a41ad3f5190079d7c8f036bde29cbe6'],
                           author=default_committer,
                           committer=default_committer,
                           encoding=None,
@@ -300,35 +300,35 @@ class CommitParseTests(ShaFileCheckTests):
                           extra=None):
         lines = []
         if tree is not None:
-            lines.append('tree %s' % tree)
+            lines.append(b'tree ' + tree)
         if parents is not None:
-            lines.extend('parent %s' % p for p in parents)
+            lines.extend(b'parent ' + p for p in parents)
         if author is not None:
-            lines.append('author %s' % author)
+            lines.append(b'author ' + convert3kstr(author, BYTES))
         if committer is not None:
-            lines.append('committer %s' % committer)
+            lines.append(b'committer ' + convert3kstr(committer, BYTES))
         if encoding is not None:
-            lines.append('encoding %s' % encoding)
+            lines.append(b'encoding ' + convert3kstr(encoding, BYTES))
         if extra is not None:
             for name, value in sorted(extra.items()):
-                lines.append('%s %s' % (name, value))
-        lines.append('')
+                lines.append(convert3kstr(name, BYTES) + b' ' + convert3kstr(value, BYTES))
+        lines.append(b'')
         if message is not None:
-            lines.append(message)
+            lines.append(convert3kstr(message, BYTES))
         return lines
 
     def make_commit_text(self, **kwargs):
-        return '\n'.join(self.make_commit_lines(**kwargs))
+        return b'\n'.join(self.make_commit_lines(**kwargs))
 
     def test_simple(self):
         c = Commit.from_string(self.make_commit_text())
-        self.assertEqual(b'Merge ../b\n', c.message)
+        self.assertEqual('Merge ../b\n', c.message)
         self.assertEqual('James Westby <jw+debian@jameswestby.net>', c.author)
         self.assertEqual('James Westby <jw+debian@jameswestby.net>',
                           c.committer)
-        self.assertEqual('d80c186a03f423a81b39df39dc87fd269736ca86', c.tree)
-        self.assertEqual(['ab64bbdcc51b170d21588e5c5d391ee5c0c96dfd',
-                           '4cffe90e0a41ad3f5190079d7c8f036bde29cbe6'],
+        self.assertEqual(b'd80c186a03f423a81b39df39dc87fd269736ca86', c.tree)
+        self.assertEqual([b'ab64bbdcc51b170d21588e5c5d391ee5c0c96dfd',
+                           b'4cffe90e0a41ad3f5190079d7c8f036bde29cbe6'],
                           c.parents)
         expected_time = datetime.datetime(2007, 3, 24, 22, 1, 59)
         self.assertEqual(expected_time,
@@ -341,8 +341,8 @@ class CommitParseTests(ShaFileCheckTests):
 
     def test_custom(self):
         c = Commit.from_string(self.make_commit_text(
-          extra={'extra-field': 'data'}))
-        self.assertEqual([('extra-field', 'data')], c.extra)
+          extra={b'extra-field': b'data'}))
+        self.assertEqual([(b'extra-field', b'data')], c.extra)
 
     def test_encoding(self):
         c = Commit.from_string(self.make_commit_text(encoding='UTF-8'))
@@ -354,9 +354,9 @@ class CommitParseTests(ShaFileCheckTests):
         self.assertCheckSucceeds(Commit,
                                  self.make_commit_text(encoding='UTF-8'))
 
-        self.assertCheckFails(Commit, self.make_commit_text(tree='xxx'))
+        self.assertCheckFails(Commit, self.make_commit_text(tree=b'xxx'))
         self.assertCheckFails(Commit, self.make_commit_text(
-          parents=[a_sha, 'xxx']))
+          parents=[a_sha, b'xxx']))
         bad_committer = "some guy without an email address 1174773719 +0000"
         self.assertCheckFails(Commit,
                               self.make_commit_text(committer=bad_committer))
@@ -372,8 +372,8 @@ class CommitParseTests(ShaFileCheckTests):
         for i in range(5):
             lines = self.make_commit_lines(parents=[a_sha], encoding='UTF-8')
             lines.insert(i, lines[i])
-            text = '\n'.join(lines)
-            if lines[i].startswith('parent'):
+            text = b'\n'.join(lines)
+            if lines[i].startswith(b'parent'):
                 # duplicate parents are ok for now
                 self.assertCheckSucceeds(Commit, text)
             else:
@@ -386,7 +386,7 @@ class CommitParseTests(ShaFileCheckTests):
         # of all possible permutations, ensure only the original succeeds
         for perm in permutations(headers):
             perm = list(perm)
-            text = '\n'.join(perm + rest)
+            text = b'\n'.join(perm + rest)
             if perm == headers:
                 self.assertCheckSucceeds(Commit, text)
             else:
@@ -394,42 +394,42 @@ class CommitParseTests(ShaFileCheckTests):
 
 
 _TREE_ITEMS = {
-  'a.c': (0o100755, 'd80c186a03f423a81b39df39dc87fd269736ca86'),
-  'a': (stat.S_IFDIR, 'd80c186a03f423a81b39df39dc87fd269736ca86'),
-  'a/c': (stat.S_IFDIR, 'd80c186a03f423a81b39df39dc87fd269736ca86'),
+  'a.c': (0o100755, b'd80c186a03f423a81b39df39dc87fd269736ca86'),
+  'a': (stat.S_IFDIR, b'd80c186a03f423a81b39df39dc87fd269736ca86'),
+  'a/c': (stat.S_IFDIR, b'd80c186a03f423a81b39df39dc87fd269736ca86'),
   }
 
 _SORTED_TREE_ITEMS = [
-  TreeEntry('a.c', 0o100755, 'd80c186a03f423a81b39df39dc87fd269736ca86'),
-  TreeEntry('a', stat.S_IFDIR, 'd80c186a03f423a81b39df39dc87fd269736ca86'),
-  TreeEntry('a/c', stat.S_IFDIR, 'd80c186a03f423a81b39df39dc87fd269736ca86'),
+  TreeEntry('a.c', 0o100755, b'd80c186a03f423a81b39df39dc87fd269736ca86'),
+  TreeEntry('a', stat.S_IFDIR, b'd80c186a03f423a81b39df39dc87fd269736ca86'),
+  TreeEntry('a/c', stat.S_IFDIR, b'd80c186a03f423a81b39df39dc87fd269736ca86'),
   ]
 
 
 class TreeTests(ShaFileCheckTests):
 
     def test_add(self):
-        myhexsha = "d80c186a03f423a81b39df39dc87fd269736ca86"
+        myhexsha = b"d80c186a03f423a81b39df39dc87fd269736ca86"
         x = Tree()
-        x.add("myname", 0o100755, myhexsha)
-        self.assertEqual(x["myname"], (0o100755, myhexsha))
+        x.add(b"myname", 0o100755, myhexsha)
+        self.assertEqual(x[b"myname"], (0o100755, myhexsha))
         self.assertEqual(b'100755 myname\0' + hex_to_sha(myhexsha),
                 x.as_raw_string(), BYTES)
 
     def test_add_old_order(self):
-        myhexsha = "d80c186a03f423a81b39df39dc87fd269736ca86"
+        myhexsha = b"d80c186a03f423a81b39df39dc87fd269736ca86"
         x = Tree()
         warnings.simplefilter("ignore", DeprecationWarning)
         try:
-            x.add(0o100755, "myname", myhexsha)
+            x.add(0o100755, b"myname", myhexsha)
         finally:
             warnings.resetwarnings()
-        self.assertEqual(x["myname"], (0o100755, myhexsha))
+        self.assertEqual(x[b"myname"], (0o100755, myhexsha))
         self.assertEqual(b'100755 myname\0' + hex_to_sha(myhexsha),
                 x.as_raw_string())
 
     def test_simple(self):
-        myhexsha = "d80c186a03f423a81b39df39dc87fd269736ca86"
+        myhexsha = b"d80c186a03f423a81b39df39dc87fd269736ca86"
         x = Tree()
         x["myname"] = (0o100755, myhexsha)
         self.assertEqual(b'100755 myname\0' + hex_to_sha(myhexsha),
@@ -437,10 +437,10 @@ class TreeTests(ShaFileCheckTests):
 
     def test_tree_update_id(self):
         x = Tree()
-        x["a.c"] = (0o100755, "d80c186a03f423a81b39df39dc87fd269736ca86")
-        self.assertEqual("0c5c6bc2c081accfbc250331b19e43b904ab9cdd", x.id)
-        x["a.b"] = (stat.S_IFDIR, "d80c186a03f423a81b39df39dc87fd269736ca86")
-        self.assertEqual("07bfcb5f3ada15bbebdfa3bbb8fd858a363925c8", x.id)
+        x["a.c"] = (0o100755, b"d80c186a03f423a81b39df39dc87fd269736ca86")
+        self.assertEqual(b"0c5c6bc2c081accfbc250331b19e43b904ab9cdd", x.id)
+        x["a.b"] = (stat.S_IFDIR, b"d80c186a03f423a81b39df39dc87fd269736ca86")
+        self.assertEqual(b"07bfcb5f3ada15bbebdfa3bbb8fd858a363925c8", x.id)
 
     def test_tree_iteritems_dir_sort(self):
         x = Tree()
@@ -490,7 +490,7 @@ class TreeTests(ShaFileCheckTests):
         self.assertRaises(errors, do_sort, 'foo')
         self.assertRaises(errors, do_sort, {'foo': (1, 2, 3)})
 
-        myhexsha = 'd80c186a03f423a81b39df39dc87fd269736ca86'
+        myhexsha = b'd80c186a03f423a81b39df39dc87fd269736ca86'
         self.assertRaises(errors, do_sort, {'foo': ('xxx', myhexsha)})
         self.assertRaises(errors, do_sort, {'foo': (0o100755, 12345)})
 
@@ -502,10 +502,10 @@ class TreeTests(ShaFileCheckTests):
     def _do_test_sorted_tree_items_name_order(self, sorted_tree_items):
         self.assertEqual([
           TreeEntry('a', stat.S_IFDIR,
-                    'd80c186a03f423a81b39df39dc87fd269736ca86'),
-          TreeEntry('a.c', 0o100755, 'd80c186a03f423a81b39df39dc87fd269736ca86'),
+                    b'd80c186a03f423a81b39df39dc87fd269736ca86'),
+          TreeEntry('a.c', 0o100755, b'd80c186a03f423a81b39df39dc87fd269736ca86'),
           TreeEntry('a/c', stat.S_IFDIR,
-                    'd80c186a03f423a81b39df39dc87fd269736ca86'),
+                    b'd80c186a03f423a81b39df39dc87fd269736ca86'),
           ], list(sorted_tree_items(_TREE_ITEMS, True)))
 
     test_sorted_tree_items_name_order = functest_builder(
@@ -548,8 +548,8 @@ class TreeTests(ShaFileCheckTests):
 
     def test_iter(self):
         t = Tree()
-        t["foo"] = (0o100644, a_sha)
-        self.assertEqual(set(["foo"]), set(t))
+        t[b"foo"] = (0o100644, a_sha)
+        self.assertEqual(set([b"foo"]), set(t))
 
 
 class TagSerializeTests(TestCase):
@@ -559,7 +559,7 @@ class TagSerializeTests(TestCase):
                         tagger='Jelmer Vernooij <jelmer@samba.org>',
                         name='0.1',
                         message='Tag 0.1',
-                        object=(Blob, 'd80c186a03f423a81b39df39dc87fd269736ca86'),
+                        object=(Blob, b'd80c186a03f423a81b39df39dc87fd269736ca86'),
                         tag_time=423423423,
                         tag_timezone=0)
         self.assertEqual((b'object d80c186a03f423a81b39df39dc87fd269736ca86\n'
@@ -586,36 +586,36 @@ OK2XeQOiEeXtT76rV4t2WR4=
 
 class TagParseTests(ShaFileCheckTests):
     def make_tag_lines(self,
-                       object_sha="a38d6181ff27824c79fc7df825164a212eff6a3f",
+                       object_sha=b"a38d6181ff27824c79fc7df825164a212eff6a3f",
                        object_type_name="commit",
                        name="v2.6.22-rc7",
                        tagger=default_tagger,
                        message=default_message):
         lines = []
         if object_sha is not None:
-            lines.append("object %s" % object_sha)
+            lines.append(b"object " + convert3kstr(object_sha, BYTES))
         if object_type_name is not None:
-            lines.append("type %s" % object_type_name)
+            lines.append(b"type " + convert3kstr(object_type_name, BYTES))
         if name is not None:
-            lines.append("tag %s" % name)
+            lines.append(b"tag " + convert3kstr(name, BYTES))
         if tagger is not None:
-            lines.append("tagger %s" % tagger)
-        lines.append("")
+            lines.append(b"tagger " + convert3kstr(tagger, BYTES))
+        lines.append(b"")
         if message is not None:
-            lines.append(message)
+            lines.append(convert3kstr(message, BYTES))
         return lines
 
     def make_tag_text(self, **kwargs):
-        return "\n".join(self.make_tag_lines(**kwargs))
+        return b"\n".join(self.make_tag_lines(**kwargs))
 
     def test_parse(self):
         x = Tag()
         x.set_raw_string(self.make_tag_text())
         self.assertEqual(
             "Linus Torvalds <torvalds@woody.linux-foundation.org>", x.tagger)
-        self.assertEqual("v2.6.22-rc7", x.name)
+        self.assertEqual(b"v2.6.22-rc7", x.name)
         object_type, object_sha = x.object
-        self.assertEqual("a38d6181ff27824c79fc7df825164a212eff6a3f",
+        self.assertEqual(b"a38d6181ff27824c79fc7df825164a212eff6a3f",
                           object_sha)
         self.assertEqual(Commit, object_type)
         self.assertEqual(datetime.datetime.utcfromtimestamp(x.tag_time),
@@ -626,7 +626,7 @@ class TagParseTests(ShaFileCheckTests):
         x = Tag()
         x.set_raw_string(self.make_tag_text(tagger=None))
         self.assertEqual(None, x.tagger)
-        self.assertEqual("v2.6.22-rc7", x.name)
+        self.assertEqual(b"v2.6.22-rc7", x.name)
 
     def test_check(self):
         self.assertCheckSucceeds(Tag, self.make_tag_text())
@@ -648,7 +648,7 @@ class TagParseTests(ShaFileCheckTests):
         for i in range(4):
             lines = self.make_tag_lines()
             lines.insert(i, lines[i])
-            self.assertCheckFails(Tag, '\n'.join(lines))
+            self.assertCheckFails(Tag, b'\n'.join(lines))
 
     def test_check_order(self):
         lines = self.make_tag_lines()
@@ -657,7 +657,7 @@ class TagParseTests(ShaFileCheckTests):
         # of all possible permutations, ensure only the original succeeds
         for perm in permutations(headers):
             perm = list(perm)
-            text = '\n'.join(perm + rest)
+            text = b'\n'.join(perm + rest)
             if perm == headers:
                 self.assertCheckSucceeds(Tag, text)
             else:

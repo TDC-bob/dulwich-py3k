@@ -122,7 +122,7 @@ def make_commit(**attrs):
                  'commit_timezone': 0,
                  'message': 'Test message.',
                  'parents': [],
-                 'tree': '0' * 40}
+                 'tree': b'0' * 40}
     all_attrs.update(attrs)
     return make_object(Commit, **all_attrs)
 
