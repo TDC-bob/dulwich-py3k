@@ -745,7 +745,7 @@ def parse_tree(text, strict=False):
         sha = text[name_end+1:count]
         if len(sha) != 20:
             raise ObjectFormatException("Sha has invalid length")
-        hexsha = sha_to_hex(sha)
+        hexsha = convert3kstr(sha_to_hex(sha), BYTES)
         yield (name, mode, hexsha)
 
 @wrap3kstr(items=STRING)
@@ -793,7 +793,7 @@ def sorted_tree_items(entries, name_order):
         if not isinstance(mode, int):
             raise TypeError('Expected integer/long for mode, got %r' % mode)
         mode = int(mode)
-        if not isinstance(hexsha, str):
+        if not isinstance(hexsha, bytes):
             raise TypeError('Expected a string for SHA, got %r' % hexsha)
         yield TreeEntry(convert3kstr(name, STRING), mode, hexsha)
 
@@ -834,17 +834,17 @@ class Tree(ShaFile):
             raise NotTreeError(filename)
         return tree
 
-    @wrap3kstr(name=STRING)
+    @wrap3kstr(name=BYTES)
     def __contains__(self, name):
         self._ensure_parsed()
         return name in self._entries
 
-    @wrap3kstr(name=STRING)
+    @wrap3kstr(name=BYTES)
     def __getitem__(self, name):
         self._ensure_parsed()
         return self._entries[name]
 
-    @wrap3kstr(name=STRING)
+    @wrap3kstr(name=BYTES)
     def __setitem__(self, name, value):
         """Set a tree entry by name.
 
@@ -854,11 +854,12 @@ class Tree(ShaFile):
             a string.
         """
         mode, hexsha = value
+        hexsha = convert3kstr(hexsha, BYTES)
         self._ensure_parsed()
         self._entries[name] = (mode, hexsha)
         self._needs_serialization = True
 
-    @wrap3kstr(name=STRING)
+    @wrap3kstr(name=BYTES)
     def __delitem__(self, name):
         self._ensure_parsed()
         del self._entries[name]
@@ -872,7 +873,7 @@ class Tree(ShaFile):
         self._ensure_parsed()
         return iter(self._entries)
 
-    @wrap3kstr(name=STRING, hexsha=STRING)
+    @wrap3kstr(name=BYTES, hexsha=BYTES)
     def add(self, name, mode, hexsha):
         """Add an entry to the tree.
 
@@ -881,7 +882,7 @@ class Tree(ShaFile):
         :param name: The name of the entry, as a string.
         :param hexsha: The hex SHA of the entry as a string.
         """
-        if type(name) is int and type(mode) is str:
+        if type(name) is int and type(mode) is bytes:
             (name, mode) = (mode, name)
             warnings.warn("Please use Tree.add(name, mode, hexsha)",
                 category=DeprecationWarning, stacklevel=2)
@@ -929,7 +930,7 @@ class Tree(ShaFile):
             raise ObjectFormatException(e)
         # TODO: list comprehension is for efficiency in the common (small) case;
         # if memory efficiency in the large case is a concern, use a genexp.
-        self._entries = dict([(convert3kstr(n, STRING), (m, s)) for n, m, s in parsed_entries])
+        self._entries = dict([(convert3kstr(n, BYTES), (m, s)) for n, m, s in parsed_entries])
 
     def check(self):
         """Check this object for internal consistency.

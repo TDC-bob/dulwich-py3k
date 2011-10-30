@@ -616,6 +616,7 @@ class MemoryObjectStore(BaseObjectStore):
         super(MemoryObjectStore, self).__init__()
         self._data = {}
 
+    @wrap3kstr(sha=BYTES)
     def contains_loose(self, sha):
         """Check if a particular object is present by SHA1 and is loose."""
         return sha in self._data
@@ -633,6 +634,7 @@ class MemoryObjectStore(BaseObjectStore):
         """List with pack objects."""
         return []
 
+    @wrap3kstr(name=BYTES)
     def get_raw(self, name):
         """Obtain the raw text for an object.
 
@@ -642,18 +644,24 @@ class MemoryObjectStore(BaseObjectStore):
         obj = self[name]
         return obj.type_num, obj.as_raw_string()
 
+    @wrap3kstr(name=BYTES)
     def __getitem__(self, name):
         return self._data[name]
 
+    @wrap3kstr(name=BYTES)
     def __delitem__(self, name):
         """Delete an object from this store, for testing only."""
         del self._data[name]
+
+    @wrap3kstr(name=BYTES)
+    def _add_obj(self, name, obj):
+        self._data[name] = obj
 
     def add_object(self, obj):
         """Add a single object to this object store.
 
         """
-        self._data[obj.id] = obj
+        self._add_obj(obj.id, obj)
 
     def add_objects(self, objects):
         """Add a set of objects to this object store.
@@ -661,7 +669,7 @@ class MemoryObjectStore(BaseObjectStore):
         :param objects: Iterable over a list of objects.
         """
         for obj, path in objects:
-            self._data[obj.id] = obj
+            self._add_obj(obj.id, obj)
 
 
 class ObjectImporter(object):

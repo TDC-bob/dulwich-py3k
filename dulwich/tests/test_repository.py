@@ -246,7 +246,7 @@ class RepositoryTests(TestCase):
         self.addCleanup(warnings.resetwarnings)
         blob = r.get_blob(blob_sha)
         self.assertEqual(blob.type_name, 'blob')
-        self.assertEqual(blob.sha().hexdigest(), blob_sha)
+        self.assertEqual(convert3kstr(blob.sha().hexdigest(), BYTES), blob_sha)
 
     def test_get_blob_notblob(self):
         r = self._repo = open_repo('a.git')
