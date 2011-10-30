@@ -757,8 +757,8 @@ class RenameDetectionTest(DiffTestCase):
     def test_content_rename_gitlink(self):
         blob1 = make_object(Blob, data='blob1')
         blob2 = make_object(Blob, data='blob2')
-        link1 = '1' * 40
-        link2 = '2' * 40
+        link1 = b'1' * 40
+        link2 = b'2' * 40
         tree1 = self.commit_tree([('a', blob1), ('b', link1, 0o160000)])
         tree2 = self.commit_tree([('c', blob2), ('d', link2, 0o160000)])
         self.assertEqual(

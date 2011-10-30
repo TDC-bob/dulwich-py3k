@@ -797,7 +797,7 @@ def sorted_tree_items(entries, name_order):
             raise TypeError('Expected a string for SHA, got %r' % hexsha)
         yield TreeEntry(convert3kstr(name, STRING), mode, hexsha)
 
-
+@wrap3kstr(tuple_1=STRING, tuple_2=STRING)
 def cmp_entry(tuple_1, tuple_2):
     """Compare two tree entries in tree order."""
     (name1, value1) = tuple_1
