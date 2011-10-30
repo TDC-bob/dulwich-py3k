@@ -83,7 +83,7 @@ def self_test_suite():
         'objects',
         'object_store',
         'pack',
-        #'patch',
+        'patch',
         'protocol',
         'repository',
         #'server',

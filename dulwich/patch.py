@@ -43,7 +43,7 @@ def write_commit_patch(f, commit, contents, progress, version=None):
     :return: tuple with filename and contents
     """
     (num, total) = progress
-    f.write("From %s %s\n" % (commit.id, time.ctime(commit.commit_time)))
+    f.write("From %s %s\n" % (convert3kstr(commit.id, STRING), time.ctime(commit.commit_time)))
     f.write("From: %s\n" % commit.author)
     f.write("Date: %s\n" % time.strftime("%a, %d %b %Y %H:%M:%S %Z"))
     f.write("Subject: [PATCH %d/%d] %s\n" % (num, total, commit.message))
@@ -121,6 +121,7 @@ def write_object_diff(f, store, old_tuple, new_tuple):
     (old_path, old_mode, old_id) = old_tuple
     (new_path, new_mode, new_id) = new_tuple
 
+    @wrap3kstr(returns=STRING)
     def shortid(hexsha):
         if hexsha is None:
             return "0" * 7
@@ -130,7 +131,7 @@ def write_object_diff(f, store, old_tuple, new_tuple):
         if hexsha is None:
             return []
         elif S_ISGITLINK(mode):
-            return ["Submodule commit " + hexsha + "\n"]
+            return ["Submodule commit " + convert3kstr(hexsha, STRING) + "\n"]
         else:
             return store[hexsha].data.splitlines(True)
     if old_path is None:
@@ -171,6 +172,7 @@ def write_blob_diff(f, old_tuple, new_tuple):
     (old_path, old_mode, old_blob) = old_tuple
     (new_path, new_mode, new_blob) = new_tuple
 
+    @wrap3kstr(returns=STRING)
     def blob_id(blob):
         if blob is None:
             return "0" * 7
