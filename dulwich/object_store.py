@@ -580,13 +580,15 @@ class DiskObjectStore(PackBasedObjectStore):
 
         :param obj: Object to add
         """
-        dir = os.path.join(self.path, obj.id[:2])
+        id = convert3kstr(obj.id[:2], STRING)
+        dir = os.path.join(self.path, id)
         try:
             os.mkdir(dir)
         except OSError as e:
             if e.errno != errno.EEXIST:
                 raise
-        path = os.path.join(dir, obj.id[2:])
+        id = convert3kstr(obj.id[2:], STRING)
+        path = os.path.join(dir, id)
         if os.path.exists(path):
             return # Already there, no need to write again
         f = GitFile(path, 'wb')

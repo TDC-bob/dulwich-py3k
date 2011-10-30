@@ -91,7 +91,7 @@ class wrap3kstr(object):
         return nd
 
     def convertDictionary(self, obj):
-        newdict = param
+        newdict = obj
         mask = self.active_mask
 
         if (mask & DICT_KEYS_TO_BYTES) and (mask & DICT_VALS_TO_BYTES):
@@ -107,6 +107,8 @@ class wrap3kstr(object):
             newdict = self.dictKeysToString(newdict)
         elif mask & DICT_VALS_TO_STRING:
             newdict = self.dictValuesToString(newdict)
+
+        return newdict
 
     def toString(self, obj):
         if isinstance(obj, bytes):
@@ -147,7 +149,7 @@ class wrap3kstr(object):
         if mask == NOCONVERT or param is None:
             return param
         elif isinstance(param, dict):
-            return convertDictionary(param)
+            return self.convertDictionary(param)
         elif mask & BYTES:
             return self.toBytes(param)
         elif mask & STRING:

@@ -41,6 +41,8 @@ from dulwich.errors import (
     MissingCommitError,
     )
 
+from dulwich.py3k import *
+
 ORDER_DATE = 'date'
 ORDER_TOPO = 'topo'
 
@@ -107,6 +109,7 @@ class _CommitTimeQueue(object):
         for commit_id in itertools.chain(walker.include, walker.excluded):
             self._push(commit_id)
 
+    @wrap3kstr(commit_id=BYTES)
     def _push(self, commit_id):
         try:
             commit = self._store[commit_id]
@@ -137,7 +140,7 @@ class _CommitTimeQueue(object):
             return None
         while self._pq:
             _, commit = heapq.heappop(self._pq)
-            sha = commit.id
+            sha = convert3kstr(commit.id, BYTES)
             self._pq_set.remove(sha)
             if sha in self._done:
                 continue

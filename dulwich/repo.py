@@ -21,7 +21,7 @@
 
 """Repository access."""
 
-from io import StringIO
+from io import BytesIO
 import errno
 import os
 
@@ -56,7 +56,7 @@ import warnings
 from dulwich.py3k import *
 
 OBJECTDIR = 'objects'
-SYMREF = 'ref: '
+SYMREF = b'ref: '
 REFSDIR = 'refs'
 REFSDIR_TAGS = 'tags'
 REFSDIR_HEADS = 'heads'
@@ -79,7 +79,7 @@ def read_info_refs(f):
         ret[name] = sha
     return ret
 
-
+@wrap3kstr(refname=BYTES)
 def check_ref_format(refname):
     """Check if a refname is correctly formatted.
 
@@ -92,22 +92,22 @@ def check_ref_format(refname):
     """
     # These could be combined into one big expression, but are listed separately
     # to parallel [1].
-    if '/.' in refname or refname.startswith('.'):
+    if b'/.' in refname or refname.startswith(b'.'):
         return False
-    if '/' not in refname:
+    if b'/' not in refname:
         return False
-    if '..' in refname:
+    if b'..' in refname:
         return False
     for c in refname:
-        if ord(c) < 0o40 or c in '\177 ~^:?*[':
+        if c < 0o40 or c in b'\177 ~^:?*[':
             return False
-    if refname[-1] in '/.':
+    if refname[-1] in b'/.':
         return False
-    if refname.endswith('.lock'):
+    if refname.endswith(b'.lock'):
         return False
-    if '@{' in refname:
+    if b'@{' in refname:
         return False
-    if '\\' in refname:
+    if b'\\' in refname:
         return False
     return True
 
@@ -149,14 +149,16 @@ class RefsContainer(object):
         """
         return None
 
+    @wrap3kstr(base=BYTES, other=BYTES)
     def import_refs(self, base, other):
         for name, value in other.items():
-            self["%s/%s" % (base, name)] = value
+            self[base + b'/' + name] = value
 
     def allkeys(self):
         """All refs present in this container."""
         raise NotImplementedError(self.allkeys)
 
+    @wrap3kstr(base=BYTES)
     def keys(self, base=None):
         """Refs present in this container.
 
@@ -169,6 +171,7 @@ class RefsContainer(object):
         else:
             return self.allkeys()
 
+    @wrap3kstr(base=BYTES)
     def subkeys(self, base):
         """Refs present in this container under a base.
 
@@ -183,6 +186,7 @@ class RefsContainer(object):
                 keys.add(refname[base_len:])
         return keys
 
+    @wrap3kstr(base=BYTES)
     def as_dict(self, base=None):
         """Return the contents of this container as a dictionary.
 
@@ -190,15 +194,16 @@ class RefsContainer(object):
         ret = {}
         keys = self.keys(base)
         if base is None:
-            base = ""
+            base = b""
         for key in keys:
             try:
-                ret[key] = self[("%s/%s" % (base, key)).strip("/")]
+                ret[key] = self[(base + b'/' + key).strip(b'/')]
             except KeyError:
                 continue # Unable to resolve
 
         return ret
 
+    @wrap3kstr(name=BYTES)
     def _check_refname(self, name):
         """Ensure a refname is valid and lives in refs or is HEAD.
 
@@ -210,9 +215,9 @@ class RefsContainer(object):
         :param name: The name of the reference.
         :raises KeyError: if a refname is not HEAD or is otherwise not valid.
         """
-        if name in ('HEAD', 'refs/stash'):
+        if name in (b'HEAD', b'refs/stash'):
             return
-        if not name.startswith('refs/') or not check_ref_format(name[5:]):
+        if not name.startswith(b'refs/') or not check_ref_format(name[5:]):
             raise RefFormatError(name)
 
     @wrap3kstr(refname=BYTES, returns=BYTES)
@@ -264,6 +269,7 @@ class RefsContainer(object):
             return True
         return False
 
+    @wrap3kstr(name=BYTES)
     def __getitem__(self, name):
         """Get the SHA1 for a reference name.
 
@@ -343,6 +349,7 @@ class DictRefsContainer(RefsContainer):
     threadsafe.
     """
 
+    @wrap3kstr(refs=DICT_KEYS_TO_BYTES|DICT_VALS_TO_BYTES)
     def __init__(self, refs):
         self._refs = refs
         self._peeled = {}
@@ -350,15 +357,18 @@ class DictRefsContainer(RefsContainer):
     def allkeys(self):
         return list(self._refs.keys())
 
+    @wrap3kstr(name=BYTES)
     def read_loose_ref(self, name):
         return self._refs.get(name, None)
 
     def get_packed_refs(self):
         return {}
 
+    @wrap3kstr(name=BYTES, other=BYTES)
     def set_symbolic_ref(self, name, other):
         self._refs[name] = SYMREF + other
 
+    @wrap3kstr(name=BYTES, old_ref=BYTES, new_ref=BYTES)
     def set_if_equals(self, name, old_ref, new_ref):
         if old_ref is not None and self._refs.get(name, None) != old_ref:
             return False
@@ -367,27 +377,32 @@ class DictRefsContainer(RefsContainer):
         self._refs[realname] = new_ref
         return True
 
+    @wrap3kstr(name=BYTES, ref=BYTES)
     def add_if_new(self, name, ref):
         if name in self._refs:
             return False
         self._refs[name] = ref
         return True
 
+    @wrap3kstr(name=BYTES, old_ref=BYTES)
     def remove_if_equals(self, name, old_ref):
         if old_ref is not None and self._refs.get(name, None) != old_ref:
             return False
         del self._refs[name]
         return True
 
+    @wrap3kstr(name=BYTES)
     def get_peeled(self, name):
         return self._peeled.get(name)
 
+    @wrap3kstr(refs=DICT_KEYS_TO_BYTES|DICT_VALS_TO_BYTES)
     def _update(self, refs):
         """Update multiple refs; intended only for testing."""
         # TODO(dborowitz): replace this with a public function that uses
         # set_if_equal.
         self._refs.update(refs)
 
+    @wrap3kstr(peeled=DICT_KEYS_TO_BYTES|DICT_VALS_TO_BYTES)
     def _update_peeled(self, peeled):
         """Update cached peeled refs; intended only for testing."""
         self._peeled.update(peeled)
@@ -404,6 +419,7 @@ class DiskRefsContainer(RefsContainer):
     def __repr__(self):
         return "%s(%r)" % (self.__class__.__name__, self.path)
 
+    @wrap3kstr(base=BYTES)
     def subkeys(self, base):
         keys = set()
         path = self.refpath(base)
@@ -413,24 +429,24 @@ class DiskRefsContainer(RefsContainer):
                 refname = ("%s/%s" % (dir, filename)).strip("/")
                 # check_ref_format requires at least one /, so we prepend the
                 # base before calling it.
-                if check_ref_format("%s/%s" % (base, refname)):
-                    keys.add(refname)
+                if check_ref_format(base + b'/' + refname.encode()):
+                    keys.add(refname.encode())
         for key in self.get_packed_refs():
             if key.startswith(base):
-                keys.add(key[len(base):].strip("/"))
+                keys.add(key[len(base):].strip(b'/'))
         return keys
 
     def allkeys(self):
         keys = set()
-        if os.path.exists(self.refpath("HEAD")):
-            keys.add("HEAD")
+        if os.path.exists(self.refpath(b"HEAD")):
+            keys.add(b"HEAD")
         path = self.refpath("")
         for root, dirs, files in os.walk(self.refpath("refs")):
             dir = root[len(path):].strip(os.path.sep).replace(os.path.sep, "/")
             for filename in files:
                 refname = ("%s/%s" % (dir, filename)).strip("/")
-                if check_ref_format(refname):
-                    keys.add(refname)
+                if check_ref_format(refname.encode()):
+                    keys.add(refname.encode())
         keys.update(self.get_packed_refs())
         return keys
 
@@ -465,8 +481,8 @@ class DiskRefsContainer(RefsContainer):
                     return {}
                 raise
             try:
-                first_line = iter(f).next().rstrip()
-                if (first_line.startswith("# pack-refs") and " peeled" in
+                first_line = iter(f).__next__().rstrip()
+                if (first_line.startswith(b"# pack-refs") and b" peeled" in
                         first_line):
                     for sha, name, peeled in read_packed_refs_with_peeled(f):
                         self._packed_refs[name] = sha
@@ -516,7 +532,7 @@ class DiskRefsContainer(RefsContainer):
                 header = f.read(len(SYMREF))
                 if header == SYMREF:
                     # Read only the first line
-                    return header + iter(f).next().rstrip("\r\n")
+                    return header + iter(f).__next__().rstrip(b"\r\n")
                 else:
                     # Read only the first 40 bytes
                     return header + f.read(40-len(SYMREF))
@@ -560,13 +576,14 @@ class DiskRefsContainer(RefsContainer):
         try:
             f = GitFile(filename, 'wb')
             try:
-                f.write(convert3kstr(SYMREF + other + '\n', BYTES))
+                f.write(SYMREF + other + b'\n')
             except (IOError, OSError):
                 f.abort()
                 raise
         finally:
             f.close()
 
+    @wrap3kstr(name=BYTES, old_ref=BYTES, new_ref=BYTES)
     def set_if_equals(self, name, old_ref, new_ref):
         """Set a refname to new_ref only if it currently equals old_ref.
 
@@ -601,7 +618,7 @@ class DiskRefsContainer(RefsContainer):
                     f.abort()
                     raise
             try:
-                f.write(new_ref+"\n")
+                f.write(new_ref + b"\n")
             except (OSError, IOError):
                 f.abort()
                 raise
@@ -609,6 +626,7 @@ class DiskRefsContainer(RefsContainer):
             f.close()
         return True
 
+    @wrap3kstr(name=BYTES, ref=BYTES)
     def add_if_new(self, name, ref):
         """Add a new reference only if it does not already exist.
 
@@ -619,6 +637,7 @@ class DiskRefsContainer(RefsContainer):
         :param ref: The new sha the refname will refer to.
         :return: True if the add was successful, False otherwise.
         """
+
         try:
             realname, contents = self._follow(name)
             if contents is not None:
@@ -634,7 +653,7 @@ class DiskRefsContainer(RefsContainer):
                 f.abort()
                 return False
             try:
-                f.write(ref+"\n")
+                f.write(ref + b'\n')
             except (OSError, IOError):
                 f.abort()
                 raise
@@ -642,6 +661,7 @@ class DiskRefsContainer(RefsContainer):
             f.close()
         return True
 
+    @wrap3kstr(name=BYTES, old_ref=BYTES)
     def remove_if_equals(self, name, old_ref):
         """Remove a refname only if it currently equals old_ref.
 
@@ -679,16 +699,16 @@ class DiskRefsContainer(RefsContainer):
 
 def _split_ref_line(line):
     """Split a single ref line into a tuple of SHA1 and name."""
-    fields = line.rstrip("\n").split(" ")
+    fields = line.rstrip(b"\n").split(b" ")
     if len(fields) != 2:
-        raise PackedRefsException("invalid ref line '%s'" % line)
+        raise PackedRefsException("invalid ref line '%s'" % line.decode())
     sha, name = fields
     try:
         hex_to_sha(sha)
     except (AssertionError, TypeError) as e:
         raise PackedRefsException(e)
     if not check_ref_format(name):
-        raise PackedRefsException("invalid ref name '%s'" % name)
+        raise PackedRefsException("invalid ref name '%s'" % name.decode())
     return (sha, name)
 
 
@@ -699,10 +719,10 @@ def read_packed_refs(f):
     :return: Iterator over tuples with SHA1s and ref names.
     """
     for l in f:
-        if l[0] == "#":
+        if l[0] == b"#"[0]:
             # Comment
             continue
-        if l[0] == "^":
+        if l[0] == b"^"[0]:
             raise PackedRefsException(
               "found peeled ref in packed-refs without peeled")
         yield _split_ref_line(l)
@@ -718,10 +738,10 @@ def read_packed_refs_with_peeled(f):
     """
     last = None
     for l in f:
-        if l[0] == "#":
+        if l[0] == b"#"[0]:
             continue
-        l = l.rstrip("\r\n")
-        if l[0] == "^":
+        l = l.rstrip(b"\r\n")
+        if l[0] == b"^"[0]:
             if not last:
                 raise PackedRefsException("unexpected peeled ref line")
             try:
@@ -751,11 +771,11 @@ def write_packed_refs(f, packed_refs, peeled_refs=None):
     if peeled_refs is None:
         peeled_refs = {}
     else:
-        f.write('# pack-refs with: peeled\n')
+        f.write(b'# pack-refs with: peeled\n')
     for refname in sorted(packed_refs.keys()):
-        f.write('%s %s\n' % (packed_refs[refname], refname))
+        f.write(packed_refs[refname] + b' ' + refname + b'\n')
         if refname in peeled_refs:
-            f.write('^%s\n' % peeled_refs[refname])
+            f.write(b'^' + peeled_refs[refname] + b'\n')
 
 
 class BaseRepo(object):
@@ -766,6 +786,7 @@ class BaseRepo(object):
     :ivar refs: Dictionary-like object with the refs in this repository
     """
 
+    @wrap3kstr(refs=DICT_KEYS_TO_BYTES|DICT_VALS_TO_BYTES)
     def __init__(self, object_store, refs):
         self.object_store = object_store
         self.refs = refs
@@ -850,9 +871,10 @@ class BaseRepo(object):
 
     def get_graph_walker(self, heads=None):
         if heads is None:
-            heads = list(self.refs.as_dict('refs/heads').values())
+            heads = list(self.refs.as_dict(b'refs/heads').values())
         return self.object_store.get_graph_walker(heads)
 
+    @wrap3kstr(name=BYTES, returns=BYTES)
     def ref(self, name):
         """Return the SHA1 a ref is pointing to."""
         return self.refs[name]
@@ -863,7 +885,7 @@ class BaseRepo(object):
 
     def head(self):
         """Return the SHA1 pointed at by HEAD."""
-        return self.refs['HEAD']
+        return self.refs[b'HEAD']
 
     def _get_object(self, sha, cls):
         assert len(sha) in (20, 40)
@@ -1036,6 +1058,7 @@ class BaseRepo(object):
         else:
             raise ValueError(name)
 
+    @wrap3kstr(ref=BYTES)
     def do_commit(self, message=None, committer=None,
                   author=None, commit_timestamp=None,
                   commit_timezone=None, author_timestamp=None,
@@ -1251,7 +1274,7 @@ class Repo(BaseRepo):
             os.mkdir(os.path.join(path, *d))
         DiskObjectStore.init(os.path.join(path, OBJECTDIR))
         ret = cls(path)
-        ret.refs.set_symbolic_ref("HEAD", "refs/heads/master")
+        ret.refs.set_symbolic_ref(b"HEAD", b"refs/heads/master")
         ret._init_files(bare)
         return ret
 
@@ -1283,6 +1306,7 @@ class MemoryRepo(BaseRepo):
         self._named_files = {}
         self.bare = True
 
+    @wrap3kstr(path=BYTES, contents=BYTES)
     def _put_named_file(self, path, contents):
         """Write a file to the control dir with the given name and contents.
 
@@ -1291,6 +1315,7 @@ class MemoryRepo(BaseRepo):
         """
         self._named_files[path] = contents
 
+    @wrap3kstr(path=BYTES)
     def get_named_file(self, path):
         """Get a file from the control dir with a specific name.
 
@@ -1304,7 +1329,7 @@ class MemoryRepo(BaseRepo):
         contents = self._named_files.get(path, None)
         if contents is None:
             return None
-        return StringIO(contents)
+        return BytesIO(contents)
 
     def open_index(self):
         """Fail to open index for this repo, since it is bare."""

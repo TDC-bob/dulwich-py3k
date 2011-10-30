@@ -87,7 +87,7 @@ def hex_to_sha(hex):
     assert len(hex) == 40, "Incorrent length of hexsha: %d" % len(hex)
     return binascii.unhexlify(hex)
 
-
+@wrap3kstr(path=STRING, hex=STRING)
 def hex_to_filename(path, hex):
     """Takes a hex sha and returns its filename relative to the given path."""
     dir = hex[:2]
@@ -236,8 +236,9 @@ class ShaFile(object):
         return self._chunked_text
 
     def as_raw_string(self):
-        return b"".join(convert3kstr(self.as_raw_chunks(), BYTES))
+        return b"".join(self.as_raw_chunks())
 
+    @wrap3kstr(returns=STRING)
     def __str__(self):
         return self.as_raw_string()
 
@@ -464,6 +465,7 @@ class ShaFile(object):
         return self._sha
 
     @property
+    @wrap3kstr(returns=BYTES)
     def id(self):
         return self.sha().hexdigest()
 
@@ -563,7 +565,7 @@ def _parse_tag_or_commit(text):
             # Empty line indicates end of headers
             break
 
-        yield convert3kstr(l.split(b" ", 1), STRING)
+        yield l.split(b" ", 1)
     yield (None, f.read())
     f.close()
 
@@ -625,37 +627,44 @@ class Tag(ShaFile):
 
     def _serialize(self):
         chunks = []
-        chunks.append("%s %s\n" % (_OBJECT_HEADER, self._object_sha))
-        chunks.append("%s %s\n" % (_TYPE_HEADER, self._object_class.type_name))
-        chunks.append("%s %s\n" % (_TAG_HEADER, self._name))
+        chunks.append(convert3kstr(_OBJECT_HEADER, BYTES) + b' ' +
+                      convert3kstr(self._object_sha, BYTES) + b'\n')
+        chunks.append(convert3kstr(_TYPE_HEADER, BYTES) + b' ' +
+                      convert3kstr(self._object_class.type_name, BYTES) + b'\n')
+        chunks.append(convert3kstr(_TAG_HEADER, BYTES) + b' ' +
+                      convert3kstr(self._name, BYTES) + b'\n')
         if self._tagger:
             if self._tag_time is None:
-                chunks.append("%s %s\n" % (_TAGGER_HEADER, self._tagger))
+                chunks.append(convert3kstr(_TAGGER_HEADER, BYTES) + b' ' +
+                              convert3kstr(self._tagger, BYTES) + b'\n')
             else:
-                chunks.append("%s %s %d %s\n" % (
-                  _TAGGER_HEADER, self._tagger, self._tag_time,
-                  format_timezone(self._tag_timezone,
-                    self._tag_timezone_neg_utc)))
-        chunks.append("\n") # To close headers
-        chunks.append(self._message)
+                chunks.append(convert3kstr(_TAGGER_HEADER, BYTES) + b' ' +
+                              convert3kstr(self._tagger, BYTES) + b' ' +
+                              convert3kstr(str(self._tag_time), BYTES) + b' ' +
+                              convert3kstr(format_timezone(self._tag_timezone, self._tag_timezone_neg_utc), BYTES) + b'\n')
+
+        chunks.append(b'\n') # To close headers
+        chunks.append(convert3kstr(self._message, BYTES))
         return chunks
 
     def _deserialize(self, chunks):
         """Grab the metadata attached to the tag"""
         self._tagger = None
         for field, value in parse_tag(b"".join(chunks)):
+            field = convert3kstr(field, STRING)
             if field == _OBJECT_HEADER:
                 self._object_sha = value
             elif field == _TYPE_HEADER:
-                obj_class = object_class(value)
+                obj_class = object_class(convert3kstr(value, STRING))
                 if not obj_class:
                     raise ObjectFormatException("Not a known type: %s" % value)
                 self._object_class = obj_class
             elif field == _TAG_HEADER:
                 self._name = value
             elif field == _TAGGER_HEADER:
+                value = convert3kstr(value, STRING)
                 try:
-                    sep = value.index("> ")
+                    sep = value.index('> ')
                 except ValueError:
                     self._tagger = value
                     self._tag_time = None
@@ -671,7 +680,7 @@ class Tag(ShaFile):
                     except ValueError as e:
                         raise ObjectFormatException(e)
             elif field is None:
-                self._message = value
+                self._message = convert3kstr(value, STRING)
             else:
                 raise ObjectFormatException("Unknown field %s" % field)
 
@@ -1055,24 +1064,25 @@ class Commit(ShaFile):
         self._extra = []
         self._author = None
         for field, value in parse_commit(b''.join(self._chunked_text)):
-            if field == _TREE_HEADER:
+            fieldname = convert3kstr(field, STRING)
+            if fieldname == _TREE_HEADER:
                 self._tree = value
-            elif field == _PARENT_HEADER:
+            elif fieldname == _PARENT_HEADER:
                 self._parents.append(value)
-            elif field == _AUTHOR_HEADER:
-                self._author, timetext, timezonetext = value.rsplit(" ", 2)
+            elif fieldname == _AUTHOR_HEADER:
+                self._author, timetext, timezonetext = convert3kstr(value, STRING).rsplit(" ", 2)
                 self._author_time = int(timetext)
                 self._author_timezone, self._author_timezone_neg_utc =\
                     parse_timezone(timezonetext)
-            elif field == _COMMITTER_HEADER:
-                self._committer, timetext, timezonetext = value.rsplit(" ", 2)
+            elif fieldname == _COMMITTER_HEADER:
+                self._committer, timetext, timezonetext = convert3kstr(value, STRING).rsplit(" ", 2)
                 self._commit_time = int(timetext)
                 self._commit_timezone, self._commit_timezone_neg_utc =\
                     parse_timezone(timezonetext)
-            elif field == _ENCODING_HEADER:
-                self._encoding = value
-            elif field is None:
-                self._message = value
+            elif fieldname == _ENCODING_HEADER:
+                self._encoding = convert3kstr(value, STRING)
+            elif fieldname is None:
+                self._message = convert3kstr(value, STRING)
             else:
                 self._extra.append((field, value))
 
@@ -1096,6 +1106,7 @@ class Commit(ShaFile):
 
         last = None
         for field, _ in parse_commit(b"".join(self._chunked_text)):
+            field = convert3kstr(field, STRING)
             if field == _TREE_HEADER and last is not None:
                 raise ObjectFormatException("unexpected tree")
             elif field == _PARENT_HEADER and last not in (_PARENT_HEADER,
@@ -1114,25 +1125,27 @@ class Commit(ShaFile):
 
     def _serialize(self):
         chunks = []
-        chunks.append("%s %s\n" % (_TREE_HEADER, self._tree))
+        chunks.append(convert3kstr(_TREE_HEADER, BYTES) + b' ' + self._tree + b'\n')
         for p in self._parents:
-            chunks.append("%s %s\n" % (_PARENT_HEADER, p))
-        chunks.append("%s %s %s %s\n" % (
-          _AUTHOR_HEADER, self._author, str(self._author_time),
-          format_timezone(self._author_timezone,
-                          self._author_timezone_neg_utc)))
-        chunks.append("%s %s %s %s\n" % (
-          _COMMITTER_HEADER, self._committer, str(self._commit_time),
-          format_timezone(self._commit_timezone,
-                          self._commit_timezone_neg_utc)))
+            chunks.append(convert3kstr(_PARENT_HEADER, BYTES) + b' ' + convert3kstr(p, BYTES) + b'\n')
+        chunks.append(convert3kstr(_AUTHOR_HEADER, BYTES) + b' ' +
+                      convert3kstr(self._author, BYTES) + b' ' +
+                      convert3kstr(str(self._author_time), BYTES) + b' ' +
+                      convert3kstr(format_timezone(self._author_timezone, self._author_timezone_neg_utc), BYTES) + b'\n')
+        chunks.append(convert3kstr(_COMMITTER_HEADER, BYTES) + b' ' +
+                      convert3kstr(self._committer, BYTES) + b' ' +
+                      convert3kstr(str(self._commit_time), BYTES) + b' ' +
+                      convert3kstr(format_timezone(self._commit_timezone, self._commit_timezone_neg_utc), BYTES) + b'\n')
         if self.encoding:
-            chunks.append("%s %s\n" % (_ENCODING_HEADER, self.encoding))
+            chunks.append(convert3kstr(_ENCODING_HEADER, BYTES) + b' ' + 
+                          convert3kstr(self.encoding, BYTES) + b'\n')
         for k, v in self.extra:
-            if "\n" in k or "\n" in v:
+            k, v = (convert3kstr(k, BYTES), convert3kstr(v, BYTES))
+            if b'\n' in k or b'\n' in v:
                 raise AssertionError("newline in extra data: %r -> %r" % (k, v))
-            chunks.append("%s %s\n" % (k, v))
-        chunks.append("\n") # There must be a new line after the headers
-        chunks.append(self._message)
+            chunks.append(k + b' ' + v + b'\n')
+        chunks.append(b'\n') # There must be a new line after the headers
+        chunks.append(convert3kstr(self._message, BYTES))
         return chunks
 
     tree = serializable_property("tree", "Tree that is the state of this commit")
