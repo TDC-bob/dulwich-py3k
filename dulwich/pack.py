@@ -978,7 +978,6 @@ class PackData(object):
         self._size = size
         self._header_size = 12
         if file is None:
-            print('DERP')
             self._file = GitFile(self._filename, 'rb')
         else:
             self._file = file
