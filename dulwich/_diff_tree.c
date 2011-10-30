@@ -329,7 +329,7 @@ static int add_hash(PyObject *get, PyObject *set, char *str, int n)
 
 	/* It would be nice to hash without copying str into a PyString, but that
 	 * isn't exposed by the API. */
-	str_obj = PyByteArray_FromStringAndSize(str, n);
+    str_obj = PyBytes_FromStringAndSize(str, n);
 	if (!str_obj)
 		goto error;
 	hash = PyObject_Hash(str_obj);
@@ -396,12 +396,12 @@ static PyObject *py_count_blocks(PyObject *self, PyObject *args)
 
 	for (i = 0; i < num_chunks; i++) {
 		chunk = PyList_GET_ITEM(chunks, i);
-		if (!PyByteArray_Check(chunk)) {
-			PyErr_SetString(PyExc_TypeError, "chunk is not a byte array");
+		if (!PyBytes_Check(chunk)) {
+			PyErr_SetString(PyExc_TypeError, "chunk is not a bytes object");
 			goto error;
 		}
-		chunk_len = PyByteArray_Size(chunk);
-		chunk_str = PyByteArray_AS_STRING(chunk);
+		chunk_len = PyBytes_GET_SIZE(chunk);
+		chunk_str = PyBytes_AS_STRING(chunk);
 
 		for (j = 0; j < chunk_len; j++) {
 			c = chunk_str[j];

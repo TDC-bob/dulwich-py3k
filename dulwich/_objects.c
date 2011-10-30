@@ -38,7 +38,7 @@ size_t strnlen(const char *text, size_t maxlen)
 static PyObject *tree_entry_cls;
 static PyObject *object_format_exception_cls;
 
-// PY3K: sha must be a byte array
+// PY3K: sha must be a bytes object
 // PY3K: the return type must be a python 3 string
 static PyObject *sha_to_pyhex(const unsigned char *sha)
 {
@@ -224,13 +224,13 @@ static PyObject *py_sorted_tree_items(PyObject *self, PyObject *args)
 		}
 
 		key_bytes = PyUnicode_AsASCIIString(key);
-		if (!PyByteArray_Check(key_bytes)) {
+		if (!PyBytes_Check(key_bytes)) {
 			PyErr_SetString(PyExc_TypeError, "SHA string conversion failed");
 			Py_DECREF(key_bytes);
 			goto error;
 		}
 
-		qsort_entries[n].name = strdup(PyByteArray_AS_STRING(key_bytes));
+		qsort_entries[n].name = strdup(PyBytes_AS_STRING(key_bytes));
 		qsort_entries[n].mode = PyLong_AsLong(py_mode);
 
 		Py_XDECREF(key_bytes);

@@ -51,7 +51,7 @@ static size_t get_delta_header_size(uint8_t *delta, int *index, int length)
 static PyObject *py_chunked_as_bytes(PyObject *py_buf)
 {
     if (PyList_Check(py_buf)) {
-        PyObject *sep = PyByteArray_FromStringAndSize("", 0);
+        PyObject *sep = PyBytes_FromStringAndSize("", 0);
         if (sep == NULL) {
             PyErr_NoMemory();
             return NULL;
@@ -66,7 +66,7 @@ static PyObject *py_chunked_as_bytes(PyObject *py_buf)
         Py_INCREF(py_buf);
     } else {
         PyErr_SetString(PyExc_TypeError,
-            "src_buf is not a bytearray or a list of bytearray chunks");
+            "src_buf is not a bytes chunk or a list of bytes chunks");
         return NULL;
     }
     return py_buf;
@@ -95,11 +95,11 @@ static PyObject *py_apply_delta(PyObject *self, PyObject *args)
         return NULL;
     }
 
-    src_buf = (uint8_t *)PyByteArray_AS_STRING(py_src_buf);
-    src_buf_len = PyByteArray_Size(py_src_buf);
+    src_buf = (uint8_t *)PyBytes_AS_STRING(py_src_buf);
+    src_buf_len = PyBytes_GET_SIZE(py_src_buf);
 
-    delta = (uint8_t *)PyByteArray_AS_STRING(py_delta);
-    delta_len = PyByteArray_Size(py_delta);
+    delta = (uint8_t *)PyBytes_AS_STRING(py_delta);
+    delta_len = PyBytes_GET_SIZE(py_delta);
 
     index = 0;
     src_size = get_delta_header_size(delta, &index, delta_len);
@@ -112,14 +112,14 @@ static PyObject *py_apply_delta(PyObject *self, PyObject *args)
     }
     dest_size = get_delta_header_size(delta, &index, delta_len);
 
-    ret = PyByteArray_FromStringAndSize(NULL, dest_size);
+    ret = PyBytes_FromStringAndSize(NULL, dest_size);
     if (ret == NULL) {
         PyErr_NoMemory();
         Py_DECREF(py_src_buf);
         Py_DECREF(py_delta);
         return NULL;
     }
-    out = (uint8_t *)PyByteArray_AS_STRING(ret);
+    out = (uint8_t *)PyBytes_AS_STRING(ret);
 
     while (index < delta_len) {
         char cmd = delta[index];
@@ -215,7 +215,7 @@ static PyObject *py_bisect_find_sha(PyObject *self, PyObject *args)
             return NULL;
         }
 
-        cmp = memcmp(PyByteArray_AS_STRING(file_sha), sha_buf.buf, 20);
+        cmp = memcmp(PyBytes_AS_STRING(file_sha), sha_buf.buf, 20);
 
         Py_DECREF(file_sha);
         if (cmp < 0)
