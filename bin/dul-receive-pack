@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 # dul-receive-pack - git-receive-pack in python
 # Copyright (C) 2008 John Carr <john.carr@unrouted.co.uk>
 #

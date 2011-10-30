@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 # Setup file for dulwich
 # Copyright (C) 2008-2011 Jelmer Vernooij <jelmer@samba.org>
 
