@@ -21,16 +21,14 @@
 #include <stdlib.h>
 #include <sys/stat.h>
 
-#if defined(__APPLE__)
-#include <Availability.h>
-#endif
-
-#if defined(__MINGW32_VERSION) || (defined(__APPLE__) && __MAC_OS_X_VERSION_MIN_REQUIRED < 1070) || (defined(_MSC_VER) && _MSC_VER < 1400)
-size_t strnlen(const char *text, size_t maxlen)
+#if defined(__MINGW32_VERSION) || defined(__APPLE__)
+size_t rep_strnlen(char *text, size_t maxlen);
+size_t rep_strnlen(char *text, size_t maxlen)
 {
 	const char *last = memchr(text, '\0', maxlen);
 	return last ? (size_t) (last - text) : maxlen;
 }
+#define strnlen rep_strnlen
 #endif
 
 #define bytehex(x) (((x)<0xa)?('0'+(x)):('a'-0xa+(x)))
