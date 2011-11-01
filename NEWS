@@ -1,4 +1,6 @@
-0.8.1	UNRELEASED
+0.8.2	UNELEASED
+
+0.8.1	2011-10-31
 
  FEATURES
 
@@ -34,6 +36,9 @@
 
  * Don't compile C extensions when running in pypy.
    (Ronny Pfannschmidt, #881546)
+
+ * Use different name for strnlen replacement function to avoid clashing
+   with system strnlen. (Jelmer Vernooij, #880362)
 
  API CHANGES
 
