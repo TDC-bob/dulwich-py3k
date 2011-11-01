@@ -86,7 +86,7 @@ def self_test_suite():
         'patch',
         'protocol',
         'repository',
-        #'server',
+        'server',
         #'walk',
         #'web',
         ]
