@@ -283,8 +283,7 @@ static struct PyModuleDef py_objectsmodule = {
 	py_objects_methods
 };
 
-PyMODINIT_FUNC
-init_objects(void)
+PyObject *PyInit__objects(void)
 {
 	PyObject *m, *objects_mod, *errors_mod;
 

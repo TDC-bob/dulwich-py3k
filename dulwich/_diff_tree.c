@@ -447,8 +447,7 @@ static struct PyModuleDef py_diff_tree_module = {
 	py_diff_tree_methods
 };
 
-PyMODINIT_FUNC
-init_diff_tree(void)
+PyObject *PyInit__diff_tree(void)
 {
 	PyObject *m, *objects_mod = NULL, *diff_tree_mod = NULL;
 	PyObject *block_size_obj = NULL;

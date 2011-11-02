@@ -246,8 +246,7 @@ static struct PyModuleDef py_packmodule = {
     py_pack_methods
 };
 
-PyMODINIT_FUNC
-init_pack(void)
+PyObject *PyInit__pack(void)
 {
     return PyModule_Create(&py_packmodule);
 }
