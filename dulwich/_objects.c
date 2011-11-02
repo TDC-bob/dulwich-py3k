@@ -47,7 +47,7 @@ static PyObject *sha_to_pyhex(const unsigned char *sha)
 		hexsha[i*2+1] = bytehex(sha[i] & 0x0F);
 	}
 
-	return PyUnicode_DecodeASCII(hexsha, 40, NULL);
+	return PyBytes_FromStringAndSize(hexsha, 40);
 }
 
 static PyObject *py_parse_tree(PyObject *self, PyObject *args, PyObject *kw)
@@ -96,7 +96,7 @@ static PyObject *py_parse_tree(PyObject *self, PyObject *args, PyObject *kw)
 
 		namelen = strnlen(text, len - (text - start));
 
-		name = PyUnicode_DecodeASCII(text, namelen, NULL);
+		name = PyBytes_FromStringAndSize(text, namelen);
 		if (name == NULL) {
 			Py_DECREF(ret);
 			return NULL;
@@ -168,7 +168,7 @@ static PyObject *py_sorted_tree_items(PyObject *self, PyObject *args)
 {
 	struct tree_item *qsort_entries = NULL;
 	int name_order, num_entries, n = 0, i;
-	PyObject *entries, *py_name_order, *ret, *key, *value, *py_mode, *py_sha, *key_bytes;
+	PyObject *entries, *py_name_order, *ret, *key, *value, *py_mode, *py_sha;
 	Py_ssize_t pos = 0;
 	int (*cmp)(const void *, const void *);
 
@@ -199,8 +199,8 @@ static PyObject *py_sorted_tree_items(PyObject *self, PyObject *args)
 	}
 
 	while (PyDict_Next(entries, &pos, &key, &value)) {
-		if (!PyUnicode_Check(key)) {
-			PyErr_SetString(PyExc_TypeError, "Name is not a string");
+		if (!PyBytes_Check(key)) {
+			PyErr_SetString(PyExc_TypeError, "Name is not a bytes object");
 			goto error;
 		}
 
@@ -216,28 +216,26 @@ static PyObject *py_sorted_tree_items(PyObject *self, PyObject *args)
 		}
 
 		py_sha = PyTuple_GET_ITEM(value, 1);
-		if (!PyUnicode_Check(py_sha)) {
-			PyErr_SetString(PyExc_TypeError, "SHA is not a string");
+		if (!PyBytes_Check(py_sha)) {
+			PyErr_SetString(PyExc_TypeError, "SHA is not a bytes object");
 			goto error;
 		}
 
-		key_bytes = PyUnicode_AsASCIIString(key);
-		if (!PyBytes_Check(key_bytes)) {
-			PyErr_SetString(PyExc_TypeError, "SHA string conversion failed");
-			Py_DECREF(key_bytes);
-			goto error;
-		}
-
-		qsort_entries[n].name = strdup(PyBytes_AS_STRING(key_bytes));
+		qsort_entries[n].name = strdup(PyBytes_AS_STRING(key));
 		qsort_entries[n].mode = PyLong_AsLong(py_mode);
 
-		Py_XDECREF(key_bytes);
+		PyObject* key_string = PyUnicode_Decode(qsort_entries[n].name, PyBytes_Size(key), NULL, NULL);
+		if(key_string == NULL) {
+			goto error;
+		}
 
 		qsort_entries[n].tuple = PyObject_CallFunctionObjArgs(
-		                tree_entry_cls, key, py_mode, py_sha, NULL);
+		    tree_entry_cls, key_string, py_mode, py_sha, NULL);
 		if (qsort_entries[n].tuple == NULL) {
 			goto error;
 		}
+
+		Py_DECREF(key_string);
 		n++;
 	}
 

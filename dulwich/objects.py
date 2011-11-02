@@ -168,6 +168,7 @@ class FixedSha(object):
 
     __slots__ = ('_hexsha', '_sha')
 
+    @wrap3kstr(hexsha=BYTES)
     def __init__(self, hexsha):
         self._hexsha = hexsha
         self._sha = hex_to_sha(hexsha)
@@ -758,7 +759,8 @@ def serialize_tree(items):
     :return: Serialized tree text as chunks
     """
     for name, mode, hexsha in items:
-        yield convert3kstr("%04o %s" % (mode, name), BYTES) + b'\0' + hex_to_sha(hexsha)
+        yield convert3kstr("%04o " % mode, BYTES) + \
+          convert3kstr(name, BYTES) + b'\0' + hex_to_sha(hexsha)
 
 def cmp_to_key(mycmp):
     """Convert a cmp= function into a key= function"""

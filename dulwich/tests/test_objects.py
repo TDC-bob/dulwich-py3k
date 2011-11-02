@@ -394,9 +394,9 @@ class CommitParseTests(ShaFileCheckTests):
 
 
 _TREE_ITEMS = {
-  'a.c': (0o100755, b'd80c186a03f423a81b39df39dc87fd269736ca86'),
-  'a': (stat.S_IFDIR, b'd80c186a03f423a81b39df39dc87fd269736ca86'),
-  'a/c': (stat.S_IFDIR, b'd80c186a03f423a81b39df39dc87fd269736ca86'),
+  b'a.c': (0o100755, b'd80c186a03f423a81b39df39dc87fd269736ca86'),
+  b'a': (stat.S_IFDIR, b'd80c186a03f423a81b39df39dc87fd269736ca86'),
+  b'a/c': (stat.S_IFDIR, b'd80c186a03f423a81b39df39dc87fd269736ca86'),
   }
 
 _SORTED_TREE_ITEMS = [
