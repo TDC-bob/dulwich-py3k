@@ -224,8 +224,14 @@ static PyObject *py_sorted_tree_items(PyObject *self, PyObject *args)
 		qsort_entries[n].name = strdup(PyBytes_AS_STRING(key));
 		qsort_entries[n].mode = PyLong_AsLong(py_mode);
 
-		PyObject* key_string = PyUnicode_Decode(qsort_entries[n].name, PyBytes_Size(key), NULL, NULL);
+		PyObject* key_string = PyUnicode_DecodeASCII(PyBytes_AS_STRING(key), PyBytes_Size(key), NULL);
 		if(key_string == NULL) {
+			goto error;
+		}
+
+		if(!PyUnicode_Check(key_string)) {
+			PyErr_SetString(PyExc_TypeError, "Unable to convert key to a unicode string");
+			Py_DECREF(key_string);
 			goto error;
 		}
 
