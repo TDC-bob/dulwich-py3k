@@ -75,7 +75,7 @@ def _tree_entries(path, tree):
         result.append(entry.in_path(path))
     return result
 
-
+@wrap3kstr(path=STRING)
 def _merge_entries(path, tree1, tree2):
     """Merge the entries of two trees.
 
@@ -150,7 +150,7 @@ def walk_trees(store, tree1_id, tree2_id, prune_identical=False):
         tree1 = is_tree1 and store[entry1.sha] or None
         tree2 = is_tree2 and store[entry2.sha] or None
         path = entry1.path or entry2.path
-        todo.extend(reversed(_merge_entries(path, tree1, tree2)))
+        todo.extend(reversed(_merge_entries(convert3kstr(path, STRING), tree1, tree2)))
         yield entry1, entry2
 
 

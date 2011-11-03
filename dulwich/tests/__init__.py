@@ -75,19 +75,19 @@ def self_test_suite():
     names = [
         'blackbox',
         'client',
-        #'diff_tree',
+        'diff_tree',
         'fastexport',
         'file',
         'index',
         'lru_cache',
         'objects',
-        #'object_store',
+        'object_store',
         #'pack',
-        #'patch',
+        'patch',
         'protocol',
         'repository',
         'server',
-        #'walk',
+        'walk',
         #'web',
         ]
     module_names = ['dulwich.tests.test_' + name for name in names]

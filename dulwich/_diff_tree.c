@@ -34,7 +34,7 @@ typedef unsigned short mode_t;
 #endif
 
 static PyObject *tree_entry_cls = NULL, *null_entry = NULL,
-	*defaultdict_cls = NULL, *int_cls = NULL;
+	*defaultdict_cls = NULL, *int_cls = NULL, *slash = NULL;
 static int block_size;
 
 /**
@@ -58,13 +58,13 @@ static void free_objects(PyObject **objs, Py_ssize_t n)
  * :return: A (C) array of PyObject pointers to TreeEntry objects for each path
  *     in tree.
  */
-static PyObject **tree_entries(char *path, Py_ssize_t path_len, PyObject *tree,
-		Py_ssize_t *n)
+static PyObject **tree_entries(PyObject *path, Py_ssize_t path_len,
+                               PyObject *tree, Py_ssize_t *n)
 {
 	PyObject *iteritems, *items, **result = NULL;
-	PyObject *old_entry, *name, *sha, *name_bytes;
-	Py_ssize_t i = 0, name_len, new_path_len;
-	char *new_path, *name_str;
+	PyObject *old_entry, *name, *sha;
+	PyObject *tmp, *new_path;
+	Py_ssize_t i = 0;
 
 	if (tree == Py_None) {
 		*n = 0;
@@ -107,59 +107,39 @@ static PyObject **tree_entries(char *path, Py_ssize_t path_len, PyObject *tree,
 		if (!sha)
 			goto error;
 		name = PyTuple_GET_ITEM(old_entry, 0);
-
-		if (!PyUnicode_FSConverter(name, &name_bytes)) {
-			PyErr_SetString(PyExc_TypeError, "name can't be encoded as bytes");
+		if(!PyUnicode_Check(name)) {
+			PyErr_SetString(PyExc_TypeError, "name must be a string");
 			goto error;
 		}
 
-		if (PyBytes_Check(name_bytes)) {
-			PyErr_SetString(PyExc_TypeError, "name can't be encoded as bytes");
-			Py_DECREF(name_bytes);
-			goto error;
-		}
-
-		name_str = PyBytes_AS_STRING(name_bytes);
-		if (!name_str) {
-			PyErr_SetString(PyExc_TypeError, "name can't be encoded as bytes");
-			Py_DECREF(name_bytes);
-			goto error;
-		}
-
-		name_len = PyBytes_Size(name_bytes);
-		new_path_len = name_len;
-		if (path_len)
-			new_path_len += path_len + 1;
-		new_path = PyMem_Malloc(new_path_len);
-		if (!new_path) {
-			PyErr_SetNone(PyExc_MemoryError);
-			goto error;
-		}
-
+		tmp = path;
 		if (path_len) {
-			memcpy(new_path, path, path_len);
-			new_path[path_len] = '/';
-			memcpy(new_path + path_len + 1, name_str, name_len);
-		} else {
-			memcpy(new_path, name_str, name_len);
+			tmp = PyUnicode_Concat(path, slash);
+			if(tmp == NULL) {
+				PyErr_SetNone(PyExc_MemoryError);
+				goto error;
+			}
+
+			if(!PyUnicode_Check(tmp)) {
+				PyErr_SetString(PyExc_TypeError, "new path is not a string");
+				Py_DECREF(tmp);
+				goto error;
+			}
 		}
 
-		Py_DECREF(name_bytes);
+		new_path = PyUnicode_Concat(tmp, name);
+		result[i] = PyObject_CallFunction(tree_entry_cls, "OOO", new_path,
+		                                  PyTuple_GET_ITEM(old_entry, 1), sha);
 
-		PyObject *obj_new_path = PyUnicode_DecodeFSDefaultAndSize(new_path, new_path_len);
-		if (obj_new_path == NULL || PyErr_Occurred()) {
-			PyErr_SetString(PyExc_TypeError, "new_path can't be encoded as a string");
-			Py_XDECREF(obj_new_path);
-			goto error;
-		}
+		if(tmp != path)
+			Py_DECREF(tmp);
+		Py_DECREF(new_path);
 
-		result[i] = PyObject_CallFunction(tree_entry_cls, "OOO", obj_new_path,
-										  PyTuple_GET_ITEM(old_entry, 1), sha);
-		PyMem_Free(new_path);
 		if (!result[i]) {
 			goto error;
 		}
 	}
+
 	Py_DECREF(items);
 	return result;
 
@@ -206,39 +186,27 @@ done:
 static PyObject *py_merge_entries(PyObject *self, PyObject *args)
 {
 	PyObject *path, *tree1, *tree2, **entries1 = NULL, **entries2 = NULL;
-	PyObject *path_bytes = NULL;
 	PyObject *e1, *e2, *pair, *result = NULL;
 	Py_ssize_t path_len, n1 = 0, n2 = 0, i1 = 0, i2 = 0;
-	char *path_str;
 	int cmp;
 
 	if (!PyArg_ParseTuple(args, "OOO", &path, &tree1, &tree2))
 		return NULL;
 
-	if (!PyUnicode_FSConverter(path, &path_bytes)) {
-		PyErr_SetString(PyExc_TypeError, "path can't be encoded as bytes");
+	if (!PyUnicode_Check(path)) {
+		PyErr_SetString(PyExc_TypeError, "path isn't a string");
 		return NULL;
 	}
 
-	if (PyBytes_Check(path_bytes)) {
-		PyErr_SetString(PyExc_TypeError, "path can't be encoded as bytes");
-		Py_DECREF(path_bytes);
-		return NULL;
-	}
+	// TODO: In Python 3.3, PyUnicode_GET_SIZE is deprecated. Use the
+	// following instead:
+	//     path_len = PyUnicode_GET_LENGTH(path)
+	path_len = PyUnicode_GET_SIZE(path);
 
-	path_str = PyBytes_AS_STRING(path_bytes);
-	if (!path_str) {
-		PyErr_SetString(PyExc_TypeError, "path is not a string");
-		Py_DECREF(path_bytes);
-		return NULL;
-	}
-
-	path_len = PyBytes_Size(path_bytes);
-
-	entries1 = tree_entries(path_str, path_len, tree1, &n1);
+	entries1 = tree_entries(path, path_len, tree1, &n1);
 	if (!entries1)
 		goto error;
-	entries2 = tree_entries(path_str, path_len, tree2, &n2);
+	entries2 = tree_entries(path, path_len, tree2, &n2);
 	if (!entries2)
 		goto error;
 
@@ -288,7 +256,6 @@ error:
 	result = NULL;
 
 done:
-	Py_XDECREF(path_bytes);
 	free_objects(entries1, n1);
 	free_objects(entries2, n2);
 	return result;
@@ -482,6 +449,10 @@ PyObject *PyInit__diff_tree(void)
 
 	defaultdict_cls = PyObject_GetAttrString(diff_tree_mod, "defaultdict");
 	if (!defaultdict_cls)
+		goto error;
+
+	slash = PyUnicode_FromString("/");
+	if (!slash)
 		goto error;
 
 	/* This is kind of hacky, but I don't know of a better way to get the
