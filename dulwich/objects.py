@@ -307,7 +307,7 @@ class ShaFile(object):
     def _is_legacy_object(cls, magic):
         b0, b1 = magic[0:2]
         word = (b0 << 8) + b1
-        return b0 == 0x78 and (word % 31) == 0
+        return (b0 & 0x8F) == 0x08 and (word % 31) == 0
 
     @classmethod
     def _parse_file_header(cls, f):
