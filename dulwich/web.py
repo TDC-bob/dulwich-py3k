@@ -18,7 +18,7 @@
 
 """HTTP server for dulwich that implements the git smart HTTP protocol."""
 
-from io import StringIO
+from io import BytesIO
 import os
 import re
 import sys
@@ -40,6 +40,7 @@ from dulwich.server import (
     DEFAULT_HANDLERS,
     )
 
+from dulwich.py3k import *
 
 logger = log_utils.getLogger(__name__)
 
@@ -167,7 +168,7 @@ def get_info_refs(req, backend, mat):
             return
         req.nocache()
         write = req.respond(HTTP_OK, 'application/x-%s-advertisement' % service)
-        proto = ReceivableProtocol(StringIO().read, write)
+        proto = ReceivableProtocol(BytesIO().read, write)
         handler = handler_cls(backend, [url_prefix(mat)], proto,
                               http_req=req, advertise_refs=True)
         handler.proto.write_pkt_line('# service=%s\n' % service)
@@ -184,16 +185,17 @@ def get_info_refs(req, backend, mat):
         for name in sorted(refs.keys()):
             # get_refs() includes HEAD as a special case, but we don't want to
             # advertise it
-            if name == 'HEAD':
+            if name == b'HEAD':
                 continue
             sha = refs[name]
             o = repo[sha]
             if not o:
                 continue
-            yield '%s\t%s\n' % (sha, name)
+
+            yield sha + b'\t' + name + b'\n'
             peeled_sha = repo.get_peeled(name)
             if peeled_sha != sha:
-                yield '%s\t%s^{}\n' % (peeled_sha, name)
+                yield peeled_sha + b'\t' + name + b'^{}\n'
 
 
 def get_info_packs(req, backend, mat):
@@ -201,7 +203,7 @@ def get_info_packs(req, backend, mat):
     req.respond(HTTP_OK, 'text/plain')
     logger.info('Emulating dumb info/packs')
     for pack in get_repo(backend, mat).object_store.packs:
-        yield 'P pack-%s.pack\n' % pack.name()
+        yield b'P pack-' + convert3kstr(pack.name(), BYTES) + b'.pack\n'
 
 
 class _LengthLimitedFile(object):
@@ -218,7 +220,7 @@ class _LengthLimitedFile(object):
 
     def read(self, size=-1):
         if self._bytes_avail <= 0:
-            return ''
+            return b''
         if size == -1 or size > self._bytes_avail:
             size = self._bytes_avail
         self._bytes_avail -= size

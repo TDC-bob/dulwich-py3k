@@ -18,7 +18,7 @@
 
 """Tests for the Git HTTP server."""
 
-from io import StringIO
+from io import BytesIO
 import re
 
 from dulwich.object_store import (
@@ -60,6 +60,7 @@ from dulwich.tests.utils import (
     make_object,
     )
 
+from dulwich.py3k import *
 
 class TestHTTPGitRequest(HTTPGitRequest):
     """HTTPGitRequest with overridden methods to help test caching."""
@@ -87,7 +88,7 @@ class WebTestCase(TestCase):
                                     handlers=self._handlers())
         self._status = None
         self._headers = []
-        self._output = StringIO()
+        self._output = BytesIO()
 
     def _start_response(self, status, headers):
         self._status = status
@@ -119,17 +120,17 @@ class DumbHandlersTestCase(WebTestCase):
         self.assertEqual(HTTP_NOT_FOUND, self._status)
 
     def test_send_file(self):
-        f = StringIO('foobar')
-        output = ''.join(send_file(self._req, f, 'some/thing'))
-        self.assertEqual('foobar', output)
+        f = BytesIO(b'foobar')
+        output = b''.join(send_file(self._req, f, 'some/thing'))
+        self.assertEqual(b'foobar', output)
         self.assertEqual(HTTP_OK, self._status)
         self.assertContentTypeEquals('some/thing')
         self.assertTrue(f.closed)
 
     def test_send_file_buffered(self):
         bufsize = 10240
-        xs = 'x' * bufsize
-        f = StringIO(2 * xs)
+        xs = b'x' * bufsize
+        f = BytesIO(2 * xs)
         self.assertEqual([xs, xs],
                           list(send_file(self._req, f, 'some/thing')))
         self.assertEqual(HTTP_OK, self._status)
@@ -164,8 +165,8 @@ class DumbHandlersTestCase(WebTestCase):
     def test_get_text_file(self):
         backend = _test_backend([], named_files={'description': 'foo'})
         mat = re.search('.*', 'description')
-        output = ''.join(get_text_file(self._req, backend, mat))
-        self.assertEqual('foo', output)
+        output = b''.join(get_text_file(self._req, backend, mat))
+        self.assertEqual(b'foo', output)
         self.assertEqual(HTTP_OK, self._status)
         self.assertContentTypeEquals('text/plain')
         self.assertFalse(self._req.cached)
@@ -173,8 +174,8 @@ class DumbHandlersTestCase(WebTestCase):
     def test_get_loose_object(self):
         blob = make_object(Blob, data='foo')
         backend = _test_backend([blob])
-        mat = re.search('^(..)(.{38})$', blob.id)
-        output = ''.join(get_loose_object(self._req, backend, mat))
+        mat = re.search('^(..)(.{38})$', convert3kstr(blob.id, STRING))
+        output = b''.join(get_loose_object(self._req, backend, mat))
         self.assertEqual(blob.as_legacy_object(), output)
         self.assertEqual(HTTP_OK, self._status)
         self.assertContentTypeEquals('application/x-git-loose-object')
@@ -188,7 +189,7 @@ class DumbHandlersTestCase(WebTestCase):
     def test_get_loose_object_error(self):
         blob = make_object(Blob, data='foo')
         backend = _test_backend([blob])
-        mat = re.search('^(..)(.{38})$', blob.id)
+        mat = re.search('^(..)(.{38})$', convert3kstr(blob.id, STRING))
 
         def as_legacy_object_error():
             raise IOError
@@ -199,20 +200,20 @@ class DumbHandlersTestCase(WebTestCase):
 
     def test_get_pack_file(self):
         pack_name = 'objects/pack/pack-%s.pack' % ('1' * 40)
-        backend = _test_backend([], named_files={pack_name: 'pack contents'})
+        backend = _test_backend([], named_files={pack_name: b'pack contents'})
         mat = re.search('.*', pack_name)
-        output = ''.join(get_pack_file(self._req, backend, mat))
-        self.assertEqual('pack contents', output)
+        output = b''.join(get_pack_file(self._req, backend, mat))
+        self.assertEqual(b'pack contents', output)
         self.assertEqual(HTTP_OK, self._status)
         self.assertContentTypeEquals('application/x-git-packed-objects')
         self.assertTrue(self._req.cached)
 
     def test_get_idx_file(self):
         idx_name = 'objects/pack/pack-%s.idx' % ('1' * 40)
-        backend = _test_backend([], named_files={idx_name: 'idx contents'})
+        backend = _test_backend([], named_files={idx_name: b'idx contents'})
         mat = re.search('.*', idx_name)
-        output = ''.join(get_idx_file(self._req, backend, mat))
-        self.assertEqual('idx contents', output)
+        output = b''.join(get_idx_file(self._req, backend, mat))
+        self.assertEqual(b'idx contents', output)
         self.assertEqual(HTTP_OK, self._status)
         self.assertContentTypeEquals('application/x-git-packed-objects-toc')
         self.assertTrue(self._req.cached)
@@ -220,9 +221,9 @@ class DumbHandlersTestCase(WebTestCase):
     def test_get_info_refs(self):
         self._environ['QUERY_STRING'] = ''
 
-        blob1 = make_object(Blob, data='1')
-        blob2 = make_object(Blob, data='2')
-        blob3 = make_object(Blob, data='3')
+        blob1 = make_object(Blob, data=b'1')
+        blob2 = make_object(Blob, data=b'2')
+        blob3 = make_object(Blob, data=b'3')
 
         tag1 = make_object(Tag, name='tag-tag',
                            tagger='Test <test@example.com>',
@@ -241,10 +242,10 @@ class DumbHandlersTestCase(WebTestCase):
         backend = _test_backend(objects, refs=refs)
 
         mat = re.search('.*', '//info/refs')
-        self.assertEqual(['%s\trefs/heads/master\n' % blob1.id,
-                           '%s\trefs/tags/blob-tag\n' % blob3.id,
-                           '%s\trefs/tags/tag-tag\n' % tag1.id,
-                           '%s\trefs/tags/tag-tag^{}\n' % blob2.id],
+        self.assertEqual([blob1.id + b'\trefs/heads/master\n',
+                          blob3.id + b'\trefs/tags/blob-tag\n',
+                          tag1.id + b'\trefs/tags/tag-tag\n',
+                          blob2.id + b'\trefs/tags/tag-tag^{}\n'],
                           list(get_info_refs(self._req, backend, mat)))
         self.assertEqual(HTTP_OK, self._status)
         self.assertContentTypeEquals('text/plain')
@@ -270,10 +271,10 @@ class DumbHandlersTestCase(WebTestCase):
         repo = BaseRepo(store, None)
         backend = DictBackend({'/': repo})
         mat = re.search('.*', '//info/packs')
-        output = ''.join(get_info_packs(self._req, backend, mat))
+        output = b''.join(get_info_packs(self._req, backend, mat))
         expected = 'P pack-%s.pack\n' * 3
         expected %= ('1' * 40, '2' * 40, '3' * 40)
-        self.assertEqual(expected, output)
+        self.assertEqual(convert3kstr(expected, BYTES), output)
         self.assertEqual(HTTP_OK, self._status)
         self.assertContentTypeEquals('text/plain')
         self.assertFalse(self._req.cached)
@@ -290,7 +291,13 @@ class SmartHandlersTestCase(WebTestCase):
             self.advertise_refs = advertise_refs
 
         def handle(self):
-            self.proto.write('handled input: %s' % self.proto.recv(1024))
+            dat = self.proto.recv(1024)
+            if isinstance(dat, bytes):
+                self.proto.write(b'handled input: ' + dat)
+            elif isinstance(dat, str):
+                self.proto.write('handled input: %s' % dat)
+            else:
+                assert False
 
     def _make_handler(self, *args, **kwargs):
         self._handler = self._TestUploadPackHandler(*args, **kwargs)
@@ -306,7 +313,7 @@ class SmartHandlersTestCase(WebTestCase):
         self.assertFalse(self._req.cached)
 
     def _run_handle_service_request(self, content_length=None):
-        self._environ['wsgi.input'] = StringIO('foo')
+        self._environ['wsgi.input'] = BytesIO(b'foo')
         if content_length is not None:
             self._environ['CONTENT_LENGTH'] = content_length
         mat = re.search('.*', '/git-upload-pack')
@@ -315,7 +322,7 @@ class SmartHandlersTestCase(WebTestCase):
         write_output = self._output.getvalue()
         # Ensure all output was written via the write callback.
         self.assertEqual('', handler_output)
-        self.assertEqual('handled input: foo', write_output)
+        self.assertEqual(b'handled input: foo', write_output)
         self.assertContentTypeEquals('application/x-git-upload-pack-result')
         self.assertFalse(self._handler.advertise_refs)
         self.assertTrue(self._handler.http_req)
@@ -337,16 +344,16 @@ class SmartHandlersTestCase(WebTestCase):
         self.assertFalse(self._req.cached)
 
     def test_get_info_refs(self):
-        self._environ['wsgi.input'] = StringIO('foo')
+        self._environ['wsgi.input'] = BytesIO(b'foo')
         self._environ['QUERY_STRING'] = 'service=git-upload-pack'
 
         mat = re.search('.*', '/git-upload-pack')
-        handler_output = ''.join(get_info_refs(self._req, 'backend', mat))
+        handler_output = ''.join(get_info_refs(self._req, b'backend', mat))
         write_output = self._output.getvalue()
-        self.assertEqual(('001e# service=git-upload-pack\n'
-                           '0000'
-                           # input is ignored by the handler
-                           'handled input: '), write_output)
+        self.assertEqual((b'001e# service=git-upload-pack\n'
+                          b'0000'
+                          # input is ignored by the handler
+                          b'handled input: '), write_output)
         # Ensure all output was written via the write callback.
         self.assertEqual('', handler_output)
         self.assertTrue(self._handler.advertise_refs)
@@ -356,19 +363,19 @@ class SmartHandlersTestCase(WebTestCase):
 
 class LengthLimitedFileTestCase(TestCase):
     def test_no_cutoff(self):
-        f = _LengthLimitedFile(StringIO('foobar'), 1024)
-        self.assertEqual('foobar', f.read())
+        f = _LengthLimitedFile(BytesIO(b'foobar'), 1024)
+        self.assertEqual(b'foobar', f.read())
 
     def test_cutoff(self):
-        f = _LengthLimitedFile(StringIO('foobar'), 3)
-        self.assertEqual('foo', f.read())
-        self.assertEqual('', f.read())
+        f = _LengthLimitedFile(BytesIO(b'foobar'), 3)
+        self.assertEqual(b'foo', f.read())
+        self.assertEqual(b'', f.read())
 
     def test_multiple_reads(self):
-        f = _LengthLimitedFile(StringIO('foobar'), 3)
-        self.assertEqual('fo', f.read(2))
-        self.assertEqual('o', f.read(2))
-        self.assertEqual('', f.read())
+        f = _LengthLimitedFile(BytesIO(b'foobar'), 3)
+        self.assertEqual(b'fo', f.read(2))
+        self.assertEqual(b'o', f.read(2))
+        self.assertEqual(b'', f.read())
 
 
 class HTTPGitRequestTestCase(WebTestCase):

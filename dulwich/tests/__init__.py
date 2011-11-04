@@ -88,7 +88,7 @@ def self_test_suite():
         'repository',
         'server',
         'walk',
-        #'web',
+        'web',
         ]
     module_names = ['dulwich.tests.test_' + name for name in names]
     loader = unittest.TestLoader()
