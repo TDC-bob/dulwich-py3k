@@ -30,10 +30,11 @@ DICT_VALS_TO_STRING = 32
 AGGRESSIVE = 64
 
 class wrap3kstr(object):
-    def __init__(self, unnamed_in=NOCONVERT, returns=NOCONVERT, **kwargs):
+    def __init__(self, enforcing=False, unnamed_in=NOCONVERT, returns=NOCONVERT, **kwargs):
         self.unnamed_in = self._sanity_check(unnamed_in)
         self.returns = self._sanity_check(returns)
         self.named_in = {}
+        self.enforcing = enforcing
         for key in kwargs:
             self.named_in[key] = self._sanity_check(kwargs[key])
 
@@ -111,38 +112,48 @@ class wrap3kstr(object):
         return newdict
 
     def toString(self, obj):
-        if isinstance(obj, bytes):
-            return obj.decode()
-        elif isinstance(obj, str):
-            return obj
-        elif isinstance(obj, tuple):
+        if isinstance(obj, tuple):
             return tuple([self.toString(o) for o in obj])
         elif isinstance(obj, list):
             return [self.toString(o) for o in obj]
-        elif self.active_mask & AGGRESSIVE:
-            if hasattr(obj, __str__):
-                return str(obj)
+
+        if self.enforcing:
+            assert isinstance(obj, str), 'Expected string, got %s' % str(type(obj))
+            return obj
+        else:
+            if isinstance(obj, bytes):
+                return obj.decode()
+            elif isinstance(obj, str):
+                return obj
+            elif self.active_mask & AGGRESSIVE:
+                if hasattr(obj, __str__):
+                    return str(obj)
+                else:
+                    return obj
             else:
                 return obj
-        else:
-            return obj
 
     def toBytes(self, obj):
-        if isinstance(obj, bytes):
-            return obj
-        elif isinstance(obj, str):
-            return obj.encode()
-        elif isinstance(obj, tuple):
+        if isinstance(obj, tuple):
             return tuple([self.toBytes(o) for o in obj])
         elif isinstance(obj, list):
             return [self.toBytes(o) for o in obj]
-        elif self.active_mask & AGGRESSIVE:
-            if isinstance(obj, int):
-                return bytes((obj,))
+
+        if self.enforcing:
+            assert isinstance(obj, bytes), 'Expected bytes, got %s' % str(type(obj))
+            return obj
+        else:
+            if isinstance(obj, bytes):
+                return obj
+            elif isinstance(obj, str):
+                return obj.encode()
+            elif self.active_mask & AGGRESSIVE:
+                if isinstance(obj, int):
+                    return bytes((obj,))
+                else:
+                    return obj
             else:
                 return obj
-        else:
-            return obj
 
     def convertParam(self, param):
         mask = self.active_mask
@@ -188,7 +199,7 @@ class wrap3kstr(object):
 
         return wrapped_func
 
-def convert3kstr(obj, mask):
-    wrap = wrap3kstr()
+def convert3kstr(obj, mask, enforcing=False):
+    wrap = wrap3kstr(enforcing=enforcing)
     wrap.active_mask = mask
     return wrap.convertParam(obj)
