@@ -194,10 +194,6 @@ static PyObject *py_sorted_tree_items(PyObject *self, PyObject *args)
 		goto error;
 	}
 
-	for (i = 0; i < num_entries; i++) {
-		qsort_entries[i].name = NULL;
-	}
-
 	while (PyDict_Next(entries, &pos, &key, &value)) {
 		if (!PyBytes_Check(key)) {
 			PyErr_SetString(PyExc_TypeError, "Name is not a bytes object");
@@ -221,7 +217,7 @@ static PyObject *py_sorted_tree_items(PyObject *self, PyObject *args)
 			goto error;
 		}
 
-		qsort_entries[n].name = strdup(PyBytes_AS_STRING(key));
+		qsort_entries[n].name = PyBytes_AS_STRING(key);
 		qsort_entries[n].mode = PyLong_AsLong(py_mode);
 
 		PyObject* key_string = PyUnicode_DecodeASCII(PyBytes_AS_STRING(key), PyBytes_Size(key), NULL);
@@ -254,8 +250,6 @@ static PyObject *py_sorted_tree_items(PyObject *self, PyObject *args)
 	}
 
 	for (i = 0; i < num_entries; i++) {
-		if(qsort_entries[i].name)
-			free(qsort_entries[i].name);
 		PyList_SET_ITEM(ret, i, qsort_entries[i].tuple);
 	}
 	PyMem_Free(qsort_entries);
@@ -263,8 +257,6 @@ static PyObject *py_sorted_tree_items(PyObject *self, PyObject *args)
 
 error:
 	for (i = 0; i < n; i++) {
-		if(qsort_entries[i].name)
-			free(qsort_entries[i].name);
 		Py_XDECREF(qsort_entries[i].tuple);
 	}
 	PyMem_Free(qsort_entries);
