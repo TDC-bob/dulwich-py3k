@@ -329,7 +329,7 @@ class GitHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         if host != self.client_address[0]:
             env['REMOTE_HOST'] = host
         env['REMOTE_ADDR'] = self.client_address[0]
-        authorization = self.headers.getheader("authorization")
+        authorization = self.headers.get("authorization")
         if authorization:
             authorization = authorization.split()
             if len(authorization) == 2:
@@ -345,14 +345,14 @@ class GitHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
                         if len(authorization) == 2:
                             env['REMOTE_USER'] = authorization[0]
         # XXX REMOTE_IDENT
-        if self.headers.typeheader is None:
-            env['CONTENT_TYPE'] = self.headers.type
+        if self.headers.get('content-type') is None:
+            env['CONTENT_TYPE'] = self.headers.get_content_type()
         else:
-            env['CONTENT_TYPE'] = self.headers.typeheader
-        length = self.headers.getheader('content-length')
+            env['CONTENT_TYPE'] = self.headers['content-type']
+        length = self.headers.get('content-length')
         if length:
             env['CONTENT_LENGTH'] = length
-        referer = self.headers.getheader('referer')
+        referer = self.headers.get('referer')
         if referer:
             env['HTTP_REFERER'] = referer
         accept = []
@@ -362,10 +362,10 @@ class GitHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
             else:
                 accept = accept + line[7:].split(',')
         env['HTTP_ACCEPT'] = ','.join(accept)
-        ua = self.headers.getheader('user-agent')
+        ua = self.headers.get('user-agent')
         if ua:
             env['HTTP_USER_AGENT'] = ua
-        co = [_f for _f in self.headers.getheaders('cookie') if _f]
+        co = [_f for _f in self.headers.get_all('cookie', []) if _f]
         if co:
             env['HTTP_COOKIE'] = ', '.join(co)
         # XXX Other HTTP_* headers

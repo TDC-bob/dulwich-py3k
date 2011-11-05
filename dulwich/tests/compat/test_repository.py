@@ -20,7 +20,7 @@
 """Compatibility tests for dulwich repositories."""
 
 
-from io import StringIO
+from io import BytesIO
 import itertools
 import os
 
@@ -54,17 +54,17 @@ class ObjectStoreTestCase(CompatTestCase):
 
     def _parse_refs(self, output):
         refs = {}
-        for line in StringIO(output):
-            fields = line.rstrip('\n').split(' ')
+        for line in BytesIO(output):
+            fields = line.rstrip(b'\n').split(b' ')
             self.assertEqual(3, len(fields))
             refname, type_name, sha = fields
             check_ref_format(refname[5:])
             hex_to_sha(sha)
-            refs[refname] = (type_name, sha)
+            refs[refname] = (type_name.decode(), sha)
         return refs
 
     def _parse_objects(self, output):
-        return set(s.rstrip('\n').split(' ')[0] for s in StringIO(output))
+        return set(s.rstrip(b'\n').split(b' ')[0] for s in BytesIO(output))
 
     def test_bare(self):
         self.assertTrue(self._repo.bare)
@@ -72,7 +72,7 @@ class ObjectStoreTestCase(CompatTestCase):
 
     def test_head(self):
         output = self._run_git(['rev-parse', 'HEAD'])
-        head_sha = output.rstrip('\n')
+        head_sha = output.rstrip(b'\n')
         hex_to_sha(head_sha)
         self.assertEqual(head_sha, self._repo.refs['HEAD'])
 
@@ -83,7 +83,7 @@ class ObjectStoreTestCase(CompatTestCase):
 
         actual_refs = {}
         for refname, sha in self._repo.refs.as_dict().items():
-            if refname == 'HEAD':
+            if refname == b'HEAD':
                 continue  # handled in test_head
             obj = self._repo[sha]
             self.assertEqual(sha, obj.id)

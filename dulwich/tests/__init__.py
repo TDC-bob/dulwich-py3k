@@ -26,15 +26,8 @@ import subprocess
 import sys
 import tempfile
 
-
-if sys.version_info >= (2, 7):
-    # If Python itself provides an exception, use that
-    import unittest
-    from unittest import SkipTest, TestCase
-else:
-    import unittest2 as unittest
-    from unittest2 import SkipTest, TestCase
-
+import unittest
+from unittest import SkipTest, TestCase
 
 class BlackboxTestCase(TestCase):
     """Blackbox testing."""
