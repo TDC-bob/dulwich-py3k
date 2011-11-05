@@ -36,8 +36,6 @@ size_t rep_strnlen(char *text, size_t maxlen)
 static PyObject *tree_entry_cls;
 static PyObject *object_format_exception_cls;
 
-// PY3K: sha must be a bytes object
-// PY3K: the return type must be a python 3 string
 static PyObject *sha_to_pyhex(const unsigned char *sha)
 {
 	char hexsha[41];
