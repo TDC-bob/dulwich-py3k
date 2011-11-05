@@ -199,4 +199,4 @@ class NoSideBand64kReceivePackHandler(ReceivePackHandler):
     @classmethod
     def capabilities(cls):
         return tuple(c for c in ReceivePackHandler.capabilities()
-                     if c != 'side-band-64k')
+                     if c != b'side-band-64k')

@@ -183,7 +183,9 @@ class wrap3kstr(object):
             nargs = positional + defaulted + nameless + keyword
 
             newkwargs = {}
-            for (name, val) in nargs:
+            for arg in nargs:
+                name = arg[0]
+                val = arg[1]
                 if name in self.named_in:
                     self.active_mask = self.named_in[name]
                 else:

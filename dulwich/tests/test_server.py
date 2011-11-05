@@ -149,9 +149,9 @@ class UploadPackHandlerTestCase(TestCase):
     def setUp(self):
         super(UploadPackHandlerTestCase, self).setUp()
         self._repo = MemoryRepo.init_bare([], {})
-        backend = DictBackend({'/': self._repo})
+        backend = DictBackend({b'/': self._repo})
         self._handler = UploadPackHandler(
-          backend, ['/', 'host=lolcathost'], TestProto())
+          backend, [b'/', 'host=lolcathost'], TestProto())
 
     def test_progress(self):
         caps = self._handler.required_capabilities()
@@ -219,9 +219,9 @@ class ProtocolGraphWalkerTestCase(TestCase):
           make_commit(id=FIVE, parents=[THREE], commit_time=555),
           ]
         self._repo = MemoryRepo.init_bare(commits, {})
-        backend = DictBackend({'/': self._repo})
+        backend = DictBackend({b'/': self._repo})
         self._walker = ProtocolGraphWalker(
-            TestUploadPackHandler(backend, ['/', 'host=lolcats'], TestProto()),
+            TestUploadPackHandler(backend, [b'/', b'host=lolcats'], TestProto()),
             self._repo.object_store, self._repo.get_peeled)
 
     def test_is_satisfied_no_haves(self):

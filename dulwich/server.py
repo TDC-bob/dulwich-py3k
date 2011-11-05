@@ -178,6 +178,7 @@ class Handler(object):
         self._client_capabilities = set(caps)
         logger.info('Client capabilities: %s', convert3kstr(caps, STRING))
 
+    @wrap3kstr(cap=BYTES)
     def has_capability(self, cap):
         if self._client_capabilities is None:
             raise GitProtocolError('Server attempted to access capability %s '
@@ -392,7 +393,8 @@ class ProtocolGraphWalker(object):
 
     def __next__(self):
         if not self._cached:
-            if not self._impl and self.http_req:
+            #if not self._impl and self.http_req:
+            if not self._impl:
                 return None
             return next(self._impl)
         self._cache_index += 1
@@ -433,13 +435,14 @@ class ProtocolGraphWalker(object):
             terminated, presumably because we're searching too far down the
             wrong branch.
         """
+
         o = self.store[want]
         pending = collections.deque([o])
         while pending:
             commit = pending.popleft()
             if commit.id in haves:
                 return True
-            if commit.type_name != "commit":
+            if commit.type_name != 'commit':
                 # non-commit wants are assumed to be satisfied
                 continue
             for parent in commit.parents:
@@ -458,6 +461,7 @@ class ProtocolGraphWalker(object):
         """
         haves = set(haves)
         earliest = min([self.store[h].commit_time for h in haves])
+
         for want in self._wants:
             if not self._is_satisfied(haves, want, earliest):
                 return False
@@ -629,7 +633,7 @@ class ReceivePackHandler(Handler):
         return status
 
     def _report_status(self, status):
-        if self.has_capability('side-band-64k'):
+        if self.has_capability(b'side-band-64k'):
             writer = BufferedPktLineWriter(
               lambda d: self.proto.write_sideband(1, d))
             write = writer.write
@@ -644,7 +648,7 @@ class ReceivePackHandler(Handler):
         for name, msg in status:
             if name == b'unpack':
                 write(b'unpack ' + msg + b'\n')
-            elif msg == 'ok':
+            elif msg == b'ok':
                 write(b'ok ' + name + b'\n')
             else:
                 write(b'ng ' + name + b' ' + msg + b'\n')
@@ -696,26 +700,29 @@ class ReceivePackHandler(Handler):
 
 # Default handler classes for git services.
 DEFAULT_HANDLERS = {
-  'git-upload-pack': UploadPackHandler,
-  'git-receive-pack': ReceivePackHandler,
+  b'git-upload-pack': UploadPackHandler,
+  b'git-receive-pack': ReceivePackHandler,
   }
 
 
 class TCPGitRequestHandler(socketserver.StreamRequestHandler):
 
     def __init__(self, handlers, *args, **kwargs):
+        handlers = convert3kstr(handlers, DICT_KEYS_TO_BYTES)
         self.handlers = handlers
         socketserver.StreamRequestHandler.__init__(self, *args, **kwargs)
 
     def handle(self):
         proto = ReceivableProtocol(self.connection.recv, self.wfile.write)
         command, args = proto.read_cmd()
+
         logger.info('Handling %s request, args=%s', 
           convert3kstr(command, STRING), convert3kstr(args, STRING))
 
-        cls = self.handlers.get(command, None)
+        cls = self.handlers.get(convert3kstr(command, BYTES), None)
         if not isinstance(cls, collections.Callable):
             raise GitProtocolError('Invalid service %s' % convert3kstr(command, STRING))
+
         h = cls(self.server.backend, args, proto)
         h.handle()
 
@@ -728,6 +735,7 @@ class TCPGitServer(socketserver.TCPServer):
     def _make_handler(self, *args, **kwargs):
         return TCPGitRequestHandler(self.handlers, *args, **kwargs)
 
+    @wrap3kstr(handlers=DICT_KEYS_TO_BYTES)
     def __init__(self, backend, listen_addr, port=TCP_GIT_PORT, handlers=None):
         self.handlers = dict(DEFAULT_HANDLERS)
         if handlers is not None:
@@ -754,7 +762,7 @@ def main(argv=sys.argv):
         gitdir = '.'
 
     log_utils.default_logging_config()
-    backend = DictBackend({'/': Repo(gitdir)})
+    backend = DictBackend({b'/': Repo(gitdir)})
     server = TCPGitServer(backend, 'localhost')
     server.serve_forever()
 
