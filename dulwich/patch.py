@@ -121,6 +121,8 @@ def write_object_diff(f, store, old_tuple, new_tuple):
     (old_path, old_mode, old_id) = old_tuple
     (new_path, new_mode, new_id) = new_tuple
 
+    binary = not hasattr(f, 'encoding')
+
     @wrap3kstr(returns=STRING)
     def shortid(hexsha):
         if hexsha is None:
@@ -142,22 +144,46 @@ def write_object_diff(f, store, old_tuple, new_tuple):
         new_path = "/dev/null"
     else:
         new_path = "b/%s" % new_path
-    f.write(("diff --git %s %s\n" % (old_path, new_path)).encode())
+    cmd = "diff --git %s %s\n" % (old_path, new_path)
+    if binary:
+        cmd = cmd.encode()
+    f.write(cmd)
     if old_mode != new_mode:
         if new_mode is not None:
             if old_mode is not None:
-                f.write(("old mode %o\n" % old_mode).encode())
-            f.write(("new mode %o\n" % new_mode).encode())
+                line = "old mode %o\n" % old_mode
+                if binary:
+                    line = line.encode()
+                f.write(line)
+            line = "new mode %o\n" % new_mode
+            if binary:
+                line = line.encode()
+            f.write(line)
         else:
-            f.write(("deleted mode %o\n" % old_mode).encode())
-    f.write(("index %s..%s" % (shortid(old_id), shortid(new_id))).encode())
+            line = "deleted mode %o\n" % old_mode
+            if binary:
+                line = line.encode()
+            f.write(line)
+
+    line = "index %s..%s" % (shortid(old_id), shortid(new_id))
+    if binary:
+        line = line.encode()
+    f.write(line)
     if new_mode is not None:
-        f.write((" %o" % new_mode).encode())
-    f.write(("\n").encode())
+        line = " %o" % new_mode
+        if binary:
+            line = line.encode()
+        f.write(line)
+    line = '\n'
+    if binary:
+        line = line.encode()
+    f.write(line)
     old_contents = lines(old_mode, old_id)
     new_contents = lines(new_mode, new_id)
     for line in unified_diff(old_contents, new_contents, old_path, new_path):
-        f.write(line.encode())
+        if binary:
+            line = line.encode()
+        f.write(line)
 
 def write_blob_diff(f, old_tuple, new_tuple):
     """Write diff file header.

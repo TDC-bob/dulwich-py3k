@@ -97,10 +97,10 @@ def self_test_suite():
 
 def tutorial_test_suite():
     tutorial = [
-        #'introduction',
-        #'repo',
-        #'object-store',
-        #'conclusion',
+        'introduction',
+        'repo',
+        'object-store',
+        'conclusion',
         ]
     tutorial_files = ["../../docs/tutorial/%s.txt" % name for name in tutorial]
     def setup(test):

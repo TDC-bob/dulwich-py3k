@@ -352,16 +352,13 @@ class ShaFile(object):
 
     @classmethod
     def from_path(cls, path):
-        f = GitFile(path, 'rb')
-        try:
+        with GitFile(path, 'rb') as f:
             obj = cls.from_file(f)
             obj._path = path
             obj._sha = FixedSha(filename_to_hex(path))
             obj._file = None
             obj._magic = None
             return obj
-        finally:
-            f.close()
 
     @classmethod
     def from_file(cls, f):

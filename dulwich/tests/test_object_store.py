@@ -262,25 +262,24 @@ class DiskObjectStoreTests(PackBasedObjectStoreTests, TestCase):
         commit()
 
     def test_add_thin_pack(self):
-        o = DiskObjectStore(self.store_dir)
         blob = make_object(Blob, data=b'yummy data')
-        o.add_object(blob)
+        with DiskObjectStore(self.store_dir) as o:
+            o.add_object(blob)
 
-        f = BytesIO()
-        # BUG IS ON THE NEXT LINE
-        entries = build_pack(f, [
-          (REF_DELTA, (blob.id, 'more yummy data')),
-          ], store=o)
-        pack = o.add_thin_pack(f.read, None)
+            with BytesIO() as f:
+                # BUG IS ON THE NEXT LINE
+                entries = build_pack(f, [
+                  (REF_DELTA, (blob.id, 'more yummy data')),
+                  ], store=o)
 
-        packed_blob_sha = sha_to_hex(entries[0][3])
-        pack.check_length_and_checksum()
-        self.assertEqual(sorted([blob.id, convert3kstr(packed_blob_sha, BYTES)]), list(pack))
-        self.assertTrue(o.contains_packed(packed_blob_sha))
-        self.assertTrue(o.contains_packed(blob.id))
-        self.assertEqual((Blob.type_num, b'more yummy data'),
-                         o.get_raw(packed_blob_sha))
-
+                with o.add_thin_pack(f.read, None) as pack:
+                    packed_blob_sha = sha_to_hex(entries[0][3])
+                    pack.check_length_and_checksum()
+                    self.assertEqual(sorted([blob.id, convert3kstr(packed_blob_sha, BYTES)]), list(pack))
+                    self.assertTrue(o.contains_packed(packed_blob_sha))
+                    self.assertTrue(o.contains_packed(blob.id))
+                    self.assertEqual((Blob.type_num, b'more yummy data'),
+                                     o.get_raw(packed_blob_sha))
 
 class TreeLookupPathTests(TestCase):
 

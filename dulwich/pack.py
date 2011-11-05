@@ -974,6 +974,9 @@ class PackData(object):
         Currently there is a restriction on the size of the pack as the python
         mmap implementation is flawed.
         """
+
+        # assert not filename.endswith('bc63ddad95e7321ee734ea11a7a62d314e0d7481.pack')
+
         self._filename = filename
         self._size = size
         self._header_size = 12
@@ -985,6 +988,12 @@ class PackData(object):
         self._offset_cache = LRUSizeCache(1024*1024*20,
             compute_size=_compute_object_size)
         self.pack = None
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, type, value, tb):
+        self.close()
 
     @classmethod
     def from_file(cls, file, size):
@@ -1745,8 +1754,17 @@ class Pack(object):
         self._idx = None
         self._idx_path = self._basename + '.idx'
         self._data_path = self._basename + '.pack'
+
+        #assert not self._data_path.endswith('bc63ddad95e7321ee734ea11a7a62d314e0d7481.pack')
+
         self._data_load = lambda: PackData(self._data_path)
         self._idx_load = lambda: load_pack_index(self._idx_path)
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, type, value, tb):
+        self.close()
 
     @classmethod
     def from_lazy_objects(self, data_fn, idx_fn):

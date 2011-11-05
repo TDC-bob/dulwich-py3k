@@ -112,6 +112,12 @@ class _GitFile(object):
         for method in self.PROXY_METHODS:
             setattr(self, method, getattr(self._file, method))
 
+    def __enter__(self):
+        return self
+
+    def __exit__(self, type, value, tb):
+        self.close()
+
     def abort(self):
         """Close and discard the lockfile without overwriting the target.
 

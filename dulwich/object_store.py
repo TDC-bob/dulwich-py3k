@@ -228,6 +228,19 @@ class PackBasedObjectStore(BaseObjectStore):
     def __init__(self):
         self._pack_cache = None
 
+    def __enter__(self):
+        return self
+
+    def __exit__(self, type, value, tb):
+        self.close()
+
+    def close(self):
+        if self._pack_cache is not None:
+            for pack in self._pack_cache:
+                if hasattr(pack, 'close'):
+                    pack.close()
+            self._pack_cache = None
+
     @property
     def alternates(self):
         return []
@@ -363,24 +376,22 @@ class DiskObjectStore(PackBasedObjectStore):
 
     def _read_alternate_paths(self):
         try:
-            f = GitFile(os.path.join(self.path, "info", "alternates"),
-                    'rb')
+            with GitFile(os.path.join(self.path, "info", "alternates"),
+                    'rb') as f:
+                ret = []
+                for l in f.readlines():
+                    l = l.rstrip(b"\n")
+                    if l[0] == b"#":
+                        continue
+                    if not os.path.isabs(l):
+                        continue
+                    ret.append(l)
+                return ret
+
         except (OSError, IOError) as e:
             if e.errno == errno.ENOENT:
                 return []
             raise
-        ret = []
-        try:
-            for l in f.readlines():
-                l = l.rstrip(b"\n")
-                if l[0] == b"#":
-                    continue
-                if not os.path.isabs(l):
-                    continue
-                ret.append(l)
-            return ret
-        finally:
-            f.close()
 
     @wrap3kstr(path=STRING)
     def add_alternate_path(self, path):
@@ -392,21 +403,14 @@ class DiskObjectStore(PackBasedObjectStore):
             if e.errno != errno.EEXIST:
                 raise
         alternates_path = os.path.join(self.path, "info/alternates")
-        f = GitFile(alternates_path, 'wb')
-        try:
+        with GitFile(alternates_path, 'wb') as f:
             try:
-                orig_f = open(alternates_path, 'rb')
+                with open(alternates_path, 'rb') as orig_f:
+                    f.write(orig_f.read())
             except (OSError, IOError) as e:
                 if e.errno != errno.ENOENT:
                     raise
-            else:
-                try:
-                    f.write(orig_f.read())
-                finally:
-                    orig_f.close()
             f.write(convert3kstr("%s\n" % path, BYTES))
-        finally:
-            f.close()
         self.alternates.append(DiskObjectStore(path))
 
     def _load_packs(self):

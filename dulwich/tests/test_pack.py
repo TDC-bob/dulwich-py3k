@@ -189,134 +189,132 @@ class TestPackData(PackTests):
     """Tests getting the data from the packfile."""
 
     def test_create_pack(self):
-        p = self.get_pack_data(pack1_sha)
+        with self.get_pack_data(pack1_sha) as p:
+            pass
 
     def test_from_file(self):
         path = os.path.join(self.datadir, 'pack-%s.pack' % convert3kstr(pack1_sha, STRING))
-        PackData.from_file(open(path, 'rb'), os.path.getsize(path))
+        with PackData.from_file(open(path, 'rb'), os.path.getsize(path)) as p:
+            pass
 
     def test_pack_len(self):
-        p = self.get_pack_data(pack1_sha)
-        self.assertEqual(3, len(p))
+        with self.get_pack_data(pack1_sha) as p:
+            self.assertEqual(3, len(p))
 
     def test_index_check(self):
-        p = self.get_pack_data(pack1_sha)
-        self.assertSucceeds(p.check)
+        with self.get_pack_data(pack1_sha) as p:
+            self.assertSucceeds(p.check)
 
     def test_iterobjects(self):
-        p = self.get_pack_data(pack1_sha)
-        commit_data = (b'tree b2a2766a2879c209ab1176e7e778b81ae422eeaa\n'
-                       b'author James Westby <jw+debian@jameswestby.net> '
-                       b'1174945067 +0100\n'
-                       b'committer James Westby <jw+debian@jameswestby.net> '
-                       b'1174945067 +0100\n'
-                       b'\n'
-                       b'Test commit\n')
-        blob_sha = b'6f670c0fb53f9463760b7295fbb814e965fb20c8'
-        tree_data = b'100644 a\0' + hex_to_sha(blob_sha)
-        actual = []
-        for offset, type_num, chunks, crc32 in p.iterobjects():
-            actual.append((offset, type_num, b''.join(chunks), crc32))
-        self.assertEqual([
-          (12, 1, commit_data, 3775879613),
-          (138, 2, tree_data, 912998690),
-          (178, 3, b'test 1\n', 1373561701)
-          ], actual)
+        with self.get_pack_data(pack1_sha) as p:
+            commit_data = (b'tree b2a2766a2879c209ab1176e7e778b81ae422eeaa\n'
+                           b'author James Westby <jw+debian@jameswestby.net> '
+                           b'1174945067 +0100\n'
+                           b'committer James Westby <jw+debian@jameswestby.net> '
+                           b'1174945067 +0100\n'
+                           b'\n'
+                           b'Test commit\n')
+            blob_sha = b'6f670c0fb53f9463760b7295fbb814e965fb20c8'
+            tree_data = b'100644 a\0' + hex_to_sha(blob_sha)
+            actual = []
+            for offset, type_num, chunks, crc32 in p.iterobjects():
+                actual.append((offset, type_num, b''.join(chunks), crc32))
+            self.assertEqual([
+              (12, 1, commit_data, 3775879613),
+              (138, 2, tree_data, 912998690),
+              (178, 3, b'test 1\n', 1373561701)
+              ], actual)
 
     def test_iterentries(self):
-        p = self.get_pack_data(pack1_sha)
-        entries = set((sha_to_hex(s), o, c) for s, o, c in p.iterentries())
-        self.assertEqual(set([
-          ('6f670c0fb53f9463760b7295fbb814e965fb20c8', 178, 1373561701),
-          ('b2a2766a2879c209ab1176e7e778b81ae422eeaa', 138, 912998690),
-          ('f18faa16531ac570a3fdc8c7ca16682548dafd12', 12, 3775879613),
-          ]), entries)
+        with self.get_pack_data(pack1_sha) as p:
+            entries = set((sha_to_hex(s), o, c) for s, o, c in p.iterentries())
+            self.assertEqual(set([
+              ('6f670c0fb53f9463760b7295fbb814e965fb20c8', 178, 1373561701),
+              ('b2a2766a2879c209ab1176e7e778b81ae422eeaa', 138, 912998690),
+              ('f18faa16531ac570a3fdc8c7ca16682548dafd12', 12, 3775879613),
+              ]), entries)
 
     def test_create_index_v1(self):
-        p = self.get_pack_data(pack1_sha)
-        filename = os.path.join(self.tempdir, 'v1test.idx')
-        p.create_index_v1(filename)
-        idx1 = load_pack_index(filename)
-        idx2 = self.get_pack_index(pack1_sha)
-        self.assertEqual(idx1, idx2)
+        with self.get_pack_data(pack1_sha) as p:
+            filename = os.path.join(self.tempdir, 'v1test.idx')
+            p.create_index_v1(filename)
+            idx1 = load_pack_index(filename)
+            idx2 = self.get_pack_index(pack1_sha)
+            self.assertEqual(idx1, idx2)
 
     def test_create_index_v2(self):
-        p = self.get_pack_data(pack1_sha)
-        filename = os.path.join(self.tempdir, 'v2test.idx')
-        p.create_index_v2(filename)
-        idx1 = load_pack_index(filename)
-        idx2 = self.get_pack_index(pack1_sha)
-        self.assertEqual(idx1, idx2)
+        with self.get_pack_data(pack1_sha) as p:
+            filename = os.path.join(self.tempdir, 'v2test.idx')
+            p.create_index_v2(filename)
+            idx1 = load_pack_index(filename)
+            idx2 = self.get_pack_index(pack1_sha)
+            self.assertEqual(idx1, idx2)
 
     def test_compute_file_sha(self):
-        f = BytesIO(b'abcd1234wxyz')
-        self.assertEqual(make_sha('abcd1234wxyz').hexdigest(),
-                         compute_file_sha(f).hexdigest())
-        self.assertEqual(make_sha('abcd1234wxyz').hexdigest(),
-                         compute_file_sha(f, buffer_size=5).hexdigest())
-        self.assertEqual(make_sha('abcd1234').hexdigest(),
-                         compute_file_sha(f, end_ofs=-4).hexdigest())
-        self.assertEqual(make_sha('1234wxyz').hexdigest(),
-                         compute_file_sha(f, start_ofs=4).hexdigest())
-        self.assertEqual(
-          make_sha('1234').hexdigest(),
-          compute_file_sha(f, start_ofs=4, end_ofs=-4).hexdigest())
+        with BytesIO(b'abcd1234wxyz') as f:
+            self.assertEqual(make_sha('abcd1234wxyz').hexdigest(),
+                             compute_file_sha(f).hexdigest())
+            self.assertEqual(make_sha('abcd1234wxyz').hexdigest(),
+                             compute_file_sha(f, buffer_size=5).hexdigest())
+            self.assertEqual(make_sha('abcd1234').hexdigest(),
+                             compute_file_sha(f, end_ofs=-4).hexdigest())
+            self.assertEqual(make_sha('1234wxyz').hexdigest(),
+                             compute_file_sha(f, start_ofs=4).hexdigest())
+            self.assertEqual(
+              make_sha('1234').hexdigest(),
+              compute_file_sha(f, start_ofs=4, end_ofs=-4).hexdigest())
 
 
 class TestPack(PackTests):
 
     def test_len(self):
-        p = self.get_pack(pack1_sha)
-        self.assertEqual(3, len(p))
+        with self.get_pack(pack1_sha) as p:
+            self.assertEqual(3, len(p))
 
     def test_contains(self):
-        p = self.get_pack(pack1_sha)
-        self.assertTrue(tree_sha in p)
+        with self.get_pack(pack1_sha) as p:
+            self.assertTrue(tree_sha in p)
 
     def test_get(self):
-        p = self.get_pack(pack1_sha)
-        self.assertEqual(type(p[tree_sha]), Tree)
+        with self.get_pack(pack1_sha) as p:
+            self.assertEqual(type(p[tree_sha]), Tree)
 
     def test_iter(self):
-        p = self.get_pack(pack1_sha)
-        self.assertEqual(set([tree_sha, commit_sha, a_sha]), set(p))
+        with self.get_pack(pack1_sha) as p:
+            self.assertEqual(set([tree_sha, commit_sha, a_sha]), set(p))
 
     def test_iterobjects(self):
-        p = self.get_pack(pack1_sha)
-        expected = set([p[s] for s in [commit_sha, tree_sha, a_sha]])
-        self.assertEqual(expected, set(list(p.iterobjects())))
+        with self.get_pack(pack1_sha) as p:
+            expected = set([p[s] for s in [commit_sha, tree_sha, a_sha]])
+            self.assertEqual(expected, set(list(p.iterobjects())))
 
     def test_pack_tuples(self):
-        p = self.get_pack(pack1_sha)
-        tuples = p.pack_tuples()
-        expected = set([(p[s], None) for s in [commit_sha, tree_sha, a_sha]])
-        self.assertEqual(expected, set(list(tuples)))
-        self.assertEqual(expected, set(list(tuples)))
-        self.assertEqual(3, len(tuples))
+        with self.get_pack(pack1_sha) as p:
+            tuples = p.pack_tuples()
+            expected = set([(p[s], None) for s in [commit_sha, tree_sha, a_sha]])
+            self.assertEqual(expected, set(list(tuples)))
+            self.assertEqual(expected, set(list(tuples)))
+            self.assertEqual(3, len(tuples))
 
     def test_get_object_at(self):
         """Tests random access for non-delta objects"""
-        p = self.get_pack(pack1_sha)
-        obj = p[a_sha]
-        self.assertEqual(obj.type_name, 'blob')
-        self.assertEqual(convert3kstr(obj.sha().hexdigest(), BYTES), a_sha)
-        obj = p[tree_sha]
-        self.assertEqual(obj.type_name, 'tree')
-        self.assertEqual(convert3kstr(obj.sha().hexdigest(), BYTES), tree_sha)
-        obj = p[commit_sha]
-        self.assertEqual(obj.type_name, 'commit')
-        self.assertEqual(convert3kstr(obj.sha().hexdigest(), BYTES), commit_sha)
+        with self.get_pack(pack1_sha) as p:
+            obj = p[a_sha]
+            self.assertEqual(obj.type_name, 'blob')
+            self.assertEqual(convert3kstr(obj.sha().hexdigest(), BYTES), a_sha)
+            obj = p[tree_sha]
+            self.assertEqual(obj.type_name, 'tree')
+            self.assertEqual(convert3kstr(obj.sha().hexdigest(), BYTES), tree_sha)
+            obj = p[commit_sha]
+            self.assertEqual(obj.type_name, 'commit')
+            self.assertEqual(convert3kstr(obj.sha().hexdigest(), BYTES), commit_sha)
 
     def test_copy(self):
-        origpack = self.get_pack(pack1_sha)
-
-        try:
+        with self.get_pack(pack1_sha) as origpack:
             self.assertSucceeds(origpack.index.check)
             basename = os.path.join(self.tempdir, 'Elch')
             write_pack(basename, origpack.pack_tuples())
-            newpack = Pack(basename)
-
-            try:
+            with Pack(basename) as newpack:
                 self.assertEqual(origpack, newpack)
                 self.assertSucceeds(newpack.index.check)
                 self.assertEqual(origpack.name(), newpack.name())
@@ -327,17 +325,13 @@ class TestPack(PackTests):
                 orig_checksum = origpack.index.get_stored_checksum()
                 new_checksum = newpack.index.get_stored_checksum()
                 self.assertTrue(wrong_version or orig_checksum == new_checksum)
-            finally:
-                newpack.close()
-        finally:
-            origpack.close()
 
     def test_commit_obj(self):
-        p = self.get_pack(pack1_sha)
-        commit = p[commit_sha]
-        self.assertEqual('James Westby <jw+debian@jameswestby.net>',
-                          commit.author)
-        self.assertEqual([], commit.parents)
+        with self.get_pack(pack1_sha) as p:
+            commit = p[commit_sha]
+            self.assertEqual('James Westby <jw+debian@jameswestby.net>',
+                             commit.author)
+            self.assertEqual([], commit.parents)
 
     def _copy_pack(self, origpack):
         basename = os.path.join(self.tempdir, 'somepack')
@@ -345,116 +339,111 @@ class TestPack(PackTests):
         return Pack(basename)
 
     def test_keep_no_message(self):
-        p = self.get_pack(pack1_sha)
-        p = self._copy_pack(p)
+        with self.get_pack(pack1_sha) as tp:
+            with self._copy_pack(tp) as p:
 
-        keepfile_name = p.keep()
-        # file should exist
-        self.assertTrue(os.path.exists(keepfile_name))
+                keepfile_name = p.keep()
+                # file should exist
+                self.assertTrue(os.path.exists(keepfile_name))
 
-        f = open(keepfile_name, 'rb')
-        try:
-            buf = f.read()
-            self.assertEqual(b'', buf)
-        finally:
-            f.close()
+                with open(keepfile_name, 'rb') as f:
+                    buf = f.read()
+                    self.assertEqual(b'', buf)
 
     def test_keep_message(self):
-        p = self.get_pack(pack1_sha)
-        p = self._copy_pack(p)
+        with self.get_pack(pack1_sha) as tp:
+            with self._copy_pack(tp) as p:
 
-        msg = b'some message'
-        keepfile_name = p.keep(msg)
+                msg = b'some message'
+                keepfile_name = p.keep(msg)
 
-        # file should exist
-        self.assertTrue(os.path.exists(keepfile_name))
+                # file should exist
+                self.assertTrue(os.path.exists(keepfile_name))
 
-        # and contain the right message, with a linefeed
-        f = open(keepfile_name, 'rb')
-        try:
-            buf = f.read()
-            self.assertEqual(msg + b'\n', buf)
-        finally:
-            f.close()
+                # and contain the right message, with a linefeed
+                with open(keepfile_name, 'rb') as f:
+                    buf = f.read()
+                    self.assertEqual(msg + b'\n', buf)
 
     def test_name(self):
-        p = self.get_pack(pack1_sha)
-        self.assertEqual(pack1_sha, convert3kstr(p.name(), BYTES))
+        with self.get_pack(pack1_sha) as p:
+            self.assertEqual(pack1_sha, convert3kstr(p.name(), BYTES))
 
     def test_length_mismatch(self):
-        data = self.get_pack_data(pack1_sha)
-        index = self.get_pack_index(pack1_sha)
-        Pack.from_objects(data, index).check_length_and_checksum()
+        with self.get_pack_data(pack1_sha) as data:
+            index = self.get_pack_index(pack1_sha)
+            with Pack.from_objects(data, index) as p:
+                p.check_length_and_checksum()
+                data._file.seek(12)
 
-        data._file.seek(12)
-        bad_file = BytesIO()
-        write_pack_header(bad_file, 9999)
-        bad_file.write(data._file.read())
-        bad_file = BytesIO(bad_file.getvalue())
-        bad_data = PackData('', file=bad_file)
-        bad_pack = Pack.from_lazy_objects(lambda: bad_data, lambda: index)
-        self.assertRaises(AssertionError, lambda: bad_pack.data)
-        self.assertRaises(AssertionError,
-                          lambda: bad_pack.check_length_and_checksum())
+                with BytesIO() as bad_file:
+                    write_pack_header(bad_file, 9999)
+                    bad_file.write(data._file.read())
+                    with BytesIO(bad_file.getvalue()) as badder_file:
+                        with PackData('', file=badder_file) as bad_data:
+                            with Pack.from_lazy_objects(lambda: bad_data, lambda: index) as bad_pack:
+                                self.assertRaises(AssertionError, lambda: bad_pack.data)
+                                self.assertRaises(AssertionError,
+                                  lambda: bad_pack.check_length_and_checksum())
 
     def test_checksum_mismatch(self):
-        data = self.get_pack_data(pack1_sha)
-        index = self.get_pack_index(pack1_sha)
-        Pack.from_objects(data, index).check_length_and_checksum()
+        with self.get_pack_data(pack1_sha) as data:
+            index = self.get_pack_index(pack1_sha)
+            with Pack.from_objects(data, index) as p:
+                p.check_length_and_checksum()
 
-        data._file.seek(0)
-        bad_file = BytesIO(data._file.read()[:-20] + (b'\xff' * 20))
-        bad_data = PackData('', file=bad_file)
-        bad_pack = Pack.from_lazy_objects(lambda: bad_data, lambda: index)
-        self.assertRaises(ChecksumMismatch, lambda: bad_pack.data)
-        self.assertRaises(ChecksumMismatch, lambda:
-                          bad_pack.check_length_and_checksum())
+                data._file.seek(0)
+                with BytesIO(data._file.read()[:-20] + (b'\xff' * 20)) as bad_file:
+                    with PackData('', file=bad_file) as bad_data:
+                        with Pack.from_lazy_objects(lambda: bad_data, lambda: index) as bad_pack:
+                            self.assertRaises(ChecksumMismatch, lambda: bad_pack.data)
+                            self.assertRaises(ChecksumMismatch, lambda:
+                                              bad_pack.check_length_and_checksum())
 
     def test_iterobjects(self):
-        p = self.get_pack(pack1_sha)
-        objs = dict((o.id, o) for o in p.iterobjects())
-        self.assertEqual(3, len(objs))
-        self.assertEqual(sorted(objs), sorted(p.index))
-        self.assertTrue(isinstance(objs[a_sha], Blob))
-        self.assertTrue(isinstance(objs[tree_sha], Tree))
-        self.assertTrue(isinstance(objs[commit_sha], Commit))
-
+        with self.get_pack(pack1_sha) as p:
+            objs = dict((o.id, o) for o in p.iterobjects())
+            self.assertEqual(3, len(objs))
+            self.assertEqual(sorted(objs), sorted(p.index))
+            self.assertTrue(isinstance(objs[a_sha], Blob))
+            self.assertTrue(isinstance(objs[tree_sha], Tree))
+            self.assertTrue(isinstance(objs[commit_sha], Commit))
 
 class WritePackTests(TestCase):
 
     def test_write_pack_header(self):
-        f = BytesIO()
-        write_pack_header(f, 42)
-        self.assertEqual(b'PACK\x00\x00\x00\x02\x00\x00\x00*',
-                f.getvalue())
+        with BytesIO() as f:
+            write_pack_header(f, 42)
+            self.assertEqual(b'PACK\x00\x00\x00\x02\x00\x00\x00*',
+                             f.getvalue())
 
     def test_write_pack_object(self):
-        f = BytesIO()
-        f.write(b'header')
-        offset = f.tell()
-        crc32 = write_pack_object(f, Blob.type_num, b'blob')
-        self.assertEqual(crc32, zlib.crc32(f.getvalue()[6:]) & 0xffffffff)
+        with BytesIO() as f:
+            f.write(b'header')
+            offset = f.tell()
+            crc32 = write_pack_object(f, Blob.type_num, b'blob')
+            self.assertEqual(crc32, zlib.crc32(f.getvalue()[6:]) & 0xffffffff)
 
-        f.write(b'x')  # unpack_object needs extra trailing data.
-        f.seek(offset)
-        comp_len = len(f.getvalue()) - offset - 1
-        unpacked, unused = unpack_object(f.read, compute_crc32=True)
-        self.assertEqual(Blob.type_num, unpacked.pack_type_num)
-        self.assertEqual(Blob.type_num, unpacked.obj_type_num)
-        self.assertEqual([b'blob'], unpacked.decomp_chunks)
-        self.assertEqual(crc32, unpacked.crc32)
-        self.assertEqual(b'x', unused)
+            f.write(b'x')  # unpack_object needs extra trailing data.
+            f.seek(offset)
+            comp_len = len(f.getvalue()) - offset - 1
+            unpacked, unused = unpack_object(f.read, compute_crc32=True)
+            self.assertEqual(Blob.type_num, unpacked.pack_type_num)
+            self.assertEqual(Blob.type_num, unpacked.obj_type_num)
+            self.assertEqual([b'blob'], unpacked.decomp_chunks)
+            self.assertEqual(crc32, unpacked.crc32)
+            self.assertEqual(b'x', unused)
 
     def test_write_pack_object_sha(self):
-        f = BytesIO()
-        f.write(b'header')
-        offset = f.tell()
-        sha_a = make_sha('foo')
-        sha_b = sha_a.copy()
-        write_pack_object(f, Blob.type_num, 'blob', sha=sha_a)
-        self.assertNotEqual(sha_a.digest(), sha_b.digest())
-        sha_b.update(f.getvalue()[offset:])
-        self.assertEqual(sha_a.digest(), sha_b.digest())
+        with BytesIO() as f:
+            f.write(b'header')
+            offset = f.tell()
+            sha_a = make_sha('foo')
+            sha_b = sha_a.copy()
+            write_pack_object(f, Blob.type_num, 'blob', sha=sha_a)
+            self.assertNotEqual(sha_a.digest(), sha_b.digest())
+            sha_b.update(f.getvalue()[offset:])
+            self.assertEqual(sha_a.digest(), sha_b.digest())
 
 
 pack_checksum = hex_to_sha('721980e866af9a5f93ad674144e1459b8ba3e7b7')
