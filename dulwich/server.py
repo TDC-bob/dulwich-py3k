@@ -131,13 +131,38 @@ class DictBackend(Backend):
         # FIXME: What to do in case there is no repo ?
         return self.repos[path]
 
+    def __enter__(self):
+        return self
+
+    def __exit__(self, type, value, tb):
+        self.close()
+
+    def close(self):
+        for repo in self.repos.values():
+            repo.close()
+
 
 class FileSystemBackend(Backend):
     """Simple backend that looks up Git repositories in the local file system."""
 
+    def __init__(self):
+        self._known_repos = []
+
     def open_repository(self, path):
         logger.debug('opening repository at %s', path)
-        return Repo(path)
+        repo = Repo(path)
+        self._known_repos.append(repo)
+        return repo
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, type, value, tb):
+        self.close()
+
+    def close(self):
+        for repo in self._known_repos:
+            repo.close()
 
 
 class Handler(object):
@@ -148,6 +173,12 @@ class Handler(object):
         self.proto = proto
         self.http_req = http_req
         self._client_capabilities = None
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, type, value, tb):
+        self.close()
 
     @classmethod
     def capability_line(cls):
@@ -197,6 +228,10 @@ class UploadPackHandler(Handler):
         self.repo = backend.open_repository(args[0])
         self._graph_walker = None
         self.advertise_refs = advertise_refs
+
+    def close(self):
+        if hasattr(self.repo, 'close'):
+            self.repo.close()
 
     @classmethod
     def capabilities(cls):
@@ -592,6 +627,10 @@ class ReceivePackHandler(Handler):
         self.repo = backend.open_repository(args[0])
         self.advertise_refs = advertise_refs
 
+    def close(self):
+        if hasattr(self.repo, 'close'):
+            self.repo.close()
+
     @classmethod
     def capabilities(cls):
         return (b"report-status", b"delete-refs", b"side-band-64k")
@@ -725,8 +764,8 @@ class TCPGitRequestHandler(socketserver.StreamRequestHandler):
         if not isinstance(cls, collections.Callable):
             raise GitProtocolError('Invalid service %s' % convert3kstr(command, STRING))
 
-        h = cls(self.server.backend, args, proto)
-        h.handle()
+        with cls(self.server.backend, args, proto) as h:
+            h.handle()
 
 
 class TCPGitServer(socketserver.TCPServer):

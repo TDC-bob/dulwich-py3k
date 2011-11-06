@@ -268,16 +268,16 @@ class DumbHandlersTestCase(WebTestCase):
                 return packs
 
         store = TestObjectStore()
-        repo = BaseRepo(store, None)
-        backend = DictBackend({b'/': repo})
-        mat = re.search('.*', '//info/packs')
-        output = b''.join(get_info_packs(self._req, backend, mat))
-        expected = 'P pack-%s.pack\n' * 3
-        expected %= ('1' * 40, '2' * 40, '3' * 40)
-        self.assertEqual(convert3kstr(expected, BYTES), output)
-        self.assertEqual(HTTP_OK, self._status)
-        self.assertContentTypeEquals('text/plain')
-        self.assertFalse(self._req.cached)
+        with BaseRepo(store, None) as repo:
+            with DictBackend({b'/': repo}) as backend:
+                mat = re.search('.*', '//info/packs')
+                output = b''.join(get_info_packs(self._req, backend, mat))
+                expected = 'P pack-%s.pack\n' * 3
+                expected %= ('1' * 40, '2' * 40, '3' * 40)
+                self.assertEqual(convert3kstr(expected, BYTES), output)
+                self.assertEqual(HTTP_OK, self._status)
+                self.assertContentTypeEquals('text/plain')
+                self.assertFalse(self._req.cached)
 
 
 class SmartHandlersTestCase(WebTestCase):
@@ -298,6 +298,18 @@ class SmartHandlersTestCase(WebTestCase):
                 self.proto.write('handled input: %s' % dat)
             else:
                 assert False
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, type, value, tb):
+            self.close()
+
+        def close(self):
+            #for repo in self._known_repos:
+            #    repo.close()
+            pass
+
 
     def _make_handler(self, *args, **kwargs):
         self._handler = self._TestUploadPackHandler(*args, **kwargs)

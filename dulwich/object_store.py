@@ -237,8 +237,7 @@ class PackBasedObjectStore(BaseObjectStore):
     def close(self):
         if self._pack_cache is not None:
             for pack in self._pack_cache:
-                if hasattr(pack, 'close'):
-                    pack.close()
+                pack.close()
             self._pack_cache = None
 
     @property

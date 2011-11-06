@@ -62,53 +62,62 @@ class ServerTests(object):
 
     def test_push_to_dulwich(self):
         self.import_repos()
-        self.assertReposNotEqual(self._old_repo, self._new_repo)
-        port = self._start_server(self._old_repo)
+        with self._new_repo as new_repo:
+            with self._old_repo as old_repo:
+                self.assertReposNotEqual(old_repo, new_repo)
+                port = self._start_server(old_repo)
 
-        run_git_or_fail(['push', self.url(port)] + self.branch_args(),
-                        cwd=self._new_repo.path)
-        self.assertReposEqual(self._old_repo, self._new_repo)
+                run_git_or_fail(['push', self.url(port)] + self.branch_args(),
+                                cwd=self._new_repo.path)
+                self.assertReposEqual(old_repo, new_repo)
 
     def test_fetch_from_dulwich(self):
         self.import_repos()
-        self.assertReposNotEqual(self._old_repo, self._new_repo)
-        port = self._start_server(self._new_repo)
+        with self._old_repo as old_repo:
+            with self._new_repo as new_repo:
+                self.assertReposNotEqual(old_repo, new_repo)
+                port = self._start_server(new_repo)
 
-        run_git_or_fail(['fetch', self.url(port)] + self.branch_args(),
-                        cwd=self._old_repo.path)
-        # flush the pack cache so any new packs are picked up
-        self._old_repo.object_store._pack_cache = None
-        self.assertReposEqual(self._old_repo, self._new_repo)
+                run_git_or_fail(['fetch', self.url(port)] + self.branch_args(),
+                                cwd=old_repo.path)
+                # flush the pack cache so any new packs are picked up
+                old_repo.object_store.close()
+                self.assertReposEqual(old_repo, new_repo)
+
 
     def test_fetch_from_dulwich_no_op(self):
         self._old_repo = import_repo('server_old.export')
         self._new_repo = import_repo('server_old.export')
-        self.assertReposEqual(self._old_repo, self._new_repo)
-        port = self._start_server(self._new_repo)
+        with self._old_repo as old_repo:
+            with self._new_repo as new_repo:
+                self.assertReposEqual(old_repo, new_repo)
+                port = self._start_server(new_repo)
 
-        run_git_or_fail(['fetch', self.url(port)] + self.branch_args(),
-                        cwd=self._old_repo.path)
-        # flush the pack cache so any new packs are picked up
-        self._old_repo.object_store._pack_cache = None
-        self.assertReposEqual(self._old_repo, self._new_repo)
+                run_git_or_fail(['fetch', self.url(port)] + self.branch_args(),
+                                cwd=old_repo.path)
+                # flush the pack cache so any new packs are picked up
+                old_repo.object_store.close()
+                self.assertReposEqual(old_repo, new_repo)
+
 
     def test_clone_from_dulwich_empty(self):
         old_repo_dir = os.path.join(tempfile.mkdtemp(), 'empty_old')
         run_git_or_fail(['init', '--quiet', '--bare', old_repo_dir])
-        self._old_repo = Repo(old_repo_dir)
-        port = self._start_server(self._old_repo)
 
-        new_repo_base_dir = tempfile.mkdtemp()
-        try:
-            new_repo_dir = os.path.join(new_repo_base_dir, 'empty_new')
-            run_git_or_fail(['clone', self.url(port), new_repo_dir],
-                            cwd=new_repo_base_dir)
-            new_repo = Repo(new_repo_dir)
-            self.assertReposEqual(self._old_repo, new_repo)
-        finally:
-            # We don't create a Repo from new_repo_dir until after some errors
-            # may have occurred, so don't depend on tearDown to clean it up.
-            shutil.rmtree(new_repo_base_dir)
+        self._old_repo = Repo(old_repo_dir)
+        with self._old_repo as old_repo:
+            port = self._start_server(old_repo)
+            new_repo_base_dir = tempfile.mkdtemp()
+            try:
+                new_repo_dir = os.path.join(new_repo_base_dir, 'empty_new')
+                run_git_or_fail(['clone', self.url(port), new_repo_dir],
+                                cwd=new_repo_base_dir)
+                with Repo(new_repo_dir) as new_repo:
+                    self.assertReposEqual(old_repo, new_repo)
+            finally:
+                # We don't create a Repo from new_repo_dir until after some errors
+                # may have occurred, so don't depend on tearDown to clean it up.
+                shutil.rmtree(new_repo_base_dir)
 
 
 class ShutdownServerMixIn:

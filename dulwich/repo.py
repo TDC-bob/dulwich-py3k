@@ -791,6 +791,16 @@ class BaseRepo(object):
         self.object_store = object_store
         self.refs = refs
 
+    def __enter__(self):
+        return self
+
+    def __exit__(self, type, value, tb):
+        self.close()
+
+    def close(self):
+        if hasattr(self.object_store, 'close'):
+            self.object_store.close()
+
     def _init_files(self, bare):
         """Initialize a default set of named files."""
         self._put_named_file('description', "Unnamed repository")

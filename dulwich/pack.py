@@ -975,6 +975,9 @@ class PackData(object):
         mmap implementation is flawed.
         """
 
+        # assert not filename.endswith('aa4b6bca15197107f7ac4efeee7536c4db18218a.pack')
+        # assert not filename.endswith('aa4b6bca15197107f7ac4efeee7536c4db18218a.pack')
+
         self._filename = filename
         self._size = size
         self._header_size = 12
@@ -1753,8 +1756,6 @@ class Pack(object):
         self._idx_path = self._basename + '.idx'
         self._data_path = self._basename + '.pack'
 
-        #assert not self._data_path.endswith('bc63ddad95e7321ee734ea11a7a62d314e0d7481.pack')
-
         self._data_load = lambda: PackData(self._data_path)
         self._idx_load = lambda: load_pack_index(self._idx_path)
 
@@ -1807,6 +1808,7 @@ class Pack(object):
     def close(self):
         if self._data is not None:
             self._data.close()
+            self._data = None
         self.index.close()
 
     def __eq__(self, other):
