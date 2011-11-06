@@ -116,6 +116,10 @@ class wrap3kstr(object):
             return tuple([self.toString(o) for o in obj])
         elif isinstance(obj, list):
             return [self.toString(o) for o in obj]
+        elif isinstance(obj, set):
+            return {self.toString(o) for o in obj}
+        elif isinstance(obj, dict):
+            return self.convertDictionary(obj)
 
         if self.enforcing:
             assert isinstance(obj, str), 'Expected string, got %s' % str(type(obj))
@@ -138,6 +142,10 @@ class wrap3kstr(object):
             return tuple([self.toBytes(o) for o in obj])
         elif isinstance(obj, list):
             return [self.toBytes(o) for o in obj]
+        elif isinstance(obj, set):
+            return {self.toBytes(o) for o in obj}
+        elif isinstance(obj, dict):
+            return self.convertDictionary(obj)
 
         if self.enforcing:
             assert isinstance(obj, bytes), 'Expected bytes, got %s' % str(type(obj))

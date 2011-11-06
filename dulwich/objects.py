@@ -45,7 +45,7 @@ from dulwich._compat import (
     )
 from dulwich.py3k import *
 
-ZERO_SHA = "0" * 40
+ZERO_SHA = b"0" * 40
 
 # Header fields for commits
 _TREE_HEADER = "tree"

@@ -60,10 +60,10 @@ class GitClientTests(TestCase):
                                   self.rout.write)
 
     def test_caps(self):
-        self.assertEqual(set(['multi_ack', 'side-band-64k', 'ofs-delta',
-                               'thin-pack', 'multi_ack_detailed']),
+        self.assertEqual(set([b'multi_ack', b'side-band-64k', b'ofs-delta',
+                               b'thin-pack', b'multi_ack_detailed']),
                           set(self.client._fetch_capabilities))
-        self.assertEqual(set(['ofs-delta', 'report-status', 'side-band-64k']),
+        self.assertEqual(set([b'ofs-delta', b'report-status', b'side-band-64k']),
                           set(self.client._send_capabilities))
 
     def test_fetch_pack_none(self):

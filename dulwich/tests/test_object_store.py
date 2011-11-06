@@ -64,12 +64,12 @@ testobject = make_object(Blob, data=b"yummy data")
 class ObjectStoreTests(object):
 
     def test_determine_wants_all(self):
-        self.assertEqual(["1" * 40],
-            self.store.determine_wants_all({"refs/heads/foo": "1" * 40}))
+        self.assertEqual([b"1" * 40],
+            self.store.determine_wants_all({b"refs/heads/foo": b"1" * 40}))
 
     def test_determine_wants_all_zero(self):
         self.assertEqual([],
-            self.store.determine_wants_all({"refs/heads/foo": "0" * 40}))
+            self.store.determine_wants_all({b"refs/heads/foo": b"0" * 40}))
 
     def test_iter(self):
         self.assertEqual([], list(self.store))

@@ -209,7 +209,7 @@ class Protocol(object):
         :param cmd: The remote service to access.
         :param args: List of arguments to send to remove service.
         """
-        self.write_pkt_line(cmd + b' ' + b''.join([a + b'\0' for a in args]))
+        self.write_pkt_line(cmd + b' ' + b''.join([convert3kstr(a, BYTES) + b'\0' for a in args]))
 
     def read_cmd(self):
         """Read a command and some arguments from the git client

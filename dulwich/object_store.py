@@ -68,9 +68,10 @@ PACKDIR = 'pack'
 class BaseObjectStore(object):
     """Object store interface."""
 
+    @wrap3kstr(refs=DICT_KEYS_TO_BYTES|DICT_VALS_TO_BYTES)
     def determine_wants_all(self, refs):
         return [sha for (ref, sha) in refs.items()
-                if not sha in self and not ref.endswith("^{}") and
+                if not sha in self and not ref.endswith(b"^{}") and
                    not sha == ZERO_SHA]
 
     def iter_shas(self, shas):

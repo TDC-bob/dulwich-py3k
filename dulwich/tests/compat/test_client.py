@@ -68,9 +68,9 @@ class DulwichClientTestBase(object):
         shutil.rmtree(self.gitroot)
 
     def assertDestEqualsSrc(self):
-        src = repo.Repo(os.path.join(self.gitroot, 'server_new.export'))
-        dest = repo.Repo(os.path.join(self.gitroot, 'dest'))
-        self.assertReposEqual(src, dest)
+        with repo.Repo(os.path.join(self.gitroot, 'server_new.export')) as src:
+            with repo.Repo(os.path.join(self.gitroot, 'dest')) as dest:
+                self.assertReposEqual(src, dest)
 
     def _client(self):
         raise NotImplementedError()
@@ -81,11 +81,11 @@ class DulwichClientTestBase(object):
     def _do_send_pack(self):
         c = self._client()
         srcpath = os.path.join(self.gitroot, 'server_new.export')
-        src = repo.Repo(srcpath)
-        sendrefs = dict(src.get_refs())
-        del sendrefs['HEAD']
-        c.send_pack(self._build_path('/dest'), lambda _: sendrefs,
-                    src.object_store.generate_pack_contents)
+        with repo.Repo(srcpath) as src:
+            sendrefs = dict(src.get_refs())
+            del sendrefs[b'HEAD']
+            c.send_pack(self._build_path('/dest'), lambda _: sendrefs,
+                        src.object_store.generate_pack_contents)
 
     def test_send_pack(self):
         self._do_send_pack()
@@ -99,14 +99,14 @@ class DulwichClientTestBase(object):
 
     def test_send_without_report_status(self):
         c = self._client()
-        c._send_capabilities.remove('report-status')
+        c._send_capabilities.remove(b'report-status')
         srcpath = os.path.join(self.gitroot, 'server_new.export')
-        src = repo.Repo(srcpath)
-        sendrefs = dict(src.get_refs())
-        del sendrefs['HEAD']
-        c.send_pack(self._build_path('/dest'), lambda _: sendrefs,
-                    src.object_store.generate_pack_contents)
-        self.assertDestEqualsSrc()
+        with repo.Repo(srcpath) as src:
+            sendrefs = dict(src.get_refs())
+            del sendrefs[b'HEAD']
+            c.send_pack(self._build_path('/dest'), lambda _: sendrefs,
+                        src.object_store.generate_pack_contents)
+            self.assertDestEqualsSrc()
 
     def make_dummy_commit(self, dest):
         b = objects.Blob.from_string('hi')
@@ -123,30 +123,30 @@ class DulwichClientTestBase(object):
 
     def disable_ff_and_make_dummy_commit(self):
         # disable non-fast-forward pushes to the server
-        dest = repo.Repo(os.path.join(self.gitroot, 'dest'))
-        run_git_or_fail(['config', 'receive.denyNonFastForwards', 'true'],
-                        cwd=dest.path)
-        commit_id = self.make_dummy_commit(dest)
-        return dest, commit_id
+        with repo.Repo(os.path.join(self.gitroot, 'dest')) as dest:
+            run_git_or_fail(['config', 'receive.denyNonFastForwards', 'true'],
+                            cwd=dest.path)
+            commit_id = self.make_dummy_commit(dest)
+            return dest, commit_id
 
     def compute_send(self):
         srcpath = os.path.join(self.gitroot, 'server_new.export')
-        src = repo.Repo(srcpath)
-        sendrefs = dict(src.get_refs())
-        del sendrefs['HEAD']
-        return sendrefs, src.object_store.generate_pack_contents
+        with repo.Repo(srcpath) as src:
+            sendrefs = dict(src.get_refs())
+            del sendrefs[b'HEAD']
+            return sendrefs, src.object_store.generate_pack_contents
 
     def test_send_pack_one_error(self):
         dest, dummy_commit = self.disable_ff_and_make_dummy_commit()
-        dest.refs['refs/heads/master'] = dummy_commit
+        dest.refs[b'refs/heads/master'] = dummy_commit
         sendrefs, gen_pack = self.compute_send()
         c = self._client()
         try:
             c.send_pack(self._build_path('/dest'), lambda _: sendrefs, gen_pack)
         except errors.UpdateRefsError as e:
             self.assertEqual('refs/heads/master failed to update', str(e))
-            self.assertEqual({'refs/heads/branch': 'ok',
-                              'refs/heads/master': 'non-fast-forward'},
+            self.assertEqual({b'refs/heads/branch': b'ok',
+                              b'refs/heads/master': b'non-fast-forward'},
                              e.ref_status)
 
     def test_send_pack_multiple_errors(self):
@@ -160,40 +160,40 @@ class DulwichClientTestBase(object):
         except errors.UpdateRefsError as e:
             self.assertEqual('refs/heads/branch, refs/heads/master failed to '
                              'update', str(e))
-            self.assertEqual({'refs/heads/branch': 'non-fast-forward',
-                              'refs/heads/master': 'non-fast-forward'},
+            self.assertEqual({b'refs/heads/branch': b'non-fast-forward',
+                              b'refs/heads/master': b'non-fast-forward'},
                              e.ref_status)
 
     def test_fetch_pack(self):
         c = self._client()
-        dest = repo.Repo(os.path.join(self.gitroot, 'dest'))
-        refs = c.fetch(self._build_path('/server_new.export'), dest)
-        list(map(lambda r: dest.refs.set_if_equals(r[0], None, r[1]), list(refs.items())))
-        self.assertDestEqualsSrc()
+        with repo.Repo(os.path.join(self.gitroot, 'dest')) as dest:
+            refs = c.fetch(self._build_path('/server_new.export'), dest)
+            list(map(lambda r: dest.refs.set_if_equals(r[0], None, r[1]), list(refs.items())))
+            self.assertDestEqualsSrc()
 
     def test_incremental_fetch_pack(self):
         self.test_fetch_pack()
         dest, dummy = self.disable_ff_and_make_dummy_commit()
-        dest.refs['refs/heads/master'] = dummy
+        dest.refs[b'refs/heads/master'] = dummy
         c = self._client()
-        dest = repo.Repo(os.path.join(self.gitroot, 'server_new.export'))
-        refs = c.fetch(self._build_path('/dest'), dest)
-        list(map(lambda r: dest.refs.set_if_equals(r[0], None, r[1]), list(refs.items())))
-        self.assertDestEqualsSrc()
+        with repo.Repo(os.path.join(self.gitroot, 'server_new.export')) as dest:
+            refs = c.fetch(self._build_path('/dest'), dest)
+            list(map(lambda r: dest.refs.set_if_equals(r[0], None, r[1]), list(refs.items())))
+            self.assertDestEqualsSrc()
 
     def test_send_remove_branch(self):
-        dest = repo.Repo(os.path.join(self.gitroot, 'dest'))
-        dummy_commit = self.make_dummy_commit(dest)
-        dest.refs['refs/heads/master'] = dummy_commit
-        dest.refs['refs/heads/abranch'] = dummy_commit
-        sendrefs = dict(dest.refs)
-        sendrefs['refs/heads/abranch'] = "00" * 20
-        del sendrefs['HEAD']
-        gen_pack = lambda have, want: []
-        c = self._client()
-        self.assertEquals(dest.refs["refs/heads/abranch"], dummy_commit)
-        c.send_pack(self._build_path('/dest'), lambda _: sendrefs, gen_pack)
-        self.assertFalse("refs/heads/abranch" in dest.refs)
+        with repo.Repo(os.path.join(self.gitroot, 'dest')) as dest:
+            dummy_commit = self.make_dummy_commit(dest)
+            dest.refs[b'refs/heads/master'] = dummy_commit
+            dest.refs[b'refs/heads/abranch'] = dummy_commit
+            sendrefs = dict(dest.refs)
+            sendrefs[b'refs/heads/abranch'] = b"00" * 20
+            del sendrefs[b'HEAD']
+            gen_pack = lambda have, want: []
+            c = self._client()
+            self.assertEqual(dest.refs[b"refs/heads/abranch"], dummy_commit)
+            c.send_pack(self._build_path('/dest'), lambda _: sendrefs, gen_pack)
+            self.assertFalse(b"refs/heads/abranch" in dest.refs)
 
 
 class DulwichTCPClientTest(CompatTestCase, DulwichClientTestBase):
