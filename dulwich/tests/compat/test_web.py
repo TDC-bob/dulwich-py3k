@@ -72,7 +72,7 @@ class WebTests(ServerTests):
     protocol = 'http'
 
     def _start_server(self, repo):
-        backend = DictBackend({'/': repo})
+        backend = DictBackend({b'/': repo})
         app = self._make_app(backend)
         dul_server = simple_server.make_server(
           'localhost', 0, app, server_class=WSGIServer,
@@ -93,12 +93,12 @@ class SmartWebTestCase(WebTests, CompatTestCase):
     min_git_version = (1, 6, 6)
 
     def _handlers(self):
-        return {'git-receive-pack': NoSideBand64kReceivePackHandler}
+        return {b'git-receive-pack': NoSideBand64kReceivePackHandler}
 
     def _check_app(self, app):
-        receive_pack_handler_cls = app.handlers['git-receive-pack']
+        receive_pack_handler_cls = app.handlers[b'git-receive-pack']
         caps = receive_pack_handler_cls.capabilities()
-        self.assertFalse('side-band-64k' in caps)
+        self.assertFalse(b'side-band-64k' in caps)
 
     def _make_app(self, backend):
         app = HTTPGitApplication(backend, handlers=self._handlers())
@@ -116,9 +116,9 @@ class SmartWebSideBand64kTestCase(SmartWebTestCase):
         return None  # default handlers include side-band-64k
 
     def _check_app(self, app):
-        receive_pack_handler_cls = app.handlers['git-receive-pack']
+        receive_pack_handler_cls = app.handlers[b'git-receive-pack']
         caps = receive_pack_handler_cls.capabilities()
-        self.assertTrue('side-band-64k' in caps)
+        self.assertTrue(b'side-band-64k' in caps)
 
 
 class DumbWebTestCase(WebTests, CompatTestCase):

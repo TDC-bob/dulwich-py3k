@@ -121,9 +121,11 @@ class BackendRepo(object):
 class DictBackend(Backend):
     """Trivial backend that looks up Git repositories in a dictionary."""
 
+    @wrap3kstr(repos=DICT_KEYS_TO_BYTES)
     def __init__(self, repos):
         self.repos = repos
 
+    @wrap3kstr(path=BYTES)
     def open_repository(self, path):
         logger.debug('Opening repository at %s', path)
         # FIXME: What to do in case there is no repo ?
@@ -605,7 +607,7 @@ class ReceivePackHandler(Handler):
                                                      self.proto.recv)
             status.append((b'unpack', b'ok'))
         except all_exceptions as e:
-            status.append((b'unpack', str(e).replace('\n', '')))
+            status.append((b'unpack', str(e).replace('\n', '').encode()))
             # The pack may still have been moved in, but it may contain broken
             # objects. We trust a later GC to clean it up.
 

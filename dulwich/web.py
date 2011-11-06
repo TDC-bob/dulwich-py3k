@@ -95,7 +95,7 @@ def send_file(req, f, content_type):
     :return: Iterator over the contents of the file, as chunks.
     """
     if f is None:
-        yield req.not_found('File not found')
+        yield req.not_found(b'File not found')
         return
     try:
         req.respond(HTTP_OK, content_type)
@@ -107,7 +107,7 @@ def send_file(req, f, content_type):
         f.close()
     except IOError:
         f.close()
-        yield req.error('Error reading file')
+        yield req.error(b'Error reading file')
     except:
         f.close()
         raise
@@ -130,12 +130,12 @@ def get_loose_object(req, backend, mat):
     logger.info('Sending loose object %s', sha)
     object_store = get_repo(backend, mat).object_store
     if not object_store.contains_loose(sha):
-        yield req.not_found('Object not found')
+        yield req.not_found(b'Object not found')
         return
     try:
         data = object_store[sha].as_legacy_object()
     except IOError:
-        yield req.error('Error reading object')
+        yield req.error(b'Error reading object')
         return
     req.cache_forever()
     req.respond(HTTP_OK, 'application/x-git-loose-object')
@@ -162,9 +162,9 @@ def get_info_refs(req, backend, mat):
     params = parse_qs(req.environ['QUERY_STRING'])
     service = params.get('service', [None])[0]
     if service and not req.dumb:
-        handler_cls = req.handlers.get(service, None)
+        handler_cls = req.handlers.get(convert3kstr(service, BYTES), None)
         if handler_cls is None:
-            yield req.forbidden('Unsupported service %s' % service)
+            yield req.forbidden(convert3kstr('Unsupported service %s' % service, BYTES))
             return
         req.nocache()
         write = req.respond(HTTP_OK, 'application/x-%s-advertisement' % service)
@@ -232,7 +232,7 @@ class _LengthLimitedFile(object):
 def handle_service_request(req, backend, mat):
     service = mat.group().lstrip('/')
     logger.info('Handling service request for %s', service)
-    handler_cls = req.handlers.get(service, None)
+    handler_cls = req.handlers.get(convert3kstr(service, BYTES), None)
     if handler_cls is None:
         yield req.forbidden('Unsupported service %s' % service)
         return
@@ -258,6 +258,7 @@ class HTTPGitRequest(object):
     :ivar environ: the WSGI environment for the request.
     """
 
+    @wrap3kstr(handlers=DICT_KEYS_TO_BYTES)
     def __init__(self, environ, start_response, dumb=False, handlers=None):
         self.environ = environ
         self.dumb = dumb
@@ -345,10 +346,12 @@ class HTTPGitApplication(object):
         self.handlers = dict(DEFAULT_HANDLERS)
         if handlers is not None:
             self.handlers.update(handlers)
+        self.handlers = convert3kstr(self.handlers, DICT_KEYS_TO_BYTES)
 
     def __call__(self, environ, start_response):
         path = environ['PATH_INFO']
         method = environ['REQUEST_METHOD']
+
         req = HTTPGitRequest(environ, start_response, dumb=self.dumb,
                              handlers=self.handlers)
         # environ['QUERY_STRING'] has qs args
@@ -361,9 +364,8 @@ class HTTPGitApplication(object):
                 handler = self.services[smethod, spath]
                 break
         if handler is None:
-            return req.not_found('Sorry, that method is not supported')
+            return req.not_found(b'Sorry, that method is not supported')
         return handler(req, self.backend, mat)
-
 
 # The reference server implementation is based on wsgiref, which is not
 # distributed with python 2.4. If wsgiref is not present, users will not be able
@@ -400,7 +402,7 @@ try:
         port = 8000
 
         log_utils.default_logging_config()
-        backend = DictBackend({'/': Repo(gitdir)})
+        backend = DictBackend({b'/': Repo(gitdir)})
         app = HTTPGitApplication(backend)
         server = make_server(listen_addr, port, app,
                              handler_class=HTTPGitRequestHandler)

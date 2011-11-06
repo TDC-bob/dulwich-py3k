@@ -677,15 +677,15 @@ class ServeCommandTests(TestCase):
         self.backend = DictBackend({})
 
     def serve_command(self, handler_cls, args, inf, outf):
-        return serve_command(handler_cls, ["test"] + args, backend=self.backend,
+        return serve_command(handler_cls, [b"test"] + args, backend=self.backend,
             inf=inf, outf=outf)
 
     def test_receive_pack(self):
         commit = make_commit(id=ONE, parents=[], commit_time=111)
-        self.backend.repos["/"] = MemoryRepo.init_bare(
+        self.backend.repos[b"/"] = MemoryRepo.init_bare(
             [commit], {"refs/heads/master": commit.id})
         outf = BytesIO()
-        exitcode = self.serve_command(ReceivePackHandler, ["/"], BytesIO(b"0000"), outf)
+        exitcode = self.serve_command(ReceivePackHandler, [b"/"], BytesIO(b"0000"), outf)
         outlines = outf.getvalue().splitlines()
 
         self.assertEqual(2, len(outlines))
