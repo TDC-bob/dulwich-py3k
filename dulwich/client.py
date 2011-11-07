@@ -500,6 +500,7 @@ class TCPGitClient(TraditionalGitClient):
         def _closeit():
             rfile.close()
             wfile.close()
+            s.close()
 
         proto = Protocol(rfile.read, wfile.write, _closeit,
                          report_activity=self._report_activity)

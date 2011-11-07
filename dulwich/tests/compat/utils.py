@@ -184,17 +184,16 @@ def check_for_daemon(limit=10, delay=0.1, timeout=0.1, port=TCP_GIT_PORT):
     """
     for _ in range(limit):
         time.sleep(delay)
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.settimeout(delay)
-        try:
-            s.connect(('localhost', port))
-            s.close()
-            return True
-        except socket.error as e:
-            if getattr(e, 'errno', False) and e.errno != errno.ECONNREFUSED:
-                raise
-            elif e.args[0] != errno.ECONNREFUSED:
-                raise
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.settimeout(delay)
+            try:
+                s.connect(('localhost', port))
+                return True
+            except socket.error as e:
+                if getattr(e, 'errno', False) and e.errno != errno.ECONNREFUSED:
+                    raise
+                elif e.args[0] != errno.ECONNREFUSED:
+                    raise
     return False
 
 
