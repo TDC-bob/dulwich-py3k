@@ -168,11 +168,12 @@ def get_info_refs(req, backend, mat):
             return
         req.nocache()
         write = req.respond(HTTP_OK, 'application/x-%s-advertisement' % service)
-        proto = ReceivableProtocol(BytesIO().read, write)
-        with handler_cls(backend, [url_prefix(mat)], proto, http_req=req, advertise_refs=True) as handler:
-            handler.proto.write_pkt_line('# service=%s\n' % service)
-            handler.proto.write_pkt_line(None)
-            handler.handle()
+        req2 = BytesIO()
+        with ReceivableProtocol(req2.read, write, req2.close) as proto:
+            with handler_cls(backend, [url_prefix(mat)], proto, http_req=req, advertise_refs=True) as handler:
+                handler.proto.write_pkt_line('# service=%s\n' % service)
+                handler.proto.write_pkt_line(None)
+                handler.handle()
     else:
         # non-smart fallback
         # TODO: select_getanyfile() (see http-backend.c)
@@ -225,6 +226,9 @@ class _LengthLimitedFile(object):
         self._bytes_avail -= size
         return self._input.read(size)
 
+    def close(self):
+        pass
+
     # TODO: support more methods as necessary
 
 
@@ -246,9 +250,9 @@ def handle_service_request(req, backend, mat):
     content_length = req.environ.get('CONTENT_LENGTH', '')
     if content_length:
         input = _LengthLimitedFile(input, int(content_length))
-    proto = ReceivableProtocol(input.read, write)
-    with handler_cls(backend, [url_prefix(mat)], proto, http_req=req) as handler:
-        handler.handle()
+    with ReceivableProtocol(input.read, write, None) as proto:
+        with handler_cls(backend, [url_prefix(mat)], proto, http_req=req) as handler:
+            handler.handle()
 
 
 class HTTPGitRequest(object):

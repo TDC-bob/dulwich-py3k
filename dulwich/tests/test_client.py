@@ -46,7 +46,7 @@ class DummyClient(TraditionalGitClient):
         TraditionalGitClient.__init__(self)
 
     def _connect(self, service, path):
-        return Protocol(self.read, self.write), self.can_read
+        return Protocol(self.read, self.write, None), self.can_read
 
 
 # TODO(durin42): add unit-level tests of GitClient
@@ -56,8 +56,14 @@ class GitClientTests(TestCase):
         super(GitClientTests, self).setUp()
         self.rout = BytesIO()
         self.rin = BytesIO()
+
+        def _closeit():
+            self.rin.close()
+            self.rout.close()
+
         self.client = DummyClient(lambda x: True, self.rin.read,
                                   self.rout.write)
+        self.addCleanup(_closeit)
 
     def test_caps(self):
         self.assertEqual(set([b'multi_ack', b'side-band-64k', b'ofs-delta',

@@ -107,8 +107,13 @@ class ProtocolTests(BaseProtocolTests, TestCase):
         TestCase.setUp(self)
         self.rout = BytesIO()
         self.rin = BytesIO()
-        self.proto = Protocol(self.rin.read, self.rout.write)
 
+        def _closeit():
+            self.rout.close()
+            self.rin.close()
+
+        self.proto = Protocol(self.rin.read, self.rout.write, _closeit)
+        self.addCleanup(self.proto.close)
 
 class ReceivableBytesIO(BytesIO):
     """BytesIO with socket-like recv semantics for testing."""
@@ -134,8 +139,14 @@ class ReceivableProtocolTests(BaseProtocolTests, TestCase):
         TestCase.setUp(self)
         self.rout = BytesIO()
         self.rin = ReceivableBytesIO()
-        self.proto = ReceivableProtocol(self.rin.recv, self.rout.write)
+
+        def _closeit():
+            self.rout.close()
+            self.rin.close()
+
+        self.proto = ReceivableProtocol(self.rin.recv, self.rout.write, _closeit)
         self.proto._rbufsize = 8
+        self.addCleanup(self.proto.close)
 
     def test_eof(self):
         # Allow blocking reads past EOF just for this test. The only parts of

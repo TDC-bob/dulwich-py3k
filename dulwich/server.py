@@ -754,18 +754,18 @@ class TCPGitRequestHandler(socketserver.StreamRequestHandler):
         socketserver.StreamRequestHandler.__init__(self, *args, **kwargs)
 
     def handle(self):
-        proto = ReceivableProtocol(self.connection.recv, self.wfile.write)
-        command, args = proto.read_cmd()
+        with ReceivableProtocol(self.connection.recv, self.wfile.write, None) as proto:
+            command, args = proto.read_cmd()
 
-        logger.info('Handling %s request, args=%s', 
-          convert3kstr(command, STRING), convert3kstr(args, STRING))
+            logger.info('Handling %s request, args=%s', 
+              convert3kstr(command, STRING), convert3kstr(args, STRING))
 
-        cls = self.handlers.get(convert3kstr(command, BYTES), None)
-        if not isinstance(cls, collections.Callable):
-            raise GitProtocolError('Invalid service %s' % convert3kstr(command, STRING))
+            cls = self.handlers.get(convert3kstr(command, BYTES), None)
+            if not isinstance(cls, collections.Callable):
+                raise GitProtocolError('Invalid service %s' % convert3kstr(command, STRING))
 
-        with cls(self.server.backend, args, proto) as h:
-            h.handle()
+            with cls(self.server.backend, args, proto) as h:
+                h.handle()
 
 
 class TCPGitServer(socketserver.TCPServer):
@@ -835,9 +835,10 @@ def serve_command(handler_cls, argv=sys.argv, backend=None, inf=sys.stdin,
         def send_fn(data):
             outf.write(data)
             outf.flush()
-        
-    proto = Protocol(inf.read, send_fn)
-    handler = handler_cls(backend, argv[1:], proto)
-    # FIXME: Catch exceptions and write a single-line summary to outf.
-    handler.handle()
+
+    with Protocol(inf.read, send_fn, None) as proto:
+        with handler_cls(backend, argv[1:], proto) as handler:
+            # FIXME: Catch exceptions and write a single-line summary to outf.
+            handler.handle()
+
     return 0

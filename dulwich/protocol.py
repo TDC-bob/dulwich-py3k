@@ -79,11 +79,22 @@ class Protocol(object):
         Documentation/technical/protocol-common.txt
     """
 
-    def __init__(self, read, write, report_activity=None):
+    def __init__(self, read, write, close, report_activity=None):
         self.read = read
         self.write = write
         self.report_activity = report_activity
+        self._close = close
         self._readahead = None
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, type, value, tb):
+        self.close()
+
+    def close(self):
+        if callable(self._close):
+            self._close()
 
     def read_pkt_line(self):
         """Reads a pkt-line from the remote git process.
@@ -240,8 +251,8 @@ class ReceivableProtocol(Protocol):
     still block until at least one byte is read.
     """
 
-    def __init__(self, recv, write, report_activity=None, rbufsize=_RBUFSIZE):
-        super(ReceivableProtocol, self).__init__(self.read, write,
+    def __init__(self, recv, write, close, report_activity=None, rbufsize=_RBUFSIZE):
+        super(ReceivableProtocol, self).__init__(self.read, write, close,
                                                  report_activity)
         self._recv = recv
         self._rbuf = BytesIO()
