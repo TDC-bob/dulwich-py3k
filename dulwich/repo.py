@@ -475,25 +475,23 @@ class DiskRefsContainer(RefsContainer):
             self._peeled_refs = {}
             path = os.path.join(self.path, 'packed-refs')
             try:
-                f = GitFile(path, 'rb')
+                with GitFile(path, 'rb') as f:
+                    first_line = iter(f).__next__().rstrip()
+                    if (first_line.startswith(b"# pack-refs") and b" peeled" in
+                            first_line):
+                        for sha, name, peeled in read_packed_refs_with_peeled(f):
+                            self._packed_refs[name] = sha
+                            if peeled:
+                                self._peeled_refs[name] = peeled
+                    else:
+                        f.seek(0)
+                        for sha, name in read_packed_refs(f):
+                            self._packed_refs[name] = sha
             except IOError as e:
                 if e.errno == errno.ENOENT:
                     return {}
                 raise
-            try:
-                first_line = iter(f).__next__().rstrip()
-                if (first_line.startswith(b"# pack-refs") and b" peeled" in
-                        first_line):
-                    for sha, name, peeled in read_packed_refs_with_peeled(f):
-                        self._packed_refs[name] = sha
-                        if peeled:
-                            self._peeled_refs[name] = peeled
-                else:
-                    f.seek(0)
-                    for sha, name in read_packed_refs(f):
-                        self._packed_refs[name] = sha
-            finally:
-                f.close()
+
         return self._packed_refs
 
     def get_peeled(self, name):
@@ -527,8 +525,7 @@ class DiskRefsContainer(RefsContainer):
         """
         filename = self.refpath(name)
         try:
-            f = GitFile(filename, 'rb')
-            try:
+            with GitFile(filename, 'rb') as f:
                 header = f.read(len(SYMREF))
                 if header == SYMREF:
                     # Read only the first line
@@ -536,8 +533,6 @@ class DiskRefsContainer(RefsContainer):
                 else:
                     # Read only the first 40 bytes
                     return header + f.read(40-len(SYMREF))
-            finally:
-                f.close()
         except IOError as e:
             if e.errno == errno.ENOENT:
                 return None
@@ -548,8 +543,7 @@ class DiskRefsContainer(RefsContainer):
             return
         filename = os.path.join(self.path, 'packed-refs')
         # reread cached refs from disk, while holding the lock
-        f = GitFile(filename, 'wb')
-        try:
+        with GitFile(filename, 'wb') as f:
             self._packed_refs = None
             self.get_packed_refs()
 
@@ -560,8 +554,6 @@ class DiskRefsContainer(RefsContainer):
             if name in self._peeled_refs:
                 del self._peeled_refs[name]
             write_packed_refs(f, self._packed_refs, self._peeled_refs)
-            f.close()
-        finally:
             f.abort()
 
     def set_symbolic_ref(self, name, other):
@@ -573,15 +565,12 @@ class DiskRefsContainer(RefsContainer):
         self._check_refname(name)
         self._check_refname(other)
         filename = self.refpath(name)
-        try:
-            f = GitFile(filename, 'wb')
+        with GitFile(filename, 'wb') as f:
             try:
                 f.write(SYMREF + other + b'\n')
             except (IOError, OSError):
                 f.abort()
                 raise
-        finally:
-            f.close()
 
     @wrap3kstr(name=BYTES, old_ref=BYTES, new_ref=BYTES)
     def set_if_equals(self, name, old_ref, new_ref):
@@ -603,8 +592,7 @@ class DiskRefsContainer(RefsContainer):
             realname = name
         filename = self.refpath(realname)
         ensure_dir_exists(os.path.dirname(filename))
-        f = GitFile(filename, 'wb')
-        try:
+        with GitFile(filename, 'wb') as f:
             if old_ref is not None:
                 try:
                     # read again while holding the lock
@@ -622,8 +610,6 @@ class DiskRefsContainer(RefsContainer):
             except (OSError, IOError):
                 f.abort()
                 raise
-        finally:
-            f.close()
         return True
 
     @wrap3kstr(name=BYTES, ref=BYTES)
@@ -647,8 +633,7 @@ class DiskRefsContainer(RefsContainer):
         self._check_refname(realname)
         filename = self.refpath(realname)
         ensure_dir_exists(os.path.dirname(filename))
-        f = GitFile(filename, 'wb')
-        try:
+        with GitFile(filename, 'wb') as f:
             if os.path.exists(filename) or name in self.get_packed_refs():
                 f.abort()
                 return False
@@ -657,8 +642,6 @@ class DiskRefsContainer(RefsContainer):
             except (OSError, IOError):
                 f.abort()
                 raise
-        finally:
-            f.close()
         return True
 
     @wrap3kstr(name=BYTES, old_ref=BYTES)
@@ -1176,11 +1159,8 @@ class Repo(BaseRepo):
         :param contents: A string to write to the file.
         """
         path = path.lstrip(os.path.sep)
-        f = GitFile(os.path.join(self.controldir(), path), 'wb')
-        try:
+        with GitFile(os.path.join(self.controldir(), path), 'wb') as f:
             f.write(convert3kstr(contents, BYTES))
-        finally:
-            f.close()
 
     def get_named_file(self, path):
         """Get a file from the control dir with a specific name.

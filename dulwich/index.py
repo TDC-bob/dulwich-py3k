@@ -198,27 +198,20 @@ class Index(object):
 
     def write(self):
         """Write current contents of index to disk."""
-        f = GitFile(self._filename, 'wb')
-        try:
-            f = SHA1Writer(f)
+        with SHA1Writer(GitFile(self._filename, 'wb')) as f:
             write_index_dict(f, self._byname)
-        finally:
-            f.close()
 
     def read(self):
         """Read current contents of index from disk."""
         if not os.path.exists(self._filename):
             return
-        f = GitFile(self._filename, 'rb')
-        try:
-            f = SHA1Reader(f)
+
+        with SHA1Reader(GitFile(self._filename, 'rb')) as f:
             for x in read_index(f):
                 self[x[0]] = tuple(x[1:])
             # FIXME: Additional data?
             f.read(os.path.getsize(self._filename)-f.tell()-20)
             f.check_sha()
-        finally:
-            f.close()
 
     def __len__(self):
         """Number of entries in this index file."""

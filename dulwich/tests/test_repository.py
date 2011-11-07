@@ -865,13 +865,11 @@ class DiskRefsContainerTests(RefsContainerTests, TestCase):
 
     def test_remove_packed_without_peeled(self):
         refs_file = os.path.join(self._repo.path, 'packed-refs')
-        f = GitFile(refs_file)
-        refs_data = f.read()
-        f.close()
-        f = GitFile(refs_file, 'wb')
-        f.write(b'\n'.join(l for l in refs_data.split(b'\n')
-                          if not l or l[0] not in b'#^'))
-        f.close()
+        with GitFile(refs_file) as f:
+            refs_data = f.read()
+        with GitFile(refs_file, 'wb') as f:
+            f.write(b'\n'.join(l for l in refs_data.split(b'\n')
+                               if not l or l[0] not in b'#^'))
         self._repo = Repo(self._repo.path)
         refs = self._repo.refs
         self.assertTrue(refs.remove_if_equals(

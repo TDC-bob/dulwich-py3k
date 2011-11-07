@@ -1348,6 +1348,12 @@ class SHA1Reader(object):
         if stored != self.sha1.digest():
             raise ChecksumMismatch(self.sha1.hexdigest(), sha_to_hex(stored))
 
+    def __enter__(self):
+        return self
+
+    def __exit__(self, type, value, tb):
+        self.close()
+
     def close(self):
         return self.f.close()
 
@@ -1375,6 +1381,12 @@ class SHA1Writer(object):
         self.f.write(sha)
         self.length += len(sha)
         return sha
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, type, value, tb):
+        self.close()
 
     def close(self):
         sha = self.write_sha()

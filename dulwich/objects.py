@@ -334,11 +334,8 @@ class ShaFile(object):
         raise NotImplementedError(self._serialize)
 
     def _parse_path(self):
-        f = GitFile(self._path, 'rb')
-        try:
+        with GitFile(self._path, 'rb') as f:
             self._parse_file(f)
-        finally:
-            f.close()
 
     def _parse_file(self, f):
         magic = self._magic
