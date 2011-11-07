@@ -134,12 +134,12 @@ class DulwichClientTestBase(object):
         with repo.Repo(srcpath) as src:
             sendrefs = dict(src.get_refs())
             del sendrefs[b'HEAD']
-            return sendrefs, src.object_store.generate_pack_contents
+            return sendrefs, src.object_store.generate_pack_contents, src.object_store.close
 
     def test_send_pack_one_error(self):
         dest, dummy_commit = self.disable_ff_and_make_dummy_commit()
         dest.refs[b'refs/heads/master'] = dummy_commit
-        sendrefs, gen_pack = self.compute_send()
+        sendrefs, gen_pack, close = self.compute_send()
         c = self._client()
         try:
             c.send_pack(self._build_path('/dest'), lambda _: sendrefs, gen_pack)
@@ -148,12 +148,14 @@ class DulwichClientTestBase(object):
             self.assertEqual({b'refs/heads/branch': b'ok',
                               b'refs/heads/master': b'non-fast-forward'},
                              e.ref_status)
+        finally:
+            close()
 
     def test_send_pack_multiple_errors(self):
         dest, dummy = self.disable_ff_and_make_dummy_commit()
         # set up for two non-ff errors
         dest.refs['refs/heads/branch'] = dest.refs['refs/heads/master'] = dummy
-        sendrefs, gen_pack = self.compute_send()
+        sendrefs, gen_pack, close = self.compute_send()
         c = self._client()
         try:
             c.send_pack(self._build_path('/dest'), lambda _: sendrefs, gen_pack)
@@ -163,6 +165,8 @@ class DulwichClientTestBase(object):
             self.assertEqual({b'refs/heads/branch': b'non-fast-forward',
                               b'refs/heads/master': b'non-fast-forward'},
                              e.ref_status)
+        finally:
+            close()
 
     def test_fetch_pack(self):
         c = self._client()
@@ -206,7 +210,7 @@ class DulwichTCPClientTest(CompatTestCase, DulwichClientTestBase):
                               protocol.TCP_GIT_PORT)
         fd, self.pidfile = tempfile.mkstemp(prefix='dulwich-test-git-client',
                                             suffix=".pid")
-        os.fdopen(fd).close()
+        os.close(fd)
         run_git_or_fail(
             ['daemon', '--verbose', '--export-all',
              '--pid-file=%s' % self.pidfile, '--base-path=%s' % self.gitroot,
@@ -217,7 +221,8 @@ class DulwichTCPClientTest(CompatTestCase, DulwichClientTestBase):
 
     def tearDown(self):
         try:
-            os.kill(int(open(self.pidfile).read().strip()), signal.SIGKILL)
+            with open(self.pidfile, 'r') as f:
+                os.kill(int(f.read().strip()), signal.SIGKILL)
             os.unlink(self.pidfile)
         except (OSError, IOError):
             pass

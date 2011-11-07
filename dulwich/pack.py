@@ -975,9 +975,6 @@ class PackData(object):
         mmap implementation is flawed.
         """
 
-        # assert not filename.endswith('aa4b6bca15197107f7ac4efeee7536c4db18218a.pack')
-        # assert not filename.endswith('aa4b6bca15197107f7ac4efeee7536c4db18218a.pack')
-
         self._filename = filename
         self._size = size
         self._header_size = 12

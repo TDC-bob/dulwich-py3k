@@ -187,7 +187,9 @@ class GitClient(object):
             return self.fetch_pack(path, determine_wants,
                 target.get_graph_walker(), f.write, progress)
         finally:
-            commit()
+            pack = commit()
+            if pack and hasattr(pack, 'close'):
+                pack.close()
 
     def fetch_pack(self, path, determine_wants, graph_walker, pack_data,
                    progress):
