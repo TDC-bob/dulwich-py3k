@@ -1218,11 +1218,8 @@ class Repo(BaseRepo):
                 except KeyError:
                     pass  # Doesn't exist in the index either
             else:
-                f = open(full_path, 'rb')
-                try:
+                with open(full_path, 'rb') as f:
                     blob.data = f.read()
-                finally:
-                    f.close()
                 self.object_store.add_object(blob)
                 # XXX: Cleanup some of the other file properties as well?
                 index[path] = (st.st_ctime, st.st_mtime, st.st_dev, st.st_ino,

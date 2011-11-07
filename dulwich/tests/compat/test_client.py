@@ -243,7 +243,7 @@ class TestSSHVendor(object):
         cmd = cmd.split('-', 1)
         p = subprocess.Popen(cmd + [path], stdin=subprocess.PIPE,
                              stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        return client.SubprocessWrapper(p)
+        return client.SubprocessWrapper(p, close_stderr=True)
 
 
 class DulwichMockSSHClientTest(CompatTestCase, DulwichClientTestBase):

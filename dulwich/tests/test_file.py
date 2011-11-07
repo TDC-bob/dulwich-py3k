@@ -47,44 +47,38 @@ class FancyRenameTests(TestCase):
         return os.path.join(self._tempdir, filename)
 
     def create(self, path, contents):
-        f = open(path, 'wb')
-        f.write(convert3kstr(contents, BYTES))
-        f.close()
+        with open(path, 'wb') as f:
+            f.write(convert3kstr(contents, BYTES))
 
     def test_no_dest_exists(self):
         self.assertFalse(os.path.exists(self.bar))
         fancy_rename(self.foo, self.bar)
         self.assertFalse(os.path.exists(self.foo))
 
-        new_f = open(self.bar, 'rb')
-        self.assertEqual(b'foo contents', new_f.read())
-        new_f.close()
+        with open(self.bar, 'rb') as new_f:
+            self.assertEqual(b'foo contents', new_f.read())
          
     def test_dest_exists(self):
         self.create(self.bar, 'bar contents')
         fancy_rename(self.foo, self.bar)
         self.assertFalse(os.path.exists(self.foo))
 
-        new_f = open(self.bar, 'rb')
-        self.assertEqual(b'foo contents', new_f.read())
-        new_f.close()
+        with open(self.bar, 'rb') as new_f:
+            self.assertEqual(b'foo contents', new_f.read())
 
     def test_dest_opened(self):
         if sys.platform != "win32":
             raise SkipTest("platform allows overwriting open files")
         self.create(self.bar, 'bar contents')
-        dest_f = open(self.bar, 'rb')
-        self.assertRaises(OSError, fancy_rename, self.foo, self.bar)
-        dest_f.close()
+        with open(self.bar, 'rb') as dest_f:
+            self.assertRaises(OSError, fancy_rename, self.foo, self.bar)
         self.assertTrue(os.path.exists(self.path('foo')))
 
-        new_f = open(self.foo, 'rb')
-        self.assertEqual('foo contents', new_f.read())
-        new_f.close()
+        with open(self.foo, 'rb') as new_f:
+            self.assertEqual('foo contents', new_f.read())
 
-        new_f = open(self.bar, 'rb')
-        self.assertEqual('bar contents', new_f.read())
-        new_f.close()
+        with open(self.bar, 'rb') as new_f:
+            self.assertEqual('bar contents', new_f.read())
 
 
 class GitFileTests(TestCase):
@@ -92,9 +86,8 @@ class GitFileTests(TestCase):
     def setUp(self):
         super(GitFileTests, self).setUp()
         self._tempdir = tempfile.mkdtemp()
-        f = open(self.path('foo'), 'wb')
-        f.write(b'foo contents')
-        f.close()
+        with open(self.path('foo'), 'wb') as f:
+            f.write(b'foo contents')
 
     def tearDown(self):
         shutil.rmtree(self._tempdir)
@@ -130,9 +123,8 @@ class GitFileTests(TestCase):
         foo = self.path('foo')
         foo_lock = '%s.lock' % foo
 
-        orig_f = open(foo, 'rb')
-        self.assertEqual(orig_f.read(), b'foo contents')
-        orig_f.close()
+        with open(foo, 'rb') as orig_f:
+            self.assertEqual(orig_f.read(), b'foo contents')
 
         self.assertFalse(os.path.exists(foo_lock))
         f = GitFile(foo, 'wb')
@@ -146,9 +138,8 @@ class GitFileTests(TestCase):
         f.close()
         self.assertFalse(os.path.exists(foo_lock))
 
-        new_f = open(foo, 'rb')
-        self.assertEqual(b'new contents', new_f.read())
-        new_f.close()
+        with open(foo, 'rb') as new_f:
+            self.assertEqual(b'new contents', new_f.read())
 
     def test_open_twice(self):
         foo = self.path('foo')
@@ -163,17 +154,15 @@ class GitFileTests(TestCase):
         f1.close()
 
         # Ensure trying to open twice doesn't affect original.
-        f = open(foo, 'rb')
-        self.assertEqual(b'new contents', f.read())
-        f.close()
+        with open(foo, 'rb') as f:
+            self.assertEqual(b'new contents', f.read())
 
     def test_abort(self):
         foo = self.path('foo')
         foo_lock = '%s.lock' % foo
 
-        orig_f = open(foo, 'rb')
-        self.assertEqual(orig_f.read(), b'foo contents')
-        orig_f.close()
+        with open(foo, 'rb') as orig_f:
+            self.assertEqual(orig_f.read(), b'foo contents')
 
         f = GitFile(foo, 'wb')
         f.write(b'new contents')
@@ -181,9 +170,8 @@ class GitFileTests(TestCase):
         self.assertTrue(f.closed)
         self.assertFalse(os.path.exists(foo_lock))
 
-        new_orig_f = open(foo, 'rb')
-        self.assertEqual(new_orig_f.read(), b'foo contents')
-        new_orig_f.close()
+        with open(foo, 'rb') as new_orig_f:
+            self.assertEqual(new_orig_f.read(), b'foo contents')
 
     def test_abort_close(self):
         foo = self.path('foo')

@@ -88,16 +88,10 @@ class SimpleIndexWriterTestCase(IndexTestCase):
                     33188, 1000, 1000, 0,
                     'e69de29bb2d1d6434b8b29ae775ad8c2e48c5391', 0)]
         filename = os.path.join(self.tempdir, 'test-simple-write-index')
-        x = open(filename, 'wb+')
-        try:
+        with open(filename, 'wb+') as x:
             write_index(x, entries)
-        finally:
-            x.close()
-        x = open(filename, 'rb')
-        try:
+        with open(filename, 'rb') as x:
             self.assertEqual(entries, list(read_index(x)))
-        finally:
-            x.close()
 
 
 class CommitTreeTests(TestCase):

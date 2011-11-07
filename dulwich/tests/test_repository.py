@@ -415,11 +415,8 @@ class BuildRepoTests(TestCase):
 
     def test_commit_modified(self):
         r = self._repo
-        f = open(os.path.join(r.path, 'a'), 'wb')
-        try:
+        with open(os.path.join(r.path, 'a'), 'wb') as f:
             f.write(b'new contents')
-        finally:
-            f.close()
         r.stage(['a'])
         commit_sha = r.do_commit('modified a',
                                  committer='Test Committer <test@nodomain.com>',
@@ -764,10 +761,9 @@ class DiskRefsContainerTests(RefsContainerTests, TestCase):
 
     def test_setitem(self):
         RefsContainerTests.test_setitem(self)
-        f = open(os.path.join(self._refs.path, 'refs', 'some', 'ref'), 'rb')
-        self.assertEqual(b'42d06bd4b77fed026b154d16493e5deab78f02ec',
-                          f.read()[:40])
-        f.close()
+        with open(os.path.join(self._refs.path, 'refs', 'some', 'ref'), 'rb') as f:
+            self.assertEqual(b'42d06bd4b77fed026b154d16493e5deab78f02ec',
+                              f.read()[:40])
 
     def test_setitem_symbolic(self):
         ones = b'1' * 40
@@ -775,14 +771,12 @@ class DiskRefsContainerTests(RefsContainerTests, TestCase):
         self.assertEqual(ones, self._refs[b'HEAD'])
 
         # ensure HEAD was not modified
-        f = open(os.path.join(self._refs.path, 'HEAD'), 'rb')
-        self.assertEqual(b'ref: refs/heads/master', iter(f).__next__().rstrip(b'\n'))
-        f.close()
+        with open(os.path.join(self._refs.path, 'HEAD'), 'rb') as f:
+            self.assertEqual(b'ref: refs/heads/master', iter(f).__next__().rstrip(b'\n'))
 
         # ensure the symbolic link was written through
-        f = open(os.path.join(self._refs.path, 'refs', 'heads', 'master'), 'rb')
-        self.assertEqual(ones, f.read()[:40])
-        f.close()
+        with open(os.path.join(self._refs.path, 'refs', 'heads', 'master'), 'rb') as f:
+            self.assertEqual(ones, f.read()[:40])
 
     def test_set_if_equals(self):
         RefsContainerTests.test_set_if_equals(self)

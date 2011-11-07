@@ -152,11 +152,10 @@ def import_repo_to_dir(name):
     temp_dir = tempfile.mkdtemp()
     export_path = os.path.join(_REPOS_DATA_DIR, name)
     temp_repo_dir = os.path.join(temp_dir, name)
-    export_file = open(export_path, 'rb')
-    run_git_or_fail(['init', '--quiet', '--bare', temp_repo_dir])
-    run_git_or_fail(['fast-import'], input=export_file.read(),
-                    cwd=temp_repo_dir)
-    export_file.close()
+    with open(export_path, 'rb') as export_file:
+        run_git_or_fail(['init', '--quiet', '--bare', temp_repo_dir])
+        run_git_or_fail(['fast-import'], input=export_file.read(),
+                        cwd=temp_repo_dir)
     return temp_repo_dir
 
 
