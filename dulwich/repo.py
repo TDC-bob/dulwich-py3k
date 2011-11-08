@@ -1034,11 +1034,12 @@ class BaseRepo(object):
         else:
             return name in self.refs
 
+    @wrap3kstr(name=BYTES, value=BYTES)
     def __setitem__(self, name, value):
-        if name.startswith("refs/") or name == "HEAD":
+        if name.startswith(b"refs/") or name == b"HEAD":
             if isinstance(value, ShaFile):
                 self.refs[name] = value.id
-            elif isinstance(value, str):
+            elif isinstance(value, bytes):
                 self.refs[name] = value
             else:
                 raise TypeError(value)

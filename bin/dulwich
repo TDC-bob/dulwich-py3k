@@ -59,15 +59,15 @@ def cmd_log(args):
     done = set()
     while todo:
         sha = todo.pop()
-        assert isinstance(sha, str)
+        assert isinstance(sha, bytes)
         if sha in done:
             continue
         done.add(sha)
         commit = r[sha]
         print("-" * 50)
-        print("commit: %s" % sha)
+        print("commit: %s" % sha.decode())
         if len(commit.parents) > 1:
-            print("merge: %s" % "...".join(commit.parents[1:]))
+            print("merge: %s" % "...".join([p.decode() for p in commit.parents[1:]]))
         print("author: %s" % commit.author)
         print("committer: %s" % commit.committer)
         print("")
@@ -130,6 +130,8 @@ def cmd_init(args):
     else:
         Repo.init(path)
 
+def bytes_to_stdout(dat):
+    sys.stdout.write(dat.decode('utf-8'))
 
 def cmd_clone(args):
     opts, args = getopt(args, "", [])
@@ -150,8 +152,8 @@ def cmd_clone(args):
     r = Repo.init(path)
     remote_refs = client.fetch(host_path, r,
         determine_wants=r.object_store.determine_wants_all,
-        progress=sys.stdout.write)
-    r["HEAD"] = remote_refs["HEAD"]
+        progress=bytes_to_stdout)
+    r[b"HEAD"] = remote_refs[b"HEAD"]
 
 
 def cmd_commit(args):
