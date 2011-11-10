@@ -59,7 +59,7 @@ class Sha1Sum(object):
             self._get_hex_bytes = lambda: sha.encode('ascii')
 
         elif isinstance(sha, bytes):
-            assert len(sha) in (20, 40)
+
             if len(sha) == 20:
                 self._string = None
                 self._hex_bytes = None
@@ -83,6 +83,7 @@ class Sha1Sum(object):
                 self._get_string = sha.decode('ascii')
                 self._get_hex_bytes = lambda: sha
                 self._get_bytes = lambda: binascii.unhexlify(sha)
+
             else:
                 if not error_message:
                     raise ObjectFormatException("unrecognized bytes object: {0}".format(repr(sha)))
@@ -97,6 +98,18 @@ class Sha1Sum(object):
             self._get_string = sha._get_string
             self._get_hex_bytes = sha._get_hex_bytes
             self._get_bytes = sha._get_bytes
+
+        elif hasattr(sha, 'digest') and callable(sha.digest):
+            self._string = None
+            self._hex_bytes = None
+            self._bytes = sha.digest()
+
+            if len(self._bytes) != 20:
+                raise ObjectFormatException("unrecognized sha object: {0}".format(repr(sha)))
+
+            self._get_string = lambda: binascii.hexlify(self._bytes).decode('ascii')
+            self._get_hex_bytes = lambda: binascii.hexlify(self._bytes)
+            self._get_bytes = lambda: self._bytes
 
         else:
             raise TypeError('Expecting a SHA-1 hash as a bytes or str object')

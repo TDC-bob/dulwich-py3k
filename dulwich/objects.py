@@ -43,7 +43,9 @@ from dulwich._compat import (
     make_sha,
     namedtuple,
     )
+from dulwich.sha1 import Sha1Sum
 from dulwich.py3k import *
+
 
 ZERO_SHA = b"0" * 40
 
@@ -74,39 +76,23 @@ def _decompress(string):
     dcomped += dcomp.flush()
     return dcomped
 
-@wrap3kstr(sha=BYTES, returns=STRING)
-def sha_to_hex(sha):
-    """Takes a string and returns the hex of the sha within"""
-    hexsha = binascii.hexlify(sha)
-    assert len(hexsha) == 40, "Incorrect length of sha1 string: %d" % len(hexsha)
-    return hexsha
-
-@wrap3kstr(hex=BYTES, returns=BYTES)
-def hex_to_sha(hex):
-    """Takes a hex sha and returns a binary sha"""
-    assert len(hex) == 40, "Incorrent length of hexsha: %d" % len(hex)
-    return binascii.unhexlify(hex)
-
-@wrap3kstr(path=STRING, hex=STRING)
-def hex_to_filename(path, hex):
+def sha_to_filename(path, sha):
     """Takes a hex sha and returns its filename relative to the given path."""
-    dir = hex[:2]
-    file = hex[2:]
+    dir = str(sha)[:2]
+    file = str(sha)[2:]
     # Check from object dir
     return os.path.join(path, dir, file)
 
-@wrap3kstr(filename=STRING)
-def filename_to_hex(filename):
+def filename_to_sha(filename):
     """Takes an object filename and returns its corresponding hex sha."""
     # grab the last (up to) two path components
     names = filename.rsplit(os.path.sep, 2)[-2:]
-    errmsg = "Invalid object filename: %s" % filename
+    errmsg = "Invalid object filename: {0}".format(filename)
     assert len(names) == 2, errmsg
     base, rest = names
     assert len(base) == 2 and len(rest) == 38, errmsg
     hex = base + rest
-    hex_to_sha(hex)
-    return hex
+    return Sha1Sum(hex)
 
 
 def object_header(num_type, length):
@@ -460,9 +446,8 @@ class ShaFile(object):
         return self._sha
 
     @property
-    @wrap3kstr(returns=BYTES)
     def id(self):
-        return self.sha().hexdigest()
+        return Sha1Sum(self.sha().hexdigest())
 
     def get_type(self):
         return self.type_num
@@ -752,9 +737,10 @@ def serialize_tree(items):
     :param items: Sorted iterable over (name, mode, sha) tuples
     :return: Serialized tree text as chunks
     """
-    for name, mode, hexsha in items:
+    for name, mode, sha in items:
         yield convert3kstr("%04o " % mode, BYTES) + \
-          convert3kstr(name, BYTES) + b'\0' + hex_to_sha(hexsha)
+          convert3kstr(name, BYTES) + b'\0' + bytes(sha)
+
 
 def cmp_to_key(mycmp):
     """Convert a cmp= function into a key= function"""
@@ -842,7 +828,7 @@ class Tree(ShaFile):
         self._ensure_parsed()
         return self._entries[name]
 
-    @wrap3kstr(name=BYTES)
+    @enforce_type(name=str, value=(int, Sha1Sum))
     def __setitem__(self, name, value):
         """Set a tree entry by name.
 
@@ -852,7 +838,6 @@ class Tree(ShaFile):
             a string.
         """
         mode, hexsha = value
-        hexsha = convert3kstr(hexsha, BYTES)
         self._ensure_parsed()
         self._entries[name] = (mode, hexsha)
         self._needs_serialization = True

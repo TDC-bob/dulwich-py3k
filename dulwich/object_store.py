@@ -40,9 +40,6 @@ from dulwich.objects import (
     Tag,
     Tree,
     ZERO_SHA,
-    hex_to_sha,
-    sha_to_hex,
-    hex_to_filename,
     S_ISGITLINK,
     object_class,
     )
@@ -59,6 +56,7 @@ from dulwich.pack import (
     PackStreamCopier,
     )
 
+from dulwich.sha1 import Sha1Sum
 from dulwich.py3k import *
 
 INFODIR = 'info'

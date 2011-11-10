@@ -20,6 +20,8 @@
 
 """Transparently wraps things to go from bytes <-> str"""
 
+import sys
+
 NOCONVERT = 0
 BYTES = 1
 STRING = 2
@@ -28,6 +30,93 @@ DICT_KEYS_TO_STRING = 8
 DICT_VALS_TO_BYTES = 16
 DICT_VALS_TO_STRING = 32
 AGGRESSIVE = 64
+
+
+def echo(func, write=sys.stdout.write):
+    code = func.__code__
+    argcount = code.co_argcount
+    argnames = code.co_varnames[:argcount]
+    fn_defaults = func.__defaults__ or list()
+    argdefs = dict(zip(argnames[-len(fn_defaults):], fn_defaults))
+
+    def wrapped_func(*args, **kwargs):
+        positional = [av for av in zip(argnames, args)]
+        defaulted = [((a, argdefs[a])) for a in argnames[len(args):] if a not in kwargs]
+        nameless = [repr(a) for a in args[argcount:]]
+        keyword = [av for av in kwargs.items()]
+        nargs = positional + defaulted + nameless + keyword
+
+        string = str(func.__name__) + '(' + \
+            ", ".join([str(i[0]) + '=' + repr(i[1]) for i in nargs]) + \
+            ')'
+        write(string + '\n')
+
+        ret = func(*args, **kwargs)
+        write(' => ' + repr(ret) + '\n')
+
+        return ret
+
+    wrapped_func.__name__ = func.__name__
+    wrapped_func.__doc__ = func.__doc__
+
+    return wrapped_func
+
+
+class enforce_type(object):
+
+    def __init__(self, **kwargs):
+        self._types = kwargs
+
+    def _enforce(self, fname, param_name, param_value, expected_type):
+        msg = fname + ": parameter '" + param_name + "' expects type {0}, but got {1}'"
+        if isinstance(expected_type, (tuple, list)):
+            if not isinstance(param_value, type(expected_type)):
+                raise TypeError('#1: ' + msg.format(repr(expected_type), repr(type(param_value))))
+            if len(param_value) != len(expected_type):
+                raise ValueError(fname + ": parameter '" + param_name + "' is a tuple of size " + \
+                  len(param_value) + ', should be size ' + len(expected_type))
+            for i in range(len(expected_type)):
+                self._enforce(fname, param_name, param_value[i], expected_type[i])
+
+        elif not isinstance(param_value, expected_type):
+            raise TypeError(msg.format(repr(expected_type), repr(type(param_value))))
+
+    def __call__(self, func):
+        code = func.__code__
+        argcount = code.co_argcount
+        argnames = code.co_varnames[:argcount]
+        fn_defaults = func.__defaults__ or list()
+        argdefs = dict(zip(argnames[-len(fn_defaults):], fn_defaults))
+        func_name = str(func.__name__)
+
+        def wrapped_func(*args, **kwargs):
+            positional = [av for av in zip(argnames, args)]
+            defaulted = [((a, argdefs[a])) for a in argnames[len(args):] if a not in kwargs]
+            nameless = [repr(a) for a in args[argcount:]]
+            keyword = [av for av in kwargs.items()]
+            nargs = positional + defaulted + nameless + keyword
+
+            for arg in nargs:
+                name = arg[0]
+                val = arg[1]
+                if name in self._types:
+                    self._enforce(func_name, name, val, self._types[name])
+
+            ret = func(*args, **kwargs)
+            if 'returns' in self._types:
+                expected = self._types['returns']
+                if not isinstance(val, expected):
+                    msg = str(func.__name__) + ": returned value should be type " + \
+                        repr(expected) + ', but got ' + repr(type(val))
+                    raise TypeError(msg)
+
+            return ret
+
+        wrapped_func.__name__ = func.__name__
+        wrapped_func.__doc__ = func.__doc__
+
+        return wrapped_func
+
 
 class wrap3kstr(object):
     def __init__(self, enforcing=False, unnamed_in=NOCONVERT, returns=NOCONVERT, **kwargs):

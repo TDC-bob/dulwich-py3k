@@ -27,14 +27,13 @@ from dulwich.objects import (
     S_IFGITLINK,
     S_ISGITLINK,
     Tree,
-    hex_to_sha,
-    sha_to_hex,
     )
 from dulwich.pack import (
     SHA1Reader,
     SHA1Writer,
     )
 
+from dulwich.sha1 import Sha1Sum
 from dulwich.py3k import *
 
 @wrap3kstr(path=BYTES, returns=STRING)
@@ -101,7 +100,7 @@ def read_cache_entry(f):
     real_size = ((f.tell() - beginoffset + 8) & ~7)
     data = f.read((beginoffset + real_size) - f.tell())
     return (name, ctime, mtime, dev, ino, mode, uid, gid, size, 
-            sha_to_hex(sha), flags & ~0x0fff)
+            Sha1Sum(sha), flags & ~0x0fff)
 
 
 def write_cache_entry(f, entry):
@@ -116,7 +115,7 @@ def write_cache_entry(f, entry):
     write_cache_time(f, ctime)
     write_cache_time(f, mtime)
     flags = len(name) | (flags &~ 0x0fff)
-    f.write(struct.pack(">LLLLLL20sH", dev, ino, mode, uid, gid, size, hex_to_sha(sha), flags))
+    f.write(struct.pack(">LLLLLL20sH", dev, ino, mode, uid, gid, size, bytes(sha), flags))
     f.write(convert3kstr(name, BYTES))
     real_size = ((f.tell() - beginoffset + 8) & ~7)
     f.write(b"\0" * ((beginoffset + real_size) - f.tell()))
@@ -229,7 +228,7 @@ class Index(object):
         return iter(self._byname)
 
     def get_sha1(self, path):
-        """Return the (git object) SHA1 for the object at a path."""
+        """Return the (Sha1Sum object) SHA1 for the object at a path."""
         return self[path][-2]
 
     def get_mode(self, path):
@@ -253,6 +252,7 @@ class Index(object):
         # Remove the old entry if any
         self._byname[name] = x
 
+    @wrap3kstr(name=STRING)
     def __delitem__(self, name):
         assert isinstance(name, str)
         del self._byname[name]

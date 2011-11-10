@@ -42,6 +42,7 @@ from dulwich.object_store import (
 from dulwich.objects import (
     Blob,
     )
+from dulwich.sha1 import Sha1Sum
 from dulwich.tests import TestCase
 
 
@@ -86,7 +87,7 @@ class SimpleIndexWriterTestCase(IndexTestCase):
     def test_simple_write(self):
         entries = [(b'barbla', (1230680220, 0), (1230680220, 0), 2050, 3761020,
                     33188, 1000, 1000, 0,
-                    'e69de29bb2d1d6434b8b29ae775ad8c2e48c5391', 0)]
+                    Sha1Sum('e69de29bb2d1d6434b8b29ae775ad8c2e48c5391'), 0)]
         filename = os.path.join(self.tempdir, 'test-simple-write-index')
         with open(filename, 'wb+') as x:
             write_index(x, entries)

@@ -77,11 +77,9 @@ from dulwich._compat import (
     )
 from dulwich.objects import (
     ShaFile,
-    hex_to_sha,
-    sha_to_hex,
     object_header,
     )
-
+from dulwich.sha1 import Sha1Sum
 from dulwich.py3k import *
 
 supports_mmap_offset = (sys.version_info[0] >= 3 or
@@ -153,7 +151,7 @@ class UnpackedObject(object):
             self.delta_base = delta_base
 
     def sha(self):
-        """Return the binary SHA of this object."""
+        """Return the SHA of this object."""
         if self._sha is None:
             self._sha = obj_sha(self.obj_type_num, self.obj_chunks)
         return self._sha
@@ -260,7 +258,7 @@ def iter_sha1(iter):
     sha1 = make_sha()
     for name in iter:
         sha1.update(name)
-    return sha1.hexdigest()
+    return Sha1Sum(sha1.hexdigest())
 
 
 def load_pack_index(path):
@@ -325,6 +323,8 @@ def bisect_find_sha(start, end, sha, unpack_name):
     :param unpack_name: Callback to retrieve SHA by index
     :return: Index of the SHA, or None if it wasn't found
     """
+
+    assert isinstance(sha, bytes)
     assert start <= end
     while start <= end:
         i = (start + end) // 2
@@ -365,9 +365,7 @@ class PackIndex(object):
 
     def __iter__(self):
         """Iterate over the SHAs in this pack."""
-        def _sha_to_hex_bytes(sha):
-            return convert3kstr(sha_to_hex(sha), BYTES)
-        return map(_sha_to_hex_bytes, self._itersha())
+        return map(Sha1Sum, self._itersha())
 
     def iterentries(self):
         """Iterate over the entries in this pack index.
@@ -391,9 +389,7 @@ class PackIndex(object):
         lives at within the corresponding pack file. If the pack file doesn't
         have the object then None will be returned.
         """
-        if len(sha) == 40:
-            sha = hex_to_sha(sha)
-        return self._object_index(sha)
+        return self._object_index(bytes(sha))
 
     def _object_index(self, sha):
         """See object_index.
@@ -425,7 +421,7 @@ class MemoryPackIndex(PackIndex):
         """
         self._by_sha = {}
         for name, idx, crc32 in entries:
-            self._by_sha[name] = idx
+            self._by_sha[bytes(name)] = idx
         self._entries = entries
         self._pack_checksum = pack_checksum
 
@@ -436,7 +432,7 @@ class MemoryPackIndex(PackIndex):
         return len(self._entries)
 
     def _object_index(self, sha):
-        return self._by_sha[sha][0]
+        return self._by_sha[bytes(sha)][0]
 
     def _itersha(self):
         return iter(self._by_sha)
@@ -868,7 +864,7 @@ class PackStreamReader(object):
 
         pack_sha = bytes(self._trailer)
         if pack_sha != self.sha.digest():
-            raise ChecksumMismatch(sha_to_hex(pack_sha), self.sha.hexdigest())
+            raise ChecksumMismatch(str(Sha1Sum(pack_sha)), self.sha.hexdigest())
 
 
 class PackStreamCopier(PackStreamReader):
@@ -919,7 +915,7 @@ def obj_sha(type, chunks):
     sha.update(convert3kstr(object_header(type, chunks_length(chunks)), BYTES))
     for chunk in chunks:
         sha.update(convert3kstr(chunk, BYTES|AGGRESSIVE))
-    return sha.digest()
+    return Sha1Sum(sha.digest())
 
 
 def compute_file_sha(f, start_ofs=0, end_ofs=0, buffer_size=1<<16):
@@ -1259,7 +1255,7 @@ class DeltaChainIterator(object):
 
     def _ensure_no_pending(self):
         if self._pending_ref:
-            raise KeyError([convert3kstr(sha_to_hex(s), BYTES) for s in self._pending_ref])
+            raise KeyError([bytes(Sha1Sum(s)) for s in self._pending_ref])
 
     def _walk_ref_chains(self):
         if not self._resolve_ext_ref:
@@ -1351,7 +1347,7 @@ class SHA1Reader(object):
     def check_sha(self):
         stored = self.f.read(20)
         if stored != self.sha1.digest():
-            raise ChecksumMismatch(self.sha1.hexdigest(), sha_to_hex(stored))
+            raise ChecksumMismatch(self.sha1.hexdigest(), str(Sha1Sum(stored)))
 
     def __enter__(self):
         return self
@@ -1846,8 +1842,8 @@ class Pack(object):
         data_stored_checksum = self.data.get_stored_checksum()
 
         if idx_stored_checksum != data_stored_checksum:
-            raise ChecksumMismatch(sha_to_hex(idx_stored_checksum),
-                                   sha_to_hex(data_stored_checksum))
+            raise ChecksumMismatch(str(Sha1Sum(idx_stored_checksum)),
+                                   str(Sha1Sum(data_stored_checksum)))
 
     def check(self):
         """Check the integrity of this pack.

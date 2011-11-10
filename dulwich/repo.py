@@ -50,9 +50,9 @@ from dulwich.objects import (
     ShaFile,
     Tag,
     Tree,
-    hex_to_sha,
     )
 import warnings
+from dulwich.sha1 import Sha1Sum
 from dulwich.py3k import *
 
 OBJECTDIR = 'objects'

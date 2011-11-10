@@ -24,9 +24,6 @@ from io import BytesIO
 import itertools
 import os
 
-from dulwich.objects import (
-    hex_to_sha,
-    )
 from dulwich.repo import (
     check_ref_format,
     )

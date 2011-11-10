@@ -40,9 +40,7 @@ from dulwich.errors import (
     ObjectFormatException,
     )
 from dulwich import log_utils
-from dulwich.objects import (
-    hex_to_sha,
-    )
+from dulwich.sha1 import Sha1Sum
 from dulwich.pack import (
     write_pack_objects,
     )

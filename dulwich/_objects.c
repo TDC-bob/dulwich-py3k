@@ -33,26 +33,31 @@ size_t rep_strnlen(char *text, size_t maxlen)
 
 #define bytehex(x) (((x)<0xa)?('0'+(x)):('a'-0xa+(x)))
 
-static PyObject *tree_entry_cls;
+static PyObject *tree_entry_cls, *Sha1Sum;
 static PyObject *object_format_exception_cls;
 
-static PyObject *sha_to_pyhex(const unsigned char *sha)
-{
-	char hexsha[41];
-	int i;
-	for (i = 0; i < 20; i++) {
-		hexsha[i*2] = bytehex((sha[i] & 0xF0) >> 4);
-		hexsha[i*2+1] = bytehex(sha[i] & 0x0F);
-	}
 
-	return PyBytes_FromStringAndSize(hexsha, 40);
+static PyObject *bytes_to_pysha(const unsigned char *sha) {
+    PyObject* bytes = PyBytes_FromStringAndSize(sha, 20);
+    if(bytes == NULL) {
+        ///
+    }
+
+    PyObject* pysha = PyObject_CallFunctionObjArgs(Sha1Sum, bytes);
+    Py_DECREF(bytes);
+
+    if(pysha == NULL) {
+        ///
+    }
+
+    return pysha;
 }
 
 static PyObject *py_parse_tree(PyObject *self, PyObject *args, PyObject *kw)
 {
 	char *text, *start, *end;
 	int len, namelen, strict;
-	PyObject *ret, *item, *name, *py_strict = NULL;
+	PyObject *ret, *item, *name, *py_strict = NULL, *sha;
 	static char *kwlist[] = {"text", "strict", NULL};
 
 	if (!PyArg_ParseTupleAndKeywords(args, kw, "s#|O", kwlist,
@@ -94,7 +99,8 @@ static PyObject *py_parse_tree(PyObject *self, PyObject *args, PyObject *kw)
 
 		namelen = strnlen(text, len - (text - start));
 
-		name = PyBytes_FromStringAndSize(text, namelen);
+        // Not sure if this should be UTF-8, may only be ASCII
+        name = PyUnicode_DecodeUTF8(text, len - (text - start), NULL);
 		if (name == NULL) {
 			Py_DECREF(ret);
 			return NULL;
@@ -107,9 +113,16 @@ static PyObject *py_parse_tree(PyObject *self, PyObject *args, PyObject *kw)
 			return NULL;
 		}
 
-		item = Py_BuildValue("(NlN)", name, mode,
-		                     sha_to_pyhex((unsigned char *)text+namelen+1));
+        sha = bytes_to_pysha((unsigned char *)text+namelen+1);
+        if(sha == NULL) {
+			Py_DECREF(ret);
+			Py_DECREF(name);
+            return NULL;
+        }
+
+		item = Py_BuildValue("(NlN)", name, mode, sha);
 		if (item == NULL) {
+            Py_DECREF(sha);
 			Py_DECREF(ret);
 			Py_DECREF(name);
 			return NULL;
@@ -210,8 +223,8 @@ static PyObject *py_sorted_tree_items(PyObject *self, PyObject *args)
 		}
 
 		py_sha = PyTuple_GET_ITEM(value, 1);
-		if (!PyBytes_Check(py_sha)) {
-			PyErr_SetString(PyExc_TypeError, "SHA is not a bytes object");
+		if(1 != PyObject_IsInstance(py_sha, Sha1Sum)) {
+			PyErr_SetString(PyExc_TypeError, "SHA is not a Sha1Sum object");
 			goto error;
 		}
 
@@ -278,9 +291,8 @@ static struct PyModuleDef py_objectsmodule = {
 	py_objects_methods
 };
 
-PyObject *PyInit__objects(void)
-{
-	PyObject *m, *objects_mod, *errors_mod;
+PyObject *PyInit__objects(void) {
+	PyObject *m, *objects_mod, *errors_mod, *sha_mod;
 
 	m = PyModule_Create(&py_objectsmodule);
 	if (m == NULL)
@@ -305,6 +317,15 @@ PyObject *PyInit__objects(void)
 	tree_entry_cls = PyObject_GetAttrString(objects_mod, "TreeEntry");
 	Py_DECREF(objects_mod);
 	if (tree_entry_cls == NULL)
+		return NULL;
+
+	sha_mod = PyImport_ImportModule("dulwich.sha1");
+	if (sha_mod == NULL)
+		return NULL;
+
+	Sha1Sum = PyObject_GetAttrString(sha_mod, "Sha1Sum");
+	Py_DECREF(sha_mod);
+	if(Sha1Sum == NULL)
 		return NULL;
 
 	return m;
