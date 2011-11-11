@@ -69,6 +69,9 @@ class enforce_type(object):
 
     def _enforce(self, fname, param_name, param_value, expected_type):
         msg = fname + ": parameter '" + param_name + "' expects type {0}, but got {1}'"
+        if param_value is None:
+            return
+
         if isinstance(expected_type, (tuple, list)):
             if not isinstance(param_value, type(expected_type)):
                 raise TypeError('#1: ' + msg.format(repr(expected_type), repr(type(param_value))))
