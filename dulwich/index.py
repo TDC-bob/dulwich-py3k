@@ -36,7 +36,7 @@ from dulwich.pack import (
 from dulwich.sha1 import Sha1Sum
 from dulwich.py3k import *
 
-@wrap3kstr(path=BYTES, returns=STRING)
+@enforce_type(path=bytes, returns=bytes)
 def pathsplit(path):
     """Split a /-delimited path into a directory part and a basename.
 
@@ -46,7 +46,7 @@ def pathsplit(path):
     try:
         (dirname, basename) = path.rsplit(b"/", 1)
     except ValueError:
-        return ("", path)
+        return (b"", path)
     else:
         return (dirname, basename)
 
@@ -55,7 +55,7 @@ def pathjoin(*args):
     """Join a /-delimited path.
 
     """
-    return "/".join([p for p in args if p])
+    return b'/'.join([p for p in args if p])
 
 
 def read_cache_time(f):
@@ -302,13 +302,15 @@ def commit_tree(object_store, blobs):
     :param blobs: Iterable over blob path, sha, mode entries
     :return: SHA1 of the created tree.
     """
-    trees = {"": {}}
+    trees = {b'': {}}
+
+    @enforce_type(path=bytes)
     def add_tree(path):
         if path in trees:
             return trees[path]
         dirname, basename = pathsplit(path)
         t = add_tree(dirname)
-        assert isinstance(basename, str)
+        assert isinstance(basename, bytes)
         newtree = {}
         t[basename] = newtree
         trees[path] = newtree
@@ -330,7 +332,7 @@ def commit_tree(object_store, blobs):
             tree.add(basename, mode, sha)
         object_store.add_object(tree)
         return tree.id
-    return build_tree("")
+    return build_tree(b'')
 
 
 def commit_index(object_store, index):

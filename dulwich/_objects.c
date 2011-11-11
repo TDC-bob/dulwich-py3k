@@ -38,19 +38,18 @@ static PyObject *object_format_exception_cls;
 
 
 static PyObject *bytes_to_pysha(const unsigned char *sha) {
-    PyObject* bytes = PyBytes_FromStringAndSize(sha, 20);
-    if(bytes == NULL) {
-        ///
-    }
+	PyObject* bytes = PyBytes_FromStringAndSize((const char*)sha, 20);
+	if(bytes == NULL) {
+		return NULL;
+	}
 
-    PyObject* pysha = PyObject_CallFunctionObjArgs(Sha1Sum, bytes);
-    Py_DECREF(bytes);
+	PyObject* pysha = PyObject_CallFunctionObjArgs(Sha1Sum, bytes, NULL);
+	Py_DECREF(bytes);
+	if(pysha == NULL) {
+		return NULL;
+	}
 
-    if(pysha == NULL) {
-        ///
-    }
-
-    return pysha;
+	return pysha;
 }
 
 static PyObject *py_parse_tree(PyObject *self, PyObject *args, PyObject *kw)
@@ -99,8 +98,8 @@ static PyObject *py_parse_tree(PyObject *self, PyObject *args, PyObject *kw)
 
 		namelen = strnlen(text, len - (text - start));
 
-        // Not sure if this should be UTF-8, may only be ASCII
-        name = PyUnicode_DecodeUTF8(text, len - (text - start), NULL);
+		// Not sure if this should be UTF-8, may only be ASCII
+		name = PyBytes_FromStringAndSize(text, namelen);
 		if (name == NULL) {
 			Py_DECREF(ret);
 			return NULL;

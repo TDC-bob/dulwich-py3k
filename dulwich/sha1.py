@@ -25,8 +25,8 @@ import re
 
 from dulwich.errors import ObjectFormatException
 
-_srex = re.compile("[A-Fa-f0-9]{40}")
-_hbrex = re.compile(b"[A-Fa-f0-9]{40}")
+_srex = re.compile("^[A-Fa-f0-9]{40}$")
+_hbrex = re.compile(b"^[A-Fa-f0-9]{40}$")
 
 class Sha1Sum(object):
     """

@@ -127,7 +127,7 @@ def object_class(type):
 
 def check_hexsha(hex, error_msg):
     try:
-        hex_to_sha(hex)
+        Sha1Sum(hex, error_message=error_msg).bytes
     except (TypeError, AssertionError):
         raise ObjectFormatException("%s %s" % (error_msg, hex))
 
@@ -154,10 +154,9 @@ class FixedSha(object):
 
     __slots__ = ('_hexsha', '_sha')
 
-    @wrap3kstr(hexsha=BYTES)
     def __init__(self, hexsha):
         self._hexsha = hexsha
-        self._sha = hex_to_sha(hexsha)
+        self._sha = Sha1Sum(hexsha)
 
     def digest(self):
         return self._sha
@@ -338,7 +337,7 @@ class ShaFile(object):
         with GitFile(path, 'rb') as f:
             obj = cls.from_file(f)
             obj._path = path
-            obj._sha = FixedSha(filename_to_hex(path))
+            obj._sha = FixedSha(filename_to_sha(path))
             obj._file = None
             obj._magic = None
             return obj
@@ -530,7 +529,7 @@ class Blob(ShaFile):
         """
         super(Blob, self).check()
 
-@wrap3kstr(text=BYTES)
+@enforce_type(text=bytes)
 def _parse_tag_or_commit(text):
     """Parse tag or commit text.
 
@@ -539,16 +538,17 @@ def _parse_tag_or_commit(text):
         order read from the text, possibly including duplicates. Includes a
         field named None for the freeform tag/commit text.
     """
-    f = BytesIO(text)
-    for l in f:
-        l = l.rstrip(b"\n")
-        if l == b"":
-            # Empty line indicates end of headers
-            break
+    with BytesIO(text) as f:
+        for l in f:
+            l = l.rstrip(b"\n")
+            if l == b"":
+                # Empty line indicates end of headers
+                break
 
-        yield l.split(b" ", 1)
-    yield (None, f.read())
-    f.close()
+            parts = l.split(b" ", 1)
+            assert len(parts) == 2
+            yield parts
+        yield (None, f.read())
 
 
 def parse_tag(text):
@@ -694,7 +694,7 @@ class Tag(ShaFile):
 class TreeEntry(namedtuple('TreeEntry', ['path', 'mode', 'sha'])):
     """Named tuple encapsulating a single tree entry."""
 
-    @wrap3kstr(path=STRING)
+    @enforce_type(path=str)
     def in_path(self, path):
         """Return a copy of this entry with the given path prepended."""
 
@@ -702,7 +702,7 @@ class TreeEntry(namedtuple('TreeEntry', ['path', 'mode', 'sha'])):
             raise TypeError
         return TreeEntry(posixpath.join(path, self.path), self.mode, self.sha)
 
-@wrap3kstr(text=BYTES)
+@enforce_type(text=bytes)
 def parse_tree(text, strict=False):
     """Parse a tree text.
 
@@ -710,6 +710,7 @@ def parse_tree(text, strict=False):
     :return: iterator of tuples of (name, mode, sha)
     :raise ObjectFormatException: if the object was malformed in some way
     """
+
     count = 0
     l = len(text)
     while count < l:
@@ -727,8 +728,7 @@ def parse_tree(text, strict=False):
         sha = text[name_end+1:count]
         if len(sha) != 20:
             raise ObjectFormatException("Sha has invalid length")
-        hexsha = convert3kstr(sha_to_hex(sha), BYTES)
-        yield (name, mode, hexsha)
+        yield (name, mode, Sha1Sum(sha))
 
 @wrap3kstr(items=STRING)
 def serialize_tree(items):
@@ -777,7 +777,7 @@ def sorted_tree_items(entries, name_order):
         if not isinstance(mode, int):
             raise TypeError('Expected integer/long for mode, got %r' % mode)
         mode = int(mode)
-        if not isinstance(hexsha, bytes):
+        if not isinstance(hexsha, Sha1Sum):
             raise TypeError('Expected a string for SHA, got %r' % hexsha)
         yield TreeEntry(convert3kstr(name, STRING), mode, hexsha)
 
@@ -812,37 +812,38 @@ class Tree(ShaFile):
         self._entries = {}
 
     @classmethod
+    @enforce_type(filename=str)
     def from_path(cls, filename):
         tree = ShaFile.from_path(filename)
         if not isinstance(tree, cls):
             raise NotTreeError(filename)
         return tree
 
-    @wrap3kstr(name=BYTES)
+    @enforce_type(name=bytes)
     def __contains__(self, name):
         self._ensure_parsed()
         return name in self._entries
 
-    @wrap3kstr(name=BYTES)
+    @enforce_type(name=bytes)
     def __getitem__(self, name):
         self._ensure_parsed()
         return self._entries[name]
 
-    @enforce_type(name=str, value=(int, Sha1Sum))
+    @enforce_type(name=bytes, value=(int, Sha1Sum))
     def __setitem__(self, name, value):
         """Set a tree entry by name.
 
         :param name: The name of the entry, as a string.
-        :param value: A tuple of (mode, hexsha), where mode is the mode of the
-            entry as an integral type and hexsha is the hex SHA of the entry as
+        :param value: A tuple of (mode, sha), where mode is the mode of the
+            entry as an integral type and sha is the Sha1Sum of the entry as
             a string.
         """
-        mode, hexsha = value
+        mode, sha = value
         self._ensure_parsed()
-        self._entries[name] = (mode, hexsha)
+        self._entries[name] = (mode, sha)
         self._needs_serialization = True
 
-    @wrap3kstr(name=BYTES)
+    @enforce_type(name=bytes)
     def __delitem__(self, name):
         self._ensure_parsed()
         del self._entries[name]
@@ -856,8 +857,8 @@ class Tree(ShaFile):
         self._ensure_parsed()
         return iter(self._entries)
 
-    @wrap3kstr(name=BYTES, hexsha=BYTES)
-    def add(self, name, mode, hexsha):
+    @enforce_type(name=bytes, mode=int, sha=Sha1Sum)
+    def add(self, name, mode, sha):
         """Add an entry to the tree.
 
         :param mode: The mode of the entry as an integral type. Not all 
@@ -865,12 +866,8 @@ class Tree(ShaFile):
         :param name: The name of the entry, as a string.
         :param hexsha: The hex SHA of the entry as a string.
         """
-        if type(name) is int and type(mode) is bytes:
-            (name, mode) = (mode, name)
-            warnings.warn("Please use Tree.add(name, mode, hexsha)",
-                category=DeprecationWarning, stacklevel=2)
         self._ensure_parsed()
-        self._entries[name] = mode, hexsha
+        self._entries[name] = mode, sha
         self._needs_serialization = True
 
     def entries(self):
@@ -956,7 +953,7 @@ class Tree(ShaFile):
             text.append("%04o %s %s\t%s\n" % (mode, kind, convert3kstr(hexsha, STRING), convert3kstr(name, STRING)))
         return "".join(text)
 
-    @wrap3kstr(path=STRING)
+    @enforce_type(path=str)
     def lookup_path(self, lookup_obj, path):
         """Look up an object in a Git tree.
 
@@ -1047,6 +1044,7 @@ class Commit(ShaFile):
         self._parents = []
         self._extra = []
         self._author = None
+
         for field, value in parse_commit(b''.join(self._chunked_text)):
             fieldname = convert3kstr(field, STRING)
             if fieldname == _TREE_HEADER:

@@ -73,7 +73,7 @@ def self_test_suite():
         'file',
         'index',
         'lru_cache',
-        #'objects',
+        'objects',
         #'object_store',
         #'pack',
         #'patch',
