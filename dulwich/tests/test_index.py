@@ -103,7 +103,7 @@ class CommitTreeTests(TestCase):
 
     def test_single_blob(self):
         blob = Blob()
-        blob.data = "foo"
+        blob.data = b'foo'
         self.store.add_object(blob)
         blobs = [(b"bla", blob.id, stat.S_IFREG)]
         rootid = commit_tree(self.store, blobs)
@@ -113,7 +113,7 @@ class CommitTreeTests(TestCase):
 
     def test_nested(self):
         blob = Blob()
-        blob.data = b"foo"
+        blob.data = b'foo'
         self.store.add_object(blob)
         blobs = [(b"bla/bar", blob.id, stat.S_IFREG)]
         rootid = commit_tree(self.store, blobs)

@@ -129,7 +129,7 @@ class BlobReadTests(TestCase):
         self.assertEqual(Sha1Sum(b.sha()), b_sha)
 
     def test_legacy_from_file(self):
-        b1 = Blob.from_string("foo")
+        b1 = Blob.from_string(b'foo')
         b_raw = b1.as_legacy_object()
         b2 = b1.from_file(BytesIO(b_raw))
         self.assertEqual(b1, b2)
@@ -159,8 +159,8 @@ class BlobReadTests(TestCase):
 
     def test_read_tree_from_file(self):
         t = self.get_tree(tree_sha)
-        self.assertEqual(list(t.items())[0], ('a', 33188, a_sha))
-        self.assertEqual(list(t.items())[1], ('b', 33188, b_sha))
+        self.assertEqual(list(t.items())[0], (b'a', 33188, a_sha))
+        self.assertEqual(list(t.items())[1], (b'b', 33188, b_sha))
 
     def test_read_tag_from_file(self):
         t = self.get_tag(tag_sha)
@@ -435,9 +435,9 @@ _TREE_ITEMS = {
   }
 
 _SORTED_TREE_ITEMS = [
-  TreeEntry('a.c', 0o100755, Sha1Sum('d80c186a03f423a81b39df39dc87fd269736ca86')),
-  TreeEntry('a', stat.S_IFDIR, Sha1Sum('d80c186a03f423a81b39df39dc87fd269736ca86')),
-  TreeEntry('a/c', stat.S_IFDIR, Sha1Sum('d80c186a03f423a81b39df39dc87fd269736ca86')),
+  TreeEntry(b'a.c', 0o100755, Sha1Sum('d80c186a03f423a81b39df39dc87fd269736ca86')),
+  TreeEntry(b'a', stat.S_IFDIR, Sha1Sum('d80c186a03f423a81b39df39dc87fd269736ca86')),
+  TreeEntry(b'a/c', stat.S_IFDIR, Sha1Sum('d80c186a03f423a81b39df39dc87fd269736ca86')),
   ]
 
 
@@ -522,11 +522,11 @@ class TreeTests(ShaFileCheckTests):
 
     def _do_test_sorted_tree_items_name_order(self, sorted_tree_items):
         self.assertEqual([
-          TreeEntry('a', stat.S_IFDIR,
-                    b'd80c186a03f423a81b39df39dc87fd269736ca86'),
-          TreeEntry('a.c', 0o100755, b'd80c186a03f423a81b39df39dc87fd269736ca86'),
-          TreeEntry('a/c', stat.S_IFDIR,
-                    b'd80c186a03f423a81b39df39dc87fd269736ca86'),
+          TreeEntry(b'a', stat.S_IFDIR,
+                    Sha1Sum('d80c186a03f423a81b39df39dc87fd269736ca86')),
+          TreeEntry(b'a.c', 0o100755, Sha1Sum('d80c186a03f423a81b39df39dc87fd269736ca86')),
+          TreeEntry(b'a/c', stat.S_IFDIR,
+                    Sha1Sum('d80c186a03f423a81b39df39dc87fd269736ca86')),
           ], list(sorted_tree_items(_TREE_ITEMS, True)))
 
     test_sorted_tree_items_name_order = functest_builder(
@@ -580,7 +580,7 @@ class TagSerializeTests(TestCase):
                         tagger='Jelmer Vernooij <jelmer@samba.org>',
                         name='0.1',
                         message='Tag 0.1',
-                        object=(Blob, b'd80c186a03f423a81b39df39dc87fd269736ca86'),
+                        object=(Blob, Sha1Sum('d80c186a03f423a81b39df39dc87fd269736ca86')),
                         tag_time=423423423,
                         tag_timezone=0)
         self.assertEqual((b'object d80c186a03f423a81b39df39dc87fd269736ca86\n'

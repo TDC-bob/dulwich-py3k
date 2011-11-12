@@ -149,21 +149,6 @@ def check_identity(identity, error_msg):
         raise ObjectFormatException(error_msg)
 
 
-class FixedSha(object):
-    """SHA object that behaves like hashlib's but is given a fixed value."""
-
-    __slots__ = ('_hexsha', '_sha')
-
-    def __init__(self, hexsha):
-        self._hexsha = hexsha
-        self._sha = Sha1Sum(hexsha)
-
-    def digest(self):
-        return self._sha
-
-    def hexdigest(self):
-        return self._hexsha
-
 
 class ShaFile(object):
     """A git SHA file."""
@@ -248,13 +233,13 @@ class ShaFile(object):
             self._deserialize(self._chunked_text)
             self._needs_parsing = False
 
-    @wrap3kstr(text=BYTES)
+    @enforce_type(text=bytes)
     def set_raw_string(self, text):
         if type(text) != bytes:
             raise TypeError(text)
         self.set_raw_chunks([text])
 
-    @wrap3kstr(chunks=BYTES)
+
     def set_raw_chunks(self, chunks):
         self._chunked_text = chunks
         self._deserialize(chunks)
@@ -337,7 +322,7 @@ class ShaFile(object):
         with GitFile(path, 'rb') as f:
             obj = cls.from_file(f)
             obj._path = path
-            obj._sha = FixedSha(filename_to_sha(path))
+            obj._sha = filename_to_sha(path)
             obj._file = None
             obj._magic = None
             return obj
@@ -610,7 +595,7 @@ class Tag(ShaFile):
     def _serialize(self):
         chunks = []
         chunks.append(convert3kstr(_OBJECT_HEADER, BYTES) + b' ' +
-                      convert3kstr(self._object_sha, BYTES) + b'\n')
+                      self._object_sha.hex_bytes + b'\n')
         chunks.append(convert3kstr(_TYPE_HEADER, BYTES) + b' ' +
                       convert3kstr(self._object_class.type_name, BYTES) + b'\n')
         chunks.append(convert3kstr(_TAG_HEADER, BYTES) + b' ' +
@@ -635,7 +620,7 @@ class Tag(ShaFile):
         for field, value in parse_tag(b"".join(chunks)):
             field = convert3kstr(field, STRING)
             if field == _OBJECT_HEADER:
-                self._object_sha = value
+                self._object_sha = Sha1Sum(value, lazy_errors=True)
             elif field == _TYPE_HEADER:
                 obj_class = object_class(convert3kstr(value, STRING))
                 if not obj_class:
@@ -694,13 +679,13 @@ class Tag(ShaFile):
 class TreeEntry(namedtuple('TreeEntry', ['path', 'mode', 'sha'])):
     """Named tuple encapsulating a single tree entry."""
 
-    @enforce_type(path=str)
+    @enforce_type(path=bytes)
     def in_path(self, path):
         """Return a copy of this entry with the given path prepended."""
 
-        if not isinstance(self.path, str) or not isinstance(path, str):
+        if not isinstance(self.path, bytes) or not isinstance(path, bytes):
             raise TypeError
-        return TreeEntry(posixpath.join(path, self.path), self.mode, self.sha)
+        return TreeEntry(posixpath.join(path.decode('utf-8'), self.path.decode('utf-8')).encode('utf-8'), self.mode, self.sha)
 
 @enforce_type(text=bytes)
 def parse_tree(text, strict=False):
@@ -778,8 +763,8 @@ def sorted_tree_items(entries, name_order):
             raise TypeError('Expected integer/long for mode, got %r' % mode)
         mode = int(mode)
         if not isinstance(hexsha, Sha1Sum):
-            raise TypeError('Expected a string for SHA, got %r' % hexsha)
-        yield TreeEntry(convert3kstr(name, STRING), mode, hexsha)
+            raise TypeError('Expected a Sha1Sum for SHA, got %r' % hexsha)
+        yield TreeEntry(name, mode, hexsha)
 
 @wrap3kstr(tuple_1=STRING, tuple_2=STRING)
 def cmp_entry(tuple_1, tuple_2):
@@ -970,7 +955,7 @@ class Tree(ShaFile):
             obj = lookup_obj(sha)
             if not isinstance(obj, Tree):
                 raise NotTreeError(sha)
-            mode, sha = obj[p]
+            mode, sha = obj[p.encode('utf-8')]
         return mode, sha
 
 

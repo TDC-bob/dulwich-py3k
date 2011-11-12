@@ -31,7 +31,6 @@ from dulwich.index import (
     commit_tree,
     )
 from dulwich.objects import (
-    FixedSha,
     Commit,
     )
 from dulwich.pack import (
@@ -48,6 +47,7 @@ from dulwich.repo import Repo
 from dulwich.tests import (
     SkipTest,
     )
+from dulwich.sha1 import Sha1Sum
 
 # Plain files are very frequently used in tests, so let the mode be very short.
 F = 0o100644  # Shorthand mode for Files.
@@ -101,7 +101,7 @@ def make_object(cls, **attrs):
     for name, value in attrs.items():
         if name == 'id':
             # id property is read-only, so we overwrite sha instead.
-            sha = FixedSha(value)
+            sha = Sha1Sum(value)
             obj.sha = lambda: sha
         else:
             setattr(obj, name, value)

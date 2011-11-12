@@ -230,21 +230,8 @@ static PyObject *py_sorted_tree_items(PyObject *self, PyObject *args)
 		qsort_entries[n].name = PyBytes_AS_STRING(key);
 		qsort_entries[n].mode = PyLong_AsLong(py_mode);
 
-		PyObject* key_string = PyUnicode_DecodeASCII(PyBytes_AS_STRING(key), PyBytes_Size(key), NULL);
-		if(key_string == NULL) {
-			goto error;
-		}
-
-		if(!PyUnicode_Check(key_string)) {
-			PyErr_SetString(PyExc_TypeError, "Unable to convert key to a unicode string");
-			Py_DECREF(key_string);
-			goto error;
-		}
-
 		qsort_entries[n].tuple = PyObject_CallFunctionObjArgs(
-		    tree_entry_cls, key_string, py_mode, py_sha, NULL);
-		Py_DECREF(key_string);
-
+		    tree_entry_cls, key, py_mode, py_sha, NULL);
 		if (qsort_entries[n].tuple == NULL) {
 			goto error;
 		}

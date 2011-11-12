@@ -17,6 +17,7 @@
  * MA  02110-1301, USA.
  */
 
+#define PY_SSIZE_T_CLEAN
 #include <Python.h>
 #include <sys/stat.h>
 #include <string.h>
@@ -34,7 +35,7 @@ typedef unsigned short mode_t;
 #endif
 
 static PyObject *tree_entry_cls = NULL, *null_entry = NULL,
-	*defaultdict_cls = NULL, *int_cls = NULL, *slash = NULL;
+	*defaultdict_cls = NULL, *int_cls = NULL, *sha1sum_cls = NULL;
 static int block_size;
 
 /**
@@ -58,13 +59,13 @@ static void free_objects(PyObject **objs, Py_ssize_t n)
  * :return: A (C) array of PyObject pointers to TreeEntry objects for each path
  *     in tree.
  */
-static PyObject **tree_entries(PyObject *path, Py_ssize_t path_len,
+static PyObject **tree_entries(char *path, Py_ssize_t path_len,
                                PyObject *tree, Py_ssize_t *n)
 {
 	PyObject *iteritems, *items, **result = NULL;
 	PyObject *old_entry, *name, *sha;
-	PyObject *tmp, *new_path;
-	Py_ssize_t i = 0;
+	Py_ssize_t i = 0, name_len, new_path_len;
+	char *new_path;
 
 	if (tree == Py_None) {
 		*n = 0;
@@ -107,33 +108,34 @@ static PyObject **tree_entries(PyObject *path, Py_ssize_t path_len,
 		if (!sha)
 			goto error;
 		name = PyTuple_GET_ITEM(old_entry, 0);
-		if(!PyUnicode_Check(name)) {
-			PyErr_SetString(PyExc_TypeError, "name must be a string");
+		if (!PyBytes_Check(name)) {
+			PyErr_SetString(PyExc_TypeError, "name must be a bytes object");
 			goto error;
 		}
 
-		tmp = path;
-		if (path_len) {
-			tmp = PyUnicode_Concat(path, slash);
-			if(tmp == NULL) {
-				PyErr_SetNone(PyExc_MemoryError);
-				goto error;
-			}
+		name_len = PyBytes_GET_SIZE(name);
+		if (PyErr_Occurred())
+			goto error;
+		new_path_len = name_len;
+		if (path_len)
+			new_path_len += path_len + 1;
 
-			if(!PyUnicode_Check(tmp)) {
-				PyErr_SetString(PyExc_TypeError, "new path is not a string");
-				Py_DECREF(tmp);
-				goto error;
-			}
+		new_path = PyMem_Malloc(new_path_len);
+		if (!new_path) {
+			PyErr_SetNone(PyExc_MemoryError);
+			goto error;
+		}
+		if (path_len) {
+			memcpy(new_path, path, path_len);
+			new_path[path_len] = '/';
+			memcpy(new_path + path_len + 1, PyBytes_AS_STRING(name), name_len);
+		} else {
+			memcpy(new_path, PyBytes_AS_STRING(name), name_len);
 		}
 
-		new_path = PyUnicode_Concat(tmp, name);
-		result[i] = PyObject_CallFunction(tree_entry_cls, "OOO", new_path,
+		result[i] = PyObject_CallFunction(tree_entry_cls, "y#OO", new_path, new_path_len,
 		                                  PyTuple_GET_ITEM(old_entry, 1), sha);
-
-		if(tmp != path)
-			Py_DECREF(tmp);
-		Py_DECREF(new_path);
+		PyMem_Free(new_path);
 
 		if (!result[i]) {
 			goto error;
@@ -144,7 +146,8 @@ static PyObject **tree_entries(PyObject *path, Py_ssize_t path_len,
 	return result;
 
 error:
-	free_objects(result, i);
+	if (result)
+		free_objects(result, i);
 	Py_DECREF(items);
 	return NULL;
 }
@@ -161,7 +164,7 @@ static int entry_path_cmp(PyObject *entry1, PyObject *entry2)
 	path1 = PyObject_GetAttrString(entry1, "path");
 	if (!path1)
 		goto done;
-	if (!PyUnicode_Check(path1)) {
+	if (!PyBytes_Check(path1)) {
 		PyErr_SetString(PyExc_TypeError, "path is not a string");
 		goto done;
 	}
@@ -169,13 +172,13 @@ static int entry_path_cmp(PyObject *entry1, PyObject *entry2)
 	path2 = PyObject_GetAttrString(entry2, "path");
 	if (!path2)
 		goto done;
-	if (!PyUnicode_Check(path2)) {
+	if (!PyBytes_Check(path2)) {
 		PyErr_SetString(PyExc_TypeError, "path is not a string");
 		goto done;
 	}
 
-	path_len = MIN(PyUnicode_GET_DATA_SIZE(path1), PyUnicode_GET_DATA_SIZE(path2));
-	result = strncmp(PyUnicode_AS_DATA(path1), PyUnicode_AS_DATA(path2), path_len);
+	path_len = MIN(PyBytes_GET_SIZE(path1), PyBytes_GET_SIZE(path2));
+	result = strncmp(PyBytes_AS_STRING(path1), PyBytes_AS_STRING(path2), path_len);
 
 done:
 	Py_XDECREF(path1);
@@ -185,23 +188,17 @@ done:
 
 static PyObject *py_merge_entries(PyObject *self, PyObject *args)
 {
-	PyObject *path, *tree1, *tree2, **entries1 = NULL, **entries2 = NULL;
+	PyObject *tree1, *tree2, **entries1 = NULL, **entries2 = NULL;
 	PyObject *e1, *e2, *pair, *result = NULL;
 	Py_ssize_t path_len, n1 = 0, n2 = 0, i1 = 0, i2 = 0;
+	char* path = NULL;
 	int cmp;
 
-	if (!PyArg_ParseTuple(args, "OOO", &path, &tree1, &tree2))
+	if (!PyArg_ParseTuple(args, "y#OO", &path, &path_len, &tree1, &tree2))
 		return NULL;
 
-	if (!PyUnicode_Check(path)) {
-		PyErr_SetString(PyExc_TypeError, "path isn't a string");
+	if (path == NULL)
 		return NULL;
-	}
-
-	// TODO: In Python 3.3, PyUnicode_GET_SIZE is deprecated. Use the
-	// following instead:
-	//     path_len = PyUnicode_GET_LENGTH(path)
-	path_len = PyUnicode_GET_SIZE(path);
 
 	entries1 = tree_entries(path, path_len, tree1, &n1);
 	if (!entries1)
@@ -256,8 +253,10 @@ error:
 	result = NULL;
 
 done:
-	free_objects(entries1, n1);
-	free_objects(entries2, n2);
+	if (entries1)
+		free_objects(entries1, n1);
+	if (entries2)
+		free_objects(entries2, n2);
 	return result;
 }
 
@@ -296,7 +295,7 @@ static int add_hash(PyObject *get, PyObject *set, char *str, int n)
 
 	/* It would be nice to hash without copying str into a PyString, but that
 	 * isn't exposed by the API. */
-    str_obj = PyBytes_FromStringAndSize(str, n);
+	str_obj = PyBytes_FromStringAndSize(str, n);
 	if (!str_obj)
 		goto error;
 	hash = PyObject_Hash(str_obj);
@@ -417,7 +416,7 @@ static struct PyModuleDef py_diff_tree_module = {
 PyObject *PyInit__diff_tree(void)
 {
 	PyObject *m, *objects_mod = NULL, *diff_tree_mod = NULL;
-	PyObject *block_size_obj = NULL;
+	PyObject *block_size_obj = NULL, *sha_mod = NULL;
 	m = PyModule_Create(&py_diff_tree_module);
 	if (!m)
 		goto error;
@@ -451,10 +450,6 @@ PyObject *PyInit__diff_tree(void)
 	if (!defaultdict_cls)
 		goto error;
 
-	slash = PyUnicode_FromString("/");
-	if (!slash)
-		goto error;
-
 	/* This is kind of hacky, but I don't know of a better way to get the
 	 * PyObject* version of int. */
 	int_cls = PyDict_GetItemString(PyEval_GetBuiltins(), "int");
@@ -464,6 +459,16 @@ PyObject *PyInit__diff_tree(void)
 	}
 
 	Py_DECREF(diff_tree_mod);
+
+	sha_mod = PyImport_ImportModule("dulwich.sha1");
+	if (sha_mod == NULL)
+		return NULL;
+
+	sha1sum_cls = PyObject_GetAttrString(sha_mod, "Sha1Sum");
+	Py_DECREF(sha_mod);
+	if (!sha1sum_cls)
+		goto error;
+
 	return m;
 
 error:
@@ -473,5 +478,7 @@ error:
 	Py_XDECREF(block_size_obj);
 	Py_XDECREF(defaultdict_cls);
 	Py_XDECREF(int_cls);
+	Py_XDECREF(sha_mod);
+	Py_XDECREF(sha1sum_cls);
 	return NULL;
 }

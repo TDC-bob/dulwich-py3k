@@ -258,7 +258,7 @@ def iter_sha1(iter):
     sha1 = make_sha()
     for name in iter:
         sha1.update(name)
-    return Sha1Sum(sha1.hexdigest())
+    return Sha1Sum(sha1.digest())
 
 
 def load_pack_index(path):
@@ -267,11 +267,8 @@ def load_pack_index(path):
     :param filename: Path to the index file
     :return: A PackIndex loaded from the given path
     """
-    f = GitFile(path, 'rb')
-    try:
+    with GitFile(path, 'rb') as f:
         return load_pack_index_file(path, f)
-    finally:
-        f.close()
 
 
 def _load_file_contents(f, size=None):
@@ -1238,7 +1235,8 @@ class DeltaChainIterator(object):
             base_offset = offset - unpacked.delta_base
             self._pending_ofs[base_offset].append(offset)
         elif type_num == REF_DELTA:
-            self._pending_ref[unpacked.delta_base].append(offset)
+            sha = Sha1Sum(unpacked.delta_base)
+            self._pending_ref[sha].append(offset)
         else:
             self._full_ofs.append((offset, type_num))
 
@@ -1370,7 +1368,7 @@ class SHA1Writer(object):
         self.length = 0
         self.sha1 = make_sha('')
 
-    @wrap3kstr(data=BYTES)
+    @enforce_type(data=bytes)
     def write(self, data):
         self.sha1.update(data)
         self.f.write(data)
@@ -1400,7 +1398,7 @@ class SHA1Writer(object):
     def tell(self):
         return self.f.tell()
 
-
+@enforce_type(delta_base=bytes)
 def pack_object_header(type_num, delta_base, size):
     """Create a pack object header for the given object info.
 
@@ -1430,7 +1428,6 @@ def pack_object_header(type_num, delta_base, size):
         header += delta_base
     return header
 
-@wrap3kstr(object=BYTES)
 def write_pack_object(f, type, object, sha=None):
     """Write pack object to a file.
 
@@ -1442,6 +1439,7 @@ def write_pack_object(f, type, object, sha=None):
 
     if type in DELTA_TYPES:
         delta_base, object = object
+        delta_base = delta_base.bytes
     else:
         delta_base = None
     header = pack_object_header(type, delta_base, len(object))
@@ -1590,7 +1588,7 @@ def write_pack_index_v1(f, entries, pack_checksum):
         f.write(struct.pack('>L', fan_out_table[i]))
         fan_out_table[i+1] += fan_out_table[i]
     for (name, offset, entry_checksum) in entries:
-        f.write(struct.pack('>L20s', offset, name))
+        f.write(struct.pack('>L20s', offset, name.bytes))
     assert len(pack_checksum) == 20
     f.write(pack_checksum)
     return f.write_sha()
@@ -1738,13 +1736,13 @@ def write_pack_index_v2(f, entries, pack_checksum):
     f.write(struct.pack('>L', 2))
     fan_out_table = defaultdict(lambda: 0)
     for (name, offset, entry_checksum) in entries:
-        fan_out_table[convert3kstr(name, BYTES)[0]] += 1
+        fan_out_table[name.bytes[0]] += 1
     # Fan-out table
     for i in range(0x100):
         f.write(struct.pack('>L', fan_out_table[i]))
         fan_out_table[i+1] += fan_out_table[i]
     for (name, offset, entry_checksum) in entries:
-        f.write(name)
+        f.write(name.bytes)
     for (name, offset, entry_checksum) in entries:
         f.write(struct.pack('>L', entry_checksum))
     for (name, offset, entry_checksum) in entries:

@@ -42,6 +42,7 @@ from dulwich.objects import (
     ZERO_SHA,
     S_ISGITLINK,
     object_class,
+    sha_to_filename,
     )
 from dulwich.pack import (
     Pack,
@@ -66,7 +67,6 @@ PACKDIR = 'pack'
 class BaseObjectStore(object):
     """Object store interface."""
 
-    @wrap3kstr(refs=DICT_KEYS_TO_BYTES|DICT_VALS_TO_BYTES)
     def determine_wants_all(self, refs):
         return [sha for (ref, sha) in refs.items()
                 if not sha in self and not ref.endswith(b"^{}") and
@@ -88,6 +88,7 @@ class BaseObjectStore(object):
         """Check if a particular object is present by SHA1 and is packed."""
         raise NotImplementedError(self.contains_packed)
 
+    @enforce_type(sha=Sha1Sum)
     def __contains__(self, sha):
         """Check if a particular object is present by SHA1.
 
@@ -206,6 +207,7 @@ class BaseObjectStore(object):
         """
         return self.iter_shas(self.find_missing_objects(have, want, progress))
 
+    @enforce_type(sha=Sha1Sum)
     def peel_sha(self, sha):
         """Peel all tags from a SHA.
 
@@ -275,9 +277,11 @@ class PackBasedObjectStore(BaseObjectStore):
         """Iterate over the SHAs of all loose objects."""
         raise NotImplementedError(self._iter_loose_objects)
 
+    @enforce_type(sha=Sha1Sum)
     def _get_loose_object(self, sha):
         raise NotImplementedError(self._get_loose_object)
 
+    @enforce_type(sha=Sha1Sum)
     def _remove_loose_object(self, sha):
         raise NotImplementedError(self._remove_loose_object)
 
@@ -299,40 +303,33 @@ class PackBasedObjectStore(BaseObjectStore):
         iterables = self.packs + [self._iter_loose_objects()]
         return itertools.chain(*iterables)
 
+    @enforce_type(sha=Sha1Sum)
     def contains_loose(self, sha):
         """Check if a particular object is present by SHA1 and is loose."""
         return self._get_loose_object(sha) is not None
 
-    def get_raw(self, name):
+    @enforce_type(sha=Sha1Sum)
+    def get_raw(self, sha):
         """Obtain the raw text for an object.
 
         :param name: sha for the object.
         :return: tuple with numeric type and object contents.
         """
-        if len(name) == 40:
-            sha = hex_to_sha(name)
-            hexsha = name
-        elif len(name) == 20:
-            sha = name
-            hexsha = None
-        else:
-            raise AssertionError("Invalid object name %r" % name)
         for pack in self.packs:
             try:
                 return pack.get_raw(sha)
             except KeyError:
                 pass
-        if hexsha is None:
-            hexsha = sha_to_hex(name)
-        ret = self._get_loose_object(hexsha)
+        ret = self._get_loose_object(sha)
         if ret is not None:
             return ret.type_num, ret.as_raw_string()
         for alternate in self.alternates:
             try:
-                return alternate.get_raw(hexsha)
+                return alternate.get_raw(sha)
             except KeyError:
                 pass
-        raise KeyError(hexsha)
+        raise KeyError(sha)
+
 
     def add_objects(self, objects):
         """Add a set of objects to this object store.
@@ -351,12 +348,13 @@ class PackBasedObjectStore(BaseObjectStore):
 class DiskObjectStore(PackBasedObjectStore):
     """Git-style object store that exists on disk."""
 
-    @wrap3kstr(path=STRING)
+    @enforce_type(path=str)
     def __init__(self, path):
         """Open an object store.
 
         :param path: Path of the object store.
         """
+
         super(DiskObjectStore, self).__init__()
         self.path = path
         self.pack_dir = os.path.join(self.path, PACKDIR)
@@ -383,7 +381,7 @@ class DiskObjectStore(PackBasedObjectStore):
                         continue
                     if not os.path.isabs(l):
                         continue
-                    ret.append(l)
+                    ret.append(l.decode('utf-8'))
                 return ret
 
         except (OSError, IOError) as e:
@@ -391,7 +389,7 @@ class DiskObjectStore(PackBasedObjectStore):
                 return []
             raise
 
-    @wrap3kstr(path=STRING)
+    @enforce_type(path=str)
     def add_alternate_path(self, path):
         """Add an alternate path to this object store.
         """
@@ -408,7 +406,7 @@ class DiskObjectStore(PackBasedObjectStore):
             except (OSError, IOError) as e:
                 if e.errno != errno.ENOENT:
                     raise
-            f.write(convert3kstr("%s\n" % path, BYTES))
+            f.write(("%s\n" % path).encode('utf-8'))
         self.alternates.append(DiskObjectStore(path))
 
     def _load_packs(self):
@@ -437,17 +435,19 @@ class DiskObjectStore(PackBasedObjectStore):
                 return True
             raise
 
+    @enforce_type(sha=Sha1Sum)
     def _get_shafile_path(self, sha):
         # Check from object dir
-        return hex_to_filename(self.path, sha)
+        return sha_to_filename(self.path, sha)
 
     def _iter_loose_objects(self):
         for base in os.listdir(self.path):
             if len(base) != 2:
                 continue
             for rest in os.listdir(os.path.join(self.path, base)):
-                yield convert3kstr(base + rest, BYTES)
+                yield Sha1Sum(base + rest)
 
+    @enforce_type(sha=Sha1Sum)
     def _get_loose_object(self, sha):
         path = self._get_shafile_path(sha)
         try:
@@ -457,6 +457,7 @@ class DiskObjectStore(PackBasedObjectStore):
                 return None
             raise
 
+    @enforce_type(sha=Sha1Sum)
     def _remove_loose_object(self, sha):
         os.remove(self._get_shafile_path(sha))
 
@@ -482,6 +483,7 @@ class DiskObjectStore(PackBasedObjectStore):
 
         # Complete the pack.
         for ext_sha in indexer.ext_refs():
+            assert isinstance(ext_sha, Sha1Sum)
             type_num, data = self.get_raw(ext_sha)
             offset = f.tell()
             crc32 = write_pack_object(f, type_num, data, sha=new_sha)
@@ -493,7 +495,7 @@ class DiskObjectStore(PackBasedObjectStore):
         # Move the pack in.
         entries.sort()
         pack_base_name = os.path.join(
-          self.pack_dir, 'pack-' + iter_sha1(e[0] for e in entries))
+          self.pack_dir, 'pack-' + iter_sha1(e[0].bytes for e in entries).string)
         os.rename(path, pack_base_name + '.pack')
 
         # Write the index.
@@ -544,16 +546,12 @@ class DiskObjectStore(PackBasedObjectStore):
 
         :param path: Path to the pack file.
         """
-        p = PackData(path)
-        entries = p.sorted_entries()
-        basename = os.path.join(self.pack_dir,
-            "pack-%s" % iter_sha1(entry[0] for entry in entries))
-        f = GitFile(basename+".idx", "wb")
-        try:
-            write_pack_index_v2(f, entries, p.get_stored_checksum())
-        finally:
-            f.close()
-        p.close()
+        with PackData(path) as p:
+            entries = p.sorted_entries()
+            basename = os.path.join(self.pack_dir,
+                'pack-' + str(iter_sha1(entry[0].bytes for entry in entries)))
+            with GitFile(basename+".idx", "wb") as f:
+                write_pack_index_v2(f, entries, p.get_stored_checksum())
         os.rename(path, basename + ".pack")
         final_pack = Pack(basename)
         self._add_known_pack(final_pack)
@@ -582,22 +580,19 @@ class DiskObjectStore(PackBasedObjectStore):
 
         :param obj: Object to add
         """
-        id = convert3kstr(obj.id[:2], STRING)
+        id = obj.id.string[:2]
         dir = os.path.join(self.path, id)
         try:
             os.mkdir(dir)
         except OSError as e:
             if e.errno != errno.EEXIST:
                 raise
-        id = convert3kstr(obj.id[2:], STRING)
+        id = obj.id.string[2:]
         path = os.path.join(dir, id)
         if os.path.exists(path):
             return # Already there, no need to write again
-        f = GitFile(path, 'wb')
-        try:
+        with GitFile(path, 'wb') as f:
             f.write(obj.as_legacy_object())
-        finally:
-            f.close()
 
     @classmethod
     def init(cls, path):
@@ -618,11 +613,12 @@ class MemoryObjectStore(BaseObjectStore):
         super(MemoryObjectStore, self).__init__()
         self._data = {}
 
-    @wrap3kstr(sha=BYTES)
+    @enforce_type(sha=Sha1Sum)
     def contains_loose(self, sha):
         """Check if a particular object is present by SHA1 and is loose."""
         return sha in self._data
 
+    @enforce_type(sha=Sha1Sum)
     def contains_packed(self, sha):
         """Check if a particular object is present by SHA1 and is packed."""
         return False
@@ -636,7 +632,7 @@ class MemoryObjectStore(BaseObjectStore):
         """List with pack objects."""
         return []
 
-    @wrap3kstr(name=BYTES)
+    @enforce_type(name=Sha1Sum)
     def get_raw(self, name):
         """Obtain the raw text for an object.
 
@@ -646,16 +642,16 @@ class MemoryObjectStore(BaseObjectStore):
         obj = self[name]
         return obj.type_num, obj.as_raw_string()
 
-    @wrap3kstr(name=BYTES)
+    @enforce_type(name=Sha1Sum)
     def __getitem__(self, name):
         return self._data[name]
 
-    @wrap3kstr(name=BYTES)
+    @enforce_type(name=Sha1Sum)
     def __delitem__(self, name):
         """Delete an object from this store, for testing only."""
         del self._data[name]
 
-    @wrap3kstr(name=BYTES)
+    @enforce_type(name=Sha1Sum)
     def _add_obj(self, name, obj):
         self._data[name] = obj
 

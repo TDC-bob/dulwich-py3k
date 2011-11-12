@@ -75,7 +75,7 @@ def _tree_entries(path, tree):
         result.append(entry.in_path(path))
     return result
 
-@wrap3kstr(path=STRING)
+@enforce_type(path=bytes)
 def _merge_entries(path, tree1, tree2):
     """Merge the entries of two trees.
 
@@ -139,7 +139,7 @@ def walk_trees(store, tree1_id, tree2_id, prune_identical=False):
     # This could be fairly easily generalized to >2 trees if we find a use case.
     mode1 = tree1_id and stat.S_IFDIR or None
     mode2 = tree2_id and stat.S_IFDIR or None
-    todo = [(TreeEntry('', mode1, tree1_id), TreeEntry('', mode2, tree2_id))]
+    todo = [(TreeEntry(b'', mode1, tree1_id), TreeEntry(b'', mode2, tree2_id))]
     while todo:
         entry1, entry2 = todo.pop()
         is_tree1 = _is_tree(entry1)
@@ -150,7 +150,7 @@ def walk_trees(store, tree1_id, tree2_id, prune_identical=False):
         tree1 = is_tree1 and store[entry1.sha] or None
         tree2 = is_tree2 and store[entry2.sha] or None
         path = entry1.path or entry2.path
-        todo.extend(reversed(_merge_entries(convert3kstr(path, STRING), tree1, tree2)))
+        todo.extend(reversed(_merge_entries(convert3kstr(path, BYTES), tree1, tree2)))
         yield entry1, entry2
 
 

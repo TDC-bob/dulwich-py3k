@@ -1,4 +1,4 @@
-# sha.py -- Transparently go between bytes, ascii bytes, and string
+# sha1.py -- Transparently go between bytes, ascii bytes, and string
 # Copyright (C) 2007 James Westby <jw+debian@jameswestby.net>
 # Copyright (C) 2008-2009 Jelmer Vernooij <jelmer@samba.org>
 #
@@ -25,8 +25,8 @@ import re
 
 from dulwich.errors import ObjectFormatException
 
-_srex = re.compile("^[A-Fa-f0-9]{40}$")
-_hbrex = re.compile(b"^[A-Fa-f0-9]{40}$")
+_SREX = re.compile("^[A-Fa-f0-9]{40}$")
+_HBREX = re.compile(b"^[A-Fa-f0-9]{40}$")
 
 def _as_sha(obj):
     """Try really hard to get a Sha1Sum representation of an object
@@ -48,7 +48,8 @@ class Sha1Sum(object):
     __slots__ = ('_string', '_hex_bytes', '_bytes',
                  '_get_string', '_get_bytes', '_get_hex_bytes')
 
-    def __init__(self, sha, error_message=None, resolve=False):
+    def __init__(self, sha, error_message=None, resolve=False,
+                 lazy_errors=False):
         """Create a SHA-1 sum
 
         :param sha: One of (a) a length-20 raw bytes object, (b) a length-40
@@ -58,7 +59,31 @@ class Sha1Sum(object):
         :param resolve: Automatically fill in the other representations of this
             sha1-sum. If False, the other representations get computed on
             demand.
+        :param lazy_errors: If True, no errors are thrown until someone asks
+            for the value. Otherwise the errors are thrown immediately.
         """
+
+        def _exception(default_msg):
+            if not error_message:
+                ex = ObjectFormatException(
+                  "{0}: {1}".format(default_msg, repr(sha)))
+            else:
+                ex = ObjectFormatException(
+                  "{0}: {1}".format(error_message, repr(sha)))
+
+            if not lazy_errors:
+                raise ex
+            else:
+                def _throw():
+                    raise ex
+
+                self._string = None
+                self._hex_bytes = None
+                self._bytes = None
+                self._get_string = _throw
+                self._get_bytes = _throw
+                self._get_hex_bytes = _throw
+
         if isinstance(sha, str):
             # The only kind of actual strings accepted are len 40 hex strings
 
@@ -67,13 +92,9 @@ class Sha1Sum(object):
             self._bytes = None
 
             # Could be a bit of a performance drain
-            if not _srex.match(sha):
-                if not error_message:
-                    raise ObjectFormatException(
-                      "invalid sha string: '{0}'".format(sha))
-                else:
-                    raise ObjectFormatException(
-                      "{0}: '{1}'".format(error_message, sha))
+            if not _SREX.match(sha):
+                _exception('invalid sha string')
+                return
 
             self._get_string = None
             self._get_bytes = lambda: binascii.unhexlify(sha.encode('ascii'))
@@ -102,26 +123,18 @@ class Sha1Sum(object):
                 self._bytes = None
 
                 # Could be a bit of a performance drain
-                if not _hbrex.match(sha):
-                    if not error_message:
-                        raise ObjectFormatException(
-                          "invalid sha byte string: {0}".format(repr(sha)))
-                    else:
-                        raise ObjectFormatException(
-                          "{0}: {1}".format(error_message, repr(sha)))
+                if not _HBREX.match(sha):
+                    _exception('invalid sha byte string')
+                    return
 
-                self._get_string = sha.decode('ascii')
+                self._get_string = lambda: sha.decode('ascii')
                 self._get_hex_bytes = None
                 self._get_bytes = lambda: binascii.unhexlify(sha)
 
             else:
                 # It's garbage
-                if not error_message:
-                    raise ObjectFormatException(
-                      "unrecognized bytes object: {0}".format(repr(sha)))
-                else:
-                    raise ObjectFormatException(
-                      "{0}: {1}".format(error_message, repr(sha)))
+                _exception('unrecognized bytes object')
+                return
 
         elif isinstance(sha, Sha1Sum):
             # It's another Sha1Sum object, copy it
@@ -140,10 +153,15 @@ class Sha1Sum(object):
             self._hex_bytes = None
             self._bytes = sha.digest()
 
+            # digest() should return a bytes object
+            if not isinstance(self._bytes, bytes):
+                _exception('unrecognized sha object')
+                return
+
             # Damn, it looked so promising
             if len(self._bytes) != 20:
-                raise ObjectFormatException(
-                  "unrecognized sha object: {0}".format(repr(sha)))
+                _exception('unrecognized sha object')
+                return
 
             self._get_string = \
               lambda: binascii.hexlify(self._bytes).decode('ascii')
