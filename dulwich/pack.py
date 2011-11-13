@@ -1398,7 +1398,6 @@ class SHA1Writer(object):
     def tell(self):
         return self.f.tell()
 
-@enforce_type(delta_base=bytes)
 def pack_object_header(type_num, delta_base, size):
     """Create a pack object header for the given object info.
 
@@ -1439,7 +1438,8 @@ def write_pack_object(f, type, object, sha=None):
 
     if type in DELTA_TYPES:
         delta_base, object = object
-        delta_base = delta_base.bytes
+        if not isinstance(delta_base, int):
+            delta_base = bytes(delta_base)
     else:
         delta_base = None
     header = pack_object_header(type, delta_base, len(object))
@@ -1582,15 +1582,15 @@ def write_pack_index_v1(f, entries, pack_checksum):
     f = SHA1Writer(f)
     fan_out_table = defaultdict(lambda: 0)
     for (name, offset, entry_checksum) in entries:
-        fan_out_table[name[0]] += 1
+        fan_out_table[bytes(name)[0]] += 1
     # Fan-out table
     for i in range(0x100):
         f.write(struct.pack('>L', fan_out_table[i]))
         fan_out_table[i+1] += fan_out_table[i]
     for (name, offset, entry_checksum) in entries:
         f.write(struct.pack('>L20s', offset, name.bytes))
-    assert len(pack_checksum) == 20
-    f.write(pack_checksum)
+    assert len(bytes(pack_checksum)) == 20
+    f.write(bytes(pack_checksum))
     return f.write_sha()
 
 @wrap3kstr(base_buf=BYTES, target_buf=BYTES)
@@ -1736,21 +1736,21 @@ def write_pack_index_v2(f, entries, pack_checksum):
     f.write(struct.pack('>L', 2))
     fan_out_table = defaultdict(lambda: 0)
     for (name, offset, entry_checksum) in entries:
-        fan_out_table[name.bytes[0]] += 1
+        fan_out_table[bytes(name)[0]] += 1
     # Fan-out table
     for i in range(0x100):
         f.write(struct.pack('>L', fan_out_table[i]))
         fan_out_table[i+1] += fan_out_table[i]
     for (name, offset, entry_checksum) in entries:
-        f.write(name.bytes)
+        f.write(bytes(name))
     for (name, offset, entry_checksum) in entries:
         f.write(struct.pack('>L', entry_checksum))
     for (name, offset, entry_checksum) in entries:
         # FIXME: handle if MSBit is set in offset
         f.write(struct.pack('>L', offset))
     # FIXME: handle table for pack files > 8 Gb
-    assert len(pack_checksum) == 20
-    f.write(pack_checksum)
+    assert len(bytes(pack_checksum)) == 20
+    f.write(bytes(pack_checksum))
     return f.write_sha()
 
 

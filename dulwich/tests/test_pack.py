@@ -144,11 +144,11 @@ class PackIndexTests(PackTests):
 
     def test_iterentries(self):
         p = self.get_pack_index(pack1_sha)
-        entries = [(sha_to_hex(s), o, c) for s, o, c in p.iterentries()]
+        entries = [(Sha1Sum(s), o, c) for s, o, c in p.iterentries()]
         self.assertEqual([
-          ('6f670c0fb53f9463760b7295fbb814e965fb20c8', 178, None),
-          ('b2a2766a2879c209ab1176e7e778b81ae422eeaa', 138, None),
-          ('f18faa16531ac570a3fdc8c7ca16682548dafd12', 12, None)
+          (Sha1Sum('6f670c0fb53f9463760b7295fbb814e965fb20c8'), 178, None),
+          (Sha1Sum('b2a2766a2879c209ab1176e7e778b81ae422eeaa'), 138, None),
+          (Sha1Sum('f18faa16531ac570a3fdc8c7ca16682548dafd12'), 12, None)
           ], entries)
 
     def test_iter(self):
@@ -435,9 +435,9 @@ class WritePackTests(TestCase):
         with BytesIO() as f:
             f.write(b'header')
             offset = f.tell()
-            sha_a = make_sha('foo')
+            sha_a = make_sha(b'foo')
             sha_b = sha_a.copy()
-            write_pack_object(f, Blob.type_num, 'blob', sha=sha_a)
+            write_pack_object(f, Blob.type_num, b'blob', sha=sha_a)
             self.assertNotEqual(sha_a.digest(), sha_b.digest())
             sha_b.update(f.getvalue()[offset:])
             self.assertEqual(sha_a.digest(), sha_b.digest())
@@ -634,20 +634,20 @@ class DeltifyTests(TestCase):
         self.assertEqual([], list(deltify_pack_objects([])))
 
     def test_single(self):
-        b = Blob.from_string("foo")
+        b = Blob.from_string(b"foo")
         self.assertEqual(
             [(b.type_num, b.sha().digest(), None, b.as_raw_string())],
-            list(deltify_pack_objects([(b, "")])))
+            list(deltify_pack_objects([(b, b"")])))
 
     def test_simple_delta(self):
-        b1 = Blob.from_string("a" * 101)
-        b2 = Blob.from_string("a" * 100)
+        b1 = Blob.from_string(b'a' * 101)
+        b2 = Blob.from_string(b'a' * 100)
         delta = create_delta(b1.as_raw_string(), b2.as_raw_string())
         self.assertEqual([
             (b1.type_num, b1.sha().digest(), None, b1.as_raw_string()),
             (b2.type_num, b2.sha().digest(), b1.sha().digest(), delta)
             ],
-            list(deltify_pack_objects([(b1, ""), (b2, "")])))
+            list(deltify_pack_objects([(b1, b""), (b2, b"")])))
 
 
 class TestPackStreamReader(TestCase):
@@ -736,13 +736,13 @@ class DeltaChainIteratorTests(TestCase):
             self.store.add_object(blob)
         return blobs
 
-    def get_raw_no_repeat(self, bin_sha):
+    @enforce_type(sha=Sha1Sum)
+    def get_raw_no_repeat(self, sha):
         """Wrapper around store.get_raw that doesn't allow repeat lookups."""
-        hex_sha = sha_to_hex(bin_sha)
-        self.assertFalse(hex_sha in self.fetched,
-                         'Attempted to re-fetch object %s' % hex_sha)
-        self.fetched.add(hex_sha)
-        return self.store.get_raw(hex_sha)
+        self.assertFalse(sha in self.fetched,
+                         'Attempted to re-fetch object %s' % sha)
+        self.fetched.add(sha)
+        return self.store.get_raw(sha)
 
     def make_pack_iter(self, f, thin=None):
         if thin is None:
