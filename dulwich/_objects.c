@@ -31,112 +31,162 @@ size_t rep_strnlen(char *text, size_t maxlen)
 #define strnlen rep_strnlen
 #endif
 
-#define bytehex(x) (((x)<0xa)?('0'+(x)):('a'-0xa+(x)))
-
-static PyObject *tree_entry_cls, *Sha1Sum;
+static PyObject *tree_entry_cls, *sha1sum_cls;
 static PyObject *object_format_exception_cls;
 
+static PyObject* ParseTreeIter_iter(PyObject *self);
+static PyObject* ParseTreeIter_iternext(PyObject *self);
 
-static PyObject *bytes_to_pysha(const unsigned char *sha) {
-	PyObject* bytes = PyBytes_FromStringAndSize((const char*)sha, 20);
-	if(bytes == NULL) {
-		return NULL;
-	}
+typedef struct {
+	PyObject_HEAD
+	PyObject *py_text;
+	Py_ssize_t len;
+	int strict;
+	char *text;
+	char *start;
+	char *end;
+} ParseTreeIter_state;
 
-	PyObject* pysha = PyObject_CallFunctionObjArgs(Sha1Sum, bytes, NULL);
-	Py_DECREF(bytes);
-	if(pysha == NULL) {
-		return NULL;
-	}
+static PyTypeObject _objects_ParseTreeIterType = {
+	{ PyObject_HEAD_INIT(NULL) },
+	"_objects.ParseTreeIter",         /*tp_name*/
+	sizeof(ParseTreeIter_state),      /*tp_basicsize*/
+	0,                                /*tp_itemsize*/
+	0,                                /*tp_dealloc*/
+	0,                                /*tp_print*/
+	0,                                /*tp_getattr*/
+	0,                                /*tp_setattr*/
+	0,                                /*tp_reserved*/
+	0,                                /*tp_repr*/
+	0,                                /*tp_as_number*/
+	0,                                /*tp_as_sequence*/
+	0,                                /*tp_as_mapping*/
+	0,                                /*tp_hash */
+	0,                                /*tp_call*/
+	0,                                /*tp_str*/
+	0,                                /*tp_getattro*/
+	0,                                /*tp_setattro*/
+	0,                                /*tp_as_buffer*/
+	Py_TPFLAGS_DEFAULT,               /* tp_flags*/
+	"iterator object for parse_tree", /* tp_doc */
+	0,                                /* tp_traverse */
+	0,                                /* tp_clear */
+	0,                                /* tp_richcompare */
+	0,                                /* tp_weaklistoffset */
+	ParseTreeIter_iter,               /* tp_iter: __iter__() method */
+	ParseTreeIter_iternext            /* tp_iternext: next() method */
+};
 
-	return pysha;
+static PyObject* ParseTreeIter_iter(PyObject *self) {
+	Py_INCREF(self);
+	return self;
 }
 
-static PyObject *py_parse_tree(PyObject *self, PyObject *args, PyObject *kw)
-{
-	char *text, *start, *end;
-	int len, namelen, strict;
-	PyObject *ret, *item, *name, *py_strict = NULL, *sha;
-	static char *kwlist[] = {"text", "strict", NULL};
+static PyObject* ParseTreeIter_iternext(PyObject *self) {
+	ParseTreeIter_state *state = (ParseTreeIter_state*)self;
+	PyObject *item, *name, *sha, *bytes;
+	long mode;
+	int namelen;
 
-	if (!PyArg_ParseTupleAndKeywords(args, kw, "s#|O", kwlist,
-	                                 &text, &len, &py_strict))
-		return NULL;
-
-
-	strict = py_strict ?  PyObject_IsTrue(py_strict) : 0;
-
-	/* TODO: currently this returns a list; if memory usage is a concern,
-	 * consider rewriting as a custom iterator object */
-	ret = PyList_New(0);
-
-	if (ret == NULL) {
-		return NULL;
-	}
-
-	start = text;
-	end = text + len;
-
-	while (text < end) {
-		long mode;
-		if (strict && text[0] == '0') {
+	if (state->text < state->end) {
+		if (state->strict && state->text[0] == '0') {
 			PyErr_SetString(object_format_exception_cls,
 			                "Illegal leading zero on mode");
-			Py_DECREF(ret);
+			Py_DECREF(state->py_text);
 			return NULL;
 		}
 
-		mode = strtol(text, &text, 8);
+		mode = strtol(state->text, &(state->text), 8);
 
-		if (*text != ' ') {
+		if (*(state->text) != ' ') {
+			//printf("Expected space: %s\n", state->text);
 			PyErr_SetString(PyExc_ValueError, "Expected space");
-			Py_DECREF(ret);
+			Py_DECREF(state->py_text);
 			return NULL;
 		}
 
-		text++;
+		state->text += 1;
 
-		namelen = strnlen(text, len - (text - start));
-
-		// Not sure if this should be UTF-8, may only be ASCII
-		name = PyBytes_FromStringAndSize(text, namelen);
+		namelen = strnlen(state->text, state->len - (state->text - state->start));
+		name = PyBytes_FromStringAndSize(state->text, namelen);
 		if (name == NULL) {
-			Py_DECREF(ret);
+			Py_DECREF(state->py_text);
 			return NULL;
 		}
 
-		if (text + namelen + 20 >= end) {
+		if (state->text + namelen + 20 >= state->end) {
 			PyErr_SetString(PyExc_ValueError, "SHA truncated");
-			Py_DECREF(ret);
 			Py_DECREF(name);
+			Py_DECREF(state->py_text);
 			return NULL;
 		}
 
-        sha = bytes_to_pysha((unsigned char *)text+namelen+1);
-        if(sha == NULL) {
-			Py_DECREF(ret);
+		bytes = PyBytes_FromStringAndSize((const char*)state->text+namelen+1, 20);
+		if(bytes == NULL) {
 			Py_DECREF(name);
-            return NULL;
-        }
+			Py_DECREF(state->py_text);
+			return NULL;
+		}
+
+		sha = PyObject_CallFunctionObjArgs(sha1sum_cls, bytes, NULL);
+		Py_DECREF(bytes);
+		if(sha == NULL) {
+			Py_DECREF(name);
+			Py_DECREF(state->py_text);
+			return NULL;
+		}
 
 		item = Py_BuildValue("(NlN)", name, mode, sha);
 		if (item == NULL) {
-            Py_DECREF(sha);
-			Py_DECREF(ret);
+			Py_DECREF(sha);
 			Py_DECREF(name);
+			Py_DECREF(state->py_text);
 			return NULL;
 		}
-		if (PyList_Append(ret, item) == -1) {
-			Py_DECREF(ret);
-			Py_DECREF(item);
-			return NULL;
-		}
-		Py_DECREF(item);
 
-		text += namelen+21;
+		state->text += namelen + 21;
+		return item;
+	} else {
+		/* Raising of standard StopIteration exception with empty
+		 * value. */
+		PyErr_SetNone(PyExc_StopIteration);
+		Py_DECREF(state->py_text);
+		return NULL;
+	}
+}
+
+static PyObject *py_parse_tree(PyObject *self, PyObject *args, PyObject *kw) {
+	static char *kwlist[] = {"text", "strict", NULL};
+	PyObject *py_text = NULL, *py_strict = NULL;
+	ParseTreeIter_state *state = NULL;
+
+	if (!PyArg_ParseTupleAndKeywords(args, kw, "O|O", kwlist,
+	                                 &py_text, &py_strict))
+		return NULL;
+
+	if (!PyBytes_Check(py_text)) {
+		PyErr_SetString(PyExc_TypeError, "Text is not a bytes object");
+		return NULL;
 	}
 
-	return ret;
+	state = PyObject_New(ParseTreeIter_state, &_objects_ParseTreeIterType);
+	if (!state)
+		return NULL;
+
+	if (!PyObject_Init((PyObject*)state, &_objects_ParseTreeIterType)) {
+		Py_DECREF(state);
+		return NULL;
+	}
+
+	Py_INCREF(py_text);
+	state->py_text = py_text;
+	state->strict = py_strict ? PyObject_IsTrue(py_strict) : 0;
+	state->text = PyBytes_AS_STRING(py_text);
+	state->len = PyBytes_GET_SIZE(py_text);
+	state->start = state->text;
+	state->end = state->text + state->len;
+
+	return (PyObject*)state;
 }
 
 struct tree_item {
@@ -174,8 +224,7 @@ int cmp_tree_item_name_order(const void *_a, const void *_b) {
 	return strcmp(a->name, b->name);
 }
 
-static PyObject *py_sorted_tree_items(PyObject *self, PyObject *args)
-{
+static PyObject *py_sorted_tree_items(PyObject *self, PyObject *args) {
 	struct tree_item *qsort_entries = NULL;
 	int name_order, num_entries, n = 0, i;
 	PyObject *entries, *py_name_order, *ret, *key, *value, *py_mode, *py_sha;
@@ -222,8 +271,8 @@ static PyObject *py_sorted_tree_items(PyObject *self, PyObject *args)
 		}
 
 		py_sha = PyTuple_GET_ITEM(value, 1);
-		if(1 != PyObject_IsInstance(py_sha, Sha1Sum)) {
-			PyErr_SetString(PyExc_TypeError, "SHA is not a Sha1Sum object");
+		if(1 != PyObject_IsInstance(py_sha, sha1sum_cls)) {
+			PyErr_SetString(PyExc_TypeError, "SHA is not a sha1sum_cls object");
 			goto error;
 		}
 
@@ -231,7 +280,7 @@ static PyObject *py_sorted_tree_items(PyObject *self, PyObject *args)
 		qsort_entries[n].mode = PyLong_AsLong(py_mode);
 
 		qsort_entries[n].tuple = PyObject_CallFunctionObjArgs(
-		    tree_entry_cls, key, py_mode, py_sha, NULL);
+			tree_entry_cls, key, py_mode, py_sha, NULL);
 		if (qsort_entries[n].tuple == NULL) {
 			goto error;
 		}
@@ -280,6 +329,10 @@ static struct PyModuleDef py_objectsmodule = {
 PyObject *PyInit__objects(void) {
 	PyObject *m, *objects_mod, *errors_mod, *sha_mod;
 
+	_objects_ParseTreeIterType.tp_new = PyType_GenericNew;
+	if (PyType_Ready(&_objects_ParseTreeIterType) < 0)
+		return NULL;
+
 	m = PyModule_Create(&py_objectsmodule);
 	if (m == NULL)
 		return NULL;
@@ -309,9 +362,9 @@ PyObject *PyInit__objects(void) {
 	if (sha_mod == NULL)
 		return NULL;
 
-	Sha1Sum = PyObject_GetAttrString(sha_mod, "Sha1Sum");
+	sha1sum_cls = PyObject_GetAttrString(sha_mod, "Sha1Sum");
 	Py_DECREF(sha_mod);
-	if(Sha1Sum == NULL)
+	if(sha1sum_cls == NULL)
 		return NULL;
 
 	return m;
