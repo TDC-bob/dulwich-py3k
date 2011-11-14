@@ -321,3 +321,14 @@ class Sha1Sum(object):
         :return: An integer representation of the hash
         """
         return hash(self.bytes)
+
+    def startswith(self, text):
+        """
+        """
+
+        if isinstance(text, str):
+            return self.string.startswith(text)
+        elif isinstance(text, bytes):
+            return self.hex_bytes.startswith(text)
+        else:
+            raise TypeError(text)

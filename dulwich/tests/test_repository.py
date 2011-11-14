@@ -51,9 +51,10 @@ from dulwich.tests.utils import (
     tear_down_repo,
     )
 
+from dulwich.sha1 import Sha1Sum
 from dulwich.py3k import *
 
-missing_sha = 'b91fa4d900e17e99b433218e988c4eb4a3e9a097'
+missing_sha = Sha1Sum('b91fa4d900e17e99b433218e988c4eb4a3e9a097')
 
 
 class CreateRepositoryTests(TestCase):
@@ -122,33 +123,33 @@ class RepositoryTests(TestCase):
 
     def test_setitem(self):
         r = self._repo = open_repo('a.git')
-        r["refs/tags/foo"] = 'a90fa2d900a17e99b433217e988c4eb4a2e9a097'
-        self.assertEqual(b'a90fa2d900a17e99b433217e988c4eb4a2e9a097',
+        r[b"refs/tags/foo"] = Sha1Sum('a90fa2d900a17e99b433217e988c4eb4a2e9a097')
+        self.assertEqual(Sha1Sum('a90fa2d900a17e99b433217e988c4eb4a2e9a097'),
                           r[b"refs/tags/foo"].id)
 
     def test_delitem(self):
         r = self._repo = open_repo('a.git')
 
-        del r['refs/heads/master']
-        self.assertRaises(KeyError, lambda: r['refs/heads/master'])
+        del r[b'refs/heads/master']
+        self.assertRaises(KeyError, lambda: r[b'refs/heads/master'])
 
-        del r['HEAD']
-        self.assertRaises(KeyError, lambda: r['HEAD'])
+        del r[b'HEAD']
+        self.assertRaises(KeyError, lambda: r[b'HEAD'])
 
-        self.assertRaises(ValueError, r.__delitem__, 'notrefs/foo')
+        self.assertRaises(ValueError, r.__delitem__, b'notrefs/foo')
 
     def test_get_refs(self):
         r = self._repo = open_repo('a.git')
         self.assertEqual({
-            b'HEAD': b'a90fa2d900a17e99b433217e988c4eb4a2e9a097',
-            b'refs/heads/master': b'a90fa2d900a17e99b433217e988c4eb4a2e9a097',
-            b'refs/tags/mytag': b'28237f4dc30d0d462658d6b937b08a0f0b6ef55a',
-            b'refs/tags/mytag-packed': b'b0931cadc54336e78a1d980420e3268903b57a50',
+            b'HEAD': Sha1Sum('a90fa2d900a17e99b433217e988c4eb4a2e9a097'),
+            b'refs/heads/master': Sha1Sum('a90fa2d900a17e99b433217e988c4eb4a2e9a097'),
+            b'refs/tags/mytag': Sha1Sum('28237f4dc30d0d462658d6b937b08a0f0b6ef55a'),
+            b'refs/tags/mytag-packed': Sha1Sum('b0931cadc54336e78a1d980420e3268903b57a50'),
             }, r.get_refs())
 
     def test_head(self):
         r = self._repo = open_repo('a.git')
-        self.assertEqual(r.head(), b'a90fa2d900a17e99b433217e988c4eb4a2e9a097')
+        self.assertEqual(r.head(), Sha1Sum('a90fa2d900a17e99b433217e988c4eb4a2e9a097'))
 
     def test_get_object(self):
         r = self._repo = open_repo('a.git')
@@ -165,11 +166,11 @@ class RepositoryTests(TestCase):
 
     def test_contains_ref(self):
         r = self._repo = open_repo('a.git')
-        self.assertTrue("HEAD" in r)
+        self.assertTrue(b"HEAD" in r)
 
     def test_contains_missing(self):
         r = self._repo = open_repo('a.git')
-        self.assertFalse("bar" in r)
+        self.assertFalse(b"bar" in r)
 
     def test_commit(self):
         r = self._repo = open_repo('a.git')
@@ -183,7 +184,7 @@ class RepositoryTests(TestCase):
         warnings.simplefilter("ignore", DeprecationWarning)
         self.addCleanup(warnings.resetwarnings)
         self.assertRaises(errors.NotCommitError,
-            r.commit, '4f2e6529203aa6d44b5af6e3292c837ceda003f9')
+            r.commit, Sha1Sum('4f2e6529203aa6d44b5af6e3292c837ceda003f9'))
 
     def test_tree(self):
         r = self._repo = open_repo('a.git')
@@ -202,7 +203,7 @@ class RepositoryTests(TestCase):
 
     def test_tag(self):
         r = self._repo = open_repo('a.git')
-        tag_sha = '28237f4dc30d0d462658d6b937b08a0f0b6ef55a'
+        tag_sha = Sha1Sum('28237f4dc30d0d462658d6b937b08a0f0b6ef55a')
         warnings.simplefilter("ignore", DeprecationWarning)
         self.addCleanup(warnings.resetwarnings)
         tag = r.tag(tag_sha)
@@ -221,21 +222,21 @@ class RepositoryTests(TestCase):
     def test_get_peeled(self):
         # unpacked ref
         r = self._repo = open_repo('a.git')
-        tag_sha = '28237f4dc30d0d462658d6b937b08a0f0b6ef55a'
+        tag_sha = Sha1Sum('28237f4dc30d0d462658d6b937b08a0f0b6ef55a')
         self.assertNotEqual(r[tag_sha].sha().hexdigest(), r.head())
-        self.assertEqual(r.get_peeled('refs/tags/mytag'), r.head())
+        self.assertEqual(r.get_peeled(b'refs/tags/mytag'), r.head())
 
         # packed ref with cached peeled value
-        packed_tag_sha = 'b0931cadc54336e78a1d980420e3268903b57a50'
+        packed_tag_sha = Sha1Sum('b0931cadc54336e78a1d980420e3268903b57a50')
         parent_sha = r[r.head()].parents[0]
         self.assertNotEqual(r[packed_tag_sha].sha().hexdigest(), parent_sha)
-        self.assertEqual(r.get_peeled('refs/tags/mytag-packed'), parent_sha)
+        self.assertEqual(r.get_peeled(b'refs/tags/mytag-packed'), parent_sha)
 
         # TODO: add more corner cases to test repo
 
     def test_get_peeled_not_tag(self):
         r = self._repo = open_repo('a.git')
-        self.assertEqual(r.get_peeled('HEAD'), r.head())
+        self.assertEqual(r.get_peeled(b'HEAD'), r.head())
 
     def test_get_blob(self):
         r = self._repo = open_repo('a.git')
@@ -258,10 +259,10 @@ class RepositoryTests(TestCase):
         r = self._repo = open_repo('a.git')
         # include defaults to [r.head()]
         self.assertEqual([e.commit.id for e in r.get_walker()],
-                         [r.head(), b'2a72d929692c41d8554c07f6301757ba18a65d91'])
+                         [r.head(), Sha1Sum('2a72d929692c41d8554c07f6301757ba18a65d91')])
         self.assertEqual(
-            [e.commit.id for e in r.get_walker([b'2a72d929692c41d8554c07f6301757ba18a65d91'])],
-            [b'2a72d929692c41d8554c07f6301757ba18a65d91'])
+            [e.commit.id for e in r.get_walker([Sha1Sum('2a72d929692c41d8554c07f6301757ba18a65d91')])],
+            [Sha1Sum('2a72d929692c41d8554c07f6301757ba18a65d91')])
 
     def test_linear_history(self):
         r = self._repo = open_repo('a.git')
@@ -270,7 +271,7 @@ class RepositoryTests(TestCase):
         history = r.revision_history(r.head())
         shas = [convert3kstr(c.sha().hexdigest(), BYTES) for c in history]
         self.assertEqual(shas, [r.head(),
-                                b'2a72d929692c41d8554c07f6301757ba18a65d91'])
+                                Sha1Sum('2a72d929692c41d8554c07f6301757ba18a65d91')])
 
     def test_clone(self):
         r = self._repo = open_repo('a.git')
@@ -278,26 +279,26 @@ class RepositoryTests(TestCase):
         self.addCleanup(shutil.rmtree, tmp_dir)
         t = r.clone(tmp_dir, mkdir=False)
         self.assertEqual({
-            b'HEAD': b'a90fa2d900a17e99b433217e988c4eb4a2e9a097',
+            b'HEAD': Sha1Sum('a90fa2d900a17e99b433217e988c4eb4a2e9a097'),
             b'refs/remotes/origin/master':
-                b'a90fa2d900a17e99b433217e988c4eb4a2e9a097',
-            b'refs/heads/master': b'a90fa2d900a17e99b433217e988c4eb4a2e9a097',
-            b'refs/tags/mytag': b'28237f4dc30d0d462658d6b937b08a0f0b6ef55a',
+                Sha1Sum('a90fa2d900a17e99b433217e988c4eb4a2e9a097'),
+            b'refs/heads/master': Sha1Sum('a90fa2d900a17e99b433217e988c4eb4a2e9a097'),
+            b'refs/tags/mytag': Sha1Sum('28237f4dc30d0d462658d6b937b08a0f0b6ef55a'),
             b'refs/tags/mytag-packed':
-                b'b0931cadc54336e78a1d980420e3268903b57a50',
+                Sha1Sum('b0931cadc54336e78a1d980420e3268903b57a50'),
             }, t.refs.as_dict())
         shas = [e.commit.id for e in r.get_walker()]
         self.assertEqual(shas, [t.head(),
-                         b'2a72d929692c41d8554c07f6301757ba18a65d91'])
+                         Sha1Sum('2a72d929692c41d8554c07f6301757ba18a65d91')])
 
     def test_merge_history(self):
         r = self._repo = open_repo('simple_merge.git')
         shas = [e.commit.id for e in r.get_walker()]
-        self.assertEqual(shas, [b'5dac377bdded4c9aeb8dff595f0faeebcc8498cc',
-                                b'ab64bbdcc51b170d21588e5c5d391ee5c0c96dfd',
-                                b'4cffe90e0a41ad3f5190079d7c8f036bde29cbe6',
-                                b'60dacdc733de308bb77bb76ce0fb0f9b44c9769e',
-                                b'0d89f20333fbb1d2f3a94da77f4981373d8f4310'])
+        self.assertEqual(shas, [Sha1Sum('5dac377bdded4c9aeb8dff595f0faeebcc8498cc'),
+                                Sha1Sum('ab64bbdcc51b170d21588e5c5d391ee5c0c96dfd'),
+                                Sha1Sum('4cffe90e0a41ad3f5190079d7c8f036bde29cbe6'),
+                                Sha1Sum('60dacdc733de308bb77bb76ce0fb0f9b44c9769e'),
+                                Sha1Sum('0d89f20333fbb1d2f3a94da77f4981373d8f4310')])
 
     def test_revision_history_missing_commit(self):
         r = self._repo = open_repo('simple_merge.git')
@@ -310,14 +311,14 @@ class RepositoryTests(TestCase):
         """Test that revision history is ordered by date, not parent order."""
         r = self._repo = open_repo('ooo_merge.git')
         shas = [e.commit.id for e in r.get_walker()]
-        self.assertEqual(shas, [b'7601d7f6231db6a57f7bbb79ee52e4d462fd44d1',
-                                b'f507291b64138b875c28e03469025b1ea20bc614',
-                                b'fb5b0425c7ce46959bec94d54b9a157645e114f5',
-                                b'f9e39b120c68182a4ba35349f832d0e4e61f485c'])
+        self.assertEqual(shas, [Sha1Sum('7601d7f6231db6a57f7bbb79ee52e4d462fd44d1'),
+                                Sha1Sum('f507291b64138b875c28e03469025b1ea20bc614'),
+                                Sha1Sum('fb5b0425c7ce46959bec94d54b9a157645e114f5'),
+                                Sha1Sum('f9e39b120c68182a4ba35349f832d0e4e61f485c')])
 
     def test_get_tags_empty(self):
         r = self._repo = open_repo('ooo_merge.git')
-        self.assertEqual({}, r.refs.as_dict('refs/tags'))
+        self.assertEqual({}, r.refs.as_dict(b'refs/tags'))
 
     def test_get_config(self):
         r = self._repo = open_repo('ooo_merge.git')
@@ -331,7 +332,7 @@ class RepositoryTests(TestCase):
         ``Repo.fetch_objects()``).
         """
 
-        expected_shas = set([b'60dacdc733de308bb77bb76ce0fb0f9b44c9769e'])
+        expected_shas = set([Sha1Sum('60dacdc733de308bb77bb76ce0fb0f9b44c9769e')])
 
         # Source for objects.
         r_base = open_repo('simple_merge.git')
@@ -342,14 +343,14 @@ class RepositoryTests(TestCase):
         # corrupted, but we're only checking for commits for the purpose of this
         # test, so it's immaterial.
         r1_dir = tempfile.mkdtemp()
-        r1_commits = [b'ab64bbdcc51b170d21588e5c5d391ee5c0c96dfd', # HEAD
-                      b'60dacdc733de308bb77bb76ce0fb0f9b44c9769e',
-                      b'0d89f20333fbb1d2f3a94da77f4981373d8f4310']
+        r1_commits = [Sha1Sum('ab64bbdcc51b170d21588e5c5d391ee5c0c96dfd'), # HEAD
+                      Sha1Sum('60dacdc733de308bb77bb76ce0fb0f9b44c9769e'),
+                      Sha1Sum('0d89f20333fbb1d2f3a94da77f4981373d8f4310')]
 
         r2_dir = tempfile.mkdtemp()
-        r2_commits = [b'4cffe90e0a41ad3f5190079d7c8f036bde29cbe6', # HEAD
-                      b'60dacdc733de308bb77bb76ce0fb0f9b44c9769e',
-                      b'0d89f20333fbb1d2f3a94da77f4981373d8f4310']
+        r2_commits = [Sha1Sum('4cffe90e0a41ad3f5190079d7c8f036bde29cbe6'), # HEAD
+                      Sha1Sum('60dacdc733de308bb77bb76ce0fb0f9b44c9769e'),
+                      Sha1Sum('0d89f20333fbb1d2f3a94da77f4981373d8f4310')]
 
         try:
             r1 = Repo.init_bare(r1_dir)
@@ -407,8 +408,8 @@ class BuildRepoTests(TestCase):
     def test_build_repo(self):
         r = self._repo
         self.assertEqual(b'ref: refs/heads/master', r.refs.read_ref(b'HEAD'))
-        self.assertEqual(self._root_commit, r.refs['refs/heads/master'])
-        expected_blob = objects.Blob.from_string('file contents')
+        self.assertEqual(self._root_commit, r.refs[b'refs/heads/master'])
+        expected_blob = objects.Blob.from_string(b'file contents')
         self.assertEqual(expected_blob.data, r[expected_blob.id].data)
         actual_commit = r[self._root_commit]
         self.assertEqual('msg', actual_commit.message)
@@ -483,11 +484,11 @@ class BuildRepoTests(TestCase):
              author='Test Author <test@nodomain.com>',
              commit_timestamp=12395, commit_timezone=0,
              author_timestamp=12395, author_timezone=0,
-             ref="refs/heads/new_branch")
-        self.assertEqual(self._root_commit, r["HEAD"].id)
-        self.assertEqual(commit_sha, r["refs/heads/new_branch"].id)
+             ref=b"refs/heads/new_branch")
+        self.assertEqual(self._root_commit, r[b"HEAD"].id)
+        self.assertEqual(commit_sha, r[b"refs/heads/new_branch"].id)
         self.assertEqual([], r[commit_sha].parents)
-        self.assertTrue("refs/heads/new_branch" in r)
+        self.assertTrue(b"refs/heads/new_branch" in r)
 
         new_branch_head = commit_sha
 
@@ -496,9 +497,9 @@ class BuildRepoTests(TestCase):
              author='Test Author <test@nodomain.com>',
              commit_timestamp=12395, commit_timezone=0,
              author_timestamp=12395, author_timezone=0,
-             ref="refs/heads/new_branch")
-        self.assertEqual(self._root_commit, r["HEAD"].id)
-        self.assertEqual(commit_sha, r["refs/heads/new_branch"].id)
+             ref=b"refs/heads/new_branch")
+        self.assertEqual(self._root_commit, r[b"HEAD"].id)
+        self.assertEqual(commit_sha, r[b"refs/heads/new_branch"].id)
         self.assertEqual([new_branch_head], r[commit_sha].parents)
 
     def test_commit_merge_heads(self):
@@ -508,7 +509,7 @@ class BuildRepoTests(TestCase):
              author='Test Author <test@nodomain.com>',
              commit_timestamp=12395, commit_timezone=0,
              author_timestamp=12395, author_timezone=0,
-             ref="refs/heads/new_branch")
+             ref=b"refs/heads/new_branch")
         commit_sha = r.do_commit('commit with merge',
              committer='Test Committer <test@nodomain.com>',
              author='Test Author <test@nodomain.com>',
@@ -552,10 +553,10 @@ class CheckRefFormatTests(TestCase):
         self.assertFalse(check_ref_format(b'heads/foo\bar'))
 
 
-ONES = b"1" * 40
-TWOS = b"2" * 40
-THREES = b"3" * 40
-FOURS = b"4" * 40
+ONES = Sha1Sum("1" * 40)
+TWOS = Sha1Sum("2" * 40)
+THREES = Sha1Sum("3" * 40)
+FOURS = Sha1Sum("4" * 40)
 
 class PackedRefsFileTests(TestCase):
 
@@ -565,55 +566,65 @@ class PackedRefsFileTests(TestCase):
         self.assertRaises(errors.PackedRefsException, _split_ref_line,
                           b'badsha name')
         self.assertRaises(errors.PackedRefsException, _split_ref_line,
-                          ONES + b' bad/../refname')
+                          ONES.hex_bytes + b' bad/../refname')
 
     def test_read_without_peeled(self):
-        f = BytesIO(b'# comment\n' + ONES + b' ref/1\n' + TWOS + b' ref/2')
-        self.assertEqual([(ONES, b'ref/1'), (TWOS, b'ref/2')],
-                         list(read_packed_refs(f)))
+        with BytesIO(b'# comment\n' + ONES.hex_bytes + b' ref/1\n' +
+                     TWOS.hex_bytes + b' ref/2') as f:
+            self.assertEqual([(ONES, b'ref/1'), (TWOS, b'ref/2')],
+                             list(read_packed_refs(f)))
 
     def test_read_without_peeled_errors(self):
-        f = BytesIO(ONES + b' ref/1\n^' + TWOS)
-        self.assertRaises(errors.PackedRefsException, list, read_packed_refs(f))
+        with BytesIO(ONES.hex_bytes + b' ref/1\n^' + TWOS.hex_bytes) as f:
+            self.assertRaises(errors.PackedRefsException, list,
+                              read_packed_refs(f))
 
     def test_read_with_peeled(self):
-        f = BytesIO(ONES + b' ref/1\n' + TWOS + b' ref/2\n^' +
-                    THREES + b'\n' + FOURS + b' ref/4')
-
-        self.assertEqual([
-          (ONES, b'ref/1', None),
-          (TWOS, b'ref/2', THREES),
-          (FOURS, b'ref/4', None),
-          ], list(read_packed_refs_with_peeled(f)))
+        with BytesIO(ONES.hex_bytes + b' ref/1\n' + TWOS.hex_bytes + 
+                     b' ref/2\n^' + THREES.hex_bytes + b'\n' +
+                     FOURS.hex_bytes + b' ref/4') as f:
+            self.assertEqual([
+              (ONES, b'ref/1', None),
+              (TWOS, b'ref/2', THREES),
+              (FOURS, b'ref/4', None),
+              ], list(read_packed_refs_with_peeled(f)))
 
     def test_read_with_peeled_errors(self):
-        f = BytesIO(b'^' + TWOS + b'\n' + ONES + b' ref/1')
-        self.assertRaises(errors.PackedRefsException, list, read_packed_refs(f))
+        with BytesIO(b'^' + TWOS.hex_bytes + b'\n' + ONES.hex_bytes +
+                     b' ref/1') as f:
+            self.assertRaises(errors.PackedRefsException, list,
+                              read_packed_refs(f))
 
-        f = BytesIO(ONES + b' ref/1\n^' + TWOS + b'\n^' + THREES)
-        self.assertRaises(errors.PackedRefsException, list, read_packed_refs(f))
+        with BytesIO(ONES.hex_bytes + b' ref/1\n^' + TWOS.hex_bytes +
+                     b'\n^' + THREES.hex_bytes) as f:
+            self.assertRaises(errors.PackedRefsException, list,
+                              read_packed_refs(f))
 
     def test_write_with_peeled(self):
-        f = BytesIO()
-        write_packed_refs(f, {b'ref/1': ONES, b'ref/2': TWOS},
-                          {b'ref/1': THREES})
-        self.assertEqual(
-          b'# pack-refs with: peeled\n' + ONES + b' ref/1\n^' + 
-          THREES + b'\n' + TWOS + b' ref/2\n', f.getvalue())
+        with BytesIO() as f:
+            write_packed_refs(f, {b'ref/1': ONES.hex_bytes,
+                                  b'ref/2': TWOS.hex_bytes},
+                              {b'ref/1': THREES.hex_bytes})
+            self.assertEqual(
+              b'# pack-refs with: peeled\n' + ONES.hex_bytes + b' ref/1\n^' + 
+              THREES.hex_bytes + b'\n' + TWOS.hex_bytes + b' ref/2\n',
+              f.getvalue())
 
     def test_write_without_peeled(self):
-        f = BytesIO()
-        write_packed_refs(f, {b'ref/1': ONES, b'ref/2': TWOS})
-        self.assertEqual(ONES + b' ref/1\n' + TWOS + b' ref/2\n', f.getvalue())
+        with BytesIO() as f:
+            write_packed_refs(f, {b'ref/1': ONES.hex_bytes,
+                                  b'ref/2': TWOS.hex_bytes})
+            self.assertEqual(ONES.hex_bytes + b' ref/1\n' + TWOS.hex_bytes +
+                             b' ref/2\n', f.getvalue())
 
 
 # Dict of refs that we expect all RefsContainerTests subclasses to define.
 _TEST_REFS = {
-  b'HEAD': b'42d06bd4b77fed026b154d16493e5deab78f02ec',
-  b'refs/heads/master': b'42d06bd4b77fed026b154d16493e5deab78f02ec',
-  b'refs/heads/packed': b'42d06bd4b77fed026b154d16493e5deab78f02ec',
-  b'refs/tags/refs-0.1': b'df6800012397fb85c56e7418dd4eb9405dee075c',
-  b'refs/tags/refs-0.2': b'3ec9c43c84ff242e3ef4a9fc5bc111fd780a76a8',
+  b'HEAD': Sha1Sum('42d06bd4b77fed026b154d16493e5deab78f02ec'),
+  b'refs/heads/master':Sha1Sum('42d06bd4b77fed026b154d16493e5deab78f02ec'),
+  b'refs/heads/packed': Sha1Sum('42d06bd4b77fed026b154d16493e5deab78f02ec'),
+  b'refs/tags/refs-0.1': Sha1Sum('df6800012397fb85c56e7418dd4eb9405dee075c'),
+  b'refs/tags/refs-0.2': Sha1Sum('3ec9c43c84ff242e3ef4a9fc5bc111fd780a76a8'),
   }
 
 
@@ -637,20 +648,20 @@ class RefsContainerTests(object):
         self.assertEqual(_TEST_REFS, self._refs.as_dict())
 
     def test_setitem(self):
-        self._refs[b'refs/some/ref'] = b'42d06bd4b77fed026b154d16493e5deab78f02ec'
-        self.assertEqual(b'42d06bd4b77fed026b154d16493e5deab78f02ec',
+        self._refs[b'refs/some/ref'] = Sha1Sum('42d06bd4b77fed026b154d16493e5deab78f02ec')
+        self.assertEqual(Sha1Sum('42d06bd4b77fed026b154d16493e5deab78f02ec'),
                          self._refs[b'refs/some/ref'])
         self.assertRaises(errors.RefFormatError, self._refs.__setitem__,
-                          b'notrefs/foo', b'42d06bd4b77fed026b154d16493e5deab78f02ec')
+                          b'notrefs/foo', Sha1Sum('42d06bd4b77fed026b154d16493e5deab78f02ec'))
 
     def test_set_if_equals(self):
-        nines = b'9' * 40
+        nines = Sha1Sum('9' * 40)
         self.assertFalse(self._refs.set_if_equals(b'HEAD', b'c0ffee', nines))
-        self.assertEqual(b'42d06bd4b77fed026b154d16493e5deab78f02ec',
+        self.assertEqual(Sha1Sum('42d06bd4b77fed026b154d16493e5deab78f02ec'),
                          self._refs[b'HEAD'])
 
         self.assertTrue(self._refs.set_if_equals(
-          b'HEAD', b'42d06bd4b77fed026b154d16493e5deab78f02ec', nines))
+          b'HEAD', Sha1Sum('42d06bd4b77fed026b154d16493e5deab78f02ec'), nines))
         self.assertEqual(nines, self._refs[b'HEAD'])
 
         self.assertTrue(self._refs.set_if_equals(b'refs/heads/master', None,
@@ -658,9 +669,9 @@ class RefsContainerTests(object):
         self.assertEqual(nines, self._refs[b'refs/heads/master'])
 
     def test_add_if_new(self):
-        nines = b'9' * 40
+        nines = Sha1Sum('9' * 40)
         self.assertFalse(self._refs.add_if_new(b'refs/heads/master', nines))
-        self.assertEqual(b'42d06bd4b77fed026b154d16493e5deab78f02ec',
+        self.assertEqual(Sha1Sum('42d06bd4b77fed026b154d16493e5deab78f02ec'),
                          self._refs[b'refs/heads/master'])
 
         self.assertTrue(self._refs.add_if_new(b'refs/some/ref', nines))
@@ -670,18 +681,18 @@ class RefsContainerTests(object):
         self._refs.set_symbolic_ref(b'refs/heads/symbolic', b'refs/heads/master')
         self.assertEqual(b'ref: refs/heads/master',
                          self._refs.read_loose_ref(b'refs/heads/symbolic'))
-        self.assertEqual(b'42d06bd4b77fed026b154d16493e5deab78f02ec',
+        self.assertEqual(Sha1Sum('42d06bd4b77fed026b154d16493e5deab78f02ec'),
                          self._refs[b'refs/heads/symbolic'])
 
     def test_set_symbolic_ref_overwrite(self):
-        nines = b'9' * 40
+        nines = Sha1Sum('9' * 40)
         self.assertFalse(b'refs/heads/symbolic' in self._refs)
         self._refs[b'refs/heads/symbolic'] = nines
         self.assertEqual(nines, self._refs.read_loose_ref(b'refs/heads/symbolic'))
         self._refs.set_symbolic_ref(b'refs/heads/symbolic', b'refs/heads/master')
         self.assertEqual(b'ref: refs/heads/master',
                          self._refs.read_loose_ref(b'refs/heads/symbolic'))
-        self.assertEqual(b'42d06bd4b77fed026b154d16493e5deab78f02ec',
+        self.assertEqual(Sha1Sum('42d06bd4b77fed026b154d16493e5deab78f02ec'),
                          self._refs[b'refs/heads/symbolic'])
 
     def test_check_refname(self):
@@ -695,21 +706,21 @@ class RefsContainerTests(object):
                           b'notrefs/foo')
 
     def test_contains(self):
-        self.assertTrue('refs/heads/master' in self._refs)
-        self.assertFalse('refs/heads/bar' in self._refs)
+        self.assertTrue(b'refs/heads/master' in self._refs)
+        self.assertFalse(b'refs/heads/bar' in self._refs)
 
     def test_delitem(self):
-        self.assertEqual(b'42d06bd4b77fed026b154d16493e5deab78f02ec',
-                          self._refs[b'refs/heads/master'])
-        del self._refs['refs/heads/master']
-        self.assertRaises(KeyError, lambda: self._refs['refs/heads/master'])
+        self.assertEqual(Sha1Sum('42d06bd4b77fed026b154d16493e5deab78f02ec'),
+                         self._refs[b'refs/heads/master'])
+        del self._refs[b'refs/heads/master']
+        self.assertRaises(KeyError, lambda: self._refs[b'refs/heads/master'])
 
     def test_remove_if_equals(self):
-        self.assertFalse(self._refs.remove_if_equals('HEAD', 'c0ffee'))
-        self.assertEqual(b'42d06bd4b77fed026b154d16493e5deab78f02ec',
+        self.assertFalse(self._refs.remove_if_equals(b'HEAD', b'c0ffee'))
+        self.assertEqual(Sha1Sum('42d06bd4b77fed026b154d16493e5deab78f02ec'),
                          self._refs[b'HEAD'])
         self.assertTrue(self._refs.remove_if_equals(
-          b'refs/tags/refs-0.2', b'3ec9c43c84ff242e3ef4a9fc5bc111fd780a76a8'))
+          b'refs/tags/refs-0.2', Sha1Sum('3ec9c43c84ff242e3ef4a9fc5bc111fd780a76a8')))
         self.assertFalse(b'refs/tags/refs-0.2' in self._refs)
 
 
@@ -741,14 +752,14 @@ class DiskRefsContainerTests(RefsContainerTests, TestCase):
 
     def test_get_packed_refs(self):
         self.assertEqual({
-          b'refs/heads/packed': b'42d06bd4b77fed026b154d16493e5deab78f02ec',
-          b'refs/tags/refs-0.1': b'df6800012397fb85c56e7418dd4eb9405dee075c',
+          b'refs/heads/packed': Sha1Sum('42d06bd4b77fed026b154d16493e5deab78f02ec'),
+          b'refs/tags/refs-0.1': Sha1Sum('df6800012397fb85c56e7418dd4eb9405dee075c'),
           }, self._refs.get_packed_refs())
 
     def test_get_peeled_not_packed(self):
         # not packed
         self.assertEqual(None, self._refs.get_peeled(b'refs/tags/refs-0.2'))
-        self.assertEqual(b'3ec9c43c84ff242e3ef4a9fc5bc111fd780a76a8',
+        self.assertEqual(Sha1Sum('3ec9c43c84ff242e3ef4a9fc5bc111fd780a76a8'),
                          self._refs[b'refs/tags/refs-0.2'])
 
         # packed, known not peelable
@@ -756,7 +767,7 @@ class DiskRefsContainerTests(RefsContainerTests, TestCase):
                          self._refs.get_peeled(b'refs/heads/packed'))
 
         # packed, peeled
-        self.assertEqual(b'42d06bd4b77fed026b154d16493e5deab78f02ec',
+        self.assertEqual(Sha1Sum('42d06bd4b77fed026b154d16493e5deab78f02ec'),
                          self._refs.get_peeled(b'refs/tags/refs-0.1'))
 
     def test_setitem(self):
@@ -766,7 +777,7 @@ class DiskRefsContainerTests(RefsContainerTests, TestCase):
                               f.read()[:40])
 
     def test_setitem_symbolic(self):
-        ones = b'1' * 40
+        ones = Sha1Sum('1' * 40)
         self._refs[b'HEAD'] = ones
         self.assertEqual(ones, self._refs[b'HEAD'])
 
@@ -782,7 +793,7 @@ class DiskRefsContainerTests(RefsContainerTests, TestCase):
         RefsContainerTests.test_set_if_equals(self)
 
         # ensure symref was followed
-        self.assertEqual(b'9' * 40, self._refs[b'refs/heads/master'])
+        self.assertEqual(Sha1Sum('9' * 40), self._refs[b'refs/heads/master'])
 
         # ensure lockfile was deleted
         self.assertFalse(os.path.exists(
@@ -792,8 +803,8 @@ class DiskRefsContainerTests(RefsContainerTests, TestCase):
 
     def test_add_if_new_packed(self):
         # don't overwrite packed ref
-        self.assertFalse(self._refs.add_if_new(b'refs/tags/refs-0.1', b'9' * 40))
-        self.assertEqual(b'df6800012397fb85c56e7418dd4eb9405dee075c',
+        self.assertFalse(self._refs.add_if_new(b'refs/tags/refs-0.1', Sha1Sum('9' * 40)))
+        self.assertEqual(Sha1Sum('df6800012397fb85c56e7418dd4eb9405dee075c'),
                          self._refs[b'refs/tags/refs-0.1'])
 
     def test_add_if_new_symbolic(self):
@@ -804,23 +815,23 @@ class DiskRefsContainerTests(RefsContainerTests, TestCase):
         self._repo = Repo.init(repo_dir)
         refs = self._repo.refs
 
-        nines = b'9' * 40
+        nines = Sha1Sum('9' * 40)
         self.assertEqual(b'ref: refs/heads/master', refs.read_ref(b'HEAD'))
         self.assertFalse(b'refs/heads/master' in refs)
         self.assertTrue(refs.add_if_new(b'HEAD', nines))
         self.assertEqual(b'ref: refs/heads/master', refs.read_ref(b'HEAD'))
         self.assertEqual(nines, refs[b'HEAD'])
         self.assertEqual(nines, refs[b'refs/heads/master'])
-        self.assertFalse(refs.add_if_new(b'HEAD', b'1' * 40))
+        self.assertFalse(refs.add_if_new(b'HEAD', Sha1Sum('1' * 40)))
         self.assertEqual(nines, refs[b'HEAD'])
         self.assertEqual(nines, refs[b'refs/heads/master'])
 
     def test_follow(self):
         self.assertEqual(
-          (b'refs/heads/master', b'42d06bd4b77fed026b154d16493e5deab78f02ec'),
+          (b'refs/heads/master', Sha1Sum('42d06bd4b77fed026b154d16493e5deab78f02ec')),
           self._refs._follow(b'HEAD'))
         self.assertEqual(
-          (b'refs/heads/master', b'42d06bd4b77fed026b154d16493e5deab78f02ec'),
+          (b'refs/heads/master', Sha1Sum('42d06bd4b77fed026b154d16493e5deab78f02ec')),
           self._refs._follow(b'refs/heads/master'))
         self.assertRaises(KeyError, self._refs._follow, b'refs/heads/loop')
 
@@ -835,16 +846,16 @@ class DiskRefsContainerTests(RefsContainerTests, TestCase):
                           self._refs.read_loose_ref(b'HEAD'))
         del self._refs[b'HEAD']
         self.assertRaises(KeyError, lambda: self._refs[b'HEAD'])
-        self.assertEqual(b'42d06bd4b77fed026b154d16493e5deab78f02ec',
+        self.assertEqual(Sha1Sum('42d06bd4b77fed026b154d16493e5deab78f02ec'),
                          self._refs[b'refs/heads/master'])
         self.assertFalse(os.path.exists(os.path.join(self._refs.path, 'HEAD')))
 
     def test_remove_if_equals_symref(self):
         # HEAD is a symref, so shouldn't equal its dereferenced value
         self.assertFalse(self._refs.remove_if_equals(
-          b'HEAD', b'42d06bd4b77fed026b154d16493e5deab78f02ec'))
+          b'HEAD', Sha1Sum('42d06bd4b77fed026b154d16493e5deab78f02ec')))
         self.assertTrue(self._refs.remove_if_equals(
-          b'refs/heads/master', b'42d06bd4b77fed026b154d16493e5deab78f02ec'))
+          b'refs/heads/master', Sha1Sum('42d06bd4b77fed026b154d16493e5deab78f02ec')))
         self.assertRaises(KeyError, lambda: self._refs[b'refs/heads/master'])
 
         # HEAD is now a broken symref
@@ -867,20 +878,20 @@ class DiskRefsContainerTests(RefsContainerTests, TestCase):
         self._repo = Repo(self._repo.path)
         refs = self._repo.refs
         self.assertTrue(refs.remove_if_equals(
-          b'refs/heads/packed', b'42d06bd4b77fed026b154d16493e5deab78f02ec'))
+          b'refs/heads/packed', Sha1Sum('42d06bd4b77fed026b154d16493e5deab78f02ec')))
 
     def test_remove_if_equals_packed(self):
         # test removing ref that is only packed
-        self.assertEqual(b'df6800012397fb85c56e7418dd4eb9405dee075c',
+        self.assertEqual(Sha1Sum('df6800012397fb85c56e7418dd4eb9405dee075c'),
                          self._refs[b'refs/tags/refs-0.1'])
         self.assertTrue(
           self._refs.remove_if_equals(b'refs/tags/refs-0.1',
-          b'df6800012397fb85c56e7418dd4eb9405dee075c'))
+          Sha1Sum('df6800012397fb85c56e7418dd4eb9405dee075c')))
         self.assertRaises(KeyError, lambda: self._refs[b'refs/tags/refs-0.1'])
 
     def test_read_ref(self):
-        self.assertEqual(b'ref: refs/heads/master', self._refs.read_ref(b"HEAD"))
-        self.assertEqual(b'42d06bd4b77fed026b154d16493e5deab78f02ec',
+        self.assertEqual(b'ref: refs/heads/master', self._refs.read_ref(b'HEAD'))
+        self.assertEqual(Sha1Sum('42d06bd4b77fed026b154d16493e5deab78f02ec'),
             self._refs.read_ref(b"refs/heads/packed"))
         self.assertEqual(None,
             self._refs.read_ref(b"nonexistant"))

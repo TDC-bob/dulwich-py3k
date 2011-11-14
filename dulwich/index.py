@@ -95,7 +95,7 @@ def read_cache_entry(f):
     mtime = read_cache_time(f)
     (dev, ino, mode, uid, gid, size, sha, flags, ) = \
         struct.unpack(">LLLLLL20sH", f.read(20 + 4 * 6 + 2))
-    name = f.read((flags & 0x0fff))
+    name = f.read((flags & 0x0fff)).decode('utf-8')
     # Padding:
     real_size = ((f.tell() - beginoffset + 8) & ~7)
     data = f.read((beginoffset + real_size) - f.tell())
@@ -216,6 +216,7 @@ class Index(object):
         """Number of entries in this index file."""
         return len(self._byname)
 
+    @enforce_type(name=str)
     def __getitem__(self, name):
         """Retrieve entry by relative path.
         
@@ -227,10 +228,12 @@ class Index(object):
         """Iterate over the paths in this index."""
         return iter(self._byname)
 
+    @enforce_type(path=str)
     def get_sha1(self, path):
         """Return the (Sha1Sum object) SHA1 for the object at a path."""
         return self[path][-2]
 
+    @enforce_type(path=str)
     def get_mode(self, path):
         """Return the POSIX file mode for the object at a path."""
         return self[path][-6]
@@ -245,14 +248,13 @@ class Index(object):
         """Remove all contents from this index."""
         self._byname = {}
 
-    @wrap3kstr(name=STRING)
+    @enforce_type(name=str, x=tuple)
     def __setitem__(self, name, x):
-        assert isinstance(name, str)
         assert len(x) == 10
         # Remove the old entry if any
         self._byname[name] = x
 
-    @wrap3kstr(name=STRING)
+    @enforce_type(name=str)
     def __delitem__(self, name):
         assert isinstance(name, str)
         del self._byname[name]
@@ -317,10 +319,12 @@ def commit_tree(object_store, blobs):
         return newtree
 
     for path, sha, mode in blobs:
+        path = path.encode('utf-8')
         tree_path, basename = pathsplit(path)
         tree = add_tree(tree_path)
         tree[basename] = (mode, sha)
 
+    @enforce_type(path=bytes)
     def build_tree(path):
         tree = Tree()
         for basename, entry in trees[path].items():
