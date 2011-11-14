@@ -33,7 +33,29 @@ from dulwich.objects import (
     S_ISGITLINK,
     )
 
+from dulwich.sha1 import Sha1Sum
 from dulwich.py3k import *
+
+def _make_writer(f):
+    if hasattr(f, 'encoding'):
+        # It's probably a string writer
+        def _writer(s):
+            if isinstance(s, bytes):
+                f.write(s.decode('utf-8'))
+            elif isinstance(s, str):
+                f.write(s)
+            else:
+                raise TypeError('only strings and bytes supported')
+    else:
+        # It's probably a bytes writer
+        def _writer(s):
+            if isinstance(s, bytes):
+                f.write(s)
+            elif isinstance(s, str):
+                f.write(s.encode('utf-8'))
+            else:
+                raise TypeError('only strings and bytes supported')
+    return _writer
 
 def write_commit_patch(f, commit, contents, progress, version=None):
     """Write a individual file patch.
@@ -43,29 +65,31 @@ def write_commit_patch(f, commit, contents, progress, version=None):
     :return: tuple with filename and contents
     """
     (num, total) = progress
-    f.write("From %s %s\n" % (convert3kstr(commit.id, STRING), time.ctime(commit.commit_time)))
-    f.write("From: %s\n" % commit.author)
-    f.write("Date: %s\n" % time.strftime("%a, %d %b %Y %H:%M:%S %Z"))
-    f.write("Subject: [PATCH %d/%d] %s\n" % (num, total, commit.message))
-    f.write("\n")
-    f.write("---\n")
+    write = _make_writer(f)
+
+    write('From ' + str(commit.id) + ' ' + time.ctime(commit.commit_time) + '\n')
+    write('From: ' + commit.author + '\n')
+    write('Date: ' + time.strftime("%a, %d %b %Y %H:%M:%S %Z") + '\n')
+    write('Subject: [PATCH ' + str(num) + '/' + str(total) + '] ' + commit.message + '\n')
+    write('\n')
+    write('---\n')
     try:
         import subprocess
-        p = subprocess.Popen(["diffstat"], stdout=subprocess.PIPE,
+        p = subprocess.Popen(['diffstat'], stdout=subprocess.PIPE,
                              stdin=subprocess.PIPE)
     except (ImportError, OSError) as e:
         pass # diffstat not available?
     else:
         (diffstat, _) = p.communicate(contents)
-        f.write(diffstat)
-        f.write("\n")
-    f.write(contents)
-    f.write("-- \n")
+        write(diffstat)
+        write('\n')
+    write(contents)
+    write('-- \n')
     if version is None:
         from dulwich import __version__ as dulwich_version
-        f.write("Dulwich %d.%d.%d\n" % dulwich_version)
+        write('Dulwich %d.%d.%d\n' % dulwich_version)
     else:
-        f.write("%s\n" % version)
+        write('%s\n' % version)
 
 
 def get_summary(commit):
@@ -121,21 +145,25 @@ def write_object_diff(f, store, old_tuple, new_tuple):
     (old_path, old_mode, old_id) = old_tuple
     (new_path, new_mode, new_id) = new_tuple
 
-    binary = not hasattr(f, 'encoding')
+    if isinstance(old_path, bytes):
+        old_path = old_path.decode('utf-8')
+    if isinstance(new_path, bytes):
+        new_path = new_path.decode('utf-8')
 
-    @wrap3kstr(returns=STRING)
-    def shortid(hexsha):
-        if hexsha is None:
+    write = _make_writer(f)
+
+    def shortid(sha):
+        if sha is None:
             return "0" * 7
         else:
-            return hexsha[:7]
-    def lines(mode, hexsha):
-        if hexsha is None:
+            return str(sha)[:7]
+    def lines(mode, sha):
+        if sha is None:
             return []
         elif S_ISGITLINK(mode):
-            return ["Submodule commit " + convert3kstr(hexsha, STRING) + "\n"]
+            return ["Submodule commit " + str(sha) + "\n"]
         else:
-            return store[hexsha].data.splitlines(True)
+            return store[sha].data.splitlines(True)
     if old_path is None:
         old_path = "/dev/null"
     else:
@@ -144,46 +172,23 @@ def write_object_diff(f, store, old_tuple, new_tuple):
         new_path = "/dev/null"
     else:
         new_path = "b/%s" % new_path
-    cmd = "diff --git %s %s\n" % (old_path, new_path)
-    if binary:
-        cmd = cmd.encode()
-    f.write(cmd)
+    write("diff --git %s %s\n" % (old_path, new_path))
     if old_mode != new_mode:
         if new_mode is not None:
             if old_mode is not None:
-                line = "old mode %o\n" % old_mode
-                if binary:
-                    line = line.encode()
-                f.write(line)
-            line = "new mode %o\n" % new_mode
-            if binary:
-                line = line.encode()
-            f.write(line)
+                write("old mode %o\n" % old_mode)
+            write("new mode %o\n" % new_mode)
         else:
-            line = "deleted mode %o\n" % old_mode
-            if binary:
-                line = line.encode()
-            f.write(line)
-
-    line = "index %s..%s" % (shortid(old_id), shortid(new_id))
-    if binary:
-        line = line.encode()
-    f.write(line)
+            write("deleted mode %o\n" % old_mode)
+    write("index %s..%s" % (shortid(old_id), shortid(new_id)))
     if new_mode is not None:
-        line = " %o" % new_mode
-        if binary:
-            line = line.encode()
-        f.write(line)
-    line = '\n'
-    if binary:
-        line = line.encode()
-    f.write(line)
+        write(" %o" % new_mode)
+    write('\n')
     old_contents = lines(old_mode, old_id)
     new_contents = lines(new_mode, new_id)
     for line in unified_diff(old_contents, new_contents, old_path, new_path):
-        if binary:
-            line = line.encode()
-        f.write(line)
+        write(line)
+
 
 def write_blob_diff(f, old_tuple, new_tuple):
     """Write diff file header.
@@ -198,12 +203,18 @@ def write_blob_diff(f, old_tuple, new_tuple):
     (old_path, old_mode, old_blob) = old_tuple
     (new_path, new_mode, new_blob) = new_tuple
 
-    @wrap3kstr(returns=STRING)
+    if isinstance(old_path, bytes):
+        old_path = old_path.decode('utf-8')
+    if isinstance(new_path, bytes):
+        new_path = new_path.decode('utf-8')
+
+    write = _make_writer(f)
+
     def blob_id(blob):
         if blob is None:
             return "0" * 7
         else:
-            return blob.id[:7]
+            return str(blob.id)[:7]
     def lines(blob):
         if blob is not None:
             return blob.data.splitlines(True)
@@ -217,22 +228,22 @@ def write_blob_diff(f, old_tuple, new_tuple):
         new_path = "/dev/null"
     else:
         new_path = "b/%s" % new_path
-    f.write(("diff --git %s %s\n" % (old_path, new_path)).encode())
+    write("diff --git %s %s\n" % (old_path, new_path))
     if old_mode != new_mode:
         if new_mode is not None:
             if old_mode is not None:
-                f.write("old mode %o\n" % old_mode)
-            f.write(("new mode %o\n" % new_mode).encode())
+                write("old mode %o\n" % old_mode)
+            write("new mode %o\n" % new_mode)
         else:
-            f.write(("deleted mode %o\n" % old_mode).encode())
-    f.write(("index %s..%s" % (blob_id(old_blob), blob_id(new_blob))).encode())
+            write("deleted mode %o\n" % old_mode)
+    write("index %s..%s" % (blob_id(old_blob), blob_id(new_blob)))
     if new_mode is not None:
-        f.write((" %o" % new_mode).encode())
-    f.write(("\n").encode())
+        write(" %o" % new_mode)
+    write("\n")
     old_contents = lines(old_blob)
     new_contents = lines(new_blob)
     for line in unified_diff(old_contents, new_contents, old_path, new_path):
-        f.write(line.encode())
+        write(line)
 
 def write_tree_diff(f, store, old_tree, new_tree):
     """Write tree diff.

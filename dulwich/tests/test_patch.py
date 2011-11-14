@@ -40,7 +40,7 @@ from dulwich.tests import (
     SkipTest,
     TestCase,
     )
-
+from dulwich.sha1 import Sha1Sum
 
 class WriteCommitPatchTests(TestCase):
 
@@ -252,19 +252,19 @@ class DiffTests(TestCase):
     def test_tree_diff(self):
         f = BytesIO()
         store = MemoryObjectStore()
-        added = Blob.from_string("add\n")
-        removed = Blob.from_string("removed\n")
-        changed1 = Blob.from_string("unchanged\nremoved\n")
-        changed2 = Blob.from_string("unchanged\nadded\n")
-        unchanged = Blob.from_string("unchanged\n")
+        added = Blob.from_string(b"add\n")
+        removed = Blob.from_string(b"removed\n")
+        changed1 = Blob.from_string(b"unchanged\nremoved\n")
+        changed2 = Blob.from_string(b"unchanged\nadded\n")
+        unchanged = Blob.from_string(b"unchanged\n")
         tree1 = Tree()
-        tree1.add("removed.txt", 0o644, removed.id)
-        tree1.add("changed.txt", 0o644, changed1.id)
-        tree1.add("unchanged.txt", 0o644, changed1.id)
+        tree1.add(b"removed.txt", 0o644, removed.id)
+        tree1.add(b"changed.txt", 0o644, changed1.id)
+        tree1.add(b"unchanged.txt", 0o644, changed1.id)
         tree2 = Tree()
-        tree2.add("added.txt", 0o644, added.id)
-        tree2.add("changed.txt", 0o644, changed2.id)
-        tree2.add("unchanged.txt", 0o644, changed1.id)
+        tree2.add(b"added.txt", 0o644, added.id)
+        tree2.add(b"changed.txt", 0o644, changed2.id)
+        tree2.add(b"unchanged.txt", 0o644, changed1.id)
         store.add_objects([(o, None) for o in [
             tree1, tree2, added, removed, changed1, changed2, unchanged]])
         write_tree_diff(f, store, tree1.id, tree2.id)
@@ -297,11 +297,11 @@ class DiffTests(TestCase):
         f = BytesIO()
         store = MemoryObjectStore()
         tree1 = Tree()
-        tree1.add("asubmodule", S_IFGITLINK,
-            "06d0bdd9e2e20377b3180e4986b14c8549b393e4")
+        tree1.add(b"asubmodule", S_IFGITLINK,
+            Sha1Sum("06d0bdd9e2e20377b3180e4986b14c8549b393e4"))
         tree2 = Tree()
-        tree2.add("asubmodule", S_IFGITLINK,
-            "cc975646af69f279396d4d5e1379ac6af80ee637")
+        tree2.add(b"asubmodule", S_IFGITLINK,
+            Sha1Sum("cc975646af69f279396d4d5e1379ac6af80ee637"))
         store.add_objects([(o, None) for o in [tree1, tree2]])
         write_tree_diff(f, store, tree1.id, tree2.id)
         self.assertEqual([
@@ -316,8 +316,8 @@ class DiffTests(TestCase):
 
     def test_object_diff_blob(self):
         f = BytesIO()
-        b1 = Blob.from_string("old\nsame\n")
-        b2 = Blob.from_string("new\nsame\n")
+        b1 = Blob.from_string(b"old\nsame\n")
+        b2 = Blob.from_string(b"new\nsame\n")
         store = MemoryObjectStore()
         store.add_objects([(b1, None), (b2, None)])
         write_object_diff(f, store, ("foo.txt", 0o644, b1.id),
@@ -336,7 +336,7 @@ class DiffTests(TestCase):
     def test_object_diff_add_blob(self):
         f = BytesIO()
         store = MemoryObjectStore()
-        b2 = Blob.from_string("new\nsame\n")
+        b2 = Blob.from_string(b"new\nsame\n")
         store.add_object(b2)
         write_object_diff(f, store, (None, None, None),
                                     ("bar.txt", 0o644, b2.id))
@@ -353,7 +353,7 @@ class DiffTests(TestCase):
 
     def test_object_diff_remove_blob(self):
         f = BytesIO()
-        b1 = Blob.from_string("new\nsame\n")
+        b1 = Blob.from_string(b"new\nsame\n")
         store = MemoryObjectStore()
         store.add_object(b1)
         write_object_diff(f, store, ("bar.txt", 0o644, b1.id),
@@ -371,7 +371,7 @@ class DiffTests(TestCase):
 
     def test_object_diff_kind_change(self):
         f = BytesIO()
-        b1 = Blob.from_string("new\nsame\n")
+        b1 = Blob.from_string(b"new\nsame\n")
         store = MemoryObjectStore()
         store.add_object(b1)
         write_object_diff(f, store, ("bar.txt", 0o644, b1.id),

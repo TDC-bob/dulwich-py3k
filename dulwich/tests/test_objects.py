@@ -265,9 +265,9 @@ class ShaFileTests(TestCase):
 class CommitSerializationTests(TestCase):
 
     def make_commit(self, **kwargs):
-        attrs = {'tree': b'd80c186a03f423a81b39df39dc87fd269736ca86',
-                 'parents': [b'ab64bbdcc51b170d21588e5c5d391ee5c0c96dfd',
-                             b'4cffe90e0a41ad3f5190079d7c8f036bde29cbe6'],
+        attrs = {'tree': Sha1Sum('d80c186a03f423a81b39df39dc87fd269736ca86'),
+                 'parents': [Sha1Sum('ab64bbdcc51b170d21588e5c5d391ee5c0c96dfd'),
+                             Sha1Sum('4cffe90e0a41ad3f5190079d7c8f036bde29cbe6')],
                  'author': 'James Westby <jw+debian@jameswestby.net>',
                  'committer': 'James Westby <jw+debian@jameswestby.net>',
                  'commit_time': 1174773719,

@@ -1034,9 +1034,9 @@ class Commit(ShaFile):
         for field, value in parse_commit(b''.join(self._chunked_text)):
             fieldname = convert3kstr(field, STRING)
             if fieldname == _TREE_HEADER:
-                self._tree = value
+                self._tree = Sha1Sum(value)
             elif fieldname == _PARENT_HEADER:
-                self._parents.append(value)
+                self._parents.append(Sha1Sum(value))
             elif fieldname == _AUTHOR_HEADER:
                 self._author, timetext, timezonetext = convert3kstr(value, STRING).rsplit(" ", 2)
                 self._author_time = int(timetext)
@@ -1093,9 +1093,9 @@ class Commit(ShaFile):
 
     def _serialize(self):
         chunks = []
-        chunks.append(convert3kstr(_TREE_HEADER, BYTES) + b' ' + self._tree + b'\n')
+        chunks.append(convert3kstr(_TREE_HEADER, BYTES) + b' ' + self._tree.hex_bytes + b'\n')
         for p in self._parents:
-            chunks.append(convert3kstr(_PARENT_HEADER, BYTES) + b' ' + convert3kstr(p, BYTES) + b'\n')
+            chunks.append(convert3kstr(_PARENT_HEADER, BYTES) + b' ' + p.hex_bytes + b'\n')
         chunks.append(convert3kstr(_AUTHOR_HEADER, BYTES) + b' ' +
                       convert3kstr(self._author, BYTES) + b' ' +
                       convert3kstr(str(self._author_time), BYTES) + b' ' +
