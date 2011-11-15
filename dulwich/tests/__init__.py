@@ -74,7 +74,7 @@ def self_test_suite():
         'index',
         'lru_cache',
         'objects',
-        #'object_store',
+        'object_store',
         'pack',
         'patch',
         'protocol',

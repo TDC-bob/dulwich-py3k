@@ -111,9 +111,9 @@ class ObjectStoreTests(object):
         for blob in [blob_a1, blob_a2, blob_b]:
             self.store.add_object(blob)
 
-        blobs_1 = [(b'a', blob_a1.id, 0o100644), (b'b', blob_b.id, 0o100644)]
+        blobs_1 = [('a', blob_a1.id, 0o100644), ('b', blob_b.id, 0o100644)]
         tree1_id = commit_tree(self.store, blobs_1)
-        blobs_2 = [(b'a', blob_a2.id, 0o100644), (b'b', blob_b.id, 0o100644)]
+        blobs_2 = [('a', blob_a2.id, 0o100644), ('b', blob_b.id, 0o100644)]
         tree2_id = commit_tree(self.store, blobs_2)
         change_a = ((b'a', b'a'), (0o100644, 0o100644), (blob_a1.id, blob_a2.id))
         self.assertEqual([change_a],
@@ -131,14 +131,14 @@ class ObjectStoreTests(object):
             self.store.add_object(blob)
 
         blobs = [
-          (b'a', blob_a.id, 0o100644),
-          (b'ad/b', blob_b.id, 0o100644),
-          (b'ad/bd/c', blob_c.id, 0o100755),
-          (b'ad/c', blob_c.id, 0o100644),
-          (b'c', blob_c.id, 0o100644),
+          ('a', blob_a.id, 0o100644),
+          ('ad/b', blob_b.id, 0o100644),
+          ('ad/bd/c', blob_c.id, 0o100755),
+          ('ad/c', blob_c.id, 0o100644),
+          ('c', blob_c.id, 0o100644),
           ]
         tree_id = commit_tree(self.store, blobs)
-        self.assertEqual([TreeEntry(p, m, h) for (p, h, m) in blobs],
+        self.assertEqual([TreeEntry(p.encode('utf-8'), m, h) for (p, h, m) in blobs],
                           list(self.store.iter_tree_contents(tree_id)))
 
     def test_iter_tree_contents_include_trees(self):
@@ -149,9 +149,9 @@ class ObjectStoreTests(object):
             self.store.add_object(blob)
 
         blobs = [
-          (b'a', blob_a.id, 0o100644),
-          (b'ad/b', blob_b.id, 0o100644),
-          (b'ad/bd/c', blob_c.id, 0o100755),
+          ('a', blob_a.id, 0o100644),
+          ('ad/b', blob_b.id, 0o100644),
+          ('ad/bd/c', blob_c.id, 0o100755),
           ]
         tree_id = commit_tree(self.store, blobs)
         tree = self.store[tree_id]
@@ -294,11 +294,11 @@ class TreeLookupPathTests(TestCase):
             self.store.add_object(blob)
 
         blobs = [
-          (b'a', blob_a.id, 0o100644),
-          (b'ad/b', blob_b.id, 0o100644),
-          (b'ad/bd/c', blob_c.id, 0o100755),
-          (b'ad/c', blob_c.id, 0o100644),
-          (b'c', blob_c.id, 0o100644),
+          ('a', blob_a.id, 0o100644),
+          ('ad/b', blob_b.id, 0o100644),
+          ('ad/bd/c', blob_c.id, 0o100755),
+          ('ad/c', blob_c.id, 0o100644),
+          ('c', blob_c.id, 0o100644),
           ]
         self.tree_id = commit_tree(self.store, blobs)
 
