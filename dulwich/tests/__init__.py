@@ -71,7 +71,7 @@ def self_test_suite():
         'diff_tree',
         'fastexport',
         'file',
-        #'index',
+        'index',
         'lru_cache',
         'objects',
         #'object_store',

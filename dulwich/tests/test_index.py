@@ -65,7 +65,7 @@ class SimpleIndexTestCase(IndexTestCase):
     def test_getitem(self):
         self.assertEqual(((1230680220, 0), (1230680220, 0), 2050, 3761020,
                            33188, 1000, 1000, 0,
-                           'e69de29bb2d1d6434b8b29ae775ad8c2e48c5391', 0),
+                           Sha1Sum('e69de29bb2d1d6434b8b29ae775ad8c2e48c5391'), 0),
                           self.get_simple_index("index")["bla"])
 
     def test_empty(self):
@@ -85,7 +85,7 @@ class SimpleIndexWriterTestCase(IndexTestCase):
         shutil.rmtree(self.tempdir)
 
     def test_simple_write(self):
-        entries = [(b'barbla', (1230680220, 0), (1230680220, 0), 2050, 3761020,
+        entries = [('barbla', (1230680220, 0), (1230680220, 0), 2050, 3761020,
                     33188, 1000, 1000, 0,
                     Sha1Sum('e69de29bb2d1d6434b8b29ae775ad8c2e48c5391'), 0)]
         filename = os.path.join(self.tempdir, 'test-simple-write-index')
@@ -105,9 +105,9 @@ class CommitTreeTests(TestCase):
         blob = Blob()
         blob.data = b'foo'
         self.store.add_object(blob)
-        blobs = [(b"bla", blob.id, stat.S_IFREG)]
+        blobs = [("bla", blob.id, stat.S_IFREG)]
         rootid = commit_tree(self.store, blobs)
-        self.assertEqual(rootid, b"1a1e80437220f9312e855c37ac4398b68e5c1d50")
+        self.assertEqual(rootid, Sha1Sum("1a1e80437220f9312e855c37ac4398b68e5c1d50"))
         self.assertEqual((stat.S_IFREG, blob.id), self.store[rootid][b"bla"])
         self.assertEqual(set([rootid, blob.id]), set(self.store._data.keys()))
 
@@ -115,11 +115,11 @@ class CommitTreeTests(TestCase):
         blob = Blob()
         blob.data = b'foo'
         self.store.add_object(blob)
-        blobs = [(b"bla/bar", blob.id, stat.S_IFREG)]
+        blobs = [("bla/bar", blob.id, stat.S_IFREG)]
         rootid = commit_tree(self.store, blobs)
-        self.assertEqual(rootid, b"d92b959b216ad0d044671981196781b3258fa537")
+        self.assertEqual(rootid, Sha1Sum("d92b959b216ad0d044671981196781b3258fa537"))
         dirid = self.store[rootid][b"bla"][1]
-        self.assertEqual(dirid, b"c1a1deb9788150829579a8b4efa6311e7b638650")
+        self.assertEqual(dirid, Sha1Sum("c1a1deb9788150829579a8b4efa6311e7b638650"))
         self.assertEqual((stat.S_IFDIR, dirid), self.store[rootid][b"bla"])
         self.assertEqual((stat.S_IFREG, blob.id), self.store[dirid][b"bar"])
         self.assertEqual(set([rootid, dirid, blob.id]),
