@@ -66,6 +66,16 @@ from dulwich.py3k import *
 
 logger = log_utils.getLogger(__name__)
 
+def _force_bytes(text):
+    if isinstance(text, Sha1Sum):
+        return text.hex_bytes
+    elif isinstance(text, str):
+        return sha.encode('utf-8')
+    elif isinstance(text, bytes):
+        return text
+    else:
+        raise TypeError(text)
+
 
 class Backend(object):
     """A backend for the Git smart server implementation."""
@@ -324,9 +334,9 @@ def _split_proto_line(line, allowed):
         if len(fields) == 1 and command in (b'done', None):
             return (command, None)
         elif len(fields) == 2 and command in (b'want', b'have'):
-            hex_to_sha(fields[1])
+            fields[1] = Sha1Sum(fields[1])
             return tuple(fields)
-    except (TypeError, AssertionError) as e:
+    except (TypeError, AssertionError, ObjectFormatException) as e:
         raise GitProtocolError(e)
     raise GitProtocolError('Received invalid line from client: %s' % convert3kstr(line, STRING))
 
@@ -375,13 +385,13 @@ class ProtocolGraphWalker(object):
         values = set(heads.values())
         if self.advertise_refs or not self.http_req:
             for i, (ref, sha) in enumerate(sorted(heads.items())):
-                line = sha + b' ' + ref
+                line = sha.hex_bytes + b' ' + ref
                 if not i:
                     line = line + b'\x00' + self.handler.capability_line()
                 self.proto.write_pkt_line(line + b'\n')
                 peeled_sha = self.get_peeled(ref)
                 if peeled_sha != sha:
-                    self.proto.write_pkt_line(peeled_sha + b' ' +
+                    self.proto.write_pkt_line(peeled_sha.hex_bytes + b' ' +
                                               ref + b'^{}\n')
 
             # i'm done..
@@ -699,11 +709,12 @@ class ReceivePackHandler(Handler):
 
         if self.advertise_refs or not self.http_req:
             if refs:
+                refs[0] = [refs[0][0], _force_bytes(refs[0][1])]
                 self.proto.write_pkt_line(
                   refs[0][1] + b' ' + refs[0][0] + b'\x00' +
                   self.capability_line() + b'\n')
                 for i in range(1, len(refs)):
-                    ref = refs[i]
+                    ref = [refs[i][0], _force_bytes(refs[i][1])]
                     self.proto.write_pkt_line(ref[1] + b' ' + ref[0] + b'\n')
             else:
                 self.proto.write_pkt_line(ZERO_SHA + b' capabilities^{}\0' +
