@@ -249,7 +249,6 @@ class Walker(object):
         self._queue = queue_cls(self)
         self._out_queue = collections.deque()
 
-    @wrap3kstr(changed_path=BYTES)
     def _path_matches(self, changed_path):
         if changed_path is None:
             return False
@@ -257,11 +256,10 @@ class Walker(object):
             if changed_path == followed_path:
                 return True
             if (changed_path.startswith(followed_path) and
-                changed_path[len(followed_path)] == b'/'):
+                changed_path[len(followed_path)] == b'/'[0]):
                 return True
         return False
 
-    @wrap3kstr(change=BYTES)
     def _change_matches(self, change):
         old_path = change.old.path
         new_path = change.new.path

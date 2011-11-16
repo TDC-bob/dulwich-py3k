@@ -123,7 +123,7 @@ class WalkerTest(TestCase):
         del self.store[cs[-1].id]
         for i in range(1, 11):
             self.assertWalkYields(cs[:i], [cs[0].id], max_entries=i)
-        self.assertRaises(MissingCommitError, Walker, self.store, [cs[0].id])
+        self.assertRaises(MissingCommitError, lambda: list(Walker(self.store, [cs[0].id])))
 
     def test_branch(self):
         c1, x2, x3, y4 = self.make_commits([[1], [2, 1], [3, 2], [4, 1]])
@@ -190,7 +190,7 @@ class WalkerTest(TestCase):
                               exclude=[c1.id, c2.id])
 
     def test_path_matches(self):
-        walker = Walker(None, [], paths=['foo', 'bar', 'baz/quux'])
+        walker = Walker(None, [], paths=[b'foo', b'bar', b'baz/quux'])
         self.assertTrue(walker._path_matches(b'foo'))
         self.assertTrue(walker._path_matches(b'foo/a'))
         self.assertTrue(walker._path_matches(b'foo/a/b'))

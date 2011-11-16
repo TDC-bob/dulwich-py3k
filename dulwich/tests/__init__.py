@@ -80,7 +80,7 @@ def self_test_suite():
         'protocol',
         'repository',
         'server',
-        #'walk',
+        'walk',
         #'web',
         ]
     module_names = ['dulwich.tests.test_' + name for name in names]
