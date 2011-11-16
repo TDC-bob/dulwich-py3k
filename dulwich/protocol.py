@@ -106,13 +106,35 @@ class Protocol(object):
             None for a flush-pkt ('0000').
         """
         if self._readahead is None:
-            read = self.read
+            read = [self.read]
         else:
-            read = self._readahead.read
+            read = [self._readahead.read]
             self._readahead = None
 
+        # Every now and then the readahead doesn't fill all the way up and things get
+        # split up strangely. This closure automatically switches from the readahead
+        # to the real read in this case.
+        def _do_read(size):
+            remaining = size
+            with BytesIO() as buf:
+                while remaining > 0:
+                    part = read[0](remaining)
+                    plen = len(part)
+                    if plen == 0:
+                        if self._readahead is not None and read[0] == self._readahead.read:
+                            read[0] = self.read
+                            continue
+                        else:
+                            return None
+                    if isinstance(part, str):
+                        part = part.encode('utf-8')
+                    buf.write(part)
+                    remaining -= plen
+                buf.seek(0)
+                return buf.read()
+
         try:
-            sizestr = read(4)
+            sizestr = _do_read(4)
             if not sizestr:
                 raise HangupException()
             size = int(sizestr, 16)
@@ -122,7 +144,7 @@ class Protocol(object):
                 return None
             if self.report_activity:
                 self.report_activity(size, 'read')
-            return read(size-4)
+            return _do_read(size-4)
         except socket.error as e:
             raise GitProtocolError(e)
 
