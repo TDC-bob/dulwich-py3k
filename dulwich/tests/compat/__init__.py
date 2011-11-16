@@ -25,7 +25,7 @@ def test_suite():
     names = [
         'client',
         'pack',
-        #'repository',
+        'repository',
         #'server',
         #'utils',
         #'web',

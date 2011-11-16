@@ -36,7 +36,7 @@ from dulwich.tests.compat.utils import (
     import_repo,
     CompatTestCase,
     )
-
+from dulwich.sha1 import Sha1Sum
 
 class ObjectStoreTestCase(CompatTestCase):
     """Tests for git repository compatibility."""
@@ -56,12 +56,11 @@ class ObjectStoreTestCase(CompatTestCase):
             self.assertEqual(3, len(fields))
             refname, type_name, sha = fields
             check_ref_format(refname[5:])
-            hex_to_sha(sha)
-            refs[refname] = (type_name.decode('utf-8'), sha)
+            refs[refname] = (type_name.decode('utf-8'), Sha1Sum(sha))
         return refs
 
     def _parse_objects(self, output):
-        return set(s.rstrip(b'\n').split(b' ')[0] for s in BytesIO(output))
+        return set(Sha1Sum(s.rstrip(b'\n').split(b' ')[0]) for s in BytesIO(output))
 
     def test_bare(self):
         self.assertTrue(self._repo.bare)
@@ -70,8 +69,7 @@ class ObjectStoreTestCase(CompatTestCase):
     def test_head(self):
         output = self._run_git(['rev-parse', 'HEAD'])
         head_sha = output.rstrip(b'\n')
-        hex_to_sha(head_sha)
-        self.assertEqual(head_sha, self._repo.refs['HEAD'])
+        self.assertEqual(Sha1Sum(head_sha), self._repo.refs[b'HEAD'])
 
     def test_refs(self):
         output = self._run_git(
