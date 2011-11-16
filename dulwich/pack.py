@@ -30,10 +30,7 @@ match for the object name. You then use the pointer got from this as
 a pointer in to the corresponding packfile.
 """
 
-try:
-    from collections import defaultdict
-except ImportError:
-    from dulwich._compat import defaultdict
+from collections import defaultdict
 
 import binascii
 from io import (
@@ -1335,7 +1332,7 @@ class SHA1Reader(object):
 
     def __init__(self, f):
         self.f = f
-        self.sha1 = make_sha('')
+        self.sha1 = make_sha(b'')
 
     def read(self, num=None):
         data = self.f.read(num)
@@ -1366,7 +1363,7 @@ class SHA1Writer(object):
     def __init__(self, f):
         self.f = f
         self.length = 0
-        self.sha1 = make_sha('')
+        self.sha1 = make_sha(b'')
 
     @enforce_type(data=bytes)
     def write(self, data):

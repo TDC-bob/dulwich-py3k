@@ -26,10 +26,6 @@
 typedef unsigned short mode_t;
 #endif
 
-#if (PY_VERSION_HEX < 0x02060000)
-#define Py_SIZE(ob)             (((PyVarObject*)(ob))->ob_size)
-#endif
-
 #ifndef MIN
 #define MIN(a,b) ((a)>(b)?(b):(a))
 #endif

@@ -249,16 +249,16 @@ class TestPackData(PackTests):
 
     def test_compute_file_sha(self):
         with BytesIO(b'abcd1234wxyz') as f:
-            self.assertEqual(make_sha('abcd1234wxyz').hexdigest(),
+            self.assertEqual(make_sha(b'abcd1234wxyz').hexdigest(),
                              compute_file_sha(f).hexdigest())
-            self.assertEqual(make_sha('abcd1234wxyz').hexdigest(),
+            self.assertEqual(make_sha(b'abcd1234wxyz').hexdigest(),
                              compute_file_sha(f, buffer_size=5).hexdigest())
-            self.assertEqual(make_sha('abcd1234').hexdigest(),
+            self.assertEqual(make_sha(b'abcd1234').hexdigest(),
                              compute_file_sha(f, end_ofs=-4).hexdigest())
-            self.assertEqual(make_sha('1234wxyz').hexdigest(),
+            self.assertEqual(make_sha(b'1234wxyz').hexdigest(),
                              compute_file_sha(f, start_ofs=4).hexdigest())
             self.assertEqual(
-              make_sha('1234').hexdigest(),
+              make_sha(b'1234').hexdigest(),
               compute_file_sha(f, start_ofs=4, end_ofs=-4).hexdigest())
 
 
