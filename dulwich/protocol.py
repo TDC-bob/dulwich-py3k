@@ -30,11 +30,12 @@ from dulwich._compat import (
     SEEK_END,
     )
 
+from dulwich.sha1 import Sha1Sum
 from dulwich.py3k import *
 
 TCP_GIT_PORT = 9418
 
-ZERO_SHA = b"0" * 40
+ZERO_SHA = Sha1Sum("0" * 40)
 
 SINGLE_ACK = 0
 MULTI_ACK = 1

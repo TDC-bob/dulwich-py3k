@@ -659,6 +659,10 @@ class ReceivePackHandler(Handler):
             # objects. We trust a later GC to clean it up.
 
         for oldsha, sha, ref in refs:
+            assert isinstance(oldsha, Sha1Sum)
+            assert isinstance(sha, Sha1Sum)
+            assert isinstance(ref, bytes)
+
             ref_status = b'ok'
             try:
                 if sha == ZERO_SHA:
@@ -717,7 +721,7 @@ class ReceivePackHandler(Handler):
                     ref = [refs[i][0], _force_bytes(refs[i][1])]
                     self.proto.write_pkt_line(ref[1] + b' ' + ref[0] + b'\n')
             else:
-                self.proto.write_pkt_line(ZERO_SHA + b' capabilities^{}\0' +
+                self.proto.write_pkt_line(ZERO_SHA.hex_bytes + b' capabilities^{}\0' +
                   self.capability_line())
 
             self.proto.write(b"0000")

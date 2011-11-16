@@ -45,7 +45,7 @@ from dulwich.protocol import (
 from dulwich.pack import (
     write_pack_objects,
     )
-
+from dulwich.sha1 import Sha1Sum
 from dulwich.py3k import *
 
 # Python 2.6.6 included these in urlparse.uses_netloc upstream. Do
@@ -149,11 +149,11 @@ class GitClient(object):
         # Receive refs from server
         for pkt in proto.read_pkt_seq():
             (sha, ref) = pkt.rstrip(b'\n').split(b' ', 1)
-            if sha == 'ERR':
+            if sha == b'ERR':
                 raise GitProtocolError(ref)
             if server_capabilities is None:
                 (ref, server_capabilities) = extract_capabilities(ref)
-            refs[ref] = sha
+            refs[ref] = Sha1Sum(sha)
         return refs, server_capabilities
 
     def send_pack(self, path, determine_wants, generate_pack_contents,
@@ -281,10 +281,10 @@ class GitClient(object):
             if old_sha1 != new_sha1:
                 if sent_capabilities:
                     proto.write_pkt_line(
-                      old_sha1 + b' ' + new_sha1 + b' ' + convert3kstr(refname, BYTES))
+                      old_sha1.hex_bytes + b' ' + new_sha1.hex_bytes + b' ' + refname)
                 else:
                     proto.write_pkt_line(
-                      old_sha1 + b' ' + new_sha1 + b' ' + convert3kstr(refname, BYTES) + \
+                      old_sha1.hex_bytes + b' ' + new_sha1.hex_bytes + b' ' + refname + \
                       b'\0' + b' '.join(capabilities))
 
                     sent_capabilities = True
@@ -334,15 +334,16 @@ class GitClient(object):
             whether there is extra graph data to read on proto
         """
 
-        assert isinstance(wants, list) and type(wants[0]) == bytes
-        proto.write_pkt_line(b'want ' + wants[0] + b' ' +
+        assert isinstance(wants, list) and type(wants[0]) == Sha1Sum
+        proto.write_pkt_line(b'want ' + wants[0].hex_bytes + b' ' +
                              b' '.join(capabilities) + b'\n')
         for want in wants[1:]:
-            proto.write_pkt_line(b'want ' + want + b'\n')
+            proto.write_pkt_line(b'want ' + want.hex_bytes + b'\n')
         proto.write_pkt_line(None)
         have = next(graph_walker)
         while have:
-            proto.write_pkt_line(b'have ' + have + b'\n')
+            assert isinstance(have, Sha1Sum)
+            proto.write_pkt_line(b'have ' + have.hex_bytes + b'\n')
             if can_read():
                 pkt = proto.read_pkt_line()
                 parts = pkt.rstrip(b'\n').split(b' ')

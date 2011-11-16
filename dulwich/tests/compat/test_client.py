@@ -54,6 +54,7 @@ from dulwich.tests.compat.server_utils import (
     ShutdownServerMixIn,
     )
 
+from dulwich.sha1 import Sha1Sum
 
 class DulwichClientTestBase(object):
     """Tests for client/server compatibility."""
@@ -109,7 +110,7 @@ class DulwichClientTestBase(object):
             self.assertDestEqualsSrc()
 
     def make_dummy_commit(self, dest):
-        b = objects.Blob.from_string('hi')
+        b = objects.Blob.from_string(b'hi')
         dest.object_store.add_object(b)
         t = index.commit_tree(dest.object_store, [('hi', b.id, 0o100644)])
         c = objects.Commit()
@@ -154,7 +155,7 @@ class DulwichClientTestBase(object):
     def test_send_pack_multiple_errors(self):
         dest, dummy = self.disable_ff_and_make_dummy_commit()
         # set up for two non-ff errors
-        dest.refs['refs/heads/branch'] = dest.refs['refs/heads/master'] = dummy
+        dest.refs[b'refs/heads/branch'] = dest.refs[b'refs/heads/master'] = dummy
         sendrefs, gen_pack, close = self.compute_send()
         c = self._client()
         try:
@@ -191,7 +192,7 @@ class DulwichClientTestBase(object):
             dest.refs[b'refs/heads/master'] = dummy_commit
             dest.refs[b'refs/heads/abranch'] = dummy_commit
             sendrefs = dict(dest.refs)
-            sendrefs[b'refs/heads/abranch'] = b"00" * 20
+            sendrefs[b'refs/heads/abranch'] = Sha1Sum("00" * 20)
             del sendrefs[b'HEAD']
             gen_pack = lambda have, want: []
             c = self._client()

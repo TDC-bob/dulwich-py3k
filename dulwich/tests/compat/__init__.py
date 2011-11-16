@@ -23,7 +23,7 @@ import unittest
 
 def test_suite():
     names = [
-        #'client',
+        'client',
         #'pack',
         #'repository',
         #'server',
