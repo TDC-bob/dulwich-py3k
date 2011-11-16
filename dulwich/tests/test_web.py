@@ -59,7 +59,7 @@ from dulwich.web import (
 from dulwich.tests.utils import (
     make_object,
     )
-
+from dulwich.sha1 import Sha1Sum
 from dulwich.py3k import *
 
 class TestHTTPGitRequest(HTTPGitRequest):
@@ -163,7 +163,7 @@ class DumbHandlersTestCase(WebTestCase):
         self.assertFalse(self._req.cached)
 
     def test_get_text_file(self):
-        backend = _test_backend([], named_files={'description': 'foo'})
+        backend = _test_backend([], named_files={'description': b'foo'})
         mat = re.search('.*', 'description')
         output = b''.join(get_text_file(self._req, backend, mat))
         self.assertEqual(b'foo', output)
@@ -172,9 +172,9 @@ class DumbHandlersTestCase(WebTestCase):
         self.assertFalse(self._req.cached)
 
     def test_get_loose_object(self):
-        blob = make_object(Blob, data='foo')
+        blob = make_object(Blob, data=b'foo')
         backend = _test_backend([blob])
-        mat = re.search('^(..)(.{38})$', convert3kstr(blob.id, STRING))
+        mat = re.search('^(..)(.{38})$', str(blob.id))
         output = b''.join(get_loose_object(self._req, backend, mat))
         self.assertEqual(blob.as_legacy_object(), output)
         self.assertEqual(HTTP_OK, self._status)
@@ -187,9 +187,9 @@ class DumbHandlersTestCase(WebTestCase):
         self.assertEqual(HTTP_NOT_FOUND, self._status)
 
     def test_get_loose_object_error(self):
-        blob = make_object(Blob, data='foo')
+        blob = make_object(Blob, data=b'foo')
         backend = _test_backend([blob])
-        mat = re.search('^(..)(.{38})$', convert3kstr(blob.id, STRING))
+        mat = re.search('^(..)(.{38})$', str(blob.id))
 
         def as_legacy_object_error():
             raise IOError
@@ -234,18 +234,18 @@ class DumbHandlersTestCase(WebTestCase):
 
         objects = [blob1, blob2, blob3, tag1]
         refs = {
-          'HEAD': '000',
-          'refs/heads/master': blob1.id,
-          'refs/tags/tag-tag': tag1.id,
-          'refs/tags/blob-tag': blob3.id,
+          b'HEAD': Sha1Sum('0' * 40),
+          b'refs/heads/master': blob1.id,
+          b'refs/tags/tag-tag': tag1.id,
+          b'refs/tags/blob-tag': blob3.id,
           }
         backend = _test_backend(objects, refs=refs)
 
         mat = re.search('.*', '//info/refs')
-        self.assertEqual([blob1.id + b'\trefs/heads/master\n',
-                          blob3.id + b'\trefs/tags/blob-tag\n',
-                          tag1.id + b'\trefs/tags/tag-tag\n',
-                          blob2.id + b'\trefs/tags/tag-tag^{}\n'],
+        self.assertEqual([blob1.id.hex_bytes + b'\trefs/heads/master\n',
+                          blob3.id.hex_bytes + b'\trefs/tags/blob-tag\n',
+                          tag1.id.hex_bytes + b'\trefs/tags/tag-tag\n',
+                          blob2.id.hex_bytes + b'\trefs/tags/tag-tag^{}\n'],
                           list(get_info_refs(self._req, backend, mat)))
         self.assertEqual(HTTP_OK, self._status)
         self.assertContentTypeEquals('text/plain')

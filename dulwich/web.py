@@ -39,7 +39,7 @@ from dulwich.server import (
     DictBackend,
     DEFAULT_HANDLERS,
     )
-
+from dulwich.sha1 import Sha1Sum
 from dulwich.py3k import *
 
 logger = log_utils.getLogger(__name__)
@@ -126,7 +126,7 @@ def get_text_file(req, backend, mat):
 
 
 def get_loose_object(req, backend, mat):
-    sha = mat.group(1) + mat.group(2)
+    sha = Sha1Sum(mat.group(1) + mat.group(2))
     logger.info('Sending loose object %s', sha)
     object_store = get_repo(backend, mat).object_store
     if not object_store.contains_loose(sha):
@@ -192,10 +192,10 @@ def get_info_refs(req, backend, mat):
             if not o:
                 continue
 
-            yield sha + b'\t' + name + b'\n'
+            yield sha.hex_bytes + b'\t' + name + b'\n'
             peeled_sha = repo.get_peeled(name)
             if peeled_sha != sha:
-                yield peeled_sha + b'\t' + name + b'^{}\n'
+                yield peeled_sha.hex_bytes + b'\t' + name + b'^{}\n'
 
 
 def get_info_packs(req, backend, mat):

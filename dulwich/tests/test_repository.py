@@ -115,7 +115,7 @@ class RepositoryTests(TestCase):
     def test_ref(self):
         r = self._repo = open_repo('a.git')
         self.assertEqual(r.ref(b'refs/heads/master'),
-                         b'a90fa2d900a17e99b433217e988c4eb4a2e9a097')
+                         Sha1Sum('a90fa2d900a17e99b433217e988c4eb4a2e9a097'))
 
     def test_iter(self):
         r = self._repo = open_repo('a.git')

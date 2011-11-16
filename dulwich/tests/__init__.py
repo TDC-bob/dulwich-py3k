@@ -81,7 +81,7 @@ def self_test_suite():
         'repository',
         'server',
         'walk',
-        #'web',
+        'web',
         ]
     module_names = ['dulwich.tests.test_' + name for name in names]
     loader = unittest.TestLoader()
@@ -90,10 +90,10 @@ def self_test_suite():
 
 def tutorial_test_suite():
     tutorial = [
-        #'introduction',
-        #'repo',
+        'introduction',
+        'repo',
         #'object-store',
-        #'conclusion',
+        'conclusion',
         ]
     tutorial_files = ["../../docs/tutorial/%s.txt" % name for name in tutorial]
     def setup(test):
