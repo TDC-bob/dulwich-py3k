@@ -69,9 +69,9 @@ from dulwich.lru_cache import (
 
 from dulwich.objects import (
     ShaFile,
+    Sha1Sum,
     object_header,
     )
-from dulwich.sha1 import Sha1Sum
 from dulwich.py3k import *
 
 supports_mmap_offset = (sys.version_info[0] >= 3 or

@@ -41,6 +41,7 @@ from dulwich.objects import (
     Commit,
     Tree,
     Blob,
+    Sha1Sum,
     )
 from dulwich.pack import (
     OFS_DELTA,
@@ -73,7 +74,6 @@ from .utils import (
     make_object,
     build_pack,
     )
-from dulwich.sha1 import Sha1Sum
 from dulwich.py3k import *
 
 pack1_sha = Sha1Sum('bc63ddad95e7321ee734ea11a7a62d314e0d7481')

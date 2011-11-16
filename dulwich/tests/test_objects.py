@@ -39,6 +39,7 @@ from dulwich.objects import (
     Commit,
     ShaFile,
     Tag,
+    Sha1Sum,
     format_timezone,
     check_hexsha,
     check_identity,
@@ -60,7 +61,6 @@ from .utils import (
     ext_functest_builder,
     )
 
-from dulwich.sha1 import Sha1Sum
 from dulwich.py3k import *
 
 a_sha = Sha1Sum('6f670c0fb53f9463760b7295fbb814e965fb20c8')

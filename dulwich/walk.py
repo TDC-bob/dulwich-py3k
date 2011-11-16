@@ -34,8 +34,9 @@ from dulwich.diff_tree import (
 from dulwich.errors import (
     MissingCommitError,
     )
-
-from dulwich.sha1 import Sha1Sum
+from dulwich.objects import (
+    Sha1Sum
+)
 from dulwich.py3k import *
 
 ORDER_DATE = 'date'

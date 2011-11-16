@@ -32,6 +32,7 @@ from dulwich.index import (
     )
 from dulwich.objects import (
     Commit,
+    Sha1Sum,
     )
 from dulwich.pack import (
     OFS_DELTA,
@@ -47,7 +48,6 @@ from dulwich.repo import Repo
 from dulwich.tests import (
     SkipTest,
     )
-from dulwich.sha1 import Sha1Sum
 
 # Plain files are very frequently used in tests, so let the mode be very short.
 F = 0o100644  # Shorthand mode for Files.

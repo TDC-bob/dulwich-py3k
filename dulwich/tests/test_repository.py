@@ -50,8 +50,9 @@ from dulwich.tests.utils import (
     open_repo,
     tear_down_repo,
     )
-
-from dulwich.sha1 import Sha1Sum
+from dulwich.objects import (
+    Sha1Sum,
+)
 from dulwich.py3k import *
 
 missing_sha = Sha1Sum('b91fa4d900e17e99b433218e988c4eb4a3e9a097')

@@ -49,7 +49,9 @@ from dulwich.tests import TestCase
 from dulwich.tests.utils import (
     make_commit,
     )
-from dulwich.sha1 import Sha1Sum
+from dulwich.objects import (
+    Sha1Sum,
+)
 from dulwich.py3k import *
 
 ONE = Sha1Sum('1' * 40)

@@ -48,6 +48,7 @@ from dulwich.objects import (
     Blob,
     TreeEntry,
     Tree,
+    Sha1Sum,
     )
 from dulwich.tests import (
     TestCase,
@@ -58,7 +59,6 @@ from dulwich.tests.utils import (
     functest_builder,
     ext_functest_builder,
     )
-from dulwich.sha1 import Sha1Sum
 
 class DiffTestCase(TestCase):
 

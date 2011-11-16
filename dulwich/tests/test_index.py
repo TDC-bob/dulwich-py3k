@@ -41,8 +41,8 @@ from dulwich.object_store import (
     )
 from dulwich.objects import (
     Blob,
+    Sha1Sum,
     )
-from dulwich.sha1 import Sha1Sum
 from dulwich.tests import TestCase
 
 

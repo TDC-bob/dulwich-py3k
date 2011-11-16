@@ -30,10 +30,10 @@ import time
 
 from dulwich.objects import (
     Commit,
+    Sha1Sum,
     S_ISGITLINK,
     )
 
-from dulwich.sha1 import Sha1Sum
 from dulwich.py3k import *
 
 def _make_writer(f):

@@ -25,6 +25,7 @@ from dulwich.objects import (
     Commit,
     S_IFGITLINK,
     Tree,
+    Sha1Sum,
     )
 from dulwich.object_store import (
     MemoryObjectStore,
@@ -40,7 +41,6 @@ from dulwich.tests import (
     SkipTest,
     TestCase,
     )
-from dulwich.sha1 import Sha1Sum
 
 class WriteCommitPatchTests(TestCase):
 

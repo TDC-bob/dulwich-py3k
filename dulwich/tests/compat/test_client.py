@@ -53,8 +53,9 @@ from dulwich.tests.compat.utils import (
 from dulwich.tests.compat.server_utils import (
     ShutdownServerMixIn,
     )
-
-from dulwich.sha1 import Sha1Sum
+from dulwich.objects import (
+    Sha1Sum,
+)
 
 class DulwichClientTestBase(object):
     """Tests for client/server compatibility."""

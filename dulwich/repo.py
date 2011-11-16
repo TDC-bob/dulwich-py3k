@@ -51,9 +51,9 @@ from dulwich.objects import (
     ShaFile,
     Tag,
     Tree,
+    Sha1Sum,
     )
 import warnings
-from dulwich.sha1 import Sha1Sum
 from dulwich.py3k import *
 
 OBJECTDIR = 'objects'

@@ -33,7 +33,7 @@ size_t rep_strnlen(char *text, size_t maxlen)
 
 #define bytehex(x) (((x)<0xa)?('0'+(x)):('a'-0xa+(x)))
 
-static PyObject *tree_entry_cls, *Sha1Sum;
+static PyObject *tree_entry_cls, *sha1sum_cls;
 static PyObject *object_format_exception_cls;
 
 
@@ -43,7 +43,7 @@ static PyObject *bytes_to_pysha(const unsigned char *sha) {
 		return NULL;
 	}
 
-	PyObject* pysha = PyObject_CallFunctionObjArgs(Sha1Sum, bytes, NULL);
+	PyObject* pysha = PyObject_CallFunctionObjArgs(sha1sum_cls, bytes, NULL);
 	Py_DECREF(bytes);
 	if(pysha == NULL) {
 		return NULL;
@@ -222,8 +222,8 @@ static PyObject *py_sorted_tree_items(PyObject *self, PyObject *args)
 		}
 
 		py_sha = PyTuple_GET_ITEM(value, 1);
-		if(1 != PyObject_IsInstance(py_sha, Sha1Sum)) {
-			PyErr_SetString(PyExc_TypeError, "SHA is not a Sha1Sum object");
+		if(1 != PyObject_IsInstance(py_sha, sha1sum_cls)) {
+			PyErr_SetString(PyExc_TypeError, "SHA is not a sha1sum_cls object");
 			goto error;
 		}
 
@@ -278,7 +278,7 @@ static struct PyModuleDef py_objectsmodule = {
 };
 
 PyObject *PyInit__objects(void) {
-	PyObject *m, *objects_mod, *errors_mod, *sha_mod;
+	PyObject *m, *objects_mod, *errors_mod;
 
 	m = PyModule_Create(&py_objectsmodule);
 	if (m == NULL)
@@ -301,17 +301,9 @@ PyObject *PyInit__objects(void) {
 		return NULL;
 
 	tree_entry_cls = PyObject_GetAttrString(objects_mod, "TreeEntry");
+    sha1sum_cls = PyObject_GetAttrString(objects_mod, "Sha1Sum");
 	Py_DECREF(objects_mod);
-	if (tree_entry_cls == NULL)
-		return NULL;
-
-	sha_mod = PyImport_ImportModule("dulwich.sha1");
-	if (sha_mod == NULL)
-		return NULL;
-
-	Sha1Sum = PyObject_GetAttrString(sha_mod, "Sha1Sum");
-	Py_DECREF(sha_mod);
-	if(Sha1Sum == NULL)
+	if (tree_entry_cls == NULL || sha1sum_cls == NULL)
 		return NULL;
 
 	return m;

@@ -36,7 +36,9 @@ from dulwich.server import (
     DictBackend,
     DEFAULT_HANDLERS,
     )
-from dulwich.sha1 import Sha1Sum
+from dulwich.objects import (
+    Sha1Sum
+)
 from dulwich.py3k import *
 
 logger = log_utils.getLogger(__name__)
