@@ -29,6 +29,9 @@ import posixpath
 import stat
 import warnings
 import zlib
+import hashlib
+
+from collections import namedtuple
 
 from dulwich.errors import (
     ChecksumMismatch,
@@ -39,10 +42,6 @@ from dulwich.errors import (
     ObjectFormatException,
     )
 from dulwich.file import GitFile
-from dulwich._compat import (
-    make_sha,
-    namedtuple,
-    )
 from dulwich.sha1 import Sha1Sum
 from dulwich.py3k import *
 
@@ -412,7 +411,7 @@ class ShaFile(object):
         return ret
 
     def _make_sha(self):
-        ret = make_sha()
+        ret = hashlib.sha1(b'')
         ret.update(convert3kstr(self._header(), BYTES))
         for chunk in self.as_raw_chunks():
             ret.update(convert3kstr(chunk, BYTES))
@@ -422,7 +421,7 @@ class ShaFile(object):
         """The SHA1 object that is the name of this object."""
         if self._sha is None or self._needs_serialization:
             # this is a local because as_raw_chunks() overwrites self._sha
-            new_sha = make_sha()
+            new_sha = hashlib.sha1(b'')
             new_sha.update(convert3kstr(self._header(), BYTES))
             for chunk in self.as_raw_chunks():
                 new_sha.update(convert3kstr(chunk, BYTES))

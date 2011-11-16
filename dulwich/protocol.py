@@ -26,10 +26,8 @@ from dulwich.errors import (
     HangupException,
     GitProtocolError,
     )
-from dulwich._compat import (
-    SEEK_END,
-    )
 
+from os import SEEK_END
 from dulwich.sha1 import Sha1Sum
 from dulwich.py3k import *
 

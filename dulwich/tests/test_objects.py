@@ -32,9 +32,7 @@ import binascii
 from dulwich.errors import (
     ObjectFormatException,
     )
-from dulwich._compat import (
-    permutations,
-    )
+from itertools import permutations
 from dulwich.objects import (
     Blob,
     Tree,

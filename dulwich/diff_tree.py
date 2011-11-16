@@ -24,9 +24,7 @@ from io import BytesIO
 import itertools
 import stat
 
-from dulwich._compat import (
-    namedtuple,
-    )
+from collections import namedtuple
 from dulwich.objects import (
     S_ISGITLINK,
     TreeEntry,
