@@ -187,7 +187,7 @@ class ReceivableProtocolTests(BaseProtocolTests, TestCase):
 
     def test_mixed(self):
         # arbitrary non-repeating string
-        all_data = ','.join(str(i) for i in range(100)).encode()
+        all_data = ','.join(str(i) for i in range(100)).encode('utf-8')
         self.rin.write(all_data)
         self.rin.seek(0)
         data = b''

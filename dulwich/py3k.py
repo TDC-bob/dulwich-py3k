@@ -218,7 +218,7 @@ class wrap3kstr(object):
             return obj
         else:
             if isinstance(obj, bytes):
-                return obj.decode()
+                return obj.decode('utf-8')
             elif isinstance(obj, str):
                 return obj
             elif self.active_mask & AGGRESSIVE:
@@ -246,7 +246,7 @@ class wrap3kstr(object):
             if isinstance(obj, bytes):
                 return obj
             elif isinstance(obj, str):
-                return obj.encode()
+                return obj.encode('utf-8')
             elif self.active_mask & AGGRESSIVE:
                 if isinstance(obj, int):
                     return bytes((obj,))

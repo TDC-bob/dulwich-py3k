@@ -74,7 +74,7 @@ class CreateRepositoryTests(TestCase):
         self.assertFileContentsEqual(b'Unnamed repository', repo, 'description')
         self.assertFileContentsEqual(b'', repo, os.path.join('info', 'exclude'))
         self.assertFileContentsEqual(None, repo, 'nonexistent file')
-        barestr = ('bare = %s' % str(expect_bare).lower()).encode()
+        barestr = ('bare = %s' % str(expect_bare).lower()).encode('utf-8')
         with repo.get_named_file('config') as config:
             self.assertTrue(barestr in config.read())
 

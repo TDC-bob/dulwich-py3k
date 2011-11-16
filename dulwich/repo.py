@@ -444,8 +444,8 @@ class DiskRefsContainer(RefsContainer):
                 refname = ("%s/%s" % (dir, filename)).strip("/")
                 # check_ref_format requires at least one /, so we prepend the
                 # base before calling it.
-                if check_ref_format(base + b'/' + refname.encode()):
-                    keys.add(refname.encode())
+                if check_ref_format(base + b'/' + refname.encode('utf-8')):
+                    keys.add(refname.encode('utf-8'))
         for key in self.get_packed_refs():
             if key.startswith(base):
                 keys.add(key[len(base):].strip(b'/'))
@@ -704,14 +704,14 @@ def _split_ref_line(line):
     """Split a single ref line into a tuple of SHA1 and name."""
     fields = line.rstrip(b"\n").split(b" ")
     if len(fields) != 2:
-        raise PackedRefsException("invalid ref line '%s'" % line.decode())
+        raise PackedRefsException("invalid ref line '%s'" % line.decode('utf-8'))
     sha, name = fields
     try:
         Sha1Sum(sha)
     except (AssertionError, TypeError, ObjectFormatException) as e:
         raise PackedRefsException(e)
     if not check_ref_format(name):
-        raise PackedRefsException("invalid ref name '%s'" % name.decode())
+        raise PackedRefsException("invalid ref name '%s'" % name.decode('utf-8'))
     return (sha, name)
 
 

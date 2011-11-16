@@ -41,6 +41,7 @@ from dulwich.errors import (
     MissingCommitError,
     )
 
+from dulwich.sha1 import Sha1Sum
 from dulwich.py3k import *
 
 ORDER_DATE = 'date'
@@ -109,7 +110,7 @@ class _CommitTimeQueue(object):
         for commit_id in itertools.chain(walker.include, walker.excluded):
             self._push(commit_id)
 
-    @wrap3kstr(commit_id=BYTES)
+    @enforce_type(commit_id=Sha1Sum)
     def _push(self, commit_id):
         try:
             commit = self._store[commit_id]
@@ -120,6 +121,7 @@ class _CommitTimeQueue(object):
             self._pq_set.add(commit_id)
             self._seen.add(commit_id)
 
+    @enforce_type(commit_id=Sha1Sum)
     def _exclude_parents(self, commit):
         excluded = self._excluded
         seen = self._seen
@@ -140,7 +142,8 @@ class _CommitTimeQueue(object):
             return None
         while self._pq:
             _, commit = heapq.heappop(self._pq)
-            sha = convert3kstr(commit.id, BYTES)
+            sha = commit.id
+            assert isinstance(sha, Sha1Sum)
             self._pq_set.remove(sha)
             if sha in self._done:
                 continue
@@ -246,6 +249,7 @@ class Walker(object):
         self._queue = queue_cls(self)
         self._out_queue = collections.deque()
 
+    @wrap3kstr(changed_path=BYTES)
     def _path_matches(self, changed_path):
         if changed_path is None:
             return False
@@ -253,10 +257,11 @@ class Walker(object):
             if changed_path == followed_path:
                 return True
             if (changed_path.startswith(followed_path) and
-                changed_path[len(followed_path)] == '/'):
+                changed_path[len(followed_path)] == b'/'):
                 return True
         return False
 
+    @wrap3kstr(change=BYTES)
     def _change_matches(self, change):
         old_path = change.old.path
         new_path = change.new.path

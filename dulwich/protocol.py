@@ -65,7 +65,7 @@ def pkt_line(data):
     if data is None:
         return b'0000'
 
-    return ('%04x' % (len(data) + 4)).encode() + data
+    return ('%04x' % (len(data) + 4)).encode('utf-8') + data
 
 class Protocol(object):
     """Class for interacting with a remote git process over the wire.

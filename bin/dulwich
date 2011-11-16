@@ -65,9 +65,9 @@ def cmd_log(args):
         done.add(sha)
         commit = r[sha]
         print("-" * 50)
-        print("commit: %s" % sha.decode())
+        print("commit: %s" % sha.decode('utf-8'))
         if len(commit.parents) > 1:
-            print("merge: %s" % "...".join([p.decode() for p in commit.parents[1:]]))
+            print("merge: %s" % "...".join([p.decode('utf-8') for p in commit.parents[1:]]))
         print("author: %s" % commit.author)
         print("committer: %s" % commit.committer)
         print("")

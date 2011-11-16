@@ -57,7 +57,7 @@ class ObjectStoreTestCase(CompatTestCase):
             refname, type_name, sha = fields
             check_ref_format(refname[5:])
             hex_to_sha(sha)
-            refs[refname] = (type_name.decode(), sha)
+            refs[refname] = (type_name.decode('utf-8'), sha)
         return refs
 
     def _parse_objects(self, output):

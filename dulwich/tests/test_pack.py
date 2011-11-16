@@ -828,7 +828,7 @@ class DeltaChainIteratorTests(TestCase):
         n = 100
         objects_spec = [(Blob.type_num, b'blob')]
         for i in range(n):
-            objects_spec.append((OFS_DELTA, (i, ('blob%i' % i).encode())))
+            objects_spec.append((OFS_DELTA, (i, ('blob%i' % i).encode('utf-8'))))
         f = BytesIO()
         entries = build_pack(f, objects_spec)
         self.assertEntriesMatch(range(n + 1), entries, self.make_pack_iter(f))
@@ -837,7 +837,7 @@ class DeltaChainIteratorTests(TestCase):
         n = 100
         objects_spec = [(Blob.type_num, b'blob')]
         for i in range(n):
-            objects_spec.append((OFS_DELTA, (0, ('blob%i' % i).encode())))
+            objects_spec.append((OFS_DELTA, (0, ('blob%i' % i).encode('utf-8'))))
         f = BytesIO()
         entries = build_pack(f, objects_spec)
         self.assertEntriesMatch(range(n + 1), entries, self.make_pack_iter(f))

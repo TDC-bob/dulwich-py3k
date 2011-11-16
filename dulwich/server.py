@@ -654,7 +654,7 @@ class ReceivePackHandler(Handler):
                                                      self.proto.recv)
             status.append((b'unpack', b'ok'))
         except all_exceptions as e:
-            status.append((b'unpack', str(e).replace('\n', '').encode()))
+            status.append((b'unpack', str(e).replace('\n', '').encode('utf-8')))
             # The pack may still have been moved in, but it may contain broken
             # objects. We trust a later GC to clean it up.
 
