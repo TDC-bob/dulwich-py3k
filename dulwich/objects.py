@@ -891,12 +891,11 @@ class Tree(ShaFile):
         """Grab the entries in the tree"""
         try:
             parsed_entries = parse_tree(b"".join(chunks))
-
-            # TODO: list comprehension is for efficiency in the common (small) case;
-            # if memory efficiency in the large case is a concern, use a genexp.
-            self._entries = dict([(n, (m, s)) for n, m, s in parsed_entries])
         except ValueError as e:
             raise ObjectFormatException(e)
+        # TODO: list comprehension is for efficiency in the common (small) case;
+        # if memory efficiency in the large case is a concern, use a genexp.
+        self._entries = dict([(convert3kstr(n, BYTES), (m, s)) for n, m, s in parsed_entries])
 
     def check(self):
         """Check this object for internal consistency.
