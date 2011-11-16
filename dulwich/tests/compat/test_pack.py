@@ -36,7 +36,10 @@ from dulwich.tests.compat.utils import (
     require_git_version,
     run_git_or_fail,
     )
-
+from dulwich.errors import (
+    ObjectFormatException
+)
+from dulwich.sha1 import Sha1Sum
 
 class TestPack(PackTests):
     """Compatibility tests for reading and writing pack files."""
@@ -59,8 +62,9 @@ class TestPack(PackTests):
                 sha = line[:40]
                 try:
                     binascii.unhexlify(sha)
-                except binascii.Error:
+                    pack_shas.add(Sha1Sum(sha))
+                except (ObjectFormatException, TypeError, binascii.Error):
                     continue  # non-sha line
-                pack_shas.add(sha)
+
             orig_shas = set(o.id for o in origpack.iterobjects())
             self.assertEqual(orig_shas, pack_shas)

@@ -24,7 +24,7 @@ import unittest
 def test_suite():
     names = [
         'client',
-        #'pack',
+        'pack',
         #'repository',
         #'server',
         #'utils',
