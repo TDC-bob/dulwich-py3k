@@ -27,6 +27,7 @@ from dulwich.object_store import (
 from dulwich.objects import (
     Blob,
     Tag,
+    Sha1Sum,
     )
 from dulwich.repo import (
     BaseRepo,
@@ -59,7 +60,6 @@ from dulwich.web import (
 from dulwich.tests.utils import (
     make_object,
     )
-from dulwich.sha1 import Sha1Sum
 from dulwich.py3k import *
 
 class TestHTTPGitRequest(HTTPGitRequest):

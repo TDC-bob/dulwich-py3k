@@ -51,13 +51,12 @@ else:
     has_mmap = True
 import os
 import struct
-try:
-    from struct import unpack_from
-except ImportError:
-    from dulwich._compat import unpack_from
+from struct import unpack_from
+from os import SEEK_CUR, SEEK_END
 import sys
 import warnings
 import zlib
+import hashlib
 
 from dulwich.errors import (
     ApplyDeltaError,
@@ -67,16 +66,12 @@ from dulwich.file import GitFile
 from dulwich.lru_cache import (
     LRUSizeCache,
     )
-from dulwich._compat import (
-    make_sha,
-    SEEK_CUR,
-    SEEK_END,
-    )
+
 from dulwich.objects import (
     ShaFile,
+    Sha1Sum,
     object_header,
     )
-from dulwich.sha1 import Sha1Sum
 from dulwich.py3k import *
 
 supports_mmap_offset = (sys.version_info[0] >= 3 or
@@ -252,7 +247,7 @@ def iter_sha1(iter):
     :param iter: Iterator over string objects
     :return: 40-byte hex sha1 digest
     """
-    sha1 = make_sha()
+    sha1 = hashlib.sha1(b'')
     for name in iter:
         sha1.update(name)
     return Sha1Sum(sha1.digest())
@@ -534,7 +529,7 @@ class FilePackIndex(PackIndex):
 
         :return: This is a 20-byte binary digest
         """
-        return make_sha(self._contents[:-20]).digest()
+        return hashlib.sha1(self._contents[:-20]).digest()
 
     def get_pack_checksum(self):
         """Return the SHA1 checksum stored for the corresponding packfile.
@@ -739,7 +734,7 @@ class PackStreamReader(object):
             self.read_some = read_all
         else:
             self.read_some = read_some
-        self.sha = make_sha()
+        self.sha = hashlib.sha1(b'')
         self._offset = 0
         self._rbuf = BytesIO()
         # trailer is a deque to avoid memory allocation on small reads
@@ -905,7 +900,7 @@ class PackStreamCopier(PackStreamReader):
 
 def obj_sha(type, chunks):
     """Compute the SHA for a numeric type and object chunks."""
-    sha = make_sha()
+    sha = hashlib.sha1(b'')
     sha.update(convert3kstr(object_header(type, chunks_length(chunks)), BYTES))
     for chunk in chunks:
         sha.update(convert3kstr(chunk, BYTES|AGGRESSIVE))
@@ -922,7 +917,7 @@ def compute_file_sha(f, start_ofs=0, end_ofs=0, buffer_size=1<<16):
     :param buffer_size: A buffer size for reading.
     :return: A new SHA object updated with data read from the file.
     """
-    sha = make_sha()
+    sha = hashlib.sha1(b'')
     f.seek(0, SEEK_END)
     todo = f.tell() + end_ofs - start_ofs
     f.seek(start_ofs)
@@ -1332,7 +1327,7 @@ class SHA1Reader(object):
 
     def __init__(self, f):
         self.f = f
-        self.sha1 = make_sha(b'')
+        self.sha1 = hashlib.sha1(b'')
 
     def read(self, num=None):
         data = self.f.read(num)
@@ -1363,7 +1358,7 @@ class SHA1Writer(object):
     def __init__(self, f):
         self.f = f
         self.length = 0
-        self.sha1 = make_sha(b'')
+        self.sha1 = hashlib.sha1(b'')
 
     @enforce_type(data=bytes)
     def write(self, data):

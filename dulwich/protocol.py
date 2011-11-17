@@ -26,11 +26,11 @@ from dulwich.errors import (
     HangupException,
     GitProtocolError,
     )
-from dulwich._compat import (
-    SEEK_END,
-    )
+from dulwich.objects import (
+    Sha1Sum
+)
 
-from dulwich.sha1 import Sha1Sum
+from os import SEEK_END
 from dulwich.py3k import *
 
 TCP_GIT_PORT = 9418

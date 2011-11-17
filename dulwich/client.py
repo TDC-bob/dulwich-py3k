@@ -45,7 +45,9 @@ from dulwich.protocol import (
 from dulwich.pack import (
     write_pack_objects,
     )
-from dulwich.sha1 import Sha1Sum
+from dulwich.objects import (
+    Sha1Sum
+)
 from dulwich.py3k import *
 
 # Python 2.6.6 included these in urlparse.uses_netloc upstream. Do

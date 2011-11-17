@@ -27,13 +27,13 @@ from dulwich.objects import (
     S_IFGITLINK,
     S_ISGITLINK,
     Tree,
+    Sha1Sum,
     )
 from dulwich.pack import (
     SHA1Reader,
     SHA1Writer,
     )
 
-from dulwich.sha1 import Sha1Sum
 from dulwich.py3k import *
 
 @enforce_type(path=bytes, returns=bytes)

@@ -18,9 +18,7 @@
 
 """Tests for commit walking functionality."""
 
-from dulwich._compat import (
-    permutations,
-    )
+from itertools import permutations
 from dulwich.diff_tree import (
     CHANGE_ADD,
     CHANGE_MODIFY,

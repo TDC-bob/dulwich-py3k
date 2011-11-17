@@ -18,6 +18,7 @@
 
 """Tests for file and tree diff utilities."""
 
+from itertools import permutations
 from dulwich.diff_tree import (
     CHANGE_MODIFY,
     CHANGE_RENAME,
@@ -39,9 +40,6 @@ from dulwich.diff_tree import (
 from dulwich.index import (
     commit_tree,
     )
-from dulwich._compat import (
-    permutations,
-    )
 from dulwich.object_store import (
     MemoryObjectStore,
     )
@@ -50,6 +48,7 @@ from dulwich.objects import (
     Blob,
     TreeEntry,
     Tree,
+    Sha1Sum,
     )
 from dulwich.tests import (
     TestCase,
@@ -60,7 +59,6 @@ from dulwich.tests.utils import (
     functest_builder,
     ext_functest_builder,
     )
-from dulwich.sha1 import Sha1Sum
 
 class DiffTestCase(TestCase):
 

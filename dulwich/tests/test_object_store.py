@@ -36,6 +36,7 @@ from dulwich.objects import (
     Tag,
     Tree,
     TreeEntry,
+    Sha1Sum,
     )
 from dulwich.object_store import (
     DiskObjectStore,
@@ -55,7 +56,6 @@ from dulwich.tests.utils import (
     build_pack,
     )
 
-from dulwich.sha1 import Sha1Sum
 from dulwich.py3k import *
 
 testobject = make_object(Blob, data=b"yummy data")

@@ -31,7 +31,7 @@ typedef unsigned short mode_t;
 #endif
 
 static PyObject *tree_entry_cls = NULL, *null_entry = NULL,
-	*defaultdict_cls = NULL, *int_cls = NULL, *sha1sum_cls = NULL;
+	*defaultdict_cls = NULL, *int_cls = NULL;
 static int block_size;
 
 /**
@@ -412,7 +412,7 @@ static struct PyModuleDef py_diff_tree_module = {
 PyObject *PyInit__diff_tree(void)
 {
 	PyObject *m, *objects_mod = NULL, *diff_tree_mod = NULL;
-	PyObject *block_size_obj = NULL, *sha_mod = NULL;
+	PyObject *block_size_obj = NULL;
 	m = PyModule_Create(&py_diff_tree_module);
 	if (!m)
 		goto error;
@@ -456,15 +456,6 @@ PyObject *PyInit__diff_tree(void)
 
 	Py_DECREF(diff_tree_mod);
 
-	sha_mod = PyImport_ImportModule("dulwich.sha1");
-	if (sha_mod == NULL)
-		return NULL;
-
-	sha1sum_cls = PyObject_GetAttrString(sha_mod, "Sha1Sum");
-	Py_DECREF(sha_mod);
-	if (!sha1sum_cls)
-		goto error;
-
 	return m;
 
 error:
@@ -474,7 +465,5 @@ error:
 	Py_XDECREF(block_size_obj);
 	Py_XDECREF(defaultdict_cls);
 	Py_XDECREF(int_cls);
-	Py_XDECREF(sha_mod);
-	Py_XDECREF(sha1sum_cls);
 	return NULL;
 }

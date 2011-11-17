@@ -39,7 +39,9 @@ from dulwich.tests.compat.utils import (
 from dulwich.errors import (
     ObjectFormatException
 )
-from dulwich.sha1 import Sha1Sum
+from dulwich.objects import (
+    Sha1Sum,
+)
 
 class TestPack(PackTests):
     """Compatibility tests for reading and writing pack files."""
