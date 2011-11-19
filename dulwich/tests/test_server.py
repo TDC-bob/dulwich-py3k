@@ -138,12 +138,12 @@ class HandlerTestCase(TestCase):
         self.assertSucceeds(set_caps, [b'cap2', b'ignoreme'])
 
     def test_has_capability(self):
-        self.assertRaises(GitProtocolError, self._handler.has_capability, 'cap')
+        self.assertRaises(GitProtocolError, self._handler.has_capability, b'cap')
         caps = self._handler.capabilities()
         self._handler.set_client_capabilities(caps)
         for cap in caps:
             self.assertTrue(self._handler.has_capability(cap))
-        self.assertFalse(self._handler.has_capability('capxxx'))
+        self.assertFalse(self._handler.has_capability(b'capxxx'))
 
 
 class UploadPackHandlerTestCase(TestCase):

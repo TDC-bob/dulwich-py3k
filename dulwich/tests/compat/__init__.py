@@ -26,7 +26,7 @@ def test_suite():
         'client',
         'pack',
         'repository',
-        #'server',
+        'server',
         #'utils',
         #'web',
         ]

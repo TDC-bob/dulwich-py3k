@@ -39,7 +39,6 @@ from dulwich.tests.compat.utils import (
     CompatTestCase,
     )
 
-
 if not getattr(TCPGitServer, 'shutdown', None):
     _TCPGitServer = TCPGitServer
 

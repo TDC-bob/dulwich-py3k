@@ -221,7 +221,7 @@ class Handler(object):
         self._client_capabilities = set(caps)
         logger.info('Client capabilities: %s', convert3kstr(caps, STRING))
 
-    @wrap3kstr(cap=BYTES)
+    @enforce_type(cap=bytes)
     def has_capability(self, cap):
         if self._client_capabilities is None:
             raise GitProtocolError('Server attempted to access capability %s '
@@ -299,15 +299,18 @@ class UploadPackHandler(Handler):
         # that the client still expects a 0-object pack in most cases.
         if objects_iter is None:
             return
+        objects_len = len(objects_iter)
+        if objects_len == 0:
+            return
 
         self.progress("dul-daemon says what\n")
-        self.progress("counting objects: %d, done.\n" % len(objects_iter))
+        self.progress("counting objects: %d, done.\n" % objects_len)
         write_pack_objects(ProtocolFile(None, write), objects_iter)
         self.progress("how was that, then?\n")
         # we are done
         self.proto.write(b"0000")
 
-@wrap3kstr(line=BYTES, allowed=BYTES)
+
 def _split_proto_line(line, allowed):
     """Split a line read from the wire.
 
@@ -458,11 +461,11 @@ class ProtocolGraphWalker(object):
         """
         return _split_proto_line(self.proto.read_pkt_line(), allowed)
 
-    @wrap3kstr(sha=BYTES, ack_type=BYTES)
+    @enforce_type(sha=Sha1Sum, ack_type=bytes)
     def send_ack(self, sha, ack_type=b''):
         if ack_type:
             ack_type = b' ' + ack_type
-        self.proto.write_pkt_line(b'ACK ' + sha + ack_type + b'\n')
+        self.proto.write_pkt_line(b'ACK ' + sha.hex_bytes + ack_type + b'\n')
 
     def send_nak(self):
         self.proto.write_pkt_line(b'NAK\n')
@@ -742,7 +745,10 @@ class ReceivePackHandler(Handler):
 
         # client will now send us a list of (oldsha, newsha, ref)
         while ref:
-            client_refs.append(ref.split())
+            tmp = ref.split()
+            tmp[0] = Sha1Sum(tmp[0])
+            tmp[1] = Sha1Sum(tmp[1])
+            client_refs.append(tmp)
             ref = self.proto.read_pkt_line()
 
         # backend can now deal with this refs and read a pack using self.read
@@ -769,19 +775,20 @@ class TCPGitRequestHandler(socketserver.StreamRequestHandler):
         socketserver.StreamRequestHandler.__init__(self, *args, **kwargs)
 
     def handle(self):
-        with ReceivableProtocol(self.connection.recv, self.wfile.write, None) as proto:
-            command, args = proto.read_cmd()
+        proto = ReceivableProtocol(self.connection.recv, self.wfile.write, None)
+        command, args = proto.read_cmd()
 
-            logger.info('Handling %s request, args=%s', 
-              convert3kstr(command, STRING), convert3kstr(args, STRING))
+        logger.info('Handling %s request, args=%s', 
+          convert3kstr(command, STRING), convert3kstr(args, STRING))
 
-            cls = self.handlers.get(convert3kstr(command, BYTES), None)
-            if not isinstance(cls, collections.Callable):
-                raise GitProtocolError('Invalid service %s' % convert3kstr(command, STRING))
+        cls = self.handlers.get(convert3kstr(command, BYTES), None)
+        if not isinstance(cls, collections.Callable):
+            raise GitProtocolError('Invalid service %s' % convert3kstr(command, STRING))
 
-            with cls(self.server.backend, args, proto) as h:
-                h.handle()
+        h = cls(self.server.backend, args, proto)
+        h.handle()
 
+        logger.info('Finished handling request')
 
 class TCPGitServer(socketserver.TCPServer):
 

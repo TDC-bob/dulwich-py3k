@@ -795,7 +795,10 @@ class MissingObjectFinder(object):
             self.progress = lambda x: None
         else:
             self.progress = progress
-        self._tagged = get_tagged and get_tagged() or {}
+        if get_tagged is None:
+            self._tagged = lambda: {}
+        else:
+            self._tagged = get_tagged
 
     def add_todo(self, entries):
         self.objects_to_send.update([e for e in entries
@@ -828,8 +831,9 @@ class MissingObjectFinder(object):
                 self.parse_tree(o)
             elif isinstance(o, Tag):
                 self.parse_tag(o)
-        if sha in self._tagged:
-            self.add_todo([(self._tagged[sha], None, True)])
+        tagged = self._tagged()
+        if sha in tagged:
+            self.add_todo([(tagged[sha], None, True)])
         self.sha_done.add(sha)
         self.progress("counting objects: %d\r" % len(self.sha_done))
         return (sha, name)
