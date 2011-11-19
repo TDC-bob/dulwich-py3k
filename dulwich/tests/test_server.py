@@ -68,7 +68,6 @@ class TestProto(object):
         self._output = []
         self._received = {0: [], 1: [], 2: [], 3: []}
 
-    @wrap3kstr(output_lines=BYTES)
     def set_output(self, output_lines):
         self._output = [line.rstrip() + b'\n' for line in output_lines]
 
@@ -78,7 +77,6 @@ class TestProto(object):
         else:
             return None
 
-    @wrap3kstr(data=BYTES)
     def write_sideband(self, band, data):
         self._received[band].append(data)
 
@@ -151,9 +149,9 @@ class UploadPackHandlerTestCase(TestCase):
     def setUp(self):
         super(UploadPackHandlerTestCase, self).setUp()
         self._repo = MemoryRepo.init_bare([], {})
-        backend = DictBackend({b'/': self._repo})
+        backend = DictBackend({'/': self._repo})
         self._handler = UploadPackHandler(
-          backend, [b'/', 'host=lolcathost'], TestProto())
+          backend, ['/', 'host=lolcathost'], TestProto())
 
     def test_progress(self):
         caps = self._handler.required_capabilities()
@@ -221,9 +219,9 @@ class ProtocolGraphWalkerTestCase(TestCase):
           make_commit(id=FIVE, parents=[THREE], commit_time=555),
           ]
         self._repo = MemoryRepo.init_bare(commits, {})
-        backend = DictBackend({b'/': self._repo})
+        backend = DictBackend({'/': self._repo})
         self._walker = ProtocolGraphWalker(
-            TestUploadPackHandler(backend, [b'/', b'host=lolcats'], TestProto()),
+            TestUploadPackHandler(backend, ['/', 'host=lolcats'], TestProto()),
             self._repo.object_store, self._repo.get_peeled)
 
     def test_is_satisfied_no_haves(self):
@@ -289,7 +287,7 @@ class ProtocolGraphWalkerTestCase(TestCase):
         self._walker.proto.set_output([])
         self.assertEqual([], self._walker.determine_wants(heads))
 
-        self._walker.proto.set_output([b'want ' + ONE.hex_bytes + b' multi_ack', 'foo'])
+        self._walker.proto.set_output([b'want ' + ONE.hex_bytes + b' multi_ack', b'foo'])
         self.assertRaises(GitProtocolError, self._walker.determine_wants, heads)
 
         self._walker.proto.set_output([b'want ' + FOUR.hex_bytes + b' multi_ack'])
@@ -684,10 +682,10 @@ class ServeCommandTests(TestCase):
 
     def test_receive_pack(self):
         commit = make_commit(id=ONE, parents=[], commit_time=111)
-        self.backend.repos[b'/'] = MemoryRepo.init_bare(
+        self.backend.repos['/'] = MemoryRepo.init_bare(
             [commit], {b'refs/heads/master': commit.id})
         outf = BytesIO()
-        exitcode = self.serve_command(ReceivePackHandler, [b'/'], BytesIO(b'0000'), outf)
+        exitcode = self.serve_command(ReceivePackHandler, ['/'], BytesIO(b'0000'), outf)
         outlines = outf.getvalue().splitlines()
 
         self.assertEqual(2, len(outlines))

@@ -131,12 +131,12 @@ class BackendRepo(object):
 class DictBackend(Backend):
     """Trivial backend that looks up Git repositories in a dictionary."""
 
-    @wrap3kstr(repos=DICT_KEYS_TO_BYTES)
     def __init__(self, repos):
         self.repos = repos
 
-    @wrap3kstr(path=BYTES)
     def open_repository(self, path):
+        if isinstance(path, bytes):
+            path = path.decode('utf-8')
         logger.debug('Opening repository at %s', path)
         # FIXME: What to do in case there is no repo ?
         return self.repos[path]
@@ -159,6 +159,8 @@ class FileSystemBackend(Backend):
         self._known_repos = []
 
     def open_repository(self, path):
+        if isinstance(path, bytes):
+            path = path.decode('utf-8')
         logger.debug('opening repository at %s', path)
         repo = Repo(path)
         self._known_repos.append(repo)
@@ -798,7 +800,6 @@ class TCPGitServer(socketserver.TCPServer):
     def _make_handler(self, *args, **kwargs):
         return TCPGitRequestHandler(self.handlers, *args, **kwargs)
 
-    @wrap3kstr(handlers=DICT_KEYS_TO_BYTES)
     def __init__(self, backend, listen_addr, port=TCP_GIT_PORT, handlers=None):
         self.handlers = dict(DEFAULT_HANDLERS)
         if handlers is not None:
@@ -825,7 +826,7 @@ def main(argv=sys.argv):
         gitdir = '.'
 
     log_utils.default_logging_config()
-    backend = DictBackend({b'/': Repo(gitdir)})
+    backend = DictBackend({'/': Repo(gitdir)})
     server = TCPGitServer(backend, 'localhost')
     server.serve_forever()
 

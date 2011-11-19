@@ -70,7 +70,7 @@ class GitServerTestCase(ServerTests, CompatTestCase):
         self.assertFalse(b'side-band-64k' in caps)
 
     def _start_server(self, repo):
-        backend = DictBackend({b'/': repo})
+        backend = DictBackend({'/': repo})
         dul_server = TCPGitServer(backend, 'localhost', 0,
                                   handlers=self._handlers())
         self._check_server(dul_server)

@@ -39,7 +39,6 @@ from dulwich.tests.compat.utils import (
     run_git_or_fail,
     )
 
-
 class ServerTests(object):
     """Base tests for testing servers.
 

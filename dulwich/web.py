@@ -405,7 +405,7 @@ try:
         port = 8000
 
         log_utils.default_logging_config()
-        backend = DictBackend({b'/': Repo(gitdir)})
+        backend = DictBackend({'/': Repo(gitdir)})
         app = HTTPGitApplication(backend)
         server = make_server(listen_addr, port, app,
                              handler_class=HTTPGitRequestHandler)

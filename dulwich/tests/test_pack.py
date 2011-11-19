@@ -93,17 +93,14 @@ class PackTests(TestCase):
     datadir = os.path.abspath(os.path.join(os.path.dirname(__file__),
         'data/packs'))
 
-    @wrap3kstr(sha=STRING)
     def get_pack_index(self, sha):
         """Returns a PackIndex from the datadir with the given sha"""
         return load_pack_index(os.path.join(self.datadir, 'pack-%s.idx' % sha))
 
-    @wrap3kstr(sha=STRING)
     def get_pack_data(self, sha):
         """Returns a PackData object from the datadir with the given sha"""
         return PackData(os.path.join(self.datadir, 'pack-%s.pack' % sha))
 
-    @wrap3kstr(sha=STRING)
     def get_pack(self, sha):
         return Pack(os.path.join(self.datadir, 'pack-%s' % sha))
 
@@ -734,7 +731,6 @@ class DeltaChainIteratorTests(TestCase):
             self.store.add_object(blob)
         return blobs
 
-    @enforce_type(sha=Sha1Sum)
     def get_raw_no_repeat(self, sha):
         """Wrapper around store.get_raw that doesn't allow repeat lookups."""
         self.assertFalse(sha in self.fetched,
