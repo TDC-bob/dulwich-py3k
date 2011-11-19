@@ -170,7 +170,7 @@ def get_info_refs(req, backend, mat):
         req2 = BytesIO()
         with ReceivableProtocol(req2.read, write, req2.close) as proto:
             with handler_cls(backend, [url_prefix(mat)], proto, http_req=req, advertise_refs=True) as handler:
-                handler.proto.write_pkt_line('# service=%s\n' % service)
+                handler.proto.write_pkt_line(('# service=%s\n' % service).encode('utf-8'))
                 handler.proto.write_pkt_line(None)
                 handler.handle()
     else:

@@ -55,7 +55,6 @@ class ProtocolFile(object):
     def close(self):
         pass
 
-@wrap3kstr(data=BYTES)
 def pkt_line(data):
     """Wrap data in a pkt-line.
 
@@ -198,7 +197,6 @@ class Protocol(object):
             yield pkt
             pkt = self.read_pkt_line()
 
-    @wrap3kstr(line=BYTES)
     def write_pkt_line(self, line):
         """Sends a pkt-line to the remote git process.
 
@@ -377,7 +375,6 @@ class ReceivableProtocol(Protocol):
             self._rbuf = buf
         return buf.read(size)
 
-@wrap3kstr(text=BYTES)
 def extract_capabilities(text):
     """Extract a capabilities list from a string, if present.
 
