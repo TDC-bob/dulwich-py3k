@@ -34,8 +34,6 @@ from dulwich.objects import (
     S_ISGITLINK,
     )
 
-from dulwich.py3k import *
-
 def _make_writer(f):
     if hasattr(f, 'encoding'):
         # It's probably a string writer
@@ -100,7 +98,6 @@ def get_summary(commit):
     """
     return commit.message.splitlines()[0].replace(" ", "-")
 
-@wrap3kstr(a=STRING, b=STRING)
 def unified_diff(a, b, fromfile='', tofile='', n=3):
     """difflib.unified_diff that doesn't write any dates or trailing spaces.
 
@@ -163,7 +160,7 @@ def write_object_diff(f, store, old_tuple, new_tuple):
         elif S_ISGITLINK(mode):
             return ["Submodule commit " + str(sha) + "\n"]
         else:
-            return store[sha].data.splitlines(True)
+            return [l.decode('utf-8') for l in store[sha].data.splitlines(True)]
     if old_path is None:
         old_path = "/dev/null"
     else:
@@ -217,7 +214,7 @@ def write_blob_diff(f, old_tuple, new_tuple):
             return str(blob.id)[:7]
     def lines(blob):
         if blob is not None:
-            return blob.data.splitlines(True)
+            return [l.decode('utf-8') for l in blob.data.splitlines(True)]
         else:
             return []
     if old_path is None:
