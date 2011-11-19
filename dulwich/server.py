@@ -775,20 +775,20 @@ class TCPGitRequestHandler(socketserver.StreamRequestHandler):
         socketserver.StreamRequestHandler.__init__(self, *args, **kwargs)
 
     def handle(self):
-        proto = ReceivableProtocol(self.connection.recv, self.wfile.write, None)
-        command, args = proto.read_cmd()
+        with ReceivableProtocol(self.connection.recv, self.wfile.write, None) as proto:
+            command, args = proto.read_cmd()
 
-        logger.info('Handling %s request, args=%s', 
-          convert3kstr(command, STRING), convert3kstr(args, STRING))
+            logger.info('Handling %s request, args=%s', 
+              convert3kstr(command, STRING), convert3kstr(args, STRING))
 
-        cls = self.handlers.get(convert3kstr(command, BYTES), None)
-        if not isinstance(cls, collections.Callable):
-            raise GitProtocolError('Invalid service %s' % convert3kstr(command, STRING))
+            cls = self.handlers.get(convert3kstr(command, BYTES), None)
+            if not isinstance(cls, collections.Callable):
+                raise GitProtocolError('Invalid service %s' % convert3kstr(command, STRING))
 
-        h = cls(self.server.backend, args, proto)
-        h.handle()
+            with cls(self.server.backend, args, proto) as h:
+                h.handle()
 
-        logger.info('Finished handling request')
+            logger.info('Finished handling request')
 
 class TCPGitServer(socketserver.TCPServer):
 

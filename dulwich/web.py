@@ -202,8 +202,9 @@ def get_info_packs(req, backend, mat):
     req.respond(HTTP_OK, 'text/plain')
     logger.info('Emulating dumb info/packs')
     for pack in get_repo(backend, mat).object_store.packs:
-        yield b'P pack-' + convert3kstr(pack.name(), BYTES) + b'.pack\n'
-
+        if not isinstance(pack.name(), Sha1Sum):
+            raise TypeError("pack.name() needs to be a Sha1Sum")
+        yield b'P pack-' + pack.name().hex_bytes + b'.pack\n'
 
 class _LengthLimitedFile(object):
     """Wrapper class to limit the length of reads from a file-like object.

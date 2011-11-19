@@ -259,7 +259,7 @@ class DumbHandlersTestCase(WebTestCase):
             def name(self):
                 return self._sha
 
-        packs = [TestPack(str(i) * 40) for i in range(1, 4)]
+        packs = [TestPack(Sha1Sum(str(i) * 40)) for i in range(1, 4)]
 
         class TestObjectStore(MemoryObjectStore):
             # property must be overridden, can't be assigned
