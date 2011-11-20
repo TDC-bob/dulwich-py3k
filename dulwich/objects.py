@@ -218,8 +218,8 @@ class Sha1Sum(object):
                 return
 
             self._get_string = None
-            self._get_bytes = lambda: binascii.unhexlify(sha.encode('ascii'))
-            self._get_hex_bytes = lambda: sha.encode('ascii')
+            self._get_bytes = lambda: binascii.unhexlify(sha.encode('utf-8'))
+            self._get_hex_bytes = lambda: sha.encode('utf-8')
 
         elif isinstance(sha, bytes):
             # Bytes objects could be a raw digest or an encoded hex string
@@ -232,7 +232,7 @@ class Sha1Sum(object):
                 self._bytes = sha
 
                 self._get_string = \
-                  lambda: binascii.hexlify(sha).decode('ascii')
+                  lambda: binascii.hexlify(sha).decode('utf-8')
                 self._get_hex_bytes = lambda: binascii.hexlify(sha)
                 self._get_bytes = None
 
@@ -248,7 +248,7 @@ class Sha1Sum(object):
                     _exception('invalid sha byte string')
                     return
 
-                self._get_string = lambda: sha.decode('ascii')
+                self._get_string = lambda: sha.decode('utf-8')
                 self._get_hex_bytes = None
                 self._get_bytes = lambda: binascii.unhexlify(sha)
 
@@ -285,7 +285,7 @@ class Sha1Sum(object):
                 return
 
             self._get_string = \
-              lambda: binascii.hexlify(self._bytes).decode('ascii')
+              lambda: binascii.hexlify(self._bytes).decode('utf-8')
             self._get_hex_bytes = lambda: binascii.hexlify(self._bytes)
             self._get_bytes = None
 
