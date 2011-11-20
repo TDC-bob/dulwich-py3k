@@ -750,18 +750,24 @@ class Sha1SumTests(TestCase):
         self.assertEqual(s.bytes, b'\x11' * 20)
         self.assertEqual(s.string, '1' * 40)
         self.assertEqual(s.hex_bytes, b'1' * 40)
+        self.assertEqual(s.short_string, '1' * 7)
+        self.assertEqual(s.short_hex_bytes, b'1' * 7)
 
     def test_from_hexbytes(self):
         s = Sha1Sum(b'1' * 40)
         self.assertEqual(s.bytes, b'\x11' * 20)
         self.assertEqual(s.string, '1' * 40)
         self.assertEqual(s.hex_bytes, b'1' * 40)
+        self.assertEqual(s.short_string, '1' * 7)
+        self.assertEqual(s.short_hex_bytes, b'1' * 7)
 
     def test_from_bytes(self):
         s = Sha1Sum(b'\x11' * 20)
         self.assertEqual(s.bytes, b'\x11' * 20)
         self.assertEqual(s.string, '1' * 40)
         self.assertEqual(s.hex_bytes, b'1' * 40)
+        self.assertEqual(s.short_string, '1' * 7)
+        self.assertEqual(s.short_hex_bytes, b'1' * 7)
 
     def test_from_sha(self):
         expected = Sha1Sum('ff8e8b6ff073aaff7c02c0e973597e9da63c1225')
@@ -769,6 +775,11 @@ class Sha1SumTests(TestCase):
         self.assertEqual(actual, expected)
 
     def test_resolve(self):
+        s = Sha1Sum('1' * 40, resolve=True)
+        self.assertEqual(s._bytes, b'\x11' * 20)
+        self.assertEqual(s._string, '1' * 40)
+        self.assertEqual(s._hex_bytes, b'1' * 40)
+
         s = Sha1Sum('2' * 40, resolve=True)
         self.assertEqual(s.bytes, b'\x22' * 20)
         self.assertEqual(s.string, '2' * 40)
@@ -791,6 +802,9 @@ class Sha1SumTests(TestCase):
     def test_invalid(self):
         wrong_a, wrong_b, wrong_c = self._make_invalid_shas()
         self.assertRaises(ObjectFormatException, Sha1Sum, 'Derp')
+        self.assertRaises(ObjectFormatException, Sha1Sum, '1' * 39)
+        self.assertRaises(ObjectFormatException, Sha1Sum, '2' * 41)
+        self.assertRaises(ObjectFormatException, Sha1Sum, 'X' * 40)
         self.assertRaises(ObjectFormatException, Sha1Sum, b'Derp')
         self.assertRaises(ObjectFormatException, Sha1Sum, wrong_a)
         self.assertRaises(ObjectFormatException, Sha1Sum, wrong_b)
@@ -801,6 +815,9 @@ class Sha1SumTests(TestCase):
         invalid = [
           Sha1Sum('Derp', lazy_errors=True),
           Sha1Sum(b'Derp', lazy_errors=True),
+          Sha1Sum('1' * 39, lazy_errors=True),
+          Sha1Sum('2' * 41, lazy_errors=True),
+          Sha1Sum('X' * 40, lazy_errors=True),
           Sha1Sum(wrong_a, lazy_errors=True),
           Sha1Sum(wrong_b, lazy_errors=True),
           Sha1Sum(wrong_c, lazy_errors=True)]
@@ -809,3 +826,115 @@ class Sha1SumTests(TestCase):
             self.assertRaises(errors, lambda: sha.string)
             self.assertRaises(errors, lambda: sha.bytes)
             self.assertRaises(errors, lambda: sha.hex_bytes)
+
+    def test_equal(self):
+        a = Sha1Sum('1a2b3c4d' * 5)
+        b = Sha1Sum(b'\x1a\x2b\x3c\x4d' * 5)
+        self.assertEqual(a, b)
+        self.assertEqual(a.hex_bytes, b.hex_bytes)
+        self.assertEqual(a.string, b.string)
+        self.assertEqual(a.bytes, b.bytes)
+        self.assertEqual(hash(a), hash(b))
+        self.assertEqual(a, '1a2b3c4d' * 5)
+
+    def test_not_equal(self):
+        a = Sha1Sum('1a2b3c4d' * 5)
+        b = Sha1Sum(b'\x4d\x3c\x2b\x1a' * 5)
+        self.assertNotEqual(a, b)
+        self.assertNotEqual(a, 42)
+        self.assertNotEqual(a, None)
+        self.assertNotEqual(a.hex_bytes, b.hex_bytes)
+        self.assertNotEqual(a.string, b.string)
+        self.assertNotEqual(a.bytes, b.bytes)
+        self.assertNotEqual(hash(a), hash(b))
+        self.assertNotEqual(a, b'\x4d\x3c\x2b\x1a' * 5)
+
+    def _make_inequality(self):
+        return (
+          Sha1Sum('1' * 40),
+          Sha1Sum('2' * 40),
+          Sha1Sum('3' * 40),
+        )
+
+    def test_less_than(self):
+        a, b, c = self._make_inequality()
+        self.assertTrue(a < b)
+        self.assertTrue(b < c)
+        self.assertTrue(a < c)
+        self.assertTrue(not (a < a))
+        self.assertTrue(not (b < a))
+        self.assertTrue(not (b < b))
+        self.assertTrue(not (c < a))
+        self.assertTrue(not (c < b))
+        self.assertTrue(not (c < c))
+
+    def test_less_than_or_equal(self):
+        a, b, c = self._make_inequality()
+        self.assertTrue(a <= a)
+        self.assertTrue(a <= b)
+        self.assertTrue(a <= c)
+        self.assertTrue(b <= b)
+        self.assertTrue(b <= c)
+        self.assertTrue(c <= c)
+        self.assertTrue(not (b <= a))
+        self.assertTrue(not (c <= a))
+        self.assertTrue(not (c <= b))
+
+    def test_greater_than(self):
+        a, b, c = self._make_inequality()
+        self.assertTrue(b > a)
+        self.assertTrue(c > b)
+        self.assertTrue(c > a)
+        self.assertTrue(not (a > a))
+        self.assertTrue(not (a > b))
+        self.assertTrue(not (b > b))
+        self.assertTrue(not (a > c))
+        self.assertTrue(not (b > c))
+        self.assertTrue(not (c > c))
+
+    def test_greater_than_or_equal(self):
+        a, b, c = self._make_inequality()
+        self.assertTrue(a >= a)
+        self.assertTrue(b >= a)
+        self.assertTrue(c >= a)
+        self.assertTrue(b >= b)
+        self.assertTrue(c >= b)
+        self.assertTrue(c >= c)
+        self.assertTrue(not (a >= b))
+        self.assertTrue(not (a >= c))
+        self.assertTrue(not (b >= c))
+
+    def test_hash(self):
+        a = Sha1Sum('a' * 40)
+        b = Sha1Sum('b' * 40)
+        d = {a: 'A', b: 'B'}
+        self.assertTrue(b'\xaa' * 20 in d)
+        self.assertTrue(b'\xbb' * 20 in d)
+
+    def test_stringlike(self):
+        base = '90abcdef'
+        s = Sha1Sum(base * 5)
+        self.assertTrue(s == base * 5)
+        self.assertTrue(base * 5 == str(s))
+        self.assertTrue(s.startswith(base))
+        self.assertTrue(s.endswith(base))
+        self.assertTrue(base in s)
+
+    def test_byteslike(self):
+        base1 = b'90abcdef'
+        s1 = Sha1Sum(base1 * 5)
+        base2 = b'\x90\xab\xcd\xed'
+        s2 = Sha1Sum(base2 * 5)
+        self.assertTrue(s1 == base1 * 5)
+        self.assertTrue(base2 * 5 == bytes(s2))
+        self.assertTrue(s1.startswith(base1))
+        self.assertTrue(s1.endswith(base1))
+        self.assertTrue(base1 in s1)
+
+    def test_hashliblike(self):
+        h = hashlib.sha1(b"Don't forget to bring a towel")
+        s = Sha1Sum(h)
+        self.assertEqual(h.digest(), s.digest())
+        self.assertEqual(h.hexdigest(), s.hexdigest())
+        self.assertEqual(h.digest_size, s.digest_size)
+        self.assertEqual(h.name, s.name)

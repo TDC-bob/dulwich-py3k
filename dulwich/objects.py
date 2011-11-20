@@ -315,6 +315,14 @@ class Sha1Sum(object):
         return self._string
 
     @property
+    def short_string(self):
+        """Get the shortid version of a hex string
+
+        :return: The first 7 characters of the hex string
+        """
+        return self.string[:7]
+
+    @property
     def hex_bytes(self):
         """Get the sha-1 sum as a hex string, encoded into bytes
 
@@ -324,6 +332,14 @@ class Sha1Sum(object):
             self._hex_bytes = self._get_hex_bytes()
             self._get_hex_bytes = None
         return self._hex_bytes
+
+    @property
+    def short_hex_bytes(self):
+        """Get the shortid version of a hex string
+
+        :return: The first 7 bytes of the hex bytes string
+        """
+        return self.hex_bytes[:7]
 
     @property
     def bytes(self):
@@ -349,6 +365,22 @@ class Sha1Sum(object):
         :return: A hex string representing a sha-1 sum
         """
         return self.string
+
+    @property
+    def digest_size(self):
+        """Make Sha1Sum behave like hashlib's digest_size property
+
+        :return: The size of whatever digest returns
+        """
+        return len(self.bytes)
+
+    @property
+    def name(self):
+        """Make Sha1Sum behave like hashlib's name property
+
+        :return: The type of hash contained here
+        """
+        return 'sha1'
 
     def __bytes__(self):
         """Called by bytes(...)
@@ -442,14 +474,45 @@ class Sha1Sum(object):
         """
         return hash(self.bytes)
 
-    def startswith(self, text):
+    def __contains__(self, text):
+        """Try very hard to emulate the __contains__ capabilities of a string
+
+        :param text: A hex string of a partial sha-1 sum (string or bytes)
+        :return: True if this Sha1Sum contains the given string
         """
+
+        if isinstance(text, str):
+            return text in self.string
+        elif isinstance(text, bytes):
+            return text in self.hex_bytes
+        else:
+            raise TypeError(text)
+
+    def startswith(self, text):
+        """Try very hard to emulate the startswith capabilities of a string
+
+        :param text: A hex string of a partial sha-1 sum (string or bytes)
+        :return: True if this Sha1Sum starts with the given string
         """
 
         if isinstance(text, str):
             return self.string.startswith(text)
         elif isinstance(text, bytes):
             return self.hex_bytes.startswith(text)
+        else:
+            raise TypeError(text)
+
+    def endswith(self, text):
+        """Try very hard to emulate the endswith capabilities of a string
+
+        :param text: A hex string of a partial sha-1 sum (string or bytes)
+        :return: True if this Sha1Sum ends with the given string
+        """
+
+        if isinstance(text, str):
+            return self.string.endswith(text)
+        elif isinstance(text, bytes):
+            return self.hex_bytes.endswith(text)
         else:
             raise TypeError(text)
 
