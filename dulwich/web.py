@@ -39,6 +39,10 @@ from dulwich.server import (
 from dulwich.objects import (
     Sha1Sum
 )
+from wsgiref.simple_server import (
+    WSGIRequestHandler,
+    make_server,
+)
 
 logger = log_utils.getLogger(__name__)
 
@@ -367,53 +371,37 @@ class HTTPGitApplication(object):
             return req.not_found(b'Sorry, that method is not supported')
         return handler(req, self.backend, mat)
 
-# The reference server implementation is based on wsgiref, which is not
-# distributed with python 2.4. If wsgiref is not present, users will not be able
-# to use the HTTP server without a little extra work.
-try:
-    from wsgiref.simple_server import (
-        WSGIRequestHandler,
-        make_server,
-        )
 
-    class HTTPGitRequestHandler(WSGIRequestHandler):
-        """Handler that uses dulwich's logger for logging exceptions."""
+class HTTPGitRequestHandler(WSGIRequestHandler):
+    """Handler that uses dulwich's logger for logging exceptions."""
 
-        def log_exception(self, exc_info):
-            logger.exception('Exception happened during processing of request',
-                             exc_info=exc_info)
+    def log_exception(self, exc_info):
+        logger.exception('Exception happened during processing of request',
+                         exc_info=exc_info)
 
-        def log_message(self, format, *args):
-            logger.info(format, *args)
+    def log_message(self, format, *args):
+        logger.info(format, *args)
 
-        def log_error(self, *args):
-            logger.error(*args)
+    def log_error(self, *args):
+        logger.error(*args)
 
 
-    def main(argv=sys.argv):
-        """Entry point for starting an HTTP git server."""
-        if len(argv) > 1:
-            gitdir = argv[1]
-        else:
-            gitdir = os.getcwd()
+def main(argv=sys.argv):
+    """Entry point for starting an HTTP git server."""
+    if len(argv) > 1:
+        gitdir = argv[1]
+    else:
+        gitdir = os.getcwd()
 
-        # TODO: allow serving on other addresses/ports via command-line flag
-        listen_addr=''
-        port = 8000
+    # TODO: allow serving on other addresses/ports via command-line flag
+    listen_addr=''
+    port = 8000
 
-        log_utils.default_logging_config()
-        backend = DictBackend({'/': Repo(gitdir)})
-        app = HTTPGitApplication(backend)
-        server = make_server(listen_addr, port, app,
-                             handler_class=HTTPGitRequestHandler)
-        logger.info('Listening for HTTP connections on %s:%d', listen_addr,
-                    port)
-        server.serve_forever()
-
-except ImportError:
-    # No wsgiref found; don't provide the reference functionality, but leave the
-    # rest of the WSGI-based implementation.
-    def main(argv=sys.argv):
-        """Stub entry point for failing to start a server without wsgiref."""
-        sys.stderr.write('Sorry, the wsgiref module is required for dul-web.\n')
-        sys.exit(1)
+    log_utils.default_logging_config()
+    backend = DictBackend({'/': Repo(gitdir)})
+    app = HTTPGitApplication(backend)
+    server = make_server(listen_addr, port, app,
+                         handler_class=HTTPGitRequestHandler)
+    logger.info('Listening for HTTP connections on %s:%d', listen_addr,
+                port)
+    server.serve_forever()
