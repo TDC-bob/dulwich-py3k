@@ -139,9 +139,9 @@ class BlobReadTests(TestCase):
 
     def test_set_chunks(self):
         b = Blob()
-        b.chunked = ['te', 'st', ' 5\n']
+        b.chunked = [b'te', b'st', b' 5\n']
         self.assertEqual(b'test 5\n', b.data)
-        b.chunked = ['te', 'st', ' 6\n']
+        b.chunked = [b'te', b'st', b' 6\n']
         self.assertEqual(b'test 6\n', b.as_raw_string())
 
     def test_parse_legacy_blob(self):

@@ -103,7 +103,6 @@ def object_header(num_type, length):
     return "%s %d\0" % (object_class(num_type).type_name, length)
 
 
-@wrap3kstr(name=STRING, docstring=STRING)
 def serializable_property(name, docstring=None):
     def set(obj, value):
         obj._ensure_parsed()
@@ -111,9 +110,6 @@ def serializable_property(name, docstring=None):
         obj._needs_serialization = True
     def get(obj):
         obj._ensure_parsed()
-        if not hasattr(obj, "_"+name):
-            print('fail: ' + repr(obj))
-            print('name: ' + name)
         return getattr(obj, "_"+name)
     return property(get, set, doc=docstring)
 
@@ -134,7 +130,7 @@ def check_hexsha(hex, error_msg):
     except (TypeError, AssertionError):
         raise ObjectFormatException("%s %s" % (error_msg, hex))
 
-@wrap3kstr(identity=STRING, error_msg=STRING)
+
 def check_identity(identity, error_msg):
     """Check if the specified identity is valid.
 
@@ -489,7 +485,6 @@ class ShaFile(object):
         ret._magic = magic
         return ret
 
-    @wrap3kstr(map=BYTES)
     def _parse_legacy_object(self, map):
         """Parse a legacy object, setting the raw string."""
         text = _decompress(map)
@@ -518,9 +513,12 @@ class ShaFile(object):
     def as_raw_string(self):
         return b"".join(self.as_raw_chunks())
 
-    @wrap3kstr(returns=STRING)
     def __str__(self):
-        return self.as_raw_string()
+        s = self.as_raw_string()
+        if isinstance(s, bytes):
+            return s.decode('utf-8')
+        else:
+            return s
 
     def __hash__(self):
         return hash(self.id)
@@ -557,7 +555,6 @@ class ShaFile(object):
         self._needs_serialization = False
 
     @staticmethod
-    @wrap3kstr(magic=BYTES|AGGRESSIVE)
     def _parse_object_header(magic, f):
         """Parse a new style object, creating it but not reading the file."""
         num_type = (magic[0] >> 4) & 7
@@ -568,7 +565,6 @@ class ShaFile(object):
         ret._magic = magic
         return ret
 
-    @wrap3kstr(map=BYTES|AGGRESSIVE)
     def _parse_object(self, map):
         """Parse a new style object, setting self._text."""
         # skip type and size; type must have already been determined, and
@@ -582,7 +578,6 @@ class ShaFile(object):
         self.set_raw_string(_decompress(raw))
 
     @classmethod
-    @wrap3kstr(magic=BYTES|AGGRESSIVE)
     def _is_legacy_object(cls, magic):
         b0, b1 = magic[0:2]
         word = (b0 << 8) + b1
@@ -793,7 +788,6 @@ class Blob(ShaFile):
         self._ensure_parsed()
         return self._chunked_text
 
-    @wrap3kstr(chunks=BYTES)
     def _set_chunked(self, chunks):
         self._chunked_text = chunks
 
@@ -1024,7 +1018,7 @@ def parse_tree(text, strict=False):
             raise ObjectFormatException("Sha has invalid length")
         yield (name, mode, Sha1Sum(sha))
 
-@wrap3kstr(items=STRING)
+
 def serialize_tree(items):
     """Serialize the items in a tree to a text.
 
@@ -1075,16 +1069,16 @@ def sorted_tree_items(entries, name_order):
             raise TypeError('Expected a Sha1Sum for SHA, got %r' % hexsha)
         yield TreeEntry(name, mode, hexsha)
 
-@wrap3kstr(tuple_1=STRING, tuple_2=STRING)
+
 def cmp_entry(tuple_1, tuple_2):
     """Compare two tree entries in tree order."""
     (name1, value1) = tuple_1
     (name2, value2) = tuple_2
 
     if stat.S_ISDIR(value1[0]):
-        name1 += "/"
+        name1 += b"/"
     if stat.S_ISDIR(value2[0]):
-        name2 += "/"
+        name2 += b"/"
     return (name1 > name2) - (name1 < name2)
 
 
@@ -1333,7 +1327,6 @@ class Commit(ShaFile):
             raise NotCommitError(path)
         return commit
 
-    @wrap3kstr(chunks=BYTES)
     def _deserialize(self, chunks):
         self._parents = []
         self._extra = []
