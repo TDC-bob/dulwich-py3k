@@ -36,7 +36,7 @@ from dulwich.pack import (
 
 from dulwich.py3k import *
 
-@enforce_type(path=bytes, returns=bytes)
+
 def pathsplit(path):
     """Split a /-delimited path into a directory part and a basename.
 
@@ -216,7 +216,6 @@ class Index(object):
         """Number of entries in this index file."""
         return len(self._byname)
 
-    @enforce_type(name=str)
     def __getitem__(self, name):
         """Retrieve entry by relative path.
         
@@ -228,12 +227,10 @@ class Index(object):
         """Iterate over the paths in this index."""
         return iter(self._byname)
 
-    @enforce_type(path=str)
     def get_sha1(self, path):
         """Return the (Sha1Sum object) SHA1 for the object at a path."""
         return self[path][-2]
 
-    @enforce_type(path=str)
     def get_mode(self, path):
         """Return the POSIX file mode for the object at a path."""
         return self[path][-6]
@@ -248,13 +245,11 @@ class Index(object):
         """Remove all contents from this index."""
         self._byname = {}
 
-    @enforce_type(name=str, x=tuple)
     def __setitem__(self, name, x):
         assert len(x) == 10
         # Remove the old entry if any
         self._byname[name] = x
 
-    @enforce_type(name=str)
     def __delitem__(self, name):
         assert isinstance(name, str)
         del self._byname[name]
@@ -306,7 +301,6 @@ def commit_tree(object_store, blobs):
     """
     trees = {b'': {}}
 
-    @enforce_type(path=bytes)
     def add_tree(path):
         if path in trees:
             return trees[path]
@@ -324,7 +318,6 @@ def commit_tree(object_store, blobs):
         tree = add_tree(tree_path)
         tree[basename] = (mode, sha)
 
-    @enforce_type(path=bytes)
     def build_tree(path):
         tree = Tree()
         for basename, entry in trees[path].items():

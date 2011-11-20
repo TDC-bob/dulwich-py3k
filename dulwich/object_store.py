@@ -88,7 +88,6 @@ class BaseObjectStore(object):
         """Check if a particular object is present by SHA1 and is packed."""
         raise NotImplementedError(self.contains_packed)
 
-    @enforce_type(sha=Sha1Sum)
     def __contains__(self, sha):
         """Check if a particular object is present by SHA1.
 
@@ -207,7 +206,6 @@ class BaseObjectStore(object):
         """
         return self.iter_shas(self.find_missing_objects(have, want, progress))
 
-    @enforce_type(sha=Sha1Sum)
     def peel_sha(self, sha):
         """Peel all tags from a SHA.
 
@@ -277,11 +275,9 @@ class PackBasedObjectStore(BaseObjectStore):
         """Iterate over the SHAs of all loose objects."""
         raise NotImplementedError(self._iter_loose_objects)
 
-    @enforce_type(sha=Sha1Sum)
     def _get_loose_object(self, sha):
         raise NotImplementedError(self._get_loose_object)
 
-    @enforce_type(sha=Sha1Sum)
     def _remove_loose_object(self, sha):
         raise NotImplementedError(self._remove_loose_object)
 
@@ -303,12 +299,10 @@ class PackBasedObjectStore(BaseObjectStore):
         iterables = self.packs + [self._iter_loose_objects()]
         return itertools.chain(*iterables)
 
-    @enforce_type(sha=Sha1Sum)
     def contains_loose(self, sha):
         """Check if a particular object is present by SHA1 and is loose."""
         return self._get_loose_object(sha) is not None
 
-    @enforce_type(sha=Sha1Sum)
     def get_raw(self, sha):
         """Obtain the raw text for an object.
 
@@ -348,7 +342,6 @@ class PackBasedObjectStore(BaseObjectStore):
 class DiskObjectStore(PackBasedObjectStore):
     """Git-style object store that exists on disk."""
 
-    @enforce_type(path=str)
     def __init__(self, path):
         """Open an object store.
 
@@ -389,7 +382,6 @@ class DiskObjectStore(PackBasedObjectStore):
                 return []
             raise
 
-    @enforce_type(path=str)
     def add_alternate_path(self, path):
         """Add an alternate path to this object store.
         """
@@ -435,7 +427,6 @@ class DiskObjectStore(PackBasedObjectStore):
                 return True
             raise
 
-    @enforce_type(sha=Sha1Sum)
     def _get_shafile_path(self, sha):
         # Check from object dir
         return sha_to_filename(self.path, sha)
@@ -447,7 +438,6 @@ class DiskObjectStore(PackBasedObjectStore):
             for rest in os.listdir(os.path.join(self.path, base)):
                 yield Sha1Sum(base + rest)
 
-    @enforce_type(sha=Sha1Sum)
     def _get_loose_object(self, sha):
         path = self._get_shafile_path(sha)
         try:
@@ -457,7 +447,6 @@ class DiskObjectStore(PackBasedObjectStore):
                 return None
             raise
 
-    @enforce_type(sha=Sha1Sum)
     def _remove_loose_object(self, sha):
         os.remove(self._get_shafile_path(sha))
 
@@ -613,12 +602,10 @@ class MemoryObjectStore(BaseObjectStore):
         super(MemoryObjectStore, self).__init__()
         self._data = {}
 
-    @enforce_type(sha=Sha1Sum)
     def contains_loose(self, sha):
         """Check if a particular object is present by SHA1 and is loose."""
         return sha in self._data
 
-    @enforce_type(sha=Sha1Sum)
     def contains_packed(self, sha):
         """Check if a particular object is present by SHA1 and is packed."""
         return False
@@ -632,7 +619,6 @@ class MemoryObjectStore(BaseObjectStore):
         """List with pack objects."""
         return []
 
-    @enforce_type(name=Sha1Sum)
     def get_raw(self, name):
         """Obtain the raw text for an object.
 
@@ -642,16 +628,13 @@ class MemoryObjectStore(BaseObjectStore):
         obj = self[name]
         return obj.type_num, obj.as_raw_string()
 
-    @enforce_type(name=Sha1Sum)
     def __getitem__(self, name):
         return self._data[name]
 
-    @enforce_type(name=Sha1Sum)
     def __delitem__(self, name):
         """Delete an object from this store, for testing only."""
         del self._data[name]
 
-    @enforce_type(name=Sha1Sum)
     def _add_obj(self, name, obj):
         self._data[name] = obj
 

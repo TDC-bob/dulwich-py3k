@@ -80,7 +80,6 @@ def read_info_refs(f):
         ret[name] = sha
     return ret
 
-@enforce_type(refname=bytes)
 def check_ref_format(refname):
     """Check if a refname is correctly formatted.
 
@@ -116,7 +115,6 @@ def check_ref_format(refname):
 class RefsContainer(object):
     """A container for refs."""
 
-    @enforce_type(name=bytes, other=bytes)
     def set_ref(self, name, other):
         warnings.warn("RefsContainer.set_ref() is deprecated."
             "Use set_symblic_ref instead.",
@@ -151,7 +149,6 @@ class RefsContainer(object):
         """
         return None
 
-    @enforce_type(name=bytes, other=dict)
     def import_refs(self, base, other):
         for name, value in other.items():
             self[base + b'/' + name] = value
@@ -160,7 +157,6 @@ class RefsContainer(object):
         """All refs present in this container."""
         raise NotImplementedError(self.allkeys)
 
-    @enforce_type(base=bytes)
     def keys(self, base=None):
         """Refs present in this container.
 
@@ -173,7 +169,6 @@ class RefsContainer(object):
         else:
             return self.allkeys()
 
-    @enforce_type(base=bytes)
     def subkeys(self, base):
         """Refs present in this container under a base.
 
@@ -188,7 +183,6 @@ class RefsContainer(object):
                 keys.add(refname[base_len:])
         return keys
 
-    @enforce_type(base=bytes)
     def as_dict(self, base=None):
         """Return the contents of this container as a dictionary.
 
@@ -205,7 +199,6 @@ class RefsContainer(object):
 
         return ret
 
-    @enforce_type(name=bytes)
     def _check_refname(self, name):
         """Ensure a refname is valid and lives in refs or is HEAD.
 
@@ -222,7 +215,6 @@ class RefsContainer(object):
         if not name.startswith(b'refs/') or not check_ref_format(name[5:]):
             raise RefFormatError(name)
 
-    @enforce_type(refname=bytes)
     def read_ref(self, refname):
         """Read a reference without following any references.
 
@@ -248,7 +240,6 @@ class RefsContainer(object):
         """
         raise NotImplementedError(self.read_loose_ref)
 
-    @enforce_type(name=bytes)
     def _follow(self, name):
         """Follow a reference name.
 
@@ -274,7 +265,6 @@ class RefsContainer(object):
             return True
         return False
 
-    @enforce_type(name=bytes)
     def __getitem__(self, name):
         """Get the SHA1 for a reference name.
 
@@ -304,7 +294,6 @@ class RefsContainer(object):
         """Add a new reference only if it does not already exist."""
         raise NotImplementedError(self.add_if_new)
 
-    @enforce_type(name=bytes, ref=Sha1Sum)
     def __setitem__(self, name, ref):
         """Set a reference name to point to the given SHA1.
 
@@ -333,7 +322,6 @@ class RefsContainer(object):
         """
         raise NotImplementedError(self.remove_if_equals)
 
-    @enforce_type(name=bytes)
     def __delitem__(self, name):
         """Remove a refname.
 
@@ -367,18 +355,15 @@ class DictRefsContainer(RefsContainer):
     def allkeys(self):
         return list(self._refs.keys())
 
-    @enforce_type(name=bytes)
     def read_loose_ref(self, name):
         return self._refs.get(name, None)
 
     def get_packed_refs(self):
         return {}
 
-    @enforce_type(name=bytes, other=bytes)
     def set_symbolic_ref(self, name, other):
         self._refs[name] = SYMREF + other
 
-    @enforce_type(name=bytes)
     def set_if_equals(self, name, old_ref, new_ref):
         if old_ref is not None and self._refs.get(name, None) != old_ref:
             return False
@@ -387,21 +372,18 @@ class DictRefsContainer(RefsContainer):
         self._refs[realname] = new_ref
         return True
 
-    @enforce_type(name=bytes, ref=Sha1Sum)
     def add_if_new(self, name, ref):
         if name in self._refs:
             return False
         self._refs[name] = ref
         return True
 
-    @enforce_type(name=bytes)
     def remove_if_equals(self, name, old_ref):
         if old_ref is not None and self._refs.get(name, None) != old_ref:
             return False
         del self._refs[name]
         return True
 
-    @enforce_type(name=bytes)
     def get_peeled(self, name):
         return self._peeled.get(name)
 
@@ -425,7 +407,6 @@ class DictRefsContainer(RefsContainer):
 class DiskRefsContainer(RefsContainer):
     """Refs container that reads refs from disk."""
 
-    @enforce_type(path=str)
     def __init__(self, path):
         self.path = path
         self._packed_refs = None
@@ -434,7 +415,6 @@ class DiskRefsContainer(RefsContainer):
     def __repr__(self):
         return "%s(%r)" % (self.__class__.__name__, self.path)
 
-    @enforce_type(base=bytes)
     def subkeys(self, base):
         keys = set()
         path = self.refpath(base)
@@ -465,7 +445,6 @@ class DiskRefsContainer(RefsContainer):
         keys.update(self.get_packed_refs())
         return keys
 
-    @enforce_type(name=bytes)
     def refpath(self, name):
         """Return the disk path of a ref.
 
@@ -510,7 +489,6 @@ class DiskRefsContainer(RefsContainer):
 
         return self._packed_refs
 
-    @enforce_type(name=bytes)
     def get_peeled(self, name):
         """Return the cached peeled value of a ref, if available.
 
@@ -529,7 +507,6 @@ class DiskRefsContainer(RefsContainer):
             # Known not peelable
             return self[name]
 
-    @enforce_type(name=bytes)
     def read_loose_ref(self, name):
         """Read a reference file and return its contents.
 
@@ -556,7 +533,6 @@ class DiskRefsContainer(RefsContainer):
                 return None
             raise
 
-    @enforce_type(name=bytes)
     def _remove_packed_ref(self, name):
         if self._packed_refs is None:
             return
@@ -575,7 +551,6 @@ class DiskRefsContainer(RefsContainer):
             write_packed_refs(f, self._packed_refs, self._peeled_refs)
             f.abort()
 
-    @enforce_type(name=bytes, other=bytes)
     def set_symbolic_ref(self, name, other):
         """Make a ref point at another ref.
 
@@ -592,7 +567,6 @@ class DiskRefsContainer(RefsContainer):
                 f.abort()
                 raise
 
-    @enforce_type(name=bytes)
     def set_if_equals(self, name, old_ref, new_ref):
         """Set a refname to new_ref only if it currently equals old_ref.
 
@@ -632,7 +606,6 @@ class DiskRefsContainer(RefsContainer):
                 raise
         return True
 
-    @enforce_type(name=bytes, ref=Sha1Sum)
     def add_if_new(self, name, ref):
         """Add a new reference only if it does not already exist.
 
@@ -664,7 +637,6 @@ class DiskRefsContainer(RefsContainer):
                 raise
         return True
 
-    @enforce_type(name=bytes)
     def remove_if_equals(self, name, old_ref):
         """Remove a refname only if it currently equals old_ref.
 
@@ -789,7 +761,6 @@ class BaseRepo(object):
     :ivar refs: Dictionary-like object with the refs in this repository
     """
 
-    @enforce_type(refs=RefsContainer)
     def __init__(self, object_store, refs):
         self.object_store = object_store
         self.refs = refs
@@ -887,7 +858,6 @@ class BaseRepo(object):
             heads = list(self.refs.as_dict(b'refs/heads').values())
         return self.object_store.get_graph_walker(heads)
 
-    @enforce_type(name=bytes)
     def ref(self, name):
         """Return the SHA1 a ref is pointing to."""
         return self.refs[name]
@@ -900,7 +870,6 @@ class BaseRepo(object):
         """Return the SHA1 pointed at by HEAD."""
         return self.refs[b'HEAD']
 
-    @enforce_type(sha=Sha1Sum)
     def _get_object(self, sha, cls):
         ret = self.get_object(sha)
         if not isinstance(ret, cls):
@@ -917,11 +886,9 @@ class BaseRepo(object):
                   ret.type_name, cls.type_name))
         return ret
 
-    @enforce_type(sha=Sha1Sum)
     def get_object(self, sha):
         return self.object_store[sha]
 
-    @enforce_type(sha=Sha1Sum)
     def get_parents(self, sha):
         return self.commit(sha).parents
 
@@ -932,7 +899,6 @@ class BaseRepo(object):
         return dict((section, dict(p.items(section)))
                     for section in p.sections())
 
-    @enforce_type(sha=Sha1Sum)
     def commit(self, sha):
         """Retrieve the commit with a particular SHA.
 
@@ -945,7 +911,6 @@ class BaseRepo(object):
             category=DeprecationWarning, stacklevel=2)
         return self._get_object(sha, Commit)
 
-    @enforce_type(sha=Sha1Sum)
     def tree(self, sha):
         """Retrieve the tree with a particular SHA.
 
@@ -958,7 +923,6 @@ class BaseRepo(object):
             category=DeprecationWarning, stacklevel=2)
         return self._get_object(sha, Tree)
 
-    @enforce_type(sha=Sha1Sum)
     def tag(self, sha):
         """Retrieve the tag with a particular SHA.
 
@@ -971,7 +935,6 @@ class BaseRepo(object):
             category=DeprecationWarning, stacklevel=2)
         return self._get_object(sha, Tag)
 
-    @enforce_type(sha=Sha1Sum)
     def get_blob(self, sha):
         """Retrieve the blob with a particular SHA.
 
@@ -984,7 +947,6 @@ class BaseRepo(object):
             "instead.", category=DeprecationWarning, stacklevel=2)
         return self._get_object(sha, Blob)
 
-    @enforce_type(ref=bytes)
     def get_peeled(self, ref):
         """Get the peeled value of a ref.
 
@@ -1061,7 +1023,6 @@ class BaseRepo(object):
             assert isinstance(name, bytes)
             return name in self.refs
 
-    @enforce_type(name=bytes)
     def __setitem__(self, name, value):
         if name.startswith(b"refs/") or name == b"HEAD":
             if isinstance(value, Sha1Sum) or isinstance(value, bytes):
@@ -1071,14 +1032,12 @@ class BaseRepo(object):
         else:
             raise ValueError(name)
 
-    @enforce_type(name=bytes)
     def __delitem__(self, name):
         if name.startswith(b"refs") or name == b"HEAD":
             del self.refs[name]
         else:
             raise ValueError(name)
 
-    @enforce_type(ref=bytes)
     def do_commit(self, message=None, committer=None,
                   author=None, commit_timestamp=None,
                   commit_timezone=None, author_timestamp=None,
@@ -1159,7 +1118,6 @@ class BaseRepo(object):
 class Repo(BaseRepo):
     """A git repository backed by local disk."""
 
-    @enforce_type(root=str)
     def __init__(self, root):
         if os.path.isdir(os.path.join(root, ".git", OBJECTDIR)):
             self.bare = False
@@ -1180,7 +1138,6 @@ class Repo(BaseRepo):
         """Return the path of the control directory."""
         return self._controldir
 
-    @enforce_type(path=str, contents=bytes)
     def _put_named_file(self, path, contents):
         """Write a file to the control dir with the given name and contents.
 
@@ -1191,7 +1148,6 @@ class Repo(BaseRepo):
         with GitFile(os.path.join(self.controldir(), path), 'wb') as f:
             f.write(contents)
 
-    @enforce_type(path=str)
     def get_named_file(self, path):
         """Get a file from the control dir with a specific name.
 
@@ -1258,7 +1214,6 @@ class Repo(BaseRepo):
                     blob.id, 0)
         index.write()
 
-    @enforce_type(target_path=str, origin=bytes)
     def clone(self, target_path, mkdir=True, bare=False, origin=b'origin'):
         """Clone this repository.
 
@@ -1325,7 +1280,6 @@ class MemoryRepo(BaseRepo):
         self._named_files = {}
         self.bare = True
 
-    @enforce_type(path=str, contents=bytes)
     def _put_named_file(self, path, contents):
         """Write a file to the control dir with the given name and contents.
 
@@ -1334,7 +1288,6 @@ class MemoryRepo(BaseRepo):
         """
         self._named_files[path] = contents
 
-    @enforce_type(path=str)
     def get_named_file(self, path):
         """Get a file from the control dir with a specific name.
 

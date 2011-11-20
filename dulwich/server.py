@@ -223,7 +223,6 @@ class Handler(object):
         self._client_capabilities = set(caps)
         logger.info('Client capabilities: %s', convert3kstr(caps, STRING))
 
-    @enforce_type(cap=bytes)
     def has_capability(self, cap):
         if self._client_capabilities is None:
             raise GitProtocolError('Server attempted to access capability %s '
@@ -463,7 +462,6 @@ class ProtocolGraphWalker(object):
         """
         return _split_proto_line(self.proto.read_pkt_line(), allowed)
 
-    @enforce_type(sha=Sha1Sum, ack_type=bytes)
     def send_ack(self, sha, ack_type=b''):
         if ack_type:
             ack_type = b' ' + ack_type

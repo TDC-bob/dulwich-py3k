@@ -1361,7 +1361,6 @@ class SHA1Writer(object):
         self.length = 0
         self.sha1 = hashlib.sha1(b'')
 
-    @enforce_type(data=bytes)
     def write(self, data):
         self.sha1.update(data)
         self.f.write(data)

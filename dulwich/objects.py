@@ -540,7 +540,6 @@ class ShaFile(object):
             self._deserialize(self._chunked_text)
             self._needs_parsing = False
 
-    @enforce_type(text=bytes)
     def set_raw_string(self, text):
         if type(text) != bytes:
             raise TypeError(text)
@@ -817,7 +816,6 @@ class Blob(ShaFile):
         """
         super(Blob, self).check()
 
-@enforce_type(text=bytes)
 def _parse_tag_or_commit(text):
     """Parse tag or commit text.
 
@@ -982,7 +980,6 @@ class Tag(ShaFile):
 class TreeEntry(namedtuple('TreeEntry', ['path', 'mode', 'sha'])):
     """Named tuple encapsulating a single tree entry."""
 
-    @enforce_type(path=bytes)
     def in_path(self, path):
         """Return a copy of this entry with the given path prepended."""
 
@@ -990,7 +987,6 @@ class TreeEntry(namedtuple('TreeEntry', ['path', 'mode', 'sha'])):
             raise TypeError
         return TreeEntry(posixpath.join(path.decode('utf-8'), self.path.decode('utf-8')).encode('utf-8'), self.mode, self.sha)
 
-@enforce_type(text=bytes)
 def parse_tree(text, strict=False):
     """Parse a tree text.
 
@@ -1100,24 +1096,20 @@ class Tree(ShaFile):
         self._entries = {}
 
     @classmethod
-    @enforce_type(filename=str)
     def from_path(cls, filename):
         tree = ShaFile.from_path(filename)
         if not isinstance(tree, cls):
             raise NotTreeError(filename)
         return tree
 
-    @enforce_type(name=bytes)
     def __contains__(self, name):
         self._ensure_parsed()
         return name in self._entries
 
-    @enforce_type(name=bytes)
     def __getitem__(self, name):
         self._ensure_parsed()
         return self._entries[name]
 
-    @enforce_type(name=bytes, value=(int, Sha1Sum))
     def __setitem__(self, name, value):
         """Set a tree entry by name.
 
@@ -1131,7 +1123,6 @@ class Tree(ShaFile):
         self._entries[name] = (mode, sha)
         self._needs_serialization = True
 
-    @enforce_type(name=bytes)
     def __delitem__(self, name):
         self._ensure_parsed()
         del self._entries[name]
@@ -1145,7 +1136,6 @@ class Tree(ShaFile):
         self._ensure_parsed()
         return iter(self._entries)
 
-    @enforce_type(name=bytes, mode=int, sha=Sha1Sum)
     def add(self, name, mode, sha):
         """Add an entry to the tree.
 
@@ -1241,7 +1231,6 @@ class Tree(ShaFile):
             text.append("%04o %s %s\t%s\n" % (mode, kind, convert3kstr(hexsha, STRING), convert3kstr(name, STRING)))
         return "".join(text)
 
-    @enforce_type(path=str)
     def lookup_path(self, lookup_obj, path):
         """Look up an object in a Git tree.
 

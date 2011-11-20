@@ -70,7 +70,6 @@ def _tree_entries(path, tree):
         result.append(entry.in_path(path))
     return result
 
-@enforce_type(path=bytes)
 def _merge_entries(path, tree1, tree2):
     """Merge the entries of two trees.
 

@@ -105,7 +105,6 @@ class _CommitTimeQueue(object):
         for commit_id in itertools.chain(walker.include, walker.excluded):
             self._push(commit_id)
 
-    @enforce_type(commit_id=Sha1Sum)
     def _push(self, commit_id):
         try:
             commit = self._store[commit_id]
@@ -116,7 +115,6 @@ class _CommitTimeQueue(object):
             self._pq_set.add(commit_id)
             self._seen.add(commit_id)
 
-    @enforce_type(commit_id=Sha1Sum)
     def _exclude_parents(self, commit):
         excluded = self._excluded
         seen = self._seen
