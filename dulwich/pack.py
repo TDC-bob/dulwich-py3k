@@ -545,7 +545,6 @@ class FilePackIndex(PackIndex):
         """
         return bytes(self._contents[-20:])
 
-    @wrap3kstr(sha=BYTES)
     def _object_index(self, sha):
         """See object_index.
 
@@ -1585,15 +1584,12 @@ def write_pack_index_v1(f, entries, pack_checksum):
     f.write(bytes(pack_checksum))
     return f.write_sha()
 
-@wrap3kstr(base_buf=BYTES, target_buf=BYTES)
 def create_delta(base_buf, target_buf):
     """Use python difflib to work out how to transform base_buf to target_buf.
 
     :param base_buf: Base buffer
     :param target_buf: Target buffer
     """
-    assert isinstance(base_buf, bytes)
-    assert isinstance(target_buf, bytes)
 
     out_buf = b''
     # write delta header
@@ -1893,7 +1889,6 @@ class Pack(object):
 
         return PackTupleIterable(self)
 
-    @wrap3kstr(msg=BYTES)
     def keep(self, msg=None):
         """Add a .keep file for the pack, preventing git from garbage collecting it.
 
