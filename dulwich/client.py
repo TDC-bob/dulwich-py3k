@@ -103,7 +103,6 @@ class ReportStatusParser(object):
                                              if ref not in ok]),
                                   ref_status=ref_status)
 
-    @wrap3kstr(pkt=BYTES)
     def handle_packet(self, pkt):
         """Handle a packet.
 
@@ -263,8 +262,6 @@ class GitClient(object):
                 if cb is not None:
                     cb(pkt)
 
-    @wrap3kstr(capabilities=BYTES, old_refs=DICT_KEYS_TO_BYTES|DICT_VALS_TO_BYTES,
-               new_refs=DICT_KEYS_TO_BYTES|DICT_VALS_TO_BYTES)
     def _handle_receive_pack_head(self, proto, capabilities, old_refs, new_refs):
         """Handle the head of a 'git-receive-pack' request.
 
@@ -323,7 +320,6 @@ class GitClient(object):
         if data:
             raise SendPackError('Unexpected response %r' % data)
 
-    @wrap3kstr(capabilities=BYTES)
     def _handle_upload_pack_head(self, proto, capabilities, graph_walker,
                                  wants, can_read):
         """Handle the head of a 'git-upload-pack' request.
@@ -362,7 +358,6 @@ class GitClient(object):
             have = next(graph_walker)
         proto.write_pkt_line(b'done\n')
 
-    @wrap3kstr(capabilities=BYTES)
     def _handle_upload_pack_tail(self, proto, capabilities, graph_walker,
                                  pack_data, progress, rbufsize=_RBUFSIZE):
         """Handle the tail of a 'git-upload-pack' request.
@@ -491,7 +486,6 @@ class TCPGitClient(TraditionalGitClient):
         self._port = port
         GitClient.__init__(self, *args, **kwargs)
 
-    @wrap3kstr(cmd=BYTES)
     def _connect(self, cmd, path):
         sockaddrs = socket.getaddrinfo(self._host, self._port,
             socket.AF_UNSPEC, socket.SOCK_STREAM)
@@ -522,7 +516,7 @@ class TCPGitClient(TraditionalGitClient):
                          report_activity=self._report_activity)
         if path.startswith("/~"):
             path = path[1:]
-        proto.send_cmd(b'git-' + cmd, path, b'host=%s' + convert3kstr(self._host, BYTES))
+        proto.send_cmd(b'git-' + cmd.encode('utf-8'), path, b'host=%s' + convert3kstr(self._host, BYTES))
         return proto, lambda: _fileno_can_read(s)
 
     def close(self):

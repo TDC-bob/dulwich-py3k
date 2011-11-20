@@ -172,21 +172,21 @@ class ReportStatusParserTests(TestCase):
 
     def test_invalid_pack(self):
         parser = ReportStatusParser()
-        parser.handle_packet("unpack error - foo bar")
-        parser.handle_packet("ok refs/foo/bar")
+        parser.handle_packet(b"unpack error - foo bar")
+        parser.handle_packet(b"ok refs/foo/bar")
         parser.handle_packet(None)
         self.assertRaises(SendPackError, parser.check)
 
     def test_update_refs_error(self):
         parser = ReportStatusParser()
-        parser.handle_packet("unpack ok")
-        parser.handle_packet("ng refs/foo/bar need to pull")
+        parser.handle_packet(b"unpack ok")
+        parser.handle_packet(b"ng refs/foo/bar need to pull")
         parser.handle_packet(None)
         self.assertRaises(UpdateRefsError, parser.check)
 
     def test_ok(self):
         parser = ReportStatusParser()
-        parser.handle_packet("unpack ok")
-        parser.handle_packet("ok refs/foo/bar")
+        parser.handle_packet(b"unpack ok")
+        parser.handle_packet(b"ok refs/foo/bar")
         parser.handle_packet(None)
         parser.check()
