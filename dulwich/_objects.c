@@ -110,16 +110,16 @@ static PyObject *py_parse_tree(PyObject *self, PyObject *args, PyObject *kw)
 			return NULL;
 		}
 
-        sha = bytes_to_pysha((unsigned char *)text+namelen+1);
-        if(sha == NULL) {
+		sha = bytes_to_pysha((unsigned char *)text+namelen+1);
+		if(sha == NULL) {
 			Py_DECREF(ret);
 			Py_DECREF(name);
-            return NULL;
-        }
+			return NULL;
+		}
 
 		item = Py_BuildValue("(NlN)", name, mode, sha);
 		if (item == NULL) {
-            Py_DECREF(sha);
+			Py_DECREF(sha);
 			Py_DECREF(ret);
 			Py_DECREF(name);
 			return NULL;
@@ -299,7 +299,7 @@ PyObject *PyInit__objects(void) {
 		return NULL;
 
 	tree_entry_cls = PyObject_GetAttrString(objects_mod, "TreeEntry");
-    sha1sum_cls = PyObject_GetAttrString(objects_mod, "Sha1Sum");
+	sha1sum_cls = PyObject_GetAttrString(objects_mod, "Sha1Sum");
 	Py_DECREF(objects_mod);
 	if (tree_entry_cls == NULL || sha1sum_cls == NULL)
 		return NULL;
