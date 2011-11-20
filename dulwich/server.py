@@ -215,18 +215,21 @@ class Handler(object):
         for cap in caps:
             if cap not in allowable_caps:
                 raise GitProtocolError('Client asked for capability %s that '
-                                       'was not advertised.' % convert3kstr(cap, STRING))
+                                       'was not advertised.' % cap.decode('utf-8'))
+
         for cap in self.required_capabilities():
             if cap not in caps:
                 raise GitProtocolError('Client does not support required '
-                                       'capability %s.' % convert3kstr(cap, STRING))
+                                       'capability %s.' % cap.decode('utf-8'))
+
         self._client_capabilities = set(caps)
-        logger.info('Client capabilities: %s', convert3kstr(caps, STRING))
+        logger.info('Client capabilities: %s',
+          ', '.join(cap.decode('utf-8') for cap in self._client_capabilities))
 
     def has_capability(self, cap):
         if self._client_capabilities is None:
             raise GitProtocolError('Server attempted to access capability %s '
-                                   'before asking client' % convert3kstr(cap, STRING))
+                                   'before asking client' % cap.decode('utf-8'))
         return cap in self._client_capabilities
 
 
@@ -344,7 +347,7 @@ def _split_proto_line(line, allowed):
             return tuple(fields)
     except (TypeError, AssertionError, ObjectFormatException) as e:
         raise GitProtocolError(e)
-    raise GitProtocolError('Received invalid line from client: %s' % convert3kstr(line, STRING))
+    raise GitProtocolError('Received invalid line from client: %r' % line)
 
 
 class ProtocolGraphWalker(object):
@@ -421,7 +424,7 @@ class ProtocolGraphWalker(object):
         while command != None:
             if sha not in values:
                 raise GitProtocolError(
-                  'Client wants invalid object %s' % convert3kstr(sha, STRING))
+                  'Client wants invalid object %s' % sha)
             want_revs.append(sha)
             command, sha = self.read_proto_line(allowed)
 
@@ -770,7 +773,6 @@ DEFAULT_HANDLERS = {
 class TCPGitRequestHandler(socketserver.StreamRequestHandler):
 
     def __init__(self, handlers, *args, **kwargs):
-        handlers = convert3kstr(handlers, DICT_KEYS_TO_BYTES)
         self.handlers = handlers
         socketserver.StreamRequestHandler.__init__(self, *args, **kwargs)
 
@@ -778,12 +780,12 @@ class TCPGitRequestHandler(socketserver.StreamRequestHandler):
         with ReceivableProtocol(self.connection.recv, self.wfile.write, None) as proto:
             command, args = proto.read_cmd()
 
-            logger.info('Handling %s request, args=%s', 
-              convert3kstr(command, STRING), convert3kstr(args, STRING))
+            logger.info('Handling %s request, args="%s"', command.decode('utf-8'),
+              ', '.join(arg.decode('utf-8') for arg in args))
 
-            cls = self.handlers.get(convert3kstr(command, BYTES), None)
+            cls = self.handlers.get(command, None)
             if not isinstance(cls, collections.Callable):
-                raise GitProtocolError('Invalid service %s' % convert3kstr(command, STRING))
+                raise GitProtocolError('Invalid service %s' % command.decode('utf-8'))
 
             with cls(self.server.backend, args, proto) as h:
                 h.handle()
