@@ -184,13 +184,11 @@ class Sha1Sum(object):
             for the value. Otherwise the errors are thrown immediately.
         """
 
-        def _exception(default_msg):
+        def _exception(default_msg, cls=ObjectFormatException):
             if not error_message:
-                ex = ObjectFormatException(
-                  "{0}: {1}".format(default_msg, repr(sha)))
+                ex = cls("{0}: {1}".format(default_msg, repr(sha)))
             else:
-                ex = ObjectFormatException(
-                  "{0}: {1}".format(error_message, repr(sha)))
+                ex = cls("{0}: {1}".format(error_message, repr(sha)))
 
             if not lazy_errors:
                 raise ex
@@ -290,7 +288,8 @@ class Sha1Sum(object):
             self._get_bytes = None
 
         else:
-            raise TypeError('Expecting a SHA-1 hash as a bytes or str object')
+            _exception('expecting a SHA-1 hash as a bytes or str object', cls=TypeError)
+            return
 
         if resolve:
             # Go ahead and fill in all the other representations up front

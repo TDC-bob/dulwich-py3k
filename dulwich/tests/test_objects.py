@@ -28,6 +28,7 @@ import os
 import stat
 import warnings
 import binascii
+import hashlib
 
 from dulwich.errors import (
     ObjectFormatException,
@@ -741,3 +742,70 @@ class TimezoneTests(TestCase):
     def test_parse_timezone_pdt_half(self):
         self.assertEqual((((-4 * 60) - 40) * 60, False),
             parse_timezone(b'-0440'))
+
+class Sha1SumTests(TestCase):
+
+    def test_from_string(self):
+        s = Sha1Sum('1' * 40)
+        self.assertEqual(s.bytes, b'\x11' * 20)
+        self.assertEqual(s.string, '1' * 40)
+        self.assertEqual(s.hex_bytes, b'1' * 40)
+
+    def test_from_hexbytes(self):
+        s = Sha1Sum(b'1' * 40)
+        self.assertEqual(s.bytes, b'\x11' * 20)
+        self.assertEqual(s.string, '1' * 40)
+        self.assertEqual(s.hex_bytes, b'1' * 40)
+
+    def test_from_bytes(self):
+        s = Sha1Sum(b'\x11' * 20)
+        self.assertEqual(s.bytes, b'\x11' * 20)
+        self.assertEqual(s.string, '1' * 40)
+        self.assertEqual(s.hex_bytes, b'1' * 40)
+
+    def test_from_sha(self):
+        expected = Sha1Sum('ff8e8b6ff073aaff7c02c0e973597e9da63c1225')
+        actual = Sha1Sum(hashlib.sha1(b"I'm a lumberjack"))
+        self.assertEqual(actual, expected)
+
+    def test_resolve(self):
+        s = Sha1Sum('2' * 40, resolve=True)
+        self.assertEqual(s.bytes, b'\x22' * 20)
+        self.assertEqual(s.string, '2' * 40)
+        self.assertEqual(s.hex_bytes, b'2' * 40)
+
+    def _make_invalid_shas(self):
+        class WrongShaA(object):
+            def digest(self):
+                return 'not a bytes object'
+
+        class WrongShaB(object):
+            def digest(self):
+                return b'\xde\xad\xbe\xef'
+
+        class WrongShaC(object):
+            pass
+
+        return (WrongShaA(), WrongShaB(), WrongShaC())
+
+    def test_invalid(self):
+        wrong_a, wrong_b, wrong_c = self._make_invalid_shas()
+        self.assertRaises(ObjectFormatException, Sha1Sum, 'Derp')
+        self.assertRaises(ObjectFormatException, Sha1Sum, b'Derp')
+        self.assertRaises(ObjectFormatException, Sha1Sum, wrong_a)
+        self.assertRaises(ObjectFormatException, Sha1Sum, wrong_b)
+        self.assertRaises(TypeError, Sha1Sum, wrong_c)
+
+    def test_invalid_lazy(self):
+        wrong_a, wrong_b, wrong_c = self._make_invalid_shas()
+        invalid = [
+          Sha1Sum('Derp', lazy_errors=True),
+          Sha1Sum(b'Derp', lazy_errors=True),
+          Sha1Sum(wrong_a, lazy_errors=True),
+          Sha1Sum(wrong_b, lazy_errors=True),
+          Sha1Sum(wrong_c, lazy_errors=True)]
+        errors = (ObjectFormatException, TypeError)
+        for sha in invalid:
+            self.assertRaises(errors, lambda: sha.string)
+            self.assertRaises(errors, lambda: sha.bytes)
+            self.assertRaises(errors, lambda: sha.hex_bytes)
