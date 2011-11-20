@@ -1,0 +1,344 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>dulwich.tests.test_lru_cache.TestLRUSizeCache : API documentation</title>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <link href="apidocs.css" type="text/css" rel="stylesheet" />
+    
+    
+  </head>
+  <body>
+    <h1 class="class">d.t.t.TestLRUSizeCache(<span title="dulwich.tests.TestCase">TestCase</span>) : class documentation</h1>
+    <p>
+      <span id="part">Part of <a href="dulwich.html">dulwich</a>.<a href="dulwich.tests.html">tests</a>.<a href="dulwich.tests.test_lru_cache.html">test_lru_cache</a></span>
+      
+      <a href="classIndex.html#dulwich.tests.test_lru_cache.TestLRUSizeCache">View In Hierarchy</a>
+    </p>
+    <div>
+      
+    </div>
+    <div class="undocumented">No class docstring</div>
+
+    
+    
+    <div id="splitTables">
+      <table class="children sortable" id="id237">
+  
+  
+<tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_lru_cache.TestLRUSizeCache.html#test_basic_init">test_basic_init</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_lru_cache.TestLRUSizeCache.html#test_add__null_key">test_add__null_key</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_lru_cache.TestLRUSizeCache.html#test_add_tracks_size">test_add_tracks_size</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_lru_cache.TestLRUSizeCache.html#test_remove_tracks_size">test_remove_tracks_size</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_lru_cache.TestLRUSizeCache.html#test_no_add_over_size">test_no_add_over_size</a></td>
+    <td><span>Adding a large value may not be cached at all.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_lru_cache.TestLRUSizeCache.html#test_no_add_over_size_cleanup">test_no_add_over_size_cleanup</a></td>
+    <td><span>If a large value is not cached, we will call cleanup right away.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_lru_cache.TestLRUSizeCache.html#test_adding_clears_cache_based_on_size">test_adding_clears_cache_based_on_size</a></td>
+    <td><span>The cache is cleared in LRU order until small enough</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_lru_cache.TestLRUSizeCache.html#test_adding_clears_to_after_cleanup_size">test_adding_clears_to_after_cleanup_size</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_lru_cache.TestLRUSizeCache.html#test_custom_sizes">test_custom_sizes</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_lru_cache.TestLRUSizeCache.html#test_cleanup">test_cleanup</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_lru_cache.TestLRUSizeCache.html#test_keys">test_keys</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_lru_cache.TestLRUSizeCache.html#test_resize_smaller">test_resize_smaller</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_lru_cache.TestLRUSizeCache.html#test_resize_larger">test_resize_larger</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr>
+  
+</table>
+      
+      
+    </div>
+    
+    
+    
+
+    <div class="function">
+  <a name="dulwich.tests.test_lru_cache.TestLRUSizeCache.test_basic_init">
+    
+  </a>
+  <a name="test_basic_init">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_basic_init(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_lru_cache.TestLRUSizeCache.test_add__null_key">
+    
+  </a>
+  <a name="test_add__null_key">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_add__null_key(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_lru_cache.TestLRUSizeCache.test_add_tracks_size">
+    
+  </a>
+  <a name="test_add_tracks_size">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_add_tracks_size(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_lru_cache.TestLRUSizeCache.test_remove_tracks_size">
+    
+  </a>
+  <a name="test_remove_tracks_size">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_remove_tracks_size(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_lru_cache.TestLRUSizeCache.test_no_add_over_size">
+    
+  </a>
+  <a name="test_no_add_over_size">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_no_add_over_size(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Adding a large value may not be cached at all.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_lru_cache.TestLRUSizeCache.test_no_add_over_size_cleanup">
+    
+  </a>
+  <a name="test_no_add_over_size_cleanup">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_no_add_over_size_cleanup(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>If a large value is not cached, we will call cleanup right away.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_lru_cache.TestLRUSizeCache.test_adding_clears_cache_based_on_size">
+    
+  </a>
+  <a name="test_adding_clears_cache_based_on_size">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_adding_clears_cache_based_on_size(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>The cache is cleared in LRU order until small enough<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_lru_cache.TestLRUSizeCache.test_adding_clears_to_after_cleanup_size">
+    
+  </a>
+  <a name="test_adding_clears_to_after_cleanup_size">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_adding_clears_to_after_cleanup_size(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_lru_cache.TestLRUSizeCache.test_custom_sizes">
+    
+  </a>
+  <a name="test_custom_sizes">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_custom_sizes(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_lru_cache.TestLRUSizeCache.test_cleanup">
+    
+  </a>
+  <a name="test_cleanup">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_cleanup(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_lru_cache.TestLRUSizeCache.test_keys">
+    
+  </a>
+  <a name="test_keys">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_keys(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_lru_cache.TestLRUSizeCache.test_resize_smaller">
+    
+  </a>
+  <a name="test_resize_smaller">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_resize_smaller(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_lru_cache.TestLRUSizeCache.test_resize_larger">
+    
+  </a>
+  <a name="test_resize_larger">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_resize_larger(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div>
+    <address>
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+    </address>
+  </body>
+</html>

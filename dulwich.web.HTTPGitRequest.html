@@ -1,0 +1,229 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>dulwich.web.HTTPGitRequest : API documentation</title>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <link href="apidocs.css" type="text/css" rel="stylesheet" />
+    
+    
+  </head>
+  <body>
+    <h1 class="class">d.w.HTTPGitRequest(<span title="object">object</span>) : class documentation</h1>
+    <p>
+      <span id="part">Part of <a href="dulwich.html">dulwich</a>.<a href="dulwich.web.html">web</a></span>
+      
+      <a href="classIndex.html#dulwich.web.HTTPGitRequest">View In Hierarchy</a>
+    </p>
+    <div>
+      <p>Known subclasses: <a href="dulwich.tests.test_web.TestHTTPGitRequest.html">dulwich.tests.test_web.TestHTTPGitRequest</a></p>
+    </div>
+    <div>Class encapsulating the state of a single git HTTP request.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Instance Variables</td><td class="fieldArg">environ</td><td>the WSGI environment for the request.</td></tr></table></div>
+
+    
+    
+    <div id="splitTables">
+      <table class="children sortable" id="id313">
+  
+  
+<tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.web.HTTPGitRequest.html#__init__">__init__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.web.HTTPGitRequest.html#add_header">add_header</a></td>
+    <td><span>Add a header to the response.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.web.HTTPGitRequest.html#respond">respond</a></td>
+    <td><span>Begin a response with the given status and other headers.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.web.HTTPGitRequest.html#not_found">not_found</a></td>
+    <td><span>Begin a HTTP 404 response and return the text of a message.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.web.HTTPGitRequest.html#forbidden">forbidden</a></td>
+    <td><span>Begin a HTTP 403 response and return the text of a message.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.web.HTTPGitRequest.html#error">error</a></td>
+    <td><span>Begin a HTTP 500 response and return the text of a message.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.web.HTTPGitRequest.html#nocache">nocache</a></td>
+    <td><span>Set the response to never be cached by the client.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.web.HTTPGitRequest.html#cache_forever">cache_forever</a></td>
+    <td><span>Set the response to be cached forever by the client.</span></td>
+  </tr>
+  
+</table>
+      
+      
+    </div>
+    
+    
+    
+
+    <div class="function">
+  <a name="dulwich.web.HTTPGitRequest.__init__">
+    
+  </a>
+  <a name="__init__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __init__(self, environ, start_response, dumb=False, handlers=None):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overridden in <a href="dulwich.tests.test_web.TestHTTPGitRequest.html">dulwich.tests.test_web.TestHTTPGitRequest</a></div>
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.web.HTTPGitRequest.add_header">
+    
+  </a>
+  <a name="add_header">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    add_header(self, name, value):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Add a header to the response.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.web.HTTPGitRequest.respond">
+    
+  </a>
+  <a name="respond">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    respond(self, status=HTTP_OK, content_type=None, headers=None):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Begin a response with the given status and other headers.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.web.HTTPGitRequest.not_found">
+    
+  </a>
+  <a name="not_found">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    not_found(self, message):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Begin a HTTP 404 response and return the text of a message.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.web.HTTPGitRequest.forbidden">
+    
+  </a>
+  <a name="forbidden">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    forbidden(self, message):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Begin a HTTP 403 response and return the text of a message.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.web.HTTPGitRequest.error">
+    
+  </a>
+  <a name="error">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    error(self, message):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Begin a HTTP 500 response and return the text of a message.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.web.HTTPGitRequest.nocache">
+    
+  </a>
+  <a name="nocache">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    nocache(self):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overridden in <a href="dulwich.tests.test_web.TestHTTPGitRequest.html">dulwich.tests.test_web.TestHTTPGitRequest</a></div>
+    <div>Set the response to never be cached by the client.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.web.HTTPGitRequest.cache_forever">
+    
+  </a>
+  <a name="cache_forever">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    cache_forever(self):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overridden in <a href="dulwich.tests.test_web.TestHTTPGitRequest.html">dulwich.tests.test_web.TestHTTPGitRequest</a></div>
+    <div>Set the response to be cached forever by the client.<table class="fieldTable"></table></div>
+  </div>
+</div>
+    <address>
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+    </address>
+  </body>
+</html>

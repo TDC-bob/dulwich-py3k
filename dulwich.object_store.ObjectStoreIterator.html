@@ -1,0 +1,210 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>dulwich.object_store.ObjectStoreIterator : API documentation</title>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <link href="apidocs.css" type="text/css" rel="stylesheet" />
+    
+    
+  </head>
+  <body>
+    <h1 class="class">d.o.ObjectStoreIterator(<a href="dulwich.object_store.ObjectIterator.html">ObjectIterator</a>) : class documentation</h1>
+    <p>
+      <span id="part">Part of <a href="dulwich.html">dulwich</a>.<a href="dulwich.object_store.html">object_store</a></span>
+      
+      <a href="classIndex.html#dulwich.object_store.ObjectStoreIterator">View In Hierarchy</a>
+    </p>
+    <div>
+      
+    </div>
+    <div>ObjectIterator that works on top of an ObjectStore.<table class="fieldTable"></table></div>
+
+    
+    
+    <div id="splitTables">
+      <table class="children sortable" id="id290">
+  
+  
+<tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.ObjectStoreIterator.html#__init__">__init__</a></td>
+    <td><span>Create a new ObjectIterator.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.ObjectStoreIterator.html#__iter__">__iter__</a></td>
+    <td><span>Yield tuple with next object and path.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.ObjectStoreIterator.html#iterobjects">iterobjects</a></td>
+    <td><span>Iterate over just the objects.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.ObjectStoreIterator.html#itershas">itershas</a></td>
+    <td><span>Iterate over the SHAs.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.ObjectStoreIterator.html#__contains__">__contains__</a></td>
+    <td><span>Check if an object is present.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.ObjectStoreIterator.html#__getitem__">__getitem__</a></td>
+    <td><span>Find an object by SHA1.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.ObjectStoreIterator.html#__len__">__len__</a></td>
+    <td><span>Return the number of objects.</span></td>
+  </tr>
+  
+</table>
+      
+      
+    </div>
+    
+    
+    
+
+    <div class="function">
+  <a name="dulwich.object_store.ObjectStoreIterator.__init__">
+    
+  </a>
+  <a name="__init__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __init__(self, store, sha_iter):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Create a new ObjectIterator.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">store</td><td>Object store to retrieve from</td></tr><tr><td></td><td class="fieldArg">sha_iter</td><td>Iterator over (sha, path) tuples</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.object_store.ObjectStoreIterator.__iter__">
+    
+  </a>
+  <a name="__iter__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __iter__(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Yield tuple with next object and path.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.object_store.ObjectStoreIterator.iterobjects">
+    
+  </a>
+  <a name="iterobjects">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    iterobjects(self):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overrides <a href="dulwich.object_store.ObjectIterator.html#iterobjects">dulwich.object_store.ObjectIterator.iterobjects</a></div>
+    <div>Iterate over just the objects.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.object_store.ObjectStoreIterator.itershas">
+    
+  </a>
+  <a name="itershas">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    itershas(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Iterate over the SHAs.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.object_store.ObjectStoreIterator.__contains__">
+    
+  </a>
+  <a name="__contains__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __contains__(self, needle):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Check if an object is present.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">needle</td><td>SHA1 of the object to check for</td></tr><tr class="fieldStart"><td class="fieldName">Note</td><td colspan="2">This checks if the object is present in
+the underlying object store, not if it would
+be yielded by the iterator.</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.object_store.ObjectStoreIterator.__getitem__">
+    
+  </a>
+  <a name="__getitem__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __getitem__(self, key):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Find an object by SHA1.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Note</td><td colspan="2">This retrieves the object from the underlying
+object store. It will also succeed if the object would
+not be returned by the iterator.</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.object_store.ObjectStoreIterator.__len__">
+    
+  </a>
+  <a name="__len__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __len__(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Return the number of objects.<table class="fieldTable"></table></div>
+  </div>
+</div>
+    <address>
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+    </address>
+  </body>
+</html>

@@ -1,0 +1,303 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>dulwich.client.HttpGitClient : API documentation</title>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <link href="apidocs.css" type="text/css" rel="stylesheet" />
+    
+    
+  </head>
+  <body>
+    <h1 class="class">d.c.HttpGitClient(<a href="dulwich.client.GitClient.html">GitClient</a>) : class documentation</h1>
+    <p>
+      <span id="part">Part of <a href="dulwich.html">dulwich</a>.<a href="dulwich.client.html">client</a></span>
+      
+      <a href="classIndex.html#dulwich.client.HttpGitClient">View In Hierarchy</a>
+    </p>
+    <div>
+      
+    </div>
+    <div class="undocumented">No class docstring</div>
+
+    
+    
+    <div id="splitTables">
+      <table class="children sortable" id="id309">
+  
+  
+<tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.client.HttpGitClient.html#__init__">__init__</a></td>
+    <td><span>Create a new GitClient instance.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.client.HttpGitClient.html#send_pack">send_pack</a></td>
+    <td><span>Upload a pack to a remote repository.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.client.HttpGitClient.html#fetch_pack">fetch_pack</a></td>
+    <td><span>Retrieve a pack from a git smart server.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.client.HttpGitClient.html#close">close</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.client.HttpGitClient.html#_get_url">_get_url</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.client.HttpGitClient.html#_perform">_perform</a></td>
+    <td><span>Perform a HTTP request.</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.client.HttpGitClient.html#_discover_references">_discover_references</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.client.HttpGitClient.html#_smart_request">_smart_request</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr>
+  
+</table>
+      
+        <p>
+          Inherited from <a href="dulwich.client.GitClient.html">GitClient</a>:
+        </p>
+        <table class="children sortable" id="id310">
+  
+  
+<tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.client.GitClient.html#fetch">fetch</a></td>
+    <td><span>Fetch into a target repository.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.client.GitClient.html#__enter__">__enter__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.client.GitClient.html#__exit__">__exit__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="basemethod private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.client.GitClient.html#_read_refs">_read_refs</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="basemethod private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.client.GitClient.html#_parse_status_report">_parse_status_report</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="basemethod private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.client.GitClient.html#_read_side_band64k_data">_read_side_band64k_data</a></td>
+    <td><span>Read per-channel data.</span></td>
+  </tr><tr class="basemethod private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.client.GitClient.html#_handle_receive_pack_head">_handle_receive_pack_head</a></td>
+    <td><span>Handle the head of a 'git-receive-pack' request.</span></td>
+  </tr><tr class="basemethod private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.client.GitClient.html#_handle_receive_pack_tail">_handle_receive_pack_tail</a></td>
+    <td><span>Handle the tail of a 'git-receive-pack' request.</span></td>
+  </tr><tr class="basemethod private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.client.GitClient.html#_handle_upload_pack_head">_handle_upload_pack_head</a></td>
+    <td><span>Handle the head of a 'git-upload-pack' request.</span></td>
+  </tr><tr class="basemethod private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.client.GitClient.html#_handle_upload_pack_tail">_handle_upload_pack_tail</a></td>
+    <td><span>Handle the tail of a 'git-upload-pack' request.</span></td>
+  </tr>
+  
+</table>
+      
+      
+    </div>
+    
+    
+    
+
+    <div class="function">
+  <a name="dulwich.client.HttpGitClient.__init__">
+    
+  </a>
+  <a name="__init__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __init__(self, base_url, *args, dumb=None, **kwargs):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overrides <a href="dulwich.client.GitClient.html#__init__">dulwich.client.GitClient.__init__</a></div>
+    <div>Create a new GitClient instance.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">thin_packs</td><td>Whether or not thin packs should be retrieved</td></tr><tr><td></td><td class="fieldArg">report_activity</td><td>Optional callback for reporting transport
+activity.</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.client.HttpGitClient._get_url">
+    
+  </a>
+  <a name="_get_url">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _get_url(self, path):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.client.HttpGitClient._perform">
+    
+  </a>
+  <a name="_perform">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _perform(self, req):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Perform a HTTP request.</p>
+<p>This is provided so subclasses can provide their own version.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">req</td><td>urllib2.Request instance</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">matching response</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.client.HttpGitClient._discover_references">
+    
+  </a>
+  <a name="_discover_references">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _discover_references(self, service, url):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.client.HttpGitClient._smart_request">
+    
+  </a>
+  <a name="_smart_request">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _smart_request(self, service, url, data):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.client.HttpGitClient.send_pack">
+    
+  </a>
+  <a name="send_pack">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    send_pack(self, path, determine_wants, generate_pack_contents, progress=None):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overrides <a href="dulwich.client.GitClient.html#send_pack">dulwich.client.GitClient.send_pack</a></div>
+    <div>Upload a pack to a remote repository.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">path</td><td>Repository path</td></tr><tr><td></td><td class="fieldArg">generate_pack_contents</td><td>Function that can return a sequence of the
+shas of the objects to upload.</td></tr><tr><td></td><td class="fieldArg">progress</td><td>Optional progress function</td></tr><tr class="fieldStart"><td class="fieldName">Raises</td><td class="fieldArg">SendPackError</td><td>if server rejects the pack data</td></tr><tr><td></td><td class="fieldArg">UpdateRefsError</td><td>if the server supports report-status
+and rejects ref updates</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.client.HttpGitClient.fetch_pack">
+    
+  </a>
+  <a name="fetch_pack">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    fetch_pack(self, path, determine_wants, graph_walker, pack_data, progress):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overrides <a href="dulwich.client.GitClient.html#fetch_pack">dulwich.client.GitClient.fetch_pack</a></div>
+    <div>Retrieve a pack from a git smart server.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">determine_wants</td><td>Callback that returns list of commits to fetch</td></tr><tr><td></td><td class="fieldArg">graph_walker</td><td>Object with next() and ack().</td></tr><tr><td></td><td class="fieldArg">pack_data</td><td>Callback called for each bit of data in the pack</td></tr><tr><td></td><td class="fieldArg">progress</td><td>Callback for progress reports (strings)</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.client.HttpGitClient.close">
+    
+  </a>
+  <a name="close">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    close(self):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overrides <a href="dulwich.client.GitClient.html#close">dulwich.client.GitClient.close</a></div>
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div>
+    <address>
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+    </address>
+  </body>
+</html>

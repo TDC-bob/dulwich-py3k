@@ -1,0 +1,469 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>dulwich.lru_cache.LRUCache : API documentation</title>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <link href="apidocs.css" type="text/css" rel="stylesheet" />
+    
+    
+  </head>
+  <body>
+    <h1 class="class">d.l.LRUCache(<span title="object">object</span>) : class documentation</h1>
+    <p>
+      <span id="part">Part of <a href="dulwich.html">dulwich</a>.<a href="dulwich.lru_cache.html">lru_cache</a></span>
+      
+      <a href="classIndex.html#dulwich.lru_cache.LRUCache">View In Hierarchy</a>
+    </p>
+    <div>
+      <p>Known subclasses: <a href="dulwich.lru_cache.LRUSizeCache.html">dulwich.lru_cache.LRUSizeCache</a></p>
+    </div>
+    <div>A class which manages a cache of entries, removing unused ones.<table class="fieldTable"></table></div>
+
+    
+    
+    <div id="splitTables">
+      <table class="children sortable" id="id274">
+  
+  
+<tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.lru_cache.LRUCache.html#__init__">__init__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.lru_cache.LRUCache.html#__contains__">__contains__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.lru_cache.LRUCache.html#__getitem__">__getitem__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.lru_cache.LRUCache.html#__len__">__len__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.lru_cache.LRUCache.html#add">add</a></td>
+    <td><span>Add a new value to the cache.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.lru_cache.LRUCache.html#cache_size">cache_size</a></td>
+    <td><span>Get the number of entries we will cache.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.lru_cache.LRUCache.html#get">get</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.lru_cache.LRUCache.html#keys">keys</a></td>
+    <td><span>Get the list of keys currently cached.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.lru_cache.LRUCache.html#items">items</a></td>
+    <td><span>Get the key:value pairs as a dict.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.lru_cache.LRUCache.html#cleanup">cleanup</a></td>
+    <td><span>Clear the cache until it shrinks to the requested size.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.lru_cache.LRUCache.html#__setitem__">__setitem__</a></td>
+    <td><span>Add a value to the cache, there will be no cleanup function.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.lru_cache.LRUCache.html#clear">clear</a></td>
+    <td><span>Clear out all of the cache.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.lru_cache.LRUCache.html#resize">resize</a></td>
+    <td><span>Change the number of entries that will be cached.</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.lru_cache.LRUCache.html#_walk_lru">_walk_lru</a></td>
+    <td><span>Walk the LRU list, only meant to be used in tests.</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.lru_cache.LRUCache.html#_record_access">_record_access</a></td>
+    <td><span>Record that key was accessed.</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.lru_cache.LRUCache.html#_remove_node">_remove_node</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.lru_cache.LRUCache.html#_remove_lru">_remove_lru</a></td>
+    <td><span>Remove one entry from the lru, and handle consequences.</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.lru_cache.LRUCache.html#_update_max_cache">_update_max_cache</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr>
+  
+</table>
+      
+      
+    </div>
+    
+    
+    
+
+    <div class="function">
+  <a name="dulwich.lru_cache.LRUCache.__init__">
+    
+  </a>
+  <a name="__init__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __init__(self, max_cache=100, after_cleanup_count=None):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overridden in <a href="dulwich.lru_cache.LRUSizeCache.html">dulwich.lru_cache.LRUSizeCache</a></div>
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.lru_cache.LRUCache.__contains__">
+    
+  </a>
+  <a name="__contains__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __contains__(self, key):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.lru_cache.LRUCache.__getitem__">
+    
+  </a>
+  <a name="__getitem__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __getitem__(self, key):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.lru_cache.LRUCache.__len__">
+    
+  </a>
+  <a name="__len__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __len__(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.lru_cache.LRUCache._walk_lru">
+    
+  </a>
+  <a name="_walk_lru">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _walk_lru(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Walk the LRU list, only meant to be used in tests.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.lru_cache.LRUCache.add">
+    
+  </a>
+  <a name="add">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    add(self, key, value, cleanup=None):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overridden in <a href="dulwich.lru_cache.LRUSizeCache.html">dulwich.lru_cache.LRUSizeCache</a></div>
+    <div>Add a new value to the cache.</p>
+<p>Also, if the entry is ever removed from the cache, call
+cleanup(key, value).<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">key</td><td>The key to store it under</td></tr><tr><td></td><td class="fieldArg">value</td><td>The object to store</td></tr><tr><td></td><td class="fieldArg">cleanup</td><td>None or a function taking (key, value) to indicate
+'value' should be cleaned up.</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.lru_cache.LRUCache.cache_size">
+    
+  </a>
+  <a name="cache_size">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    cache_size(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Get the number of entries we will cache.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.lru_cache.LRUCache.get">
+    
+  </a>
+  <a name="get">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    get(self, key, default=None):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.lru_cache.LRUCache.keys">
+    
+  </a>
+  <a name="keys">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    keys(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Get the list of keys currently cached.</p>
+<p>Note that values returned here may not be available by the time you
+request them later. This is simply meant as a peak into the current
+state.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">An unordered list of keys that are currently cached.</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.lru_cache.LRUCache.items">
+    
+  </a>
+  <a name="items">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    items(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Get the key:value pairs as a dict.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.lru_cache.LRUCache.cleanup">
+    
+  </a>
+  <a name="cleanup">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    cleanup(self):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overridden in <a href="dulwich.lru_cache.LRUSizeCache.html">dulwich.lru_cache.LRUSizeCache</a></div>
+    <div>Clear the cache until it shrinks to the requested size.</p>
+<p>This does not completely wipe the cache, just makes sure it is under
+the after_cleanup_count.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.lru_cache.LRUCache.__setitem__">
+    
+  </a>
+  <a name="__setitem__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __setitem__(self, key, value):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Add a value to the cache, there will be no cleanup function.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.lru_cache.LRUCache._record_access">
+    
+  </a>
+  <a name="_record_access">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _record_access(self, node):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Record that key was accessed.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.lru_cache.LRUCache._remove_node">
+    
+  </a>
+  <a name="_remove_node">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _remove_node(self, node):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overridden in <a href="dulwich.lru_cache.LRUSizeCache.html">dulwich.lru_cache.LRUSizeCache</a></div>
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.lru_cache.LRUCache._remove_lru">
+    
+  </a>
+  <a name="_remove_lru">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _remove_lru(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Remove one entry from the lru, and handle consequences.</p>
+<p>If there are no more references to the lru, then this entry should be
+removed from the cache.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.lru_cache.LRUCache.clear">
+    
+  </a>
+  <a name="clear">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    clear(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Clear out all of the cache.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.lru_cache.LRUCache.resize">
+    
+  </a>
+  <a name="resize">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    resize(self, max_cache, after_cleanup_count=None):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overridden in <a href="dulwich.lru_cache.LRUSizeCache.html">dulwich.lru_cache.LRUSizeCache</a></div>
+    <div>Change the number of entries that will be cached.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.lru_cache.LRUCache._update_max_cache">
+    
+  </a>
+  <a name="_update_max_cache">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _update_max_cache(self, max_cache, after_cleanup_count=None):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div>
+    <address>
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+    </address>
+  </body>
+</html>

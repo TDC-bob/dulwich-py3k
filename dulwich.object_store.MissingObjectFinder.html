@@ -1,0 +1,185 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>dulwich.object_store.MissingObjectFinder : API documentation</title>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <link href="apidocs.css" type="text/css" rel="stylesheet" />
+    
+    
+  </head>
+  <body>
+    <h1 class="class">d.o.MissingObjectFinder(<span title="object">object</span>) : class documentation</h1>
+    <p>
+      <span id="part">Part of <a href="dulwich.html">dulwich</a>.<a href="dulwich.object_store.html">object_store</a></span>
+      
+      <a href="classIndex.html#dulwich.object_store.MissingObjectFinder">View In Hierarchy</a>
+    </p>
+    <div>
+      
+    </div>
+    <div>Find the objects missing from another object store.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">object_store</td><td>Object store containing at least all objects to be
+sent</td></tr><tr><td></td><td class="fieldArg">haves</td><td>SHA1s of commits not to send (already present in target)</td></tr><tr><td></td><td class="fieldArg">wants</td><td>SHA1s of commits to send</td></tr><tr><td></td><td class="fieldArg">progress</td><td>Optional function to report progress to.</td></tr><tr><td></td><td class="fieldArg">get_tagged</td><td>Function that returns a dict of pointed-to sha -&gt; tag
+sha for including tags.</td></tr><tr><td></td><td class="fieldArg">tagged</td><td>dict of pointed-to sha -&gt; tag sha for including tags</td></tr></table></div>
+
+    
+    
+    <div id="splitTables">
+      <table class="children sortable" id="id291">
+  
+  
+<tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.MissingObjectFinder.html#__init__">__init__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.MissingObjectFinder.html#add_todo">add_todo</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.MissingObjectFinder.html#parse_tree">parse_tree</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.MissingObjectFinder.html#parse_commit">parse_commit</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.MissingObjectFinder.html#parse_tag">parse_tag</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.MissingObjectFinder.html#__next__">__next__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr>
+  
+</table>
+      
+      
+    </div>
+    
+    
+    
+
+    <div class="function">
+  <a name="dulwich.object_store.MissingObjectFinder.__init__">
+    
+  </a>
+  <a name="__init__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __init__(self, object_store, haves, wants, progress=None, get_tagged=None):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.object_store.MissingObjectFinder.add_todo">
+    
+  </a>
+  <a name="add_todo">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    add_todo(self, entries):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.object_store.MissingObjectFinder.parse_tree">
+    
+  </a>
+  <a name="parse_tree">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    parse_tree(self, tree):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.object_store.MissingObjectFinder.parse_commit">
+    
+  </a>
+  <a name="parse_commit">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    parse_commit(self, commit):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.object_store.MissingObjectFinder.parse_tag">
+    
+  </a>
+  <a name="parse_tag">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    parse_tag(self, tag):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.object_store.MissingObjectFinder.__next__">
+    
+  </a>
+  <a name="__next__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __next__(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div>
+    <address>
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+    </address>
+  </body>
+</html>

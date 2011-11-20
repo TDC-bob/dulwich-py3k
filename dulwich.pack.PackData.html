@@ -1,0 +1,555 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>dulwich.pack.PackData : API documentation</title>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <link href="apidocs.css" type="text/css" rel="stylesheet" />
+    
+    
+  </head>
+  <body>
+    <h1 class="class">d.p.PackData(<span title="object">object</span>) : class documentation</h1>
+    <p>
+      <span id="part">Part of <a href="dulwich.html">dulwich</a>.<a href="dulwich.pack.html">pack</a></span>
+      
+      <a href="classIndex.html#dulwich.pack.PackData">View In Hierarchy</a>
+    </p>
+    <div>
+      
+    </div>
+    <div>The data contained in a packfile.</p>
+<p>Pack files can be accessed both sequentially for exploding a pack, and
+directly with the help of an index to retrieve a specific object.</p>
+<p>The objects within are either complete or a delta aginst another.</p>
+<p>The header is variable length. If the MSB of each byte is set then it
+indicates that the subsequent byte is still part of the header.
+For the first byte the next MS bits are the type, which tells you the type
+of object, and whether it is a delta. The LS byte is the lowest bits of the
+size. For each subsequent byte the LS 7 bits are the next MS bits of the
+size, i.e. the last byte of the header contains the MS bits of the size.</p>
+<p>For the complete objects the data is stored as zlib deflated data.
+The size in the header is the uncompressed object size, so to uncompress
+you need to just keep feeding data to zlib until you get an object back,
+or it errors on bad data. This is done here by just giving the complete
+buffer from the start of the deflated object on. This is bad, but until I
+get mmap sorted out it will have to do.</p>
+<p>Currently there are no integrity checks done. Also no attempt is made to
+try and detect the delta case, or a request for an object at the wrong
+position.  It will all just throw a zlib or KeyError.<table class="fieldTable"></table></div>
+
+    
+    
+    <div id="splitTables">
+      <table class="children sortable" id="id332">
+  
+  
+<tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.pack.PackData.html#__init__">__init__</a></td>
+    <td><span>Create a PackData object representing the pack in the given filename.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.pack.PackData.html#__enter__">__enter__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.pack.PackData.html#__exit__">__exit__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="classmethod">
+    
+    
+    <td>Class Method</td>
+    <td><a href="dulwich.pack.PackData.html#from_file">from_file</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="classmethod">
+    
+    
+    <td>Class Method</td>
+    <td><a href="dulwich.pack.PackData.html#from_path">from_path</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.pack.PackData.html#close">close</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.pack.PackData.html#__len__">__len__</a></td>
+    <td><span>Returns the number of objects in this pack.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.pack.PackData.html#calculate_checksum">calculate_checksum</a></td>
+    <td><span>Calculate the checksum for this pack.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.pack.PackData.html#get_ref">get_ref</a></td>
+    <td><span>Get the object for a ref SHA, only looking in this pack.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.pack.PackData.html#resolve_object">resolve_object</a></td>
+    <td><span>Resolve an object, possibly resolving deltas when necessary.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.pack.PackData.html#iterobjects">iterobjects</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.pack.PackData.html#iterentries">iterentries</a></td>
+    <td><span>Yield entries summarizing the contents of this pack.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.pack.PackData.html#sorted_entries">sorted_entries</a></td>
+    <td><span>Return entries in this pack, sorted by SHA.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.pack.PackData.html#create_index_v1">create_index_v1</a></td>
+    <td><span>Create a version 1 file for this data file.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.pack.PackData.html#create_index_v2">create_index_v2</a></td>
+    <td><span>Create a version 2 index file for this data file.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.pack.PackData.html#create_index">create_index</a></td>
+    <td><span>Create an  index file for this data file.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.pack.PackData.html#get_stored_checksum">get_stored_checksum</a></td>
+    <td><span>Return the expected checksum stored in this pack.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.pack.PackData.html#check">check</a></td>
+    <td><span>Check the consistency of this pack.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.pack.PackData.html#get_object_at">get_object_at</a></td>
+    <td><span>Given an offset in to the packfile return the object that is there.</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.pack.PackData.html#_get_size">_get_size</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.pack.PackData.html#_iter_unpacked">_iter_unpacked</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr>
+  
+</table>
+      
+      
+    </div>
+    
+    
+    
+
+    <div class="function">
+  <a name="dulwich.pack.PackData.__init__">
+    
+  </a>
+  <a name="__init__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __init__(self, filename, file=None, size=None):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Create a PackData object representing the pack in the given filename.</p>
+<p>The file must exist and stay readable until the object is disposed of. It
+must also stay the same size. It will be mapped whenever needed.</p>
+<p>Currently there is a restriction on the size of the pack as the python
+mmap implementation is flawed.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.PackData.__enter__">
+    
+  </a>
+  <a name="__enter__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __enter__(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.PackData.__exit__">
+    
+  </a>
+  <a name="__exit__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __exit__(self, type, value, tb):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.PackData.from_file">
+    
+  </a>
+  <a name="from_file">
+    
+  </a>
+  <div class="functionHeader">
+    @classmethod<br />
+    def
+    from_file(cls, file, size):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.PackData.from_path">
+    
+  </a>
+  <a name="from_path">
+    
+  </a>
+  <div class="functionHeader">
+    @classmethod<br />
+    def
+    from_path(cls, path):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.PackData.close">
+    
+  </a>
+  <a name="close">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    close(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.PackData._get_size">
+    
+  </a>
+  <a name="_get_size">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _get_size(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.PackData.__len__">
+    
+  </a>
+  <a name="__len__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __len__(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Returns the number of objects in this pack.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.PackData.calculate_checksum">
+    
+  </a>
+  <a name="calculate_checksum">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    calculate_checksum(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Calculate the checksum for this pack.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">20-byte binary SHA1 digest</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.PackData.get_ref">
+    
+  </a>
+  <a name="get_ref">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    get_ref(self, sha):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Get the object for a ref SHA, only looking in this pack.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.PackData.resolve_object">
+    
+  </a>
+  <a name="resolve_object">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    resolve_object(self, offset, type, obj, get_ref=None):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Resolve an object, possibly resolving deltas when necessary.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">Tuple with object type and contents.</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.PackData.iterobjects">
+    
+  </a>
+  <a name="iterobjects">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    iterobjects(self, progress=None, compute_crc32=True):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.PackData._iter_unpacked">
+    
+  </a>
+  <a name="_iter_unpacked">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _iter_unpacked(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.PackData.iterentries">
+    
+  </a>
+  <a name="iterentries">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    iterentries(self, progress=None):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Yield entries summarizing the contents of this pack.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">progress</td><td>Progress function, called with current and total
+object count.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">iterator of tuples with (sha, offset, crc32)</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.PackData.sorted_entries">
+    
+  </a>
+  <a name="sorted_entries">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    sorted_entries(self, progress=None):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Return entries in this pack, sorted by SHA.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">progress</td><td>Progress function, called with current and total
+object count</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">List of tuples with (sha, offset, crc32)</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.PackData.create_index_v1">
+    
+  </a>
+  <a name="create_index_v1">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    create_index_v1(self, filename, progress=None):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Create a version 1 file for this data file.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">filename</td><td>Index filename.</td></tr><tr><td></td><td class="fieldArg">progress</td><td>Progress report function</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">Checksum of index file</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.PackData.create_index_v2">
+    
+  </a>
+  <a name="create_index_v2">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    create_index_v2(self, filename, progress=None):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Create a version 2 index file for this data file.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">filename</td><td>Index filename.</td></tr><tr><td></td><td class="fieldArg">progress</td><td>Progress report function</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">Checksum of index file</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.PackData.create_index">
+    
+  </a>
+  <a name="create_index">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    create_index(self, filename, progress=None, version=2):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Create an  index file for this data file.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">filename</td><td>Index filename.</td></tr><tr><td></td><td class="fieldArg">progress</td><td>Progress report function</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">Checksum of index file</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.PackData.get_stored_checksum">
+    
+  </a>
+  <a name="get_stored_checksum">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    get_stored_checksum(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Return the expected checksum stored in this pack.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.PackData.check">
+    
+  </a>
+  <a name="check">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    check(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Check the consistency of this pack.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.PackData.get_object_at">
+    
+  </a>
+  <a name="get_object_at">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    get_object_at(self, offset):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Given an offset in to the packfile return the object that is there.</p>
+<p>Using the associated index the location of an object can be looked up,
+and then the packfile can be asked directly for that object using this
+function.<table class="fieldTable"></table></div>
+  </div>
+</div>
+    <address>
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+    </address>
+  </body>
+</html>

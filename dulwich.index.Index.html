@@ -1,0 +1,413 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>dulwich.index.Index : API documentation</title>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <link href="apidocs.css" type="text/css" rel="stylesheet" />
+    
+    
+  </head>
+  <body>
+    <h1 class="class">d.i.Index(<span title="object">object</span>) : class documentation</h1>
+    <p>
+      <span id="part">Part of <a href="dulwich.html">dulwich</a>.<a href="dulwich.index.html">index</a></span>
+      
+      <a href="classIndex.html#dulwich.index.Index">View In Hierarchy</a>
+    </p>
+    <div>
+      
+    </div>
+    <div>A Git Index file.<table class="fieldTable"></table></div>
+
+    
+    
+    <div id="splitTables">
+      <table class="children sortable" id="id353">
+  
+  
+<tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.index.Index.html#__init__">__init__</a></td>
+    <td><span>Open an index file.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.index.Index.html#write">write</a></td>
+    <td><span>Write current contents of index to disk.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.index.Index.html#read">read</a></td>
+    <td><span>Read current contents of index from disk.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.index.Index.html#__len__">__len__</a></td>
+    <td><span>Number of entries in this index file.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.index.Index.html#__getitem__">__getitem__</a></td>
+    <td><span>Retrieve entry by relative path.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.index.Index.html#__iter__">__iter__</a></td>
+    <td><span>Iterate over the paths in this index.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.index.Index.html#get_sha1">get_sha1</a></td>
+    <td><span>Return the (Sha1Sum object) SHA1 for the object at a path.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.index.Index.html#get_mode">get_mode</a></td>
+    <td><span>Return the POSIX file mode for the object at a path.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.index.Index.html#iterblobs">iterblobs</a></td>
+    <td><span>Iterate over path, sha, mode tuples for use with commit_tree.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.index.Index.html#clear">clear</a></td>
+    <td><span>Remove all contents from this index.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.index.Index.html#__setitem__">__setitem__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.index.Index.html#__delitem__">__delitem__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.index.Index.html#iteritems">iteritems</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.index.Index.html#update">update</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.index.Index.html#changes_from_tree">changes_from_tree</a></td>
+    <td><span>Find the differences between the contents of this index and a tree.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.index.Index.html#commit">commit</a></td>
+    <td><span>Create a new tree from an index.</span></td>
+  </tr>
+  
+</table>
+      
+      
+    </div>
+    
+    
+    
+
+    <div class="function">
+  <a name="dulwich.index.Index.__init__">
+    
+  </a>
+  <a name="__init__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __init__(self, filename):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Open an index file.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">filename</td><td>Path to the index file</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.index.Index.write">
+    
+  </a>
+  <a name="write">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    write(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Write current contents of index to disk.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.index.Index.read">
+    
+  </a>
+  <a name="read">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    read(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Read current contents of index from disk.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.index.Index.__len__">
+    
+  </a>
+  <a name="__len__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __len__(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Number of entries in this index file.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.index.Index.__getitem__">
+    
+  </a>
+  <a name="__getitem__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __getitem__(self, name):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Retrieve entry by relative path.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">tuple with (ctime, mtime, dev, ino, mode, uid, gid, size, sha, flags)</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.index.Index.__iter__">
+    
+  </a>
+  <a name="__iter__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __iter__(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Iterate over the paths in this index.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.index.Index.get_sha1">
+    
+  </a>
+  <a name="get_sha1">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    get_sha1(self, path):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Return the (Sha1Sum object) SHA1 for the object at a path.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.index.Index.get_mode">
+    
+  </a>
+  <a name="get_mode">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    get_mode(self, path):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Return the POSIX file mode for the object at a path.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.index.Index.iterblobs">
+    
+  </a>
+  <a name="iterblobs">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    iterblobs(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Iterate over path, sha, mode tuples for use with commit_tree.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.index.Index.clear">
+    
+  </a>
+  <a name="clear">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    clear(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Remove all contents from this index.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.index.Index.__setitem__">
+    
+  </a>
+  <a name="__setitem__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __setitem__(self, name, x):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.index.Index.__delitem__">
+    
+  </a>
+  <a name="__delitem__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __delitem__(self, name):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.index.Index.iteritems">
+    
+  </a>
+  <a name="iteritems">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    iteritems(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.index.Index.update">
+    
+  </a>
+  <a name="update">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    update(self, entries):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.index.Index.changes_from_tree">
+    
+  </a>
+  <a name="changes_from_tree">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    changes_from_tree(self, object_store, tree, want_unchanged=False):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Find the differences between the contents of this index and a tree.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">object_store</td><td>Object store to use for retrieving tree contents</td></tr><tr><td></td><td class="fieldArg">tree</td><td>SHA1 of the root tree</td></tr><tr><td></td><td class="fieldArg">want_unchanged</td><td>Whether unchanged files should be reported</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">Iterator over tuples with (oldpath, newpath), (oldmode, newmode), (oldsha, newsha)</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.index.Index.commit">
+    
+  </a>
+  <a name="commit">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    commit(self, object_store):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Create a new tree from an index.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">object_store</td><td>Object store to save the tree in</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">Root tree SHA</td></tr></table></div>
+  </div>
+</div>
+    <address>
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+    </address>
+  </body>
+</html>

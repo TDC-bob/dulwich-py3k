@@ -1,0 +1,370 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>dulwich.web : API documentation</title>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <link href="apidocs.css" type="text/css" rel="stylesheet" />
+    
+    
+  </head>
+  <body>
+    <h1 class="module">d.web : module documentation</h1>
+    <p>
+      <span id="part">Part of <a href="dulwich.html">dulwich</a></span>
+      
+      
+    </p>
+    <div>
+      
+    </div>
+    <div>HTTP server for dulwich that implements the git smart HTTP protocol.<table class="fieldTable"></table></div>
+
+    
+    
+    <div id="splitTables">
+      <table class="children sortable" id="id311">
+  
+  
+<tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.web.html#date_time_string">date_time_string</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.web.html#url_prefix">url_prefix</a></td>
+    <td><span>Extract the URL prefix from a regex match.</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.web.html#get_repo">get_repo</a></td>
+    <td><span>Get a Repo instance for the given backend and URL regex match.</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.web.html#send_file">send_file</a></td>
+    <td><span>Send a file-like object to the request output.</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.web.html#get_text_file">get_text_file</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.web.html#get_loose_object">get_loose_object</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.web.html#get_pack_file">get_pack_file</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.web.html#get_idx_file">get_idx_file</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.web.html#get_info_refs">get_info_refs</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.web.html#get_info_packs">get_info_packs</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.web.html#handle_service_request">handle_service_request</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="class">
+    
+    
+    <td>Class</td>
+    <td><a href="dulwich.web.HTTPGitRequest.html">HTTPGitRequest</a></td>
+    <td><span>Class encapsulating the state of a single git HTTP request.</span></td>
+  </tr><tr class="class">
+    
+    
+    <td>Class</td>
+    <td><a href="dulwich.web.HTTPGitApplication.html">HTTPGitApplication</a></td>
+    <td><span>Class encapsulating the state of a git WSGI application.</span></td>
+  </tr><tr class="class">
+    
+    
+    <td>Class</td>
+    <td><a href="dulwich.web.HTTPGitRequestHandler.html">HTTPGitRequestHandler</a></td>
+    <td><span>Handler that uses dulwich's logger for logging exceptions.</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.web.html#main">main</a></td>
+    <td><span>Entry point for starting an HTTP git server.</span></td>
+  </tr><tr class="function private">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.web.html#_url_to_path">_url_to_path</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="class private">
+    
+    
+    <td>Class</td>
+    <td><a href="dulwich.web._LengthLimitedFile.html">_LengthLimitedFile</a></td>
+    <td><span>Wrapper class to limit the length of reads from a file-like object.</span></td>
+  </tr>
+  
+</table>
+      
+      
+    </div>
+    
+    
+    
+
+    <div class="function">
+  <a name="dulwich.web.date_time_string">
+    
+  </a>
+  <a name="date_time_string">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    date_time_string(timestamp=None):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.web.url_prefix">
+    
+  </a>
+  <a name="url_prefix">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    url_prefix(mat):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Extract the URL prefix from a regex match.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">mat</td><td>A regex match object.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">The URL prefix, defined as the text before the match in the
+original string. Normalized to start with one leading slash and end with
+zero.</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.web.get_repo">
+    
+  </a>
+  <a name="get_repo">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    get_repo(backend, mat):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Get a Repo instance for the given backend and URL regex match.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.web.send_file">
+    
+  </a>
+  <a name="send_file">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    send_file(req, f, content_type):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Send a file-like object to the request output.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">req</td><td>The HTTPGitRequest object to send output to.</td></tr><tr><td></td><td class="fieldArg">f</td><td>An open file-like object to send; will be closed.</td></tr><tr><td></td><td class="fieldArg">content_type</td><td>The MIME type for the file.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">Iterator over the contents of the file, as chunks.</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.web._url_to_path">
+    
+  </a>
+  <a name="_url_to_path">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _url_to_path(url):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.web.get_text_file">
+    
+  </a>
+  <a name="get_text_file">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    get_text_file(req, backend, mat):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.web.get_loose_object">
+    
+  </a>
+  <a name="get_loose_object">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    get_loose_object(req, backend, mat):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.web.get_pack_file">
+    
+  </a>
+  <a name="get_pack_file">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    get_pack_file(req, backend, mat):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.web.get_idx_file">
+    
+  </a>
+  <a name="get_idx_file">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    get_idx_file(req, backend, mat):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.web.get_info_refs">
+    
+  </a>
+  <a name="get_info_refs">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    get_info_refs(req, backend, mat):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.web.get_info_packs">
+    
+  </a>
+  <a name="get_info_packs">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    get_info_packs(req, backend, mat):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.web.handle_service_request">
+    
+  </a>
+  <a name="handle_service_request">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    handle_service_request(req, backend, mat):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.web.main">
+    
+  </a>
+  <a name="main">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    main(argv=sys.argv):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Entry point for starting an HTTP git server.<table class="fieldTable"></table></div>
+  </div>
+</div>
+    <address>
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+    </address>
+  </body>
+</html>

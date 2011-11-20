@@ -1,0 +1,783 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>dulwich.repo.BaseRepo : API documentation</title>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <link href="apidocs.css" type="text/css" rel="stylesheet" />
+    
+    
+  </head>
+  <body>
+    <h1 class="class">d.r.BaseRepo(<span title="object">object</span>) : class documentation</h1>
+    <p>
+      <span id="part">Part of <a href="dulwich.html">dulwich</a>.<a href="dulwich.repo.html">repo</a></span>
+      
+      <a href="classIndex.html#dulwich.repo.BaseRepo">View In Hierarchy</a>
+    </p>
+    <div>
+      <p>Known subclasses: <a href="dulwich.repo.MemoryRepo.html">dulwich.repo.MemoryRepo</a>, <a href="dulwich.repo.Repo.html">dulwich.repo.Repo</a></p>
+    </div>
+    <div>Base class for a git repository.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Instance Variables</td><td class="fieldArg">object_store</td><td>Dictionary-like object for accessing
+the objects</td></tr><tr><td></td><td class="fieldArg">refs</td><td>Dictionary-like object with the refs in this repository</td></tr></table></div>
+
+    
+    
+    <div id="splitTables">
+      <table class="children sortable" id="id8">
+  
+  
+<tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#__init__">__init__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#__enter__">__enter__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#__exit__">__exit__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#close">close</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#get_named_file">get_named_file</a></td>
+    <td><span>Get a file from the control dir with a specific name.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#open_index">open_index</a></td>
+    <td><span>Open the index for this repository.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#fetch">fetch</a></td>
+    <td><span>Fetch objects into another repository.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#fetch_objects">fetch_objects</a></td>
+    <td><span>Fetch the missing objects required for a set of revisions.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#get_graph_walker">get_graph_walker</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#ref">ref</a></td>
+    <td><span>Return the SHA1 a ref is pointing to.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#get_refs">get_refs</a></td>
+    <td><span>Get dictionary with all refs.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#head">head</a></td>
+    <td><span>Return the SHA1 pointed at by HEAD.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#get_object">get_object</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#get_parents">get_parents</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#get_config">get_config</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#commit">commit</a></td>
+    <td><span>Retrieve the commit with a particular SHA.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#tree">tree</a></td>
+    <td><span>Retrieve the tree with a particular SHA.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#tag">tag</a></td>
+    <td><span>Retrieve the tag with a particular SHA.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#get_blob">get_blob</a></td>
+    <td><span>Retrieve the blob with a particular SHA.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#get_peeled">get_peeled</a></td>
+    <td><span>Get the peeled value of a ref.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#get_walker">get_walker</a></td>
+    <td><span>Obtain a walker for this repository.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#revision_history">revision_history</a></td>
+    <td><span>Returns a list of the commits reachable from head.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#__getitem__">__getitem__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#__iter__">__iter__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#__contains__">__contains__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#__setitem__">__setitem__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#__delitem__">__delitem__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#do_commit">do_commit</a></td>
+    <td><span>Create a new commit.</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#_init_files">_init_files</a></td>
+    <td><span>Initialize a default set of named files.</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#_put_named_file">_put_named_file</a></td>
+    <td><span>Write a file to the control dir with the given name and contents.</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#_get_object">_get_object</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr>
+  
+</table>
+      
+      
+    </div>
+    
+    
+    
+
+    <div class="function">
+  <a name="dulwich.repo.BaseRepo.__init__">
+    
+  </a>
+  <a name="__init__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __init__(self, object_store, refs):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overridden in <a href="dulwich.repo.MemoryRepo.html">dulwich.repo.MemoryRepo</a>, <a href="dulwich.repo.Repo.html">dulwich.repo.Repo</a></div>
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.repo.BaseRepo.__enter__">
+    
+  </a>
+  <a name="__enter__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __enter__(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.repo.BaseRepo.__exit__">
+    
+  </a>
+  <a name="__exit__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __exit__(self, type, value, tb):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.repo.BaseRepo.close">
+    
+  </a>
+  <a name="close">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    close(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.repo.BaseRepo._init_files">
+    
+  </a>
+  <a name="_init_files">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _init_files(self, bare):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Initialize a default set of named files.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.repo.BaseRepo.get_named_file">
+    
+  </a>
+  <a name="get_named_file">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    get_named_file(self, path):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overridden in <a href="dulwich.repo.MemoryRepo.html">dulwich.repo.MemoryRepo</a>, <a href="dulwich.repo.Repo.html">dulwich.repo.Repo</a></div>
+    <div>Get a file from the control dir with a specific name.</p>
+<p>Although the filename should be interpreted as a filename relative to
+the control dir in a disk-based Repo, the object returned need not be
+pointing to a file in that location.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">path</td><td>The path to the file, relative to the control dir.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">An open file object, or None if the file does not exist.</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.repo.BaseRepo._put_named_file">
+    
+  </a>
+  <a name="_put_named_file">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _put_named_file(self, path, contents):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overridden in <a href="dulwich.repo.MemoryRepo.html">dulwich.repo.MemoryRepo</a>, <a href="dulwich.repo.Repo.html">dulwich.repo.Repo</a></div>
+    <div>Write a file to the control dir with the given name and contents.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">path</td><td>The path to the file, relative to the control dir.</td></tr><tr><td></td><td class="fieldArg">contents</td><td>A string to write to the file.</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.repo.BaseRepo.open_index">
+    
+  </a>
+  <a name="open_index">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    open_index(self):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overridden in <a href="dulwich.repo.MemoryRepo.html">dulwich.repo.MemoryRepo</a>, <a href="dulwich.repo.Repo.html">dulwich.repo.Repo</a></div>
+    <div>Open the index for this repository.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">Index instance</td></tr><tr class="fieldStart"><td class="fieldName">Raises</td><td class="fieldArg">NoIndexPresent</td><td>If no index is present</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.repo.BaseRepo.fetch">
+    
+  </a>
+  <a name="fetch">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    fetch(self, target, determine_wants=None, progress=None):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Fetch objects into another repository.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">target</td><td>The target repository</td></tr><tr><td></td><td class="fieldArg">determine_wants</td><td>Optional function to determine what refs to
+fetch.</td></tr><tr><td></td><td class="fieldArg">progress</td><td>Optional progress function</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.repo.BaseRepo.fetch_objects">
+    
+  </a>
+  <a name="fetch_objects">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    fetch_objects(self, determine_wants, graph_walker, progress, get_tagged=None):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Fetch the missing objects required for a set of revisions.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">determine_wants</td><td>Function that takes a dictionary with heads
+and returns the list of heads to fetch.</td></tr><tr><td></td><td class="fieldArg">graph_walker</td><td>Object that can iterate over the list of revisions
+to fetch and has an &quot;ack&quot; method that will be called to acknowledge
+that a revision is present.</td></tr><tr><td></td><td class="fieldArg">progress</td><td>Simple progress function that will be called with
+updated progress strings.</td></tr><tr><td></td><td class="fieldArg">get_tagged</td><td>Function that returns a dict of pointed-to sha -&gt; tag
+sha for including tags.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">iterator over objects, with __len__ implemented</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.repo.BaseRepo.get_graph_walker">
+    
+  </a>
+  <a name="get_graph_walker">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    get_graph_walker(self, heads=None):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.repo.BaseRepo.ref">
+    
+  </a>
+  <a name="ref">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    ref(self, name):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Return the SHA1 a ref is pointing to.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.repo.BaseRepo.get_refs">
+    
+  </a>
+  <a name="get_refs">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    get_refs(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Get dictionary with all refs.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.repo.BaseRepo.head">
+    
+  </a>
+  <a name="head">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    head(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Return the SHA1 pointed at by HEAD.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.repo.BaseRepo._get_object">
+    
+  </a>
+  <a name="_get_object">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _get_object(self, sha, cls):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.repo.BaseRepo.get_object">
+    
+  </a>
+  <a name="get_object">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    get_object(self, sha):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.repo.BaseRepo.get_parents">
+    
+  </a>
+  <a name="get_parents">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    get_parents(self, sha):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.repo.BaseRepo.get_config">
+    
+  </a>
+  <a name="get_config">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    get_config(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.repo.BaseRepo.commit">
+    
+  </a>
+  <a name="commit">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    commit(self, sha):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Retrieve the commit with a particular SHA.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">sha</td><td>SHA of the commit to retrieve</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">A <a href="dulwich.objects.Commit.html"><code>Commit</code></a> object</td></tr><tr class="fieldStart"><td class="fieldName">Raises</td><td class="fieldArg">NotCommitError</td><td>If the SHA provided doesn't point at a Commit</td></tr><tr><td></td><td class="fieldArg">KeyError</td><td>If the SHA provided didn't exist</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.repo.BaseRepo.tree">
+    
+  </a>
+  <a name="tree">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    tree(self, sha):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Retrieve the tree with a particular SHA.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">sha</td><td>SHA of the tree to retrieve</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">A <a href="dulwich.objects.Tree.html"><code>Tree</code></a> object</td></tr><tr class="fieldStart"><td class="fieldName">Raises</td><td class="fieldArg">NotTreeError</td><td>If the SHA provided doesn't point at a Tree</td></tr><tr><td></td><td class="fieldArg">KeyError</td><td>If the SHA provided didn't exist</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.repo.BaseRepo.tag">
+    
+  </a>
+  <a name="tag">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    tag(self, sha):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Retrieve the tag with a particular SHA.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">sha</td><td>SHA of the tag to retrieve</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">A <a href="dulwich.objects.Tag.html"><code>Tag</code></a> object</td></tr><tr class="fieldStart"><td class="fieldName">Raises</td><td class="fieldArg">NotTagError</td><td>If the SHA provided doesn't point at a Tag</td></tr><tr><td></td><td class="fieldArg">KeyError</td><td>If the SHA provided didn't exist</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.repo.BaseRepo.get_blob">
+    
+  </a>
+  <a name="get_blob">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    get_blob(self, sha):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Retrieve the blob with a particular SHA.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">sha</td><td>SHA of the blob to retrieve</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">A <a href="dulwich.objects.Blob.html"><code>Blob</code></a> object</td></tr><tr class="fieldStart"><td class="fieldName">Raises</td><td class="fieldArg">NotBlobError</td><td>If the SHA provided doesn't point at a Blob</td></tr><tr><td></td><td class="fieldArg">KeyError</td><td>If the SHA provided didn't exist</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.repo.BaseRepo.get_peeled">
+    
+  </a>
+  <a name="get_peeled">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    get_peeled(self, ref):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Get the peeled value of a ref.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">ref</td><td>The refname to peel.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">The fully-peeled SHA1 of a tag object, after peeling all
+intermediate tags; if the original ref does not point to a tag, this
+will equal the original SHA1.</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.repo.BaseRepo.get_walker">
+    
+  </a>
+  <a name="get_walker">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    get_walker(self, *args, include=None, **kwargs):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Obtain a walker for this repository.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">include</td><td>Iterable of SHAs of commits to include along with their
+ancestors. Defaults to [HEAD]</td></tr><tr><td></td><td class="fieldArg">exclude</td><td>Iterable of SHAs of commits to exclude along with their
+ancestors, overriding includes.</td></tr><tr><td></td><td class="fieldArg">order</td><td>ORDER_* constant specifying the order of results. Anything
+other than ORDER_DATE may result in O(n) memory usage.</td></tr><tr><td></td><td class="fieldArg">reverse</td><td>If True, reverse the order of output, requiring O(n)
+memory.</td></tr><tr><td></td><td class="fieldArg">max_entries</td><td>The maximum number of entries to yield, or None for
+no limit.</td></tr><tr><td></td><td class="fieldArg">paths</td><td>Iterable of file or subtree paths to show entries for.</td></tr><tr><td></td><td class="fieldArg">rename_detector</td><td>diff.RenameDetector object for detecting
+renames.</td></tr><tr><td></td><td class="fieldArg">follow</td><td>If True, follow path across renames/copies. Forces a
+default rename_detector.</td></tr><tr><td></td><td class="fieldArg">since</td><td>Timestamp to list commits after.</td></tr><tr><td></td><td class="fieldArg">until</td><td>Timestamp to list commits before.</td></tr><tr><td></td><td class="fieldArg">queue_cls</td><td>A class to use for a queue of commits, supporting the
+iterator protocol. The constructor takes a single argument, the
+Walker.</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.repo.BaseRepo.revision_history">
+    
+  </a>
+  <a name="revision_history">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    revision_history(self, head):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Returns a list of the commits reachable from head.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">head</td><td>The SHA of the head to list revision history for.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">A list of commit objects reachable from head, starting with
+head itself, in descending commit time order.</td></tr><tr class="fieldStart"><td class="fieldName">Raises</td><td class="fieldArg">MissingCommitError</td><td>if any missing commits are referenced,
+including if the head parameter isn't the SHA of a commit.</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.repo.BaseRepo.__getitem__">
+    
+  </a>
+  <a name="__getitem__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __getitem__(self, name):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.repo.BaseRepo.__iter__">
+    
+  </a>
+  <a name="__iter__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __iter__(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.repo.BaseRepo.__contains__">
+    
+  </a>
+  <a name="__contains__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __contains__(self, name):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.repo.BaseRepo.__setitem__">
+    
+  </a>
+  <a name="__setitem__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __setitem__(self, name, value):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.repo.BaseRepo.__delitem__">
+    
+  </a>
+  <a name="__delitem__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __delitem__(self, name):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.repo.BaseRepo.do_commit">
+    
+  </a>
+  <a name="do_commit">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    do_commit(self, message=None, committer=None, author=None, commit_timestamp=None, commit_timezone=None, author_timestamp=None, author_timezone=None, tree=None, encoding=None, ref='HEAD', merge_heads=None):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Create a new commit.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">message</td><td>Commit message</td></tr><tr><td></td><td class="fieldArg">committer</td><td>Committer fullname</td></tr><tr><td></td><td class="fieldArg">author</td><td>Author fullname (defaults to committer)</td></tr><tr><td></td><td class="fieldArg">commit_timestamp</td><td>Commit timestamp (defaults to now)</td></tr><tr><td></td><td class="fieldArg">commit_timezone</td><td>Commit timestamp timezone (defaults to GMT)</td></tr><tr><td></td><td class="fieldArg">author_timestamp</td><td>Author timestamp (defaults to commit timestamp)</td></tr><tr><td></td><td class="fieldArg">author_timezone</td><td>Author timestamp timezone
+(defaults to commit timestamp timezone)</td></tr><tr><td></td><td class="fieldArg">tree</td><td>SHA1 of the tree root to use (if not specified the
+current index will be committed).</td></tr><tr><td></td><td class="fieldArg">encoding</td><td>Encoding</td></tr><tr><td></td><td class="fieldArg">ref</td><td>Optional ref to commit to (defaults to current branch)</td></tr><tr><td></td><td class="fieldArg">merge_heads</td><td>Merge heads (defaults to .git/MERGE_HEADS)</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">New commit SHA1</td></tr></table></div>
+  </div>
+</div>
+    <address>
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+    </address>
+  </body>
+</html>

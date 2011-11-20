@@ -1,0 +1,193 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>dulwich.file._GitFile : API documentation</title>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <link href="apidocs.css" type="text/css" rel="stylesheet" />
+    
+    
+  </head>
+  <body>
+    <h1 class="class private">d.f._GitFile(<span title="object">object</span>) : class documentation</h1>
+    <p>
+      <span id="part">Part of <a href="dulwich.html">dulwich</a>.<a href="dulwich.file.html">file</a></span>
+      
+      <a href="classIndex.html#dulwich.file._GitFile">View In Hierarchy</a>
+    </p>
+    <div>
+      
+    </div>
+    <div>File that follows the git locking protocol for writes.</p>
+<p>All writes to a file foo will be written into foo.lock in the same
+directory, and the lockfile will be renamed to overwrite the original file
+on close.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Note</td><td colspan="2">You <em>must</em> call close() or abort() on a _GitFile for the lock to be
+released. Typically this will happen in a finally block.</td></tr></table></div>
+
+    
+    
+    <div id="splitTables">
+      <table class="children sortable" id="id259">
+  
+  
+<tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.file._GitFile.html#__init__">__init__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.file._GitFile.html#__enter__">__enter__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.file._GitFile.html#__exit__">__exit__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.file._GitFile.html#abort">abort</a></td>
+    <td><span>Close and discard the lockfile without overwriting the target.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.file._GitFile.html#close">close</a></td>
+    <td><span>Close this file, saving the lockfile over the original.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.file._GitFile.html#__getattr__">__getattr__</a></td>
+    <td><span>Proxy property calls to the underlying file.</span></td>
+  </tr>
+  
+</table>
+      
+      
+    </div>
+    
+    
+    
+
+    <div class="function">
+  <a name="dulwich.file._GitFile.__init__">
+    
+  </a>
+  <a name="__init__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __init__(self, filename, mode, bufsize):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.file._GitFile.__enter__">
+    
+  </a>
+  <a name="__enter__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __enter__(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.file._GitFile.__exit__">
+    
+  </a>
+  <a name="__exit__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __exit__(self, type, value, tb):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.file._GitFile.abort">
+    
+  </a>
+  <a name="abort">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    abort(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Close and discard the lockfile without overwriting the target.</p>
+<p>If the file is already closed, this is a no-op.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.file._GitFile.close">
+    
+  </a>
+  <a name="close">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    close(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Close this file, saving the lockfile over the original.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Raises</td><td class="fieldArg">OSError</td><td>if the original file could not be overwritten. The lock
+file is still closed, so further attempts to write to the same file
+object will raise ValueError.</td></tr><tr class="fieldStart"><td class="fieldName">Note</td><td colspan="2">If this method fails, it will attempt to delete the lockfile.
+However, it is not guaranteed to do so (e.g. if a filesystem becomes
+suddenly read-only), which will prevent future writes to this file
+until the lockfile is removed manually.</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.file._GitFile.__getattr__">
+    
+  </a>
+  <a name="__getattr__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __getattr__(self, name):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Proxy property calls to the underlying file.<table class="fieldTable"></table></div>
+  </div>
+</div>
+    <address>
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+    </address>
+  </body>
+</html>

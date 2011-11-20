@@ -1,0 +1,252 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>dulwich.server.Handler : API documentation</title>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <link href="apidocs.css" type="text/css" rel="stylesheet" />
+    
+    
+  </head>
+  <body>
+    <h1 class="class">d.s.Handler(<span title="object">object</span>) : class documentation</h1>
+    <p>
+      <span id="part">Part of <a href="dulwich.html">dulwich</a>.<a href="dulwich.server.html">server</a></span>
+      
+      <a href="classIndex.html#dulwich.server.Handler">View In Hierarchy</a>
+    </p>
+    <div>
+      <p>Known subclasses: <a href="dulwich.server.ReceivePackHandler.html">dulwich.server.ReceivePackHandler</a>, <a href="dulwich.server.UploadPackHandler.html">dulwich.server.UploadPackHandler</a>, <a href="dulwich.tests.test_server.TestGenericHandler.html">dulwich.tests.test_server.TestGenericHandler</a></p>
+    </div>
+    <div>Smart protocol command handler base class.<table class="fieldTable"></table></div>
+
+    
+    
+    <div id="splitTables">
+      <table class="children sortable" id="id246">
+  
+  
+<tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.server.Handler.html#__init__">__init__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.server.Handler.html#__enter__">__enter__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.server.Handler.html#__exit__">__exit__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="classmethod">
+    
+    
+    <td>Class Method</td>
+    <td><a href="dulwich.server.Handler.html#capability_line">capability_line</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="classmethod">
+    
+    
+    <td>Class Method</td>
+    <td><a href="dulwich.server.Handler.html#capabilities">capabilities</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="classmethod">
+    
+    
+    <td>Class Method</td>
+    <td><a href="dulwich.server.Handler.html#innocuous_capabilities">innocuous_capabilities</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="classmethod">
+    
+    
+    <td>Class Method</td>
+    <td><a href="dulwich.server.Handler.html#required_capabilities">required_capabilities</a></td>
+    <td><span>Return a list of capabilities that we require the client to have.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.server.Handler.html#set_client_capabilities">set_client_capabilities</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.server.Handler.html#has_capability">has_capability</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr>
+  
+</table>
+      
+      
+    </div>
+    
+    
+    
+
+    <div class="function">
+  <a name="dulwich.server.Handler.__init__">
+    
+  </a>
+  <a name="__init__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __init__(self, backend, proto, http_req=None):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overridden in <a href="dulwich.server.ReceivePackHandler.html">dulwich.server.ReceivePackHandler</a>, <a href="dulwich.server.UploadPackHandler.html">dulwich.server.UploadPackHandler</a>, <a href="dulwich.tests.test_server.TestGenericHandler.html">dulwich.tests.test_server.TestGenericHandler</a></div>
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.server.Handler.__enter__">
+    
+  </a>
+  <a name="__enter__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __enter__(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.server.Handler.__exit__">
+    
+  </a>
+  <a name="__exit__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __exit__(self, type, value, tb):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.server.Handler.capability_line">
+    
+  </a>
+  <a name="capability_line">
+    
+  </a>
+  <div class="functionHeader">
+    @classmethod<br />
+    def
+    capability_line(cls):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.server.Handler.capabilities">
+    
+  </a>
+  <a name="capabilities">
+    
+  </a>
+  <div class="functionHeader">
+    @classmethod<br />
+    def
+    capabilities(cls):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overridden in <a href="dulwich.server.ReceivePackHandler.html">dulwich.server.ReceivePackHandler</a>, <a href="dulwich.server.UploadPackHandler.html">dulwich.server.UploadPackHandler</a>, <a href="dulwich.tests.test_server.TestGenericHandler.html">dulwich.tests.test_server.TestGenericHandler</a></div>
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.server.Handler.innocuous_capabilities">
+    
+  </a>
+  <a name="innocuous_capabilities">
+    
+  </a>
+  <div class="functionHeader">
+    @classmethod<br />
+    def
+    innocuous_capabilities(cls):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.server.Handler.required_capabilities">
+    
+  </a>
+  <a name="required_capabilities">
+    
+  </a>
+  <div class="functionHeader">
+    @classmethod<br />
+    def
+    required_capabilities(cls):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overridden in <a href="dulwich.server.UploadPackHandler.html">dulwich.server.UploadPackHandler</a>, <a href="dulwich.tests.test_server.TestGenericHandler.html">dulwich.tests.test_server.TestGenericHandler</a></div>
+    <div>Return a list of capabilities that we require the client to have.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.server.Handler.set_client_capabilities">
+    
+  </a>
+  <a name="set_client_capabilities">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    set_client_capabilities(self, caps):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.server.Handler.has_capability">
+    
+  </a>
+  <a name="has_capability">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    has_capability(self, cap):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div>
+    <address>
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+    </address>
+  </body>
+</html>

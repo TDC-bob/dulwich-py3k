@@ -1,0 +1,167 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>dulwich.pack.PackStreamCopier : API documentation</title>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <link href="apidocs.css" type="text/css" rel="stylesheet" />
+    
+    
+  </head>
+  <body>
+    <h1 class="class">d.p.PackStreamCopier(<a href="dulwich.pack.PackStreamReader.html">PackStreamReader</a>) : class documentation</h1>
+    <p>
+      <span id="part">Part of <a href="dulwich.html">dulwich</a>.<a href="dulwich.pack.html">pack</a></span>
+      
+      <a href="classIndex.html#dulwich.pack.PackStreamCopier">View In Hierarchy</a>
+    </p>
+    <div>
+      
+    </div>
+    <div>Class to verify a pack stream as it is being read.</p>
+<p>The pack is read from a ReceivableProtocol using read() or recv() as
+appropriate and written out to the given file-like object.<table class="fieldTable"></table></div>
+
+    
+    
+    <div id="splitTables">
+      <table class="children sortable" id="id330">
+  
+  
+<tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.pack.PackStreamCopier.html#__init__">__init__</a></td>
+    <td><span>Initialize the copier.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.pack.PackStreamCopier.html#verify">verify</a></td>
+    <td><span>Verify a pack stream and write it to the output file.</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.pack.PackStreamCopier.html#_read">_read</a></td>
+    <td><span>Read data from the read callback and write it to the file.</span></td>
+  </tr>
+  
+</table>
+      
+        <p>
+          Inherited from <a href="dulwich.pack.PackStreamReader.html">PackStreamReader</a>:
+        </p>
+        <table class="children sortable" id="id331">
+  
+  
+<tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.pack.PackStreamReader.html#offset">offset</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.pack.PackStreamReader.html#read">read</a></td>
+    <td><span>Read, blocking until size bytes are read.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.pack.PackStreamReader.html#recv">recv</a></td>
+    <td><span>Read up to size bytes, blocking until one byte is read.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.pack.PackStreamReader.html#__len__">__len__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.pack.PackStreamReader.html#read_objects">read_objects</a></td>
+    <td><span>Read the objects in this pack file.</span></td>
+  </tr><tr class="basemethod private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.pack.PackStreamReader.html#_buf_len">_buf_len</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr>
+  
+</table>
+      
+      
+    </div>
+    
+    
+    
+
+    <div class="function">
+  <a name="dulwich.pack.PackStreamCopier.__init__">
+    
+  </a>
+  <a name="__init__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __init__(self, read_all, read_some, outfile, delta_iter=None):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overrides <a href="dulwich.pack.PackStreamReader.html#__init__">dulwich.pack.PackStreamReader.__init__</a></div>
+    <div>Initialize the copier.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">read_all</td><td>Read function that blocks until the number of requested
+bytes are read.</td></tr><tr><td></td><td class="fieldArg">read_some</td><td>Read function that returns at least one byte, but may
+not return the number of bytes requested.</td></tr><tr><td></td><td class="fieldArg">outfile</td><td>File-like object to write output through.</td></tr><tr><td></td><td class="fieldArg">delta_iter</td><td>Optional DeltaChainIterator to record deltas as we
+read them.</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.PackStreamCopier._read">
+    
+  </a>
+  <a name="_read">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _read(self, read, size):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overrides <a href="dulwich.pack.PackStreamReader.html#_read">dulwich.pack.PackStreamReader._read</a></div>
+    <div>Read data from the read callback and write it to the file.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.PackStreamCopier.verify">
+    
+  </a>
+  <a name="verify">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    verify(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Verify a pack stream and write it to the output file.</p>
+<p>See PackStreamReader.iterobjects for a list of exceptions this may
+throw.<table class="fieldTable"></table></div>
+  </div>
+</div>
+    <address>
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+    </address>
+  </body>
+</html>

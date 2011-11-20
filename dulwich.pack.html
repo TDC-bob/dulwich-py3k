@@ -1,0 +1,727 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>dulwich.pack : API documentation</title>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <link href="apidocs.css" type="text/css" rel="stylesheet" />
+    
+    
+  </head>
+  <body>
+    <h1 class="module">d.pack : module documentation</h1>
+    <p>
+      <span id="part">Part of <a href="dulwich.html">dulwich</a></span>
+      
+      
+    </p>
+    <div>
+      
+    </div>
+    <div>Classes for dealing with packed git objects.</p>
+<p>A pack is a compact representation of a bunch of objects, stored
+using deltas where possible.</p>
+<p>They have two parts, the pack file, which stores the data, and an index
+that tells you where the data is.</p>
+<p>To find an object you look in all of the index files 'til you find a
+match for the object name. You then use the pointer got from this as
+a pointer in to the corresponding packfile.<table class="fieldTable"></table></div>
+
+    
+    
+    <div id="splitTables">
+      <table class="children sortable" id="id316">
+  
+  
+<tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.pack.html#take_msb_bytes">take_msb_bytes</a></td>
+    <td><span>Read bytes marked with most significant bit.</span></td>
+  </tr><tr class="class">
+    
+    
+    <td>Class</td>
+    <td><a href="dulwich.pack.UnpackedObject.html">UnpackedObject</a></td>
+    <td><span>Class encapsulating an object unpacked from a pack file.</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.pack.html#read_zlib_chunks">read_zlib_chunks</a></td>
+    <td><span>Read zlib data from a buffer.</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.pack.html#iter_sha1">iter_sha1</a></td>
+    <td><span>Return the hexdigest of the SHA1 over a set of names.</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.pack.html#load_pack_index">load_pack_index</a></td>
+    <td><span>Load an index file by path.</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.pack.html#load_pack_index_file">load_pack_index_file</a></td>
+    <td><span>Load an index file from a file-like object.</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.pack.html#bisect_find_sha">bisect_find_sha</a></td>
+    <td><span>Find a SHA in a data blob with sorted SHAs.</span></td>
+  </tr><tr class="class">
+    
+    
+    <td>Class</td>
+    <td><a href="dulwich.pack.PackIndex.html">PackIndex</a></td>
+    <td><span>An index in to a packfile.</span></td>
+  </tr><tr class="class">
+    
+    
+    <td>Class</td>
+    <td><a href="dulwich.pack.MemoryPackIndex.html">MemoryPackIndex</a></td>
+    <td><span>Pack index that is stored entirely in memory.</span></td>
+  </tr><tr class="class">
+    
+    
+    <td>Class</td>
+    <td><a href="dulwich.pack.FilePackIndex.html">FilePackIndex</a></td>
+    <td><span>Pack index that is based on a file.</span></td>
+  </tr><tr class="class">
+    
+    
+    <td>Class</td>
+    <td><a href="dulwich.pack.PackIndex1.html">PackIndex1</a></td>
+    <td><span>Version 1 Pack Index file.</span></td>
+  </tr><tr class="class">
+    
+    
+    <td>Class</td>
+    <td><a href="dulwich.pack.PackIndex2.html">PackIndex2</a></td>
+    <td><span>Version 2 Pack Index file.</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.pack.html#read_pack_header">read_pack_header</a></td>
+    <td><span>Read the header of a pack file.</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.pack.html#chunks_length">chunks_length</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.pack.html#unpack_object">unpack_object</a></td>
+    <td><span>Unpack a Git object.</span></td>
+  </tr><tr class="class">
+    
+    
+    <td>Class</td>
+    <td><a href="dulwich.pack.PackStreamReader.html">PackStreamReader</a></td>
+    <td><span>Class to read a pack stream.</span></td>
+  </tr><tr class="class">
+    
+    
+    <td>Class</td>
+    <td><a href="dulwich.pack.PackStreamCopier.html">PackStreamCopier</a></td>
+    <td><span>Class to verify a pack stream as it is being read.</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.pack.html#obj_sha">obj_sha</a></td>
+    <td><span>Compute the SHA for a numeric type and object chunks.</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.pack.html#compute_file_sha">compute_file_sha</a></td>
+    <td><span>Hash a portion of a file into a new SHA.</span></td>
+  </tr><tr class="class">
+    
+    
+    <td>Class</td>
+    <td><a href="dulwich.pack.PackData.html">PackData</a></td>
+    <td><span>The data contained in a packfile.</span></td>
+  </tr><tr class="class">
+    
+    
+    <td>Class</td>
+    <td><a href="dulwich.pack.DeltaChainIterator.html">DeltaChainIterator</a></td>
+    <td><span>Abstract iterator over pack data based on delta chains.</span></td>
+  </tr><tr class="class">
+    
+    
+    <td>Class</td>
+    <td><a href="dulwich.pack.PackIndexer.html">PackIndexer</a></td>
+    <td><span>Delta chain iterator that yields index entries.</span></td>
+  </tr><tr class="class">
+    
+    
+    <td>Class</td>
+    <td><a href="dulwich.pack.PackInflater.html">PackInflater</a></td>
+    <td><span>Delta chain iterator that yields ShaFile objects.</span></td>
+  </tr><tr class="class">
+    
+    
+    <td>Class</td>
+    <td><a href="dulwich.pack.SHA1Reader.html">SHA1Reader</a></td>
+    <td><span>Wrapper around a file-like object that remembers the SHA1 of its data.</span></td>
+  </tr><tr class="class">
+    
+    
+    <td>Class</td>
+    <td><a href="dulwich.pack.SHA1Writer.html">SHA1Writer</a></td>
+    <td><span>Wrapper around a file-like object that remembers the SHA1 of its data.</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.pack.html#pack_object_header">pack_object_header</a></td>
+    <td><span>Create a pack object header for the given object info.</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.pack.html#write_pack_object">write_pack_object</a></td>
+    <td><span>Write pack object to a file.</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.pack.html#write_pack">write_pack</a></td>
+    <td><span>Write a new pack data file.</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.pack.html#write_pack_header">write_pack_header</a></td>
+    <td><span>Write a pack header for the given number of objects.</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.pack.html#deltify_pack_objects">deltify_pack_objects</a></td>
+    <td><span>Generate deltas for pack objects.</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.pack.html#write_pack_objects">write_pack_objects</a></td>
+    <td><span>Write a new pack data file.</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.pack.html#write_pack_data">write_pack_data</a></td>
+    <td><span>Write a new pack data file.</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.pack.html#write_pack_index_v1">write_pack_index_v1</a></td>
+    <td><span>Write a new pack index file.</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.pack.html#create_delta">create_delta</a></td>
+    <td><span>Use python difflib to work out how to transform base_buf to target_buf.</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.pack.html#apply_delta">apply_delta</a></td>
+    <td><span>Based on the similar function in git's patch-delta.c.</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.pack.html#write_pack_index_v2">write_pack_index_v2</a></td>
+    <td><span>Write a new pack index file.</span></td>
+  </tr><tr class="class">
+    
+    
+    <td>Class</td>
+    <td><a href="dulwich.pack.Pack.html">Pack</a></td>
+    <td><span>A Git pack object.</span></td>
+  </tr><tr class="function private">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.pack.html#_load_file_contents">_load_file_contents</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="function private">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.pack.html#_compute_object_size">_compute_object_size</a></td>
+    <td><span>Compute the size of a unresolved object for use with LRUSizeCache.</span></td>
+  </tr>
+  
+</table>
+      
+      
+    </div>
+    
+    
+    
+
+    <div class="function">
+  <a name="dulwich.pack.take_msb_bytes">
+    
+  </a>
+  <a name="take_msb_bytes">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    take_msb_bytes(read, crc32=None):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Read bytes marked with most significant bit.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">read</td><td>Read function</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.read_zlib_chunks">
+    
+  </a>
+  <a name="read_zlib_chunks">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    read_zlib_chunks(read_some, unpacked, include_comp=False, buffer_size=_ZLIB_BUFSIZE):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Read zlib data from a buffer.</p>
+<p>This function requires that the buffer have additional data following the
+compressed data, which is guaranteed to be the case for git pack files.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">read_some</td><td>Read function that returns at least one byte, but may
+return less than the requested size.</td></tr><tr><td></td><td class="fieldArg">unpacked</td><td>An UnpackedObject to write result data to. If its crc32
+attr is not None, the CRC32 of the compressed bytes will be computed
+using this starting CRC32.
+After this function, will have the following attrs set:
+* comp_chunks    (if include_comp is True)
+* decomp_chunks
+* decomp_len
+* crc32</td></tr><tr><td></td><td class="fieldArg">include_comp</td><td>If True, include compressed data in the result.</td></tr><tr><td></td><td class="fieldArg">buffer_size</td><td>Size of the read buffer.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">Leftover unused data from the decompression.</td></tr><tr class="fieldStart"><td class="fieldName">Raises</td><td class="fieldArg">zlib.error</td><td>if a decompression error occurred.</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.iter_sha1">
+    
+  </a>
+  <a name="iter_sha1">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    iter_sha1(iter):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Return the hexdigest of the SHA1 over a set of names.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">iter</td><td>Iterator over string objects</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">40-byte hex sha1 digest</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.load_pack_index">
+    
+  </a>
+  <a name="load_pack_index">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    load_pack_index(path):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Load an index file by path.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">filename</td><td>Path to the index file</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">A PackIndex loaded from the given path</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack._load_file_contents">
+    
+  </a>
+  <a name="_load_file_contents">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _load_file_contents(f, size=None):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.load_pack_index_file">
+    
+  </a>
+  <a name="load_pack_index_file">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    load_pack_index_file(path, f):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Load an index file from a file-like object.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">path</td><td>Path for the index file</td></tr><tr><td></td><td class="fieldArg">f</td><td>File-like object</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">A PackIndex loaded from the given file</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.bisect_find_sha">
+    
+  </a>
+  <a name="bisect_find_sha">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    bisect_find_sha(start, end, sha, unpack_name):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Find a SHA in a data blob with sorted SHAs.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">start</td><td>Start index of range to search</td></tr><tr><td></td><td class="fieldArg">end</td><td>End index of range to search</td></tr><tr><td></td><td class="fieldArg">sha</td><td>Sha to find</td></tr><tr><td></td><td class="fieldArg">unpack_name</td><td>Callback to retrieve SHA by index</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">Index of the SHA, or None if it wasn't found</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.read_pack_header">
+    
+  </a>
+  <a name="read_pack_header">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    read_pack_header(read):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Read the header of a pack file.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">read</td><td>Read function</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">Tuple of (pack version, number of objects). If no data is available
+to read, returns (None, None).</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.chunks_length">
+    
+  </a>
+  <a name="chunks_length">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    chunks_length(chunks):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.unpack_object">
+    
+  </a>
+  <a name="unpack_object">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    unpack_object(read_all, read_some=None, compute_crc32=False, include_comp=False, zlib_bufsize=_ZLIB_BUFSIZE):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Unpack a Git object.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">read_all</td><td>Read function that blocks until the number of requested
+bytes are read.</td></tr><tr><td></td><td class="fieldArg">read_some</td><td>Read function that returns at least one byte, but may not
+return the number of bytes requested.</td></tr><tr><td></td><td class="fieldArg">compute_crc32</td><td>If True, compute the CRC32 of the compressed data. If
+False, the returned CRC32 will be None.</td></tr><tr><td></td><td class="fieldArg">include_comp</td><td>If True, include compressed data in the result.</td></tr><tr><td></td><td class="fieldArg">zlib_bufsize</td><td>An optional buffer size for zlib operations.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2"><p>A tuple of (unpacked, unused), where unused is the unused data
+leftover from decompression, and unpacked in an UnpackedObject with
+the following attrs set:</p>
+<ul class="rst-simple">
+<li>obj_chunks     (for non-delta types)</li>
+<li>pack_type_num</li>
+<li>delta_base     (for delta types)</li>
+<li>comp_chunks    (if include_comp is True)</li>
+<li>decomp_chunks</li>
+<li>decomp_len</li>
+<li>crc32          (if compute_crc32 is True)</li>
+</ul>
+</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack._compute_object_size">
+    
+  </a>
+  <a name="_compute_object_size">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _compute_object_size(no_tuple):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Compute the size of a unresolved object for use with LRUSizeCache.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.obj_sha">
+    
+  </a>
+  <a name="obj_sha">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    obj_sha(type, chunks):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Compute the SHA for a numeric type and object chunks.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.compute_file_sha">
+    
+  </a>
+  <a name="compute_file_sha">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    compute_file_sha(f, start_ofs=0, end_ofs=0, buffer_size=116):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Hash a portion of a file into a new SHA.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">f</td><td>A file-like object to read from that supports seek().</td></tr><tr><td></td><td class="fieldArg">start_ofs</td><td>The offset in the file to start reading at.</td></tr><tr><td></td><td class="fieldArg">end_ofs</td><td>The offset in the file to end reading at, relative to the
+end of the file.</td></tr><tr><td></td><td class="fieldArg">buffer_size</td><td>A buffer size for reading.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">A new SHA object updated with data read from the file.</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.pack_object_header">
+    
+  </a>
+  <a name="pack_object_header">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    pack_object_header(type_num, delta_base, size):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Create a pack object header for the given object info.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">type_num</td><td>Numeric type of the object.</td></tr><tr><td></td><td class="fieldArg">delta_base</td><td>Delta base offset or ref, or None for whole objects.</td></tr><tr><td></td><td class="fieldArg">size</td><td>Uncompressed object size.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">A header for a packed object.</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.write_pack_object">
+    
+  </a>
+  <a name="write_pack_object">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    write_pack_object(f, type, object, sha=None):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Write pack object to a file.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">f</td><td>File to write to</td></tr><tr><td></td><td class="fieldArg">type</td><td>Numeric type of the object</td></tr><tr><td></td><td class="fieldArg">object</td><td>Object to write</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">Tuple with offset at which the object was written, and crc32</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.write_pack">
+    
+  </a>
+  <a name="write_pack">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    write_pack(filename, objects, num_objects=None):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Write a new pack data file.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">filename</td><td>Path to the new pack file (without .pack extension)</td></tr><tr><td></td><td class="fieldArg">objects</td><td>Iterable of (object, path) tuples to write.
+Should provide __len__</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">Tuple with checksum of pack file and index file</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.write_pack_header">
+    
+  </a>
+  <a name="write_pack_header">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    write_pack_header(f, num_objects):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Write a pack header for the given number of objects.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.deltify_pack_objects">
+    
+  </a>
+  <a name="deltify_pack_objects">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    deltify_pack_objects(objects, window=10):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Generate deltas for pack objects.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">objects</td><td>Objects to deltify</td></tr><tr><td></td><td class="fieldArg">window</td><td>Window size</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">Iterator over type_num, object id, delta_base, content
+delta_base is None for full text entries</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.write_pack_objects">
+    
+  </a>
+  <a name="write_pack_objects">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    write_pack_objects(f, objects, window=10, num_objects=None):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Write a new pack data file.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">f</td><td>File to write to</td></tr><tr><td></td><td class="fieldArg">objects</td><td>Iterable of (object, path) tuples to write.
+Should provide __len__</td></tr><tr><td></td><td class="fieldArg">window</td><td>Sliding window size for searching for deltas; currently
+unimplemented</td></tr><tr><td></td><td class="fieldArg">num_objects</td><td>Number of objects (do not use, deprecated)</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">Dict mapping id -&gt; (offset, crc32 checksum), pack checksum</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.write_pack_data">
+    
+  </a>
+  <a name="write_pack_data">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    write_pack_data(f, num_records, records):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Write a new pack data file.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">f</td><td>File to write to</td></tr><tr><td></td><td class="fieldArg">num_records</td><td>Number of records</td></tr><tr><td></td><td class="fieldArg">records</td><td>Iterator over type_num, object_id, delta_base, raw</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">Dict mapping id -&gt; (offset, crc32 checksum), pack checksum</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.write_pack_index_v1">
+    
+  </a>
+  <a name="write_pack_index_v1">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    write_pack_index_v1(f, entries, pack_checksum):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Write a new pack index file.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">f</td><td>A file-like object to write to</td></tr><tr><td></td><td class="fieldArg">entries</td><td>List of tuples with object name (sha), offset_in_pack,
+and crc32_checksum.</td></tr><tr><td></td><td class="fieldArg">pack_checksum</td><td>Checksum of the pack file.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">The SHA of the written index file</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.create_delta">
+    
+  </a>
+  <a name="create_delta">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    create_delta(base_buf, target_buf):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Use python difflib to work out how to transform base_buf to target_buf.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">base_buf</td><td>Base buffer</td></tr><tr><td></td><td class="fieldArg">target_buf</td><td>Target buffer</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.apply_delta">
+    
+  </a>
+  <a name="apply_delta">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    apply_delta(src_buf, delta):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Based on the similar function in git's patch-delta.c.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">src_buf</td><td>Source buffer</td></tr><tr><td></td><td class="fieldArg">delta</td><td>Delta instructions</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.write_pack_index_v2">
+    
+  </a>
+  <a name="write_pack_index_v2">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    write_pack_index_v2(f, entries, pack_checksum):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Write a new pack index file.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">f</td><td>File-like object to write to</td></tr><tr><td></td><td class="fieldArg">entries</td><td>List of tuples with object name (sha), offset_in_pack, and
+crc32_checksum.</td></tr><tr><td></td><td class="fieldArg">pack_checksum</td><td>Checksum of the pack file.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">The SHA of the index file written</td></tr></table></div>
+  </div>
+</div>
+    <address>
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+    </address>
+  </body>
+</html>

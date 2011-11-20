@@ -1,0 +1,574 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>dulwich.object_store.DiskObjectStore : API documentation</title>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <link href="apidocs.css" type="text/css" rel="stylesheet" />
+    
+    
+  </head>
+  <body>
+    <h1 class="class">d.o.DiskObjectStore(<a href="dulwich.object_store.PackBasedObjectStore.html">PackBasedObjectStore</a>) : class documentation</h1>
+    <p>
+      <span id="part">Part of <a href="dulwich.html">dulwich</a>.<a href="dulwich.object_store.html">object_store</a></span>
+      
+      <a href="classIndex.html#dulwich.object_store.DiskObjectStore">View In Hierarchy</a>
+    </p>
+    <div>
+      
+    </div>
+    <div>Git-style object store that exists on disk.<table class="fieldTable"></table></div>
+
+    
+    
+    <div id="splitTables">
+      <table class="children sortable" id="id283">
+  
+  
+<tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.DiskObjectStore.html#__init__">__init__</a></td>
+    <td><span>Open an object store.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.DiskObjectStore.html#alternates">alternates</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.DiskObjectStore.html#add_alternate_path">add_alternate_path</a></td>
+    <td><span>Add an alternate path to this object store.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.DiskObjectStore.html#add_thin_pack">add_thin_pack</a></td>
+    <td><span>Add a new thin pack to this object store.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.DiskObjectStore.html#move_in_pack">move_in_pack</a></td>
+    <td><span>Move a specific file containing a pack into the pack directory.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.DiskObjectStore.html#add_pack">add_pack</a></td>
+    <td><span>Add a new pack to this object store.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.DiskObjectStore.html#add_object">add_object</a></td>
+    <td><span>Add a single object to this object store.</span></td>
+  </tr><tr class="classmethod">
+    
+    
+    <td>Class Method</td>
+    <td><a href="dulwich.object_store.DiskObjectStore.html#init">init</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.DiskObjectStore.html#_read_alternate_paths">_read_alternate_paths</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.DiskObjectStore.html#_load_packs">_load_packs</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.DiskObjectStore.html#_pack_cache_stale">_pack_cache_stale</a></td>
+    <td><span>Check whether the pack cache is stale.</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.DiskObjectStore.html#_get_shafile_path">_get_shafile_path</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.DiskObjectStore.html#_iter_loose_objects">_iter_loose_objects</a></td>
+    <td><span>Iterate over the SHAs of all loose objects.</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.DiskObjectStore.html#_get_loose_object">_get_loose_object</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.DiskObjectStore.html#_remove_loose_object">_remove_loose_object</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.DiskObjectStore.html#_complete_thin_pack">_complete_thin_pack</a></td>
+    <td><span>Move a specific file containing a pack into the pack directory.</span></td>
+  </tr>
+  
+</table>
+      
+        <p>
+          Inherited from <a href="dulwich.object_store.PackBasedObjectStore.html">PackBasedObjectStore</a>:
+        </p>
+        <table class="children sortable" id="id284">
+  
+  
+<tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.PackBasedObjectStore.html#__enter__">__enter__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.PackBasedObjectStore.html#__exit__">__exit__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.PackBasedObjectStore.html#close">close</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.PackBasedObjectStore.html#contains_packed">contains_packed</a></td>
+    <td><span>Check if a particular object is present by SHA1 and is packed.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.PackBasedObjectStore.html#packs">packs</a></td>
+    <td><span>List with pack objects.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.PackBasedObjectStore.html#pack_loose_objects">pack_loose_objects</a></td>
+    <td><span>Pack loose objects.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.PackBasedObjectStore.html#__iter__">__iter__</a></td>
+    <td><span>Iterate over the SHAs that are present in this store.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.PackBasedObjectStore.html#contains_loose">contains_loose</a></td>
+    <td><span>Check if a particular object is present by SHA1 and is loose.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.PackBasedObjectStore.html#get_raw">get_raw</a></td>
+    <td><span>Obtain the raw text for an object.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.PackBasedObjectStore.html#add_objects">add_objects</a></td>
+    <td><span>Add a set of objects to this object store.</span></td>
+  </tr><tr class="basemethod private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.PackBasedObjectStore.html#_add_known_pack">_add_known_pack</a></td>
+    <td><span>Add a newly appeared pack to the cache by path.</span></td>
+  </tr>
+  
+</table>
+      
+        <p>
+          Inherited from <a href="dulwich.object_store.BaseObjectStore.html">BaseObjectStore</a> (via <a href="dulwich.object_store.PackBasedObjectStore.html">PackBasedObjectStore</a>):
+        </p>
+        <table class="children sortable" id="id285">
+  
+  
+<tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.BaseObjectStore.html#determine_wants_all">determine_wants_all</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.BaseObjectStore.html#iter_shas">iter_shas</a></td>
+    <td><span>Iterate over the objects for the specified shas.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.BaseObjectStore.html#__contains__">__contains__</a></td>
+    <td><span>Check if a particular object is present by SHA1.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.BaseObjectStore.html#__getitem__">__getitem__</a></td>
+    <td><span>Obtain an object by SHA1.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.BaseObjectStore.html#tree_changes">tree_changes</a></td>
+    <td><span>Find the differences between the contents of two trees</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.BaseObjectStore.html#iter_tree_contents">iter_tree_contents</a></td>
+    <td><span>Iterate the contents of a tree and all subtrees.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.BaseObjectStore.html#find_missing_objects">find_missing_objects</a></td>
+    <td><span>Find the missing objects required for a set of revisions.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.BaseObjectStore.html#find_common_revisions">find_common_revisions</a></td>
+    <td><span>Find which revisions this store has in common using graphwalker.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.BaseObjectStore.html#get_graph_walker">get_graph_walker</a></td>
+    <td><span>Obtain a graph walker for this object store.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.BaseObjectStore.html#generate_pack_contents">generate_pack_contents</a></td>
+    <td><span>Iterate over the contents of a pack file.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.BaseObjectStore.html#peel_sha">peel_sha</a></td>
+    <td><span>Peel all tags from a SHA.</span></td>
+  </tr>
+  
+</table>
+      
+      
+    </div>
+    
+    
+    
+
+    <div class="function">
+  <a name="dulwich.object_store.DiskObjectStore.__init__">
+    
+  </a>
+  <a name="__init__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __init__(self, path):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overrides <a href="dulwich.object_store.PackBasedObjectStore.html#__init__">dulwich.object_store.PackBasedObjectStore.__init__</a></div>
+    <div>Open an object store.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">path</td><td>Path of the object store.</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.object_store.DiskObjectStore.alternates">
+    
+  </a>
+  <a name="alternates">
+    
+  </a>
+  <div class="functionHeader">
+    @property<br />
+    def
+    alternates(self):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overrides <a href="dulwich.object_store.PackBasedObjectStore.html#alternates">dulwich.object_store.PackBasedObjectStore.alternates</a></div>
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.object_store.DiskObjectStore._read_alternate_paths">
+    
+  </a>
+  <a name="_read_alternate_paths">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _read_alternate_paths(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.object_store.DiskObjectStore.add_alternate_path">
+    
+  </a>
+  <a name="add_alternate_path">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    add_alternate_path(self, path):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Add an alternate path to this object store.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.object_store.DiskObjectStore._load_packs">
+    
+  </a>
+  <a name="_load_packs">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _load_packs(self):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overrides <a href="dulwich.object_store.PackBasedObjectStore.html#_load_packs">dulwich.object_store.PackBasedObjectStore._load_packs</a></div>
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.object_store.DiskObjectStore._pack_cache_stale">
+    
+  </a>
+  <a name="_pack_cache_stale">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _pack_cache_stale(self):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overrides <a href="dulwich.object_store.PackBasedObjectStore.html#_pack_cache_stale">dulwich.object_store.PackBasedObjectStore._pack_cache_stale</a></div>
+    <div>Check whether the pack cache is stale.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.object_store.DiskObjectStore._get_shafile_path">
+    
+  </a>
+  <a name="_get_shafile_path">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _get_shafile_path(self, sha):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.object_store.DiskObjectStore._iter_loose_objects">
+    
+  </a>
+  <a name="_iter_loose_objects">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _iter_loose_objects(self):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overrides <a href="dulwich.object_store.PackBasedObjectStore.html#_iter_loose_objects">dulwich.object_store.PackBasedObjectStore._iter_loose_objects</a></div>
+    <div>Iterate over the SHAs of all loose objects.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.object_store.DiskObjectStore._get_loose_object">
+    
+  </a>
+  <a name="_get_loose_object">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _get_loose_object(self, sha):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overrides <a href="dulwich.object_store.PackBasedObjectStore.html#_get_loose_object">dulwich.object_store.PackBasedObjectStore._get_loose_object</a></div>
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.object_store.DiskObjectStore._remove_loose_object">
+    
+  </a>
+  <a name="_remove_loose_object">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _remove_loose_object(self, sha):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overrides <a href="dulwich.object_store.PackBasedObjectStore.html#_remove_loose_object">dulwich.object_store.PackBasedObjectStore._remove_loose_object</a></div>
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.object_store.DiskObjectStore._complete_thin_pack">
+    
+  </a>
+  <a name="_complete_thin_pack">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _complete_thin_pack(self, f, path, copier, indexer):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Move a specific file containing a pack into the pack directory.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">f</td><td>Open file object for the pack.</td></tr><tr><td></td><td class="fieldArg">path</td><td>Path to the pack file.</td></tr><tr><td></td><td class="fieldArg">copier</td><td>A PackStreamCopier to use for writing pack data.</td></tr><tr><td></td><td class="fieldArg">indexer</td><td>A PackIndexer for indexing the pack.</td></tr><tr class="fieldStart"><td class="fieldName">Note</td><td colspan="2">The file should be on the same file system as the
+packs directory.</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.object_store.DiskObjectStore.add_thin_pack">
+    
+  </a>
+  <a name="add_thin_pack">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    add_thin_pack(self, read_all, read_some):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Add a new thin pack to this object store.</p>
+<p>Thin packs are packs that contain deltas with parents that exist outside
+the pack. They should never be placed in the object store directly, and
+always indexed and completed as they are copied.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">read_all</td><td>Read function that blocks until the number of requested
+bytes are read.</td></tr><tr><td></td><td class="fieldArg">read_some</td><td>Read function that returns at least one byte, but may
+not return the number of bytes requested.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">A Pack object pointing at the now-completed thin pack in the
+objects/pack directory.</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.object_store.DiskObjectStore.move_in_pack">
+    
+  </a>
+  <a name="move_in_pack">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    move_in_pack(self, path):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Move a specific file containing a pack into the pack directory.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">path</td><td>Path to the pack file.</td></tr><tr class="fieldStart"><td class="fieldName">Note</td><td colspan="2">The file should be on the same file system as the
+packs directory.</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.object_store.DiskObjectStore.add_pack">
+    
+  </a>
+  <a name="add_pack">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    add_pack(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Add a new pack to this object store.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">Fileobject to write to and a commit function to
+call when the pack is finished.</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.object_store.DiskObjectStore.add_object">
+    
+  </a>
+  <a name="add_object">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    add_object(self, obj):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overrides <a href="dulwich.object_store.BaseObjectStore.html#add_object">dulwich.object_store.BaseObjectStore.add_object</a></div>
+    <div>Add a single object to this object store.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">obj</td><td>Object to add</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.object_store.DiskObjectStore.init">
+    
+  </a>
+  <a name="init">
+    
+  </a>
+  <div class="functionHeader">
+    @classmethod<br />
+    def
+    init(cls, path):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div>
+    <address>
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+    </address>
+  </body>
+</html>

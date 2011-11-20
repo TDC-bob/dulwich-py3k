@@ -1,0 +1,337 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>dulwich.repo.MemoryRepo : API documentation</title>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <link href="apidocs.css" type="text/css" rel="stylesheet" />
+    
+    
+  </head>
+  <body>
+    <h1 class="class">d.r.MemoryRepo(<a href="dulwich.repo.BaseRepo.html">BaseRepo</a>) : class documentation</h1>
+    <p>
+      <span id="part">Part of <a href="dulwich.html">dulwich</a>.<a href="dulwich.repo.html">repo</a></span>
+      
+      <a href="classIndex.html#dulwich.repo.MemoryRepo">View In Hierarchy</a>
+    </p>
+    <div>
+      
+    </div>
+    <div>Repo that stores refs, objects, and named files in memory.</p>
+<p>MemoryRepos are always bare: they have no working tree and no index, since
+those have a stronger dependency on the filesystem.<table class="fieldTable"></table></div>
+
+    
+    
+    <div id="splitTables">
+      <table class="children sortable" id="id11">
+  
+  
+<tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.MemoryRepo.html#__init__">__init__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.MemoryRepo.html#get_named_file">get_named_file</a></td>
+    <td><span>Get a file from the control dir with a specific name.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.MemoryRepo.html#open_index">open_index</a></td>
+    <td><span>Fail to open index for this repo, since it is bare.</span></td>
+  </tr><tr class="classmethod">
+    
+    
+    <td>Class Method</td>
+    <td><a href="dulwich.repo.MemoryRepo.html#init_bare">init_bare</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.MemoryRepo.html#_put_named_file">_put_named_file</a></td>
+    <td><span>Write a file to the control dir with the given name and contents.</span></td>
+  </tr>
+  
+</table>
+      
+        <p>
+          Inherited from <a href="dulwich.repo.BaseRepo.html">BaseRepo</a>:
+        </p>
+        <table class="children sortable" id="id12">
+  
+  
+<tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#__enter__">__enter__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#__exit__">__exit__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#close">close</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#fetch">fetch</a></td>
+    <td><span>Fetch objects into another repository.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#fetch_objects">fetch_objects</a></td>
+    <td><span>Fetch the missing objects required for a set of revisions.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#get_graph_walker">get_graph_walker</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#ref">ref</a></td>
+    <td><span>Return the SHA1 a ref is pointing to.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#get_refs">get_refs</a></td>
+    <td><span>Get dictionary with all refs.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#head">head</a></td>
+    <td><span>Return the SHA1 pointed at by HEAD.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#get_object">get_object</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#get_parents">get_parents</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#get_config">get_config</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#commit">commit</a></td>
+    <td><span>Retrieve the commit with a particular SHA.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#tree">tree</a></td>
+    <td><span>Retrieve the tree with a particular SHA.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#tag">tag</a></td>
+    <td><span>Retrieve the tag with a particular SHA.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#get_blob">get_blob</a></td>
+    <td><span>Retrieve the blob with a particular SHA.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#get_peeled">get_peeled</a></td>
+    <td><span>Get the peeled value of a ref.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#get_walker">get_walker</a></td>
+    <td><span>Obtain a walker for this repository.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#revision_history">revision_history</a></td>
+    <td><span>Returns a list of the commits reachable from head.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#__getitem__">__getitem__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#__iter__">__iter__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#__contains__">__contains__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#__setitem__">__setitem__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#__delitem__">__delitem__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#do_commit">do_commit</a></td>
+    <td><span>Create a new commit.</span></td>
+  </tr><tr class="basemethod private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#_init_files">_init_files</a></td>
+    <td><span>Initialize a default set of named files.</span></td>
+  </tr><tr class="basemethod private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.BaseRepo.html#_get_object">_get_object</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr>
+  
+</table>
+      
+      
+    </div>
+    
+    
+    
+
+    <div class="function">
+  <a name="dulwich.repo.MemoryRepo.__init__">
+    
+  </a>
+  <a name="__init__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __init__(self):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overrides <a href="dulwich.repo.BaseRepo.html#__init__">dulwich.repo.BaseRepo.__init__</a></div>
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.repo.MemoryRepo._put_named_file">
+    
+  </a>
+  <a name="_put_named_file">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _put_named_file(self, path, contents):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overrides <a href="dulwich.repo.BaseRepo.html#_put_named_file">dulwich.repo.BaseRepo._put_named_file</a></div>
+    <div>Write a file to the control dir with the given name and contents.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">path</td><td>The path to the file, relative to the control dir.</td></tr><tr><td></td><td class="fieldArg">contents</td><td>A string to write to the file.</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.repo.MemoryRepo.get_named_file">
+    
+  </a>
+  <a name="get_named_file">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    get_named_file(self, path):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overrides <a href="dulwich.repo.BaseRepo.html#get_named_file">dulwich.repo.BaseRepo.get_named_file</a></div>
+    <div>Get a file from the control dir with a specific name.</p>
+<p>Although the filename should be interpreted as a filename relative to
+the control dir in a disk-baked Repo, the object returned need not be
+pointing to a file in that location.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">path</td><td>The path to the file, relative to the control dir.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">An open file object, or None if the file does not exist.</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.repo.MemoryRepo.open_index">
+    
+  </a>
+  <a name="open_index">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    open_index(self):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overrides <a href="dulwich.repo.BaseRepo.html#open_index">dulwich.repo.BaseRepo.open_index</a></div>
+    <div>Fail to open index for this repo, since it is bare.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.repo.MemoryRepo.init_bare">
+    
+  </a>
+  <a name="init_bare">
+    
+  </a>
+  <div class="functionHeader">
+    @classmethod<br />
+    def
+    init_bare(cls, objects, refs):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div>
+    <address>
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+    </address>
+  </body>
+</html>

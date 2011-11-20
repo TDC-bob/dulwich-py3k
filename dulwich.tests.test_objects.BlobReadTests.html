@@ -1,0 +1,505 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>dulwich.tests.test_objects.BlobReadTests : API documentation</title>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <link href="apidocs.css" type="text/css" rel="stylesheet" />
+    
+    
+  </head>
+  <body>
+    <h1 class="class">d.t.t.BlobReadTests(<span title="dulwich.tests.TestCase">TestCase</span>) : class documentation</h1>
+    <p>
+      <span id="part">Part of <a href="dulwich.html">dulwich</a>.<a href="dulwich.tests.html">tests</a>.<a href="dulwich.tests.test_objects.html">test_objects</a></span>
+      
+      <a href="classIndex.html#dulwich.tests.test_objects.BlobReadTests">View In Hierarchy</a>
+    </p>
+    <div>
+      
+    </div>
+    <div>Test decompression of blobs<table class="fieldTable"></table></div>
+
+    
+    
+    <div id="splitTables">
+      <table class="children sortable" id="id128">
+  
+  
+<tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_objects.BlobReadTests.html#get_sha_file">get_sha_file</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_objects.BlobReadTests.html#get_blob">get_blob</a></td>
+    <td><span>Return the blob named sha from the test data dir</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_objects.BlobReadTests.html#get_tree">get_tree</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_objects.BlobReadTests.html#get_tag">get_tag</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_objects.BlobReadTests.html#commit">commit</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_objects.BlobReadTests.html#test_decompress_simple_blob">test_decompress_simple_blob</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_objects.BlobReadTests.html#test_hash">test_hash</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_objects.BlobReadTests.html#test_parse_empty_blob_object">test_parse_empty_blob_object</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_objects.BlobReadTests.html#test_create_blob_from_string">test_create_blob_from_string</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_objects.BlobReadTests.html#test_legacy_from_file">test_legacy_from_file</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_objects.BlobReadTests.html#test_chunks">test_chunks</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_objects.BlobReadTests.html#test_set_chunks">test_set_chunks</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_objects.BlobReadTests.html#test_parse_legacy_blob">test_parse_legacy_blob</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_objects.BlobReadTests.html#test_eq">test_eq</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_objects.BlobReadTests.html#test_read_tree_from_file">test_read_tree_from_file</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_objects.BlobReadTests.html#test_read_tag_from_file">test_read_tag_from_file</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_objects.BlobReadTests.html#test_read_commit_from_file">test_read_commit_from_file</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_objects.BlobReadTests.html#test_read_commit_no_parents">test_read_commit_no_parents</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_objects.BlobReadTests.html#test_read_commit_two_parents">test_read_commit_two_parents</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_objects.BlobReadTests.html#test_stub_sha">test_stub_sha</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr>
+  
+</table>
+      
+      
+    </div>
+    
+    
+    
+
+    <div class="function">
+  <a name="dulwich.tests.test_objects.BlobReadTests.get_sha_file">
+    
+  </a>
+  <a name="get_sha_file">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    get_sha_file(self, cls, base, sha):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_objects.BlobReadTests.get_blob">
+    
+  </a>
+  <a name="get_blob">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    get_blob(self, sha):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Return the blob named sha from the test data dir<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_objects.BlobReadTests.get_tree">
+    
+  </a>
+  <a name="get_tree">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    get_tree(self, sha):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_objects.BlobReadTests.get_tag">
+    
+  </a>
+  <a name="get_tag">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    get_tag(self, sha):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_objects.BlobReadTests.commit">
+    
+  </a>
+  <a name="commit">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    commit(self, sha):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_objects.BlobReadTests.test_decompress_simple_blob">
+    
+  </a>
+  <a name="test_decompress_simple_blob">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_decompress_simple_blob(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_objects.BlobReadTests.test_hash">
+    
+  </a>
+  <a name="test_hash">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_hash(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_objects.BlobReadTests.test_parse_empty_blob_object">
+    
+  </a>
+  <a name="test_parse_empty_blob_object">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_parse_empty_blob_object(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_objects.BlobReadTests.test_create_blob_from_string">
+    
+  </a>
+  <a name="test_create_blob_from_string">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_create_blob_from_string(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_objects.BlobReadTests.test_legacy_from_file">
+    
+  </a>
+  <a name="test_legacy_from_file">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_legacy_from_file(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_objects.BlobReadTests.test_chunks">
+    
+  </a>
+  <a name="test_chunks">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_chunks(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_objects.BlobReadTests.test_set_chunks">
+    
+  </a>
+  <a name="test_set_chunks">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_set_chunks(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_objects.BlobReadTests.test_parse_legacy_blob">
+    
+  </a>
+  <a name="test_parse_legacy_blob">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_parse_legacy_blob(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_objects.BlobReadTests.test_eq">
+    
+  </a>
+  <a name="test_eq">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_eq(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_objects.BlobReadTests.test_read_tree_from_file">
+    
+  </a>
+  <a name="test_read_tree_from_file">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_read_tree_from_file(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_objects.BlobReadTests.test_read_tag_from_file">
+    
+  </a>
+  <a name="test_read_tag_from_file">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_read_tag_from_file(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_objects.BlobReadTests.test_read_commit_from_file">
+    
+  </a>
+  <a name="test_read_commit_from_file">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_read_commit_from_file(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_objects.BlobReadTests.test_read_commit_no_parents">
+    
+  </a>
+  <a name="test_read_commit_no_parents">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_read_commit_no_parents(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_objects.BlobReadTests.test_read_commit_two_parents">
+    
+  </a>
+  <a name="test_read_commit_two_parents">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_read_commit_two_parents(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_objects.BlobReadTests.test_stub_sha">
+    
+  </a>
+  <a name="test_stub_sha">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_stub_sha(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div>
+    <address>
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+    </address>
+  </body>
+</html>

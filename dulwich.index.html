@@ -1,0 +1,352 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>dulwich.index : API documentation</title>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <link href="apidocs.css" type="text/css" rel="stylesheet" />
+    
+    
+  </head>
+  <body>
+    <h1 class="module">d.index : module documentation</h1>
+    <p>
+      <span id="part">Part of <a href="dulwich.html">dulwich</a></span>
+      
+      
+    </p>
+    <div>
+      
+    </div>
+    <div>Parser for the git index file format.<table class="fieldTable"></table></div>
+
+    
+    
+    <div id="splitTables">
+      <table class="children sortable" id="id352">
+  
+  
+<tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.index.html#pathsplit">pathsplit</a></td>
+    <td><span>Split a /-delimited path into a directory part and a basename.</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.index.html#pathjoin">pathjoin</a></td>
+    <td><span>Join a /-delimited path.</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.index.html#read_cache_time">read_cache_time</a></td>
+    <td><span>Read a cache time.</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.index.html#write_cache_time">write_cache_time</a></td>
+    <td><span>Write a cache time.</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.index.html#read_cache_entry">read_cache_entry</a></td>
+    <td><span>Read an entry from a cache file.</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.index.html#write_cache_entry">write_cache_entry</a></td>
+    <td><span>Write an index entry to a file.</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.index.html#read_index">read_index</a></td>
+    <td><span>Read an index file, yielding the individual entries.</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.index.html#read_index_dict">read_index_dict</a></td>
+    <td><span>Read an index file and return it as a dictionary.</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.index.html#write_index">write_index</a></td>
+    <td><span>Write an index file.</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.index.html#write_index_dict">write_index_dict</a></td>
+    <td><span>Write an index file based on the contents of a dictionary.</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.index.html#cleanup_mode">cleanup_mode</a></td>
+    <td><span>Cleanup a mode value.</span></td>
+  </tr><tr class="class">
+    
+    
+    <td>Class</td>
+    <td><a href="dulwich.index.Index.html">Index</a></td>
+    <td><span>A Git Index file.</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.index.html#commit_tree">commit_tree</a></td>
+    <td><span>Commit a new tree.</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.index.html#commit_index">commit_index</a></td>
+    <td><span>Create a new tree from an index.</span></td>
+  </tr>
+  
+</table>
+      
+      
+    </div>
+    
+    
+    
+
+    <div class="function">
+  <a name="dulwich.index.pathsplit">
+    
+  </a>
+  <a name="pathsplit">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    pathsplit(path):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Split a /-delimited path into a directory part and a basename.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">path</td><td>The path to split.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">Tuple with directory name and basename</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.index.pathjoin">
+    
+  </a>
+  <a name="pathjoin">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    pathjoin(*args):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Join a /-delimited path.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.index.read_cache_time">
+    
+  </a>
+  <a name="read_cache_time">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    read_cache_time(f):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Read a cache time.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">f</td><td>File-like object to read from</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">Tuple with seconds and nanoseconds</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.index.write_cache_time">
+    
+  </a>
+  <a name="write_cache_time">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    write_cache_time(f, t):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Write a cache time.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">f</td><td>File-like object to write to</td></tr><tr><td></td><td class="fieldArg">t</td><td>Time to write (as int, float or tuple with secs and nsecs)</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.index.read_cache_entry">
+    
+  </a>
+  <a name="read_cache_entry">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    read_cache_entry(f):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Read an entry from a cache file.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">f</td><td>File-like object to read from</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">tuple with: device, inode, mode, uid, gid, size, sha, flags</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.index.write_cache_entry">
+    
+  </a>
+  <a name="write_cache_entry">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    write_cache_entry(f, entry):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Write an index entry to a file.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">f</td><td>File object</td></tr><tr><td></td><td class="fieldArg">entry</td><td>Entry to write, tuple with:
+(name, ctime, mtime, dev, ino, mode, uid, gid, size, sha, flags)</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.index.read_index">
+    
+  </a>
+  <a name="read_index">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    read_index(f):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Read an index file, yielding the individual entries.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.index.read_index_dict">
+    
+  </a>
+  <a name="read_index_dict">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    read_index_dict(f):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Read an index file and return it as a dictionary.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">f</td><td>File object to read from</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.index.write_index">
+    
+  </a>
+  <a name="write_index">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    write_index(f, entries):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Write an index file.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">f</td><td>File-like object to write to</td></tr><tr><td></td><td class="fieldArg">entries</td><td>Iterable over the entries to write</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.index.write_index_dict">
+    
+  </a>
+  <a name="write_index_dict">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    write_index_dict(f, entries):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Write an index file based on the contents of a dictionary.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.index.cleanup_mode">
+    
+  </a>
+  <a name="cleanup_mode">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    cleanup_mode(mode):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Cleanup a mode value.</p>
+<p>This will return a mode that can be stored in a tree object.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">mode</td><td>Mode to clean up.</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.index.commit_tree">
+    
+  </a>
+  <a name="commit_tree">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    commit_tree(object_store, blobs):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Commit a new tree.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">object_store</td><td>Object store to add trees to</td></tr><tr><td></td><td class="fieldArg">blobs</td><td>Iterable over blob path, sha, mode entries</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">SHA1 of the created tree.</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.index.commit_index">
+    
+  </a>
+  <a name="commit_index">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    commit_index(object_store, index):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Create a new tree from an index.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">object_store</td><td>Object store to save the tree in</td></tr><tr><td></td><td class="fieldArg">index</td><td>Index file</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">Root tree sha.</td></tr><tr class="fieldStart"><td class="fieldName">Note</td><td colspan="2">This function is deprecated, use index.commit() instead.</td></tr></table></div>
+  </div>
+</div>
+    <address>
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+    </address>
+  </body>
+</html>

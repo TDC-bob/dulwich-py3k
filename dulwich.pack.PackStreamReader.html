@@ -1,0 +1,243 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>dulwich.pack.PackStreamReader : API documentation</title>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <link href="apidocs.css" type="text/css" rel="stylesheet" />
+    
+    
+  </head>
+  <body>
+    <h1 class="class">d.p.PackStreamReader(<span title="object">object</span>) : class documentation</h1>
+    <p>
+      <span id="part">Part of <a href="dulwich.html">dulwich</a>.<a href="dulwich.pack.html">pack</a></span>
+      
+      <a href="classIndex.html#dulwich.pack.PackStreamReader">View In Hierarchy</a>
+    </p>
+    <div>
+      <p>Known subclasses: <a href="dulwich.pack.PackStreamCopier.html">dulwich.pack.PackStreamCopier</a></p>
+    </div>
+    <div>Class to read a pack stream.</p>
+<p>The pack is read from a ReceivableProtocol using read() or recv() as
+appropriate.<table class="fieldTable"></table></div>
+
+    
+    
+    <div id="splitTables">
+      <table class="children sortable" id="id329">
+  
+  
+<tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.pack.PackStreamReader.html#__init__">__init__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.pack.PackStreamReader.html#offset">offset</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.pack.PackStreamReader.html#read">read</a></td>
+    <td><span>Read, blocking until size bytes are read.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.pack.PackStreamReader.html#recv">recv</a></td>
+    <td><span>Read up to size bytes, blocking until one byte is read.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.pack.PackStreamReader.html#__len__">__len__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.pack.PackStreamReader.html#read_objects">read_objects</a></td>
+    <td><span>Read the objects in this pack file.</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.pack.PackStreamReader.html#_read">_read</a></td>
+    <td><span>Read up to size bytes using the given callback.</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.pack.PackStreamReader.html#_buf_len">_buf_len</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr>
+  
+</table>
+      
+      
+    </div>
+    
+    
+    
+
+    <div class="function">
+  <a name="dulwich.pack.PackStreamReader.__init__">
+    
+  </a>
+  <a name="__init__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __init__(self, read_all, read_some=None, zlib_bufsize=_ZLIB_BUFSIZE):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overridden in <a href="dulwich.pack.PackStreamCopier.html">dulwich.pack.PackStreamCopier</a></div>
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.PackStreamReader._read">
+    
+  </a>
+  <a name="_read">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _read(self, read, size):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overridden in <a href="dulwich.pack.PackStreamCopier.html">dulwich.pack.PackStreamCopier</a></div>
+    <div>Read up to size bytes using the given callback.</p>
+<p>As a side effect, update the verifier's hash (excluding the last 20
+bytes read).<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">read</td><td>The read callback to read from.</td></tr><tr><td></td><td class="fieldArg">size</td><td>The maximum number of bytes to read; the particular
+behavior is callback-specific.</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.PackStreamReader._buf_len">
+    
+  </a>
+  <a name="_buf_len">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _buf_len(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.PackStreamReader.offset">
+    
+  </a>
+  <a name="offset">
+    
+  </a>
+  <div class="functionHeader">
+    @property<br />
+    def
+    offset(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.PackStreamReader.read">
+    
+  </a>
+  <a name="read">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    read(self, size):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Read, blocking until size bytes are read.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.PackStreamReader.recv">
+    
+  </a>
+  <a name="recv">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    recv(self, size):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Read up to size bytes, blocking until one byte is read.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.PackStreamReader.__len__">
+    
+  </a>
+  <a name="__len__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __len__(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.PackStreamReader.read_objects">
+    
+  </a>
+  <a name="read_objects">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    read_objects(self, compute_crc32=False):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Read the objects in this pack file.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">compute_crc32</td><td>If True, compute the CRC32 of the compressed
+data. If False, the returned CRC32 will be None.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">Iterator over UnpackedObjects with the following members set:
+offset
+obj_type_num
+obj_chunks (for non-delta types)
+delta_base (for delta types)
+decomp_chunks
+decomp_len
+crc32 (if compute_crc32 is True)</td></tr><tr class="fieldStart"><td class="fieldName">Raises</td><td class="fieldArg">ChecksumMismatch</td><td>if the checksum of the pack contents does not
+match the checksum in the pack trailer.</td></tr><tr><td></td><td class="fieldArg">zlib.error</td><td>if an error occurred during zlib decompression.</td></tr><tr><td></td><td class="fieldArg">IOError</td><td>if an error occurred writing to the output file.</td></tr></table></div>
+  </div>
+</div>
+    <address>
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+    </address>
+  </body>
+</html>

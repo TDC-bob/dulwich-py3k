@@ -1,0 +1,505 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>dulwich.tests.test_pack.DeltaChainIteratorTests : API documentation</title>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <link href="apidocs.css" type="text/css" rel="stylesheet" />
+    
+    
+  </head>
+  <body>
+    <h1 class="class">d.t.t.DeltaChainIteratorTests(<span title="dulwich.tests.TestCase">TestCase</span>) : class documentation</h1>
+    <p>
+      <span id="part">Part of <a href="dulwich.html">dulwich</a>.<a href="dulwich.tests.html">tests</a>.<a href="dulwich.tests.test_pack.html">test_pack</a></span>
+      
+      <a href="classIndex.html#dulwich.tests.test_pack.DeltaChainIteratorTests">View In Hierarchy</a>
+    </p>
+    <div>
+      
+    </div>
+    <div class="undocumented">No class docstring</div>
+
+    
+    
+    <div id="splitTables">
+      <table class="children sortable" id="id185">
+  
+  
+<tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_pack.DeltaChainIteratorTests.html#setUp">setUp</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_pack.DeltaChainIteratorTests.html#store_blobs">store_blobs</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_pack.DeltaChainIteratorTests.html#get_raw_no_repeat">get_raw_no_repeat</a></td>
+    <td><span>Wrapper around store.get_raw that doesn't allow repeat lookups.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_pack.DeltaChainIteratorTests.html#make_pack_iter">make_pack_iter</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_pack.DeltaChainIteratorTests.html#assertEntriesMatch">assertEntriesMatch</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_pack.DeltaChainIteratorTests.html#test_no_deltas">test_no_deltas</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_pack.DeltaChainIteratorTests.html#test_ofs_deltas">test_ofs_deltas</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_pack.DeltaChainIteratorTests.html#test_ofs_deltas_chain">test_ofs_deltas_chain</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_pack.DeltaChainIteratorTests.html#test_ref_deltas">test_ref_deltas</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_pack.DeltaChainIteratorTests.html#test_ref_deltas_chain">test_ref_deltas_chain</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_pack.DeltaChainIteratorTests.html#test_ofs_and_ref_deltas">test_ofs_and_ref_deltas</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_pack.DeltaChainIteratorTests.html#test_mixed_chain">test_mixed_chain</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_pack.DeltaChainIteratorTests.html#test_long_chain">test_long_chain</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_pack.DeltaChainIteratorTests.html#test_branchy_chain">test_branchy_chain</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_pack.DeltaChainIteratorTests.html#test_ext_ref">test_ext_ref</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_pack.DeltaChainIteratorTests.html#test_ext_ref_chain">test_ext_ref_chain</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_pack.DeltaChainIteratorTests.html#test_ext_ref_multiple_times">test_ext_ref_multiple_times</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_pack.DeltaChainIteratorTests.html#test_multiple_ext_refs">test_multiple_ext_refs</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_pack.DeltaChainIteratorTests.html#test_bad_ext_ref_non_thin_pack">test_bad_ext_ref_non_thin_pack</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_pack.DeltaChainIteratorTests.html#test_bad_ext_ref_thin_pack">test_bad_ext_ref_thin_pack</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr>
+  
+</table>
+      
+      
+    </div>
+    
+    
+    
+
+    <div class="function">
+  <a name="dulwich.tests.test_pack.DeltaChainIteratorTests.setUp">
+    
+  </a>
+  <a name="setUp">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    setUp(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_pack.DeltaChainIteratorTests.store_blobs">
+    
+  </a>
+  <a name="store_blobs">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    store_blobs(self, blobs_data):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_pack.DeltaChainIteratorTests.get_raw_no_repeat">
+    
+  </a>
+  <a name="get_raw_no_repeat">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    get_raw_no_repeat(self, sha):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Wrapper around store.get_raw that doesn't allow repeat lookups.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_pack.DeltaChainIteratorTests.make_pack_iter">
+    
+  </a>
+  <a name="make_pack_iter">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    make_pack_iter(self, f, thin=None):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_pack.DeltaChainIteratorTests.assertEntriesMatch">
+    
+  </a>
+  <a name="assertEntriesMatch">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    assertEntriesMatch(self, expected_indexes, entries, pack_iter):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_pack.DeltaChainIteratorTests.test_no_deltas">
+    
+  </a>
+  <a name="test_no_deltas">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_no_deltas(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_pack.DeltaChainIteratorTests.test_ofs_deltas">
+    
+  </a>
+  <a name="test_ofs_deltas">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_ofs_deltas(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_pack.DeltaChainIteratorTests.test_ofs_deltas_chain">
+    
+  </a>
+  <a name="test_ofs_deltas_chain">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_ofs_deltas_chain(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_pack.DeltaChainIteratorTests.test_ref_deltas">
+    
+  </a>
+  <a name="test_ref_deltas">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_ref_deltas(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_pack.DeltaChainIteratorTests.test_ref_deltas_chain">
+    
+  </a>
+  <a name="test_ref_deltas_chain">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_ref_deltas_chain(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_pack.DeltaChainIteratorTests.test_ofs_and_ref_deltas">
+    
+  </a>
+  <a name="test_ofs_and_ref_deltas">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_ofs_and_ref_deltas(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_pack.DeltaChainIteratorTests.test_mixed_chain">
+    
+  </a>
+  <a name="test_mixed_chain">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_mixed_chain(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_pack.DeltaChainIteratorTests.test_long_chain">
+    
+  </a>
+  <a name="test_long_chain">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_long_chain(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_pack.DeltaChainIteratorTests.test_branchy_chain">
+    
+  </a>
+  <a name="test_branchy_chain">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_branchy_chain(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_pack.DeltaChainIteratorTests.test_ext_ref">
+    
+  </a>
+  <a name="test_ext_ref">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_ext_ref(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_pack.DeltaChainIteratorTests.test_ext_ref_chain">
+    
+  </a>
+  <a name="test_ext_ref_chain">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_ext_ref_chain(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_pack.DeltaChainIteratorTests.test_ext_ref_multiple_times">
+    
+  </a>
+  <a name="test_ext_ref_multiple_times">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_ext_ref_multiple_times(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_pack.DeltaChainIteratorTests.test_multiple_ext_refs">
+    
+  </a>
+  <a name="test_multiple_ext_refs">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_multiple_ext_refs(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_pack.DeltaChainIteratorTests.test_bad_ext_ref_non_thin_pack">
+    
+  </a>
+  <a name="test_bad_ext_ref_non_thin_pack">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_bad_ext_ref_non_thin_pack(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_pack.DeltaChainIteratorTests.test_bad_ext_ref_thin_pack">
+    
+  </a>
+  <a name="test_bad_ext_ref_thin_pack">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_bad_ext_ref_thin_pack(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div>
+    <address>
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+    </address>
+  </body>
+</html>

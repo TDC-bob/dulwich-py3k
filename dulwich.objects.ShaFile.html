@@ -1,0 +1,923 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>dulwich.objects.ShaFile : API documentation</title>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <link href="apidocs.css" type="text/css" rel="stylesheet" />
+    
+    
+  </head>
+  <body>
+    <h1 class="class">d.o.ShaFile(<span title="object">object</span>) : class documentation</h1>
+    <p>
+      <span id="part">Part of <a href="dulwich.html">dulwich</a>.<a href="dulwich.objects.html">objects</a></span>
+      
+      <a href="classIndex.html#dulwich.objects.ShaFile">View In Hierarchy</a>
+    </p>
+    <div>
+      <p>Known subclasses: <a href="dulwich.objects.Blob.html">dulwich.objects.Blob</a>, <a href="dulwich.objects.Commit.html">dulwich.objects.Commit</a>, <a href="dulwich.objects.Tag.html">dulwich.objects.Tag</a>, <a href="dulwich.objects.Tree.html">dulwich.objects.Tree</a></p>
+    </div>
+    <div>A git SHA file.<table class="fieldTable"></table></div>
+
+    
+    
+    <div id="splitTables">
+      <table class="children sortable" id="id262">
+  
+  
+<tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.objects.ShaFile.html#as_legacy_object_chunks">as_legacy_object_chunks</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.objects.ShaFile.html#as_legacy_object">as_legacy_object</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.objects.ShaFile.html#as_raw_chunks">as_raw_chunks</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.objects.ShaFile.html#as_raw_string">as_raw_string</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.objects.ShaFile.html#__str__">__str__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.objects.ShaFile.html#__hash__">__hash__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.objects.ShaFile.html#as_pretty_string">as_pretty_string</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.objects.ShaFile.html#set_raw_string">set_raw_string</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.objects.ShaFile.html#set_raw_chunks">set_raw_chunks</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.objects.ShaFile.html#__init__">__init__</a></td>
+    <td><span>Don't call this directly</span></td>
+  </tr><tr class="classmethod">
+    
+    
+    <td>Class Method</td>
+    <td><a href="dulwich.objects.ShaFile.html#from_path">from_path</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="classmethod">
+    
+    
+    <td>Class Method</td>
+    <td><a href="dulwich.objects.ShaFile.html#from_file">from_file</a></td>
+    <td><span>Get the contents of a SHA file on disk.</span></td>
+  </tr><tr class="staticmethod">
+    
+    
+    <td>Static Method</td>
+    <td><a href="dulwich.objects.ShaFile.html#from_raw_string">from_raw_string</a></td>
+    <td><span>Creates an object of the indicated type from the raw string given.</span></td>
+  </tr><tr class="staticmethod">
+    
+    
+    <td>Static Method</td>
+    <td><a href="dulwich.objects.ShaFile.html#from_raw_chunks">from_raw_chunks</a></td>
+    <td><span>Creates an object of the indicated type from the raw chunks given.</span></td>
+  </tr><tr class="classmethod">
+    
+    
+    <td>Class Method</td>
+    <td><a href="dulwich.objects.ShaFile.html#from_string">from_string</a></td>
+    <td><span>Create a ShaFile from a string.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.objects.ShaFile.html#check">check</a></td>
+    <td><span>Check this object for internal consistency.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.objects.ShaFile.html#raw_length">raw_length</a></td>
+    <td><span>Returns the length of the raw string of this object.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.objects.ShaFile.html#sha">sha</a></td>
+    <td><span>The SHA1 object that is the name of this object.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.objects.ShaFile.html#id">id</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.objects.ShaFile.html#get_type">get_type</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.objects.ShaFile.html#set_type">set_type</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.objects.ShaFile.html#__repr__">__repr__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.objects.ShaFile.html#__ne__">__ne__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.objects.ShaFile.html#__eq__">__eq__</a></td>
+    <td><span>Return True if the SHAs of the two objects match.</span></td>
+  </tr><tr class="staticmethod private">
+    
+    
+    <td>Static Method</td>
+    <td><a href="dulwich.objects.ShaFile.html#_parse_legacy_object_header">_parse_legacy_object_header</a></td>
+    <td><span>Parse a legacy object, creating it but not reading the file.</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.objects.ShaFile.html#_parse_legacy_object">_parse_legacy_object</a></td>
+    <td><span>Parse a legacy object, setting the raw string.</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.objects.ShaFile.html#_ensure_parsed">_ensure_parsed</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="staticmethod private">
+    
+    
+    <td>Static Method</td>
+    <td><a href="dulwich.objects.ShaFile.html#_parse_object_header">_parse_object_header</a></td>
+    <td><span>Parse a new style object, creating it but not reading the file.</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.objects.ShaFile.html#_parse_object">_parse_object</a></td>
+    <td><span>Parse a new style object, setting self._text.</span></td>
+  </tr><tr class="classmethod private">
+    
+    
+    <td>Class Method</td>
+    <td><a href="dulwich.objects.ShaFile.html#_is_legacy_object">_is_legacy_object</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="classmethod private">
+    
+    
+    <td>Class Method</td>
+    <td><a href="dulwich.objects.ShaFile.html#_parse_file_header">_parse_file_header</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.objects.ShaFile.html#_deserialize">_deserialize</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.objects.ShaFile.html#_serialize">_serialize</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.objects.ShaFile.html#_parse_path">_parse_path</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.objects.ShaFile.html#_parse_file">_parse_file</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.objects.ShaFile.html#_check_has_member">_check_has_member</a></td>
+    <td><span>Check that the object has a given member variable.</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.objects.ShaFile.html#_header">_header</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.objects.ShaFile.html#_make_sha">_make_sha</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr>
+  
+</table>
+      
+      
+    </div>
+    
+    
+    
+
+    <div class="function">
+  <a name="dulwich.objects.ShaFile._parse_legacy_object_header">
+    
+  </a>
+  <a name="_parse_legacy_object_header">
+    
+  </a>
+  <div class="functionHeader">
+    @staticmethod<br />
+    def
+    _parse_legacy_object_header(magic, f):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Parse a legacy object, creating it but not reading the file.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.ShaFile._parse_legacy_object">
+    
+  </a>
+  <a name="_parse_legacy_object">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _parse_legacy_object(self, map):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Parse a legacy object, setting the raw string.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.ShaFile.as_legacy_object_chunks">
+    
+  </a>
+  <a name="as_legacy_object_chunks">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    as_legacy_object_chunks(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.ShaFile.as_legacy_object">
+    
+  </a>
+  <a name="as_legacy_object">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    as_legacy_object(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.ShaFile.as_raw_chunks">
+    
+  </a>
+  <a name="as_raw_chunks">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    as_raw_chunks(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.ShaFile.as_raw_string">
+    
+  </a>
+  <a name="as_raw_string">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    as_raw_string(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.ShaFile.__str__">
+    
+  </a>
+  <a name="__str__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __str__(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.ShaFile.__hash__">
+    
+  </a>
+  <a name="__hash__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __hash__(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.ShaFile.as_pretty_string">
+    
+  </a>
+  <a name="as_pretty_string">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    as_pretty_string(self):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overridden in <a href="dulwich.objects.Tree.html">dulwich.objects.Tree</a></div>
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.ShaFile._ensure_parsed">
+    
+  </a>
+  <a name="_ensure_parsed">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _ensure_parsed(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.ShaFile.set_raw_string">
+    
+  </a>
+  <a name="set_raw_string">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    set_raw_string(self, text):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.ShaFile.set_raw_chunks">
+    
+  </a>
+  <a name="set_raw_chunks">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    set_raw_chunks(self, chunks):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.ShaFile._parse_object_header">
+    
+  </a>
+  <a name="_parse_object_header">
+    
+  </a>
+  <div class="functionHeader">
+    @staticmethod<br />
+    def
+    _parse_object_header(magic, f):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Parse a new style object, creating it but not reading the file.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.ShaFile._parse_object">
+    
+  </a>
+  <a name="_parse_object">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _parse_object(self, map):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Parse a new style object, setting self._text.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.ShaFile._is_legacy_object">
+    
+  </a>
+  <a name="_is_legacy_object">
+    
+  </a>
+  <div class="functionHeader">
+    @classmethod<br />
+    def
+    _is_legacy_object(cls, magic):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.ShaFile._parse_file_header">
+    
+  </a>
+  <a name="_parse_file_header">
+    
+  </a>
+  <div class="functionHeader">
+    @classmethod<br />
+    def
+    _parse_file_header(cls, f):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.ShaFile.__init__">
+    
+  </a>
+  <a name="__init__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __init__(self):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overridden in <a href="dulwich.objects.Blob.html">dulwich.objects.Blob</a>, <a href="dulwich.objects.Commit.html">dulwich.objects.Commit</a>, <a href="dulwich.objects.Tag.html">dulwich.objects.Tag</a>, <a href="dulwich.objects.Tree.html">dulwich.objects.Tree</a></div>
+    <div>Don't call this directly<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.ShaFile._deserialize">
+    
+  </a>
+  <a name="_deserialize">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _deserialize(self, chunks):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overridden in <a href="dulwich.objects.Blob.html">dulwich.objects.Blob</a>, <a href="dulwich.objects.Commit.html">dulwich.objects.Commit</a>, <a href="dulwich.objects.Tag.html">dulwich.objects.Tag</a>, <a href="dulwich.objects.Tree.html">dulwich.objects.Tree</a></div>
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.ShaFile._serialize">
+    
+  </a>
+  <a name="_serialize">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _serialize(self):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overridden in <a href="dulwich.objects.Blob.html">dulwich.objects.Blob</a>, <a href="dulwich.objects.Commit.html">dulwich.objects.Commit</a>, <a href="dulwich.objects.Tag.html">dulwich.objects.Tag</a>, <a href="dulwich.objects.Tree.html">dulwich.objects.Tree</a></div>
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.ShaFile._parse_path">
+    
+  </a>
+  <a name="_parse_path">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _parse_path(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.ShaFile._parse_file">
+    
+  </a>
+  <a name="_parse_file">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _parse_file(self, f):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.ShaFile.from_path">
+    
+  </a>
+  <a name="from_path">
+    
+  </a>
+  <div class="functionHeader">
+    @classmethod<br />
+    def
+    from_path(cls, path):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overridden in <a href="dulwich.objects.Blob.html">dulwich.objects.Blob</a>, <a href="dulwich.objects.Commit.html">dulwich.objects.Commit</a>, <a href="dulwich.objects.Tag.html">dulwich.objects.Tag</a>, <a href="dulwich.objects.Tree.html">dulwich.objects.Tree</a></div>
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.ShaFile.from_file">
+    
+  </a>
+  <a name="from_file">
+    
+  </a>
+  <div class="functionHeader">
+    @classmethod<br />
+    def
+    from_file(cls, f):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Get the contents of a SHA file on disk.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.ShaFile.from_raw_string">
+    
+  </a>
+  <a name="from_raw_string">
+    
+  </a>
+  <div class="functionHeader">
+    @staticmethod<br />
+    def
+    from_raw_string(type_num, string):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Creates an object of the indicated type from the raw string given.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">type_num</td><td>The numeric type of the object.</td></tr><tr><td></td><td class="fieldArg">string</td><td>The raw uncompressed contents.</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.ShaFile.from_raw_chunks">
+    
+  </a>
+  <a name="from_raw_chunks">
+    
+  </a>
+  <div class="functionHeader">
+    @staticmethod<br />
+    def
+    from_raw_chunks(type_num, chunks):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Creates an object of the indicated type from the raw chunks given.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">type_num</td><td>The numeric type of the object.</td></tr><tr><td></td><td class="fieldArg">chunks</td><td>An iterable of the raw uncompressed contents.</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.ShaFile.from_string">
+    
+  </a>
+  <a name="from_string">
+    
+  </a>
+  <div class="functionHeader">
+    @classmethod<br />
+    def
+    from_string(cls, string):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Create a ShaFile from a string.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.ShaFile._check_has_member">
+    
+  </a>
+  <a name="_check_has_member">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _check_has_member(self, member, error_msg):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Check that the object has a given member variable.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">member</td><td>the member variable to check for</td></tr><tr><td></td><td class="fieldArg">error_msg</td><td>the message for an error if the member is missing</td></tr><tr class="fieldStart"><td class="fieldName">Raises</td><td class="fieldArg">ObjectFormatException</td><td>with the given error_msg if member is
+missing or is None</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.ShaFile.check">
+    
+  </a>
+  <a name="check">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    check(self):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overridden in <a href="dulwich.objects.Blob.html">dulwich.objects.Blob</a>, <a href="dulwich.objects.Commit.html">dulwich.objects.Commit</a>, <a href="dulwich.objects.Tag.html">dulwich.objects.Tag</a>, <a href="dulwich.objects.Tree.html">dulwich.objects.Tree</a></div>
+    <div>Check this object for internal consistency.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Raises</td><td class="fieldArg">ObjectFormatException</td><td>if the object is malformed in some way</td></tr><tr><td></td><td class="fieldArg">ChecksumMismatch</td><td>if the object was created with a SHA that does
+not match its contents</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.ShaFile._header">
+    
+  </a>
+  <a name="_header">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _header(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.ShaFile.raw_length">
+    
+  </a>
+  <a name="raw_length">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    raw_length(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Returns the length of the raw string of this object.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.ShaFile._make_sha">
+    
+  </a>
+  <a name="_make_sha">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _make_sha(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.ShaFile.sha">
+    
+  </a>
+  <a name="sha">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    sha(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>The SHA1 object that is the name of this object.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.ShaFile.id">
+    
+  </a>
+  <a name="id">
+    
+  </a>
+  <div class="functionHeader">
+    @property<br />
+    def
+    id(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.ShaFile.get_type">
+    
+  </a>
+  <a name="get_type">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    get_type(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.ShaFile.set_type">
+    
+  </a>
+  <a name="set_type">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    set_type(self, type):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.ShaFile.__repr__">
+    
+  </a>
+  <a name="__repr__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __repr__(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.ShaFile.__ne__">
+    
+  </a>
+  <a name="__ne__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __ne__(self, other):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.ShaFile.__eq__">
+    
+  </a>
+  <a name="__eq__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __eq__(self, other):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Return True if the SHAs of the two objects match.</p>
+<p>It doesn't make sense to talk about an order on ShaFiles, so we don't
+override the rich comparison methods (__le__, etc.).<table class="fieldTable"></table></div>
+  </div>
+</div>
+    <address>
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+    </address>
+  </body>
+</html>

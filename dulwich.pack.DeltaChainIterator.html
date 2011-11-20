@@ -1,0 +1,338 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>dulwich.pack.DeltaChainIterator : API documentation</title>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <link href="apidocs.css" type="text/css" rel="stylesheet" />
+    
+    
+  </head>
+  <body>
+    <h1 class="class">d.p.DeltaChainIterator(<span title="object">object</span>) : class documentation</h1>
+    <p>
+      <span id="part">Part of <a href="dulwich.html">dulwich</a>.<a href="dulwich.pack.html">pack</a></span>
+      
+      <a href="classIndex.html#dulwich.pack.DeltaChainIterator">View In Hierarchy</a>
+    </p>
+    <div>
+      <p>Known subclasses: <a href="dulwich.pack.PackIndexer.html">dulwich.pack.PackIndexer</a>, <a href="dulwich.pack.PackInflater.html">dulwich.pack.PackInflater</a>, <a href="dulwich.tests.test_pack.TestPackIterator.html">dulwich.tests.test_pack.TestPackIterator</a></p>
+    </div>
+    <div><p>Abstract iterator over pack data based on delta chains.</p>
+<p>Each object in the pack is guaranteed to be inflated exactly once,
+regardless of how many objects reference it as a delta base. As a result,
+memory usage is proportional to the length of the longest delta chain.</p>
+<p>Subclasses can override _result to define the result type of the iterator.
+By default, results are UnpackedObjects with the following members set:</p>
+<ul class="rst-simple">
+<li>offset</li>
+<li>obj_type_num</li>
+<li>obj_chunks</li>
+<li>pack_type_num</li>
+<li>delta_base     (for delta types)</li>
+<li>comp_chunks    (if _include_comp is True)</li>
+<li>decomp_chunks</li>
+<li>decomp_len</li>
+<li>crc32          (if _compute_crc32 is True)</li>
+</ul>
+<table class="fieldTable"></table></div>
+
+    
+    
+    <div id="splitTables">
+      <table class="children sortable" id="id333">
+  
+  
+<tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.pack.DeltaChainIterator.html#__init__">__init__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="classmethod">
+    
+    
+    <td>Class Method</td>
+    <td><a href="dulwich.pack.DeltaChainIterator.html#for_pack_data">for_pack_data</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.pack.DeltaChainIterator.html#record">record</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.pack.DeltaChainIterator.html#set_pack_data">set_pack_data</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.pack.DeltaChainIterator.html#__iter__">__iter__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.pack.DeltaChainIterator.html#ext_refs">ext_refs</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.pack.DeltaChainIterator.html#_walk_all_chains">_walk_all_chains</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.pack.DeltaChainIterator.html#_ensure_no_pending">_ensure_no_pending</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.pack.DeltaChainIterator.html#_walk_ref_chains">_walk_ref_chains</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.pack.DeltaChainIterator.html#_result">_result</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.pack.DeltaChainIterator.html#_resolve_object">_resolve_object</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.pack.DeltaChainIterator.html#_follow_chain">_follow_chain</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr>
+  
+</table>
+      
+      
+    </div>
+    
+    
+    
+
+    <div class="function">
+  <a name="dulwich.pack.DeltaChainIterator.__init__">
+    
+  </a>
+  <a name="__init__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __init__(self, file_obj, resolve_ext_ref=None):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overridden in <a href="dulwich.tests.test_pack.TestPackIterator.html">dulwich.tests.test_pack.TestPackIterator</a></div>
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.DeltaChainIterator.for_pack_data">
+    
+  </a>
+  <a name="for_pack_data">
+    
+  </a>
+  <div class="functionHeader">
+    @classmethod<br />
+    def
+    for_pack_data(cls, pack_data, resolve_ext_ref=None):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.DeltaChainIterator.record">
+    
+  </a>
+  <a name="record">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    record(self, unpacked):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.DeltaChainIterator.set_pack_data">
+    
+  </a>
+  <a name="set_pack_data">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    set_pack_data(self, pack_data):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.DeltaChainIterator._walk_all_chains">
+    
+  </a>
+  <a name="_walk_all_chains">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _walk_all_chains(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.DeltaChainIterator._ensure_no_pending">
+    
+  </a>
+  <a name="_ensure_no_pending">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _ensure_no_pending(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.DeltaChainIterator._walk_ref_chains">
+    
+  </a>
+  <a name="_walk_ref_chains">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _walk_ref_chains(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.DeltaChainIterator._result">
+    
+  </a>
+  <a name="_result">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _result(self, unpacked):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overridden in <a href="dulwich.pack.PackIndexer.html">dulwich.pack.PackIndexer</a>, <a href="dulwich.pack.PackInflater.html">dulwich.pack.PackInflater</a>, <a href="dulwich.tests.test_pack.TestPackIterator.html">dulwich.tests.test_pack.TestPackIterator</a></div>
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.DeltaChainIterator._resolve_object">
+    
+  </a>
+  <a name="_resolve_object">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _resolve_object(self, offset, obj_type_num, base_chunks):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overridden in <a href="dulwich.tests.test_pack.TestPackIterator.html">dulwich.tests.test_pack.TestPackIterator</a></div>
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.DeltaChainIterator._follow_chain">
+    
+  </a>
+  <a name="_follow_chain">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _follow_chain(self, offset, obj_type_num, base_chunks):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.DeltaChainIterator.__iter__">
+    
+  </a>
+  <a name="__iter__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __iter__(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.pack.DeltaChainIterator.ext_refs">
+    
+  </a>
+  <a name="ext_refs">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    ext_refs(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div>
+    <address>
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+    </address>
+  </body>
+</html>

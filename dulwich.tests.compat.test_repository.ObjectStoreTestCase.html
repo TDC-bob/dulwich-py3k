@@ -1,0 +1,366 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>dulwich.tests.compat.test_repository.ObjectStoreTestCase : API documentation</title>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <link href="apidocs.css" type="text/css" rel="stylesheet" />
+    
+    
+  </head>
+  <body>
+    <h1 class="class">d.t.c.t.ObjectStoreTestCase(<a href="dulwich.tests.compat.utils.CompatTestCase.html">CompatTestCase</a>) : class documentation</h1>
+    <p>
+      <span id="part">Part of <a href="dulwich.html">dulwich</a>.<a href="dulwich.tests.html">tests</a>.<a href="dulwich.tests.compat.html">compat</a>.<a href="dulwich.tests.compat.test_repository.html">test_repository</a></span>
+      
+      <a href="classIndex.html#dulwich.tests.compat.test_repository.ObjectStoreTestCase">View In Hierarchy</a>
+    </p>
+    <div>
+      
+    </div>
+    <div>Tests for git repository compatibility.<table class="fieldTable"></table></div>
+
+    
+    
+    <div id="splitTables">
+      <table class="children sortable" id="id119">
+  
+  
+<tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.compat.test_repository.ObjectStoreTestCase.html#setUp">setUp</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.compat.test_repository.ObjectStoreTestCase.html#test_bare">test_bare</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.compat.test_repository.ObjectStoreTestCase.html#test_head">test_head</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.compat.test_repository.ObjectStoreTestCase.html#test_refs">test_refs</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.compat.test_repository.ObjectStoreTestCase.html#assertShasMatch">assertShasMatch</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.compat.test_repository.ObjectStoreTestCase.html#test_loose_objects">test_loose_objects</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.compat.test_repository.ObjectStoreTestCase.html#test_packed_objects">test_packed_objects</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.compat.test_repository.ObjectStoreTestCase.html#test_all_objects">test_all_objects</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.compat.test_repository.ObjectStoreTestCase.html#_run_git">_run_git</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.compat.test_repository.ObjectStoreTestCase.html#_parse_refs">_parse_refs</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.compat.test_repository.ObjectStoreTestCase.html#_parse_objects">_parse_objects</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.compat.test_repository.ObjectStoreTestCase.html#_get_loose_shas">_get_loose_shas</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.compat.test_repository.ObjectStoreTestCase.html#_get_all_shas">_get_all_shas</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr>
+  
+</table>
+      
+        <p>
+          Inherited from <a href="dulwich.tests.compat.utils.CompatTestCase.html">CompatTestCase</a>:
+        </p>
+        <table class="children sortable" id="id120">
+  
+  
+<tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.compat.utils.CompatTestCase.html#assertReposEqual">assertReposEqual</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.compat.utils.CompatTestCase.html#assertReposNotEqual">assertReposNotEqual</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr>
+  
+</table>
+      
+      
+    </div>
+    
+    
+    
+
+    <div class="function">
+  <a name="dulwich.tests.compat.test_repository.ObjectStoreTestCase.setUp">
+    
+  </a>
+  <a name="setUp">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    setUp(self):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overrides <a href="dulwich.tests.compat.utils.CompatTestCase.html#setUp">dulwich.tests.compat.utils.CompatTestCase.setUp</a></div>
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.compat.test_repository.ObjectStoreTestCase._run_git">
+    
+  </a>
+  <a name="_run_git">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _run_git(self, args):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.compat.test_repository.ObjectStoreTestCase._parse_refs">
+    
+  </a>
+  <a name="_parse_refs">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _parse_refs(self, output):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.compat.test_repository.ObjectStoreTestCase._parse_objects">
+    
+  </a>
+  <a name="_parse_objects">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _parse_objects(self, output):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.compat.test_repository.ObjectStoreTestCase.test_bare">
+    
+  </a>
+  <a name="test_bare">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_bare(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.compat.test_repository.ObjectStoreTestCase.test_head">
+    
+  </a>
+  <a name="test_head">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_head(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.compat.test_repository.ObjectStoreTestCase.test_refs">
+    
+  </a>
+  <a name="test_refs">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_refs(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.compat.test_repository.ObjectStoreTestCase._get_loose_shas">
+    
+  </a>
+  <a name="_get_loose_shas">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _get_loose_shas(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.compat.test_repository.ObjectStoreTestCase._get_all_shas">
+    
+  </a>
+  <a name="_get_all_shas">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _get_all_shas(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.compat.test_repository.ObjectStoreTestCase.assertShasMatch">
+    
+  </a>
+  <a name="assertShasMatch">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    assertShasMatch(self, expected_shas, actual_shas_iter):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.compat.test_repository.ObjectStoreTestCase.test_loose_objects">
+    
+  </a>
+  <a name="test_loose_objects">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_loose_objects(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.compat.test_repository.ObjectStoreTestCase.test_packed_objects">
+    
+  </a>
+  <a name="test_packed_objects">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_packed_objects(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.compat.test_repository.ObjectStoreTestCase.test_all_objects">
+    
+  </a>
+  <a name="test_all_objects">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_all_objects(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div>
+    <address>
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+    </address>
+  </body>
+</html>

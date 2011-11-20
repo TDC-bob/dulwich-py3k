@@ -1,0 +1,758 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>dulwich.tests.test_walk.WalkerTest : API documentation</title>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <link href="apidocs.css" type="text/css" rel="stylesheet" />
+    
+    
+  </head>
+  <body>
+    <h1 class="class">d.t.t.WalkerTest(<span title="dulwich.tests.TestCase">TestCase</span>) : class documentation</h1>
+    <p>
+      <span id="part">Part of <a href="dulwich.html">dulwich</a>.<a href="dulwich.tests.html">tests</a>.<a href="dulwich.tests.test_walk.html">test_walk</a></span>
+      
+      <a href="classIndex.html#dulwich.tests.test_walk.WalkerTest">View In Hierarchy</a>
+    </p>
+    <div>
+      
+    </div>
+    <div class="undocumented">Undocumented</div>
+
+    
+    
+    <div id="splitTables">
+      <table class="children sortable" id="id199">
+  
+  
+<tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_walk.WalkerTest.html#setUp">setUp</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_walk.WalkerTest.html#make_commits">make_commits</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_walk.WalkerTest.html#make_linear_commits">make_linear_commits</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_walk.WalkerTest.html#assertWalkYields">assertWalkYields</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_walk.WalkerTest.html#test_linear">test_linear</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_walk.WalkerTest.html#test_missing">test_missing</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_walk.WalkerTest.html#test_branch">test_branch</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_walk.WalkerTest.html#test_merge">test_merge</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_walk.WalkerTest.html#test_reverse">test_reverse</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_walk.WalkerTest.html#test_max_entries">test_max_entries</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_walk.WalkerTest.html#test_reverse_after_max_entries">test_reverse_after_max_entries</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_walk.WalkerTest.html#test_changes_one_parent">test_changes_one_parent</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_walk.WalkerTest.html#test_changes_multiple_parents">test_changes_multiple_parents</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_walk.WalkerTest.html#test_path_matches">test_path_matches</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_walk.WalkerTest.html#test_paths">test_paths</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_walk.WalkerTest.html#test_paths_subtree">test_paths_subtree</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_walk.WalkerTest.html#test_paths_max_entries">test_paths_max_entries</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_walk.WalkerTest.html#test_paths_merge">test_paths_merge</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_walk.WalkerTest.html#test_changes_with_renames">test_changes_with_renames</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_walk.WalkerTest.html#test_follow_rename">test_follow_rename</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_walk.WalkerTest.html#test_follow_rename_remove_path">test_follow_rename_remove_path</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_walk.WalkerTest.html#test_since">test_since</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_walk.WalkerTest.html#test_until">test_until</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_walk.WalkerTest.html#test_since_until">test_since_until</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_walk.WalkerTest.html#test_since_over_scan">test_since_over_scan</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_walk.WalkerTest.html#assertTopoOrderEqual">assertTopoOrderEqual</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_walk.WalkerTest.html#test_topo_reorder_linear">test_topo_reorder_linear</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_walk.WalkerTest.html#test_topo_reorder_multiple_parents">test_topo_reorder_multiple_parents</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_walk.WalkerTest.html#test_topo_reorder_multiple_children">test_topo_reorder_multiple_children</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_walk.WalkerTest.html#test_out_of_order_children">test_out_of_order_children</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.tests.test_walk.WalkerTest.html#test_out_of_order_with_exclude">test_out_of_order_with_exclude</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr>
+  
+</table>
+      
+      
+    </div>
+    
+    
+    
+
+    <div class="function">
+  <a name="dulwich.tests.test_walk.WalkerTest.setUp">
+    
+  </a>
+  <a name="setUp">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    setUp(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_walk.WalkerTest.make_commits">
+    
+  </a>
+  <a name="make_commits">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    make_commits(self, commit_spec, **kwargs):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_walk.WalkerTest.make_linear_commits">
+    
+  </a>
+  <a name="make_linear_commits">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    make_linear_commits(self, num_commits, **kwargs):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_walk.WalkerTest.assertWalkYields">
+    
+  </a>
+  <a name="assertWalkYields">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    assertWalkYields(self, expected, *args, **kwargs):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_walk.WalkerTest.test_linear">
+    
+  </a>
+  <a name="test_linear">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_linear(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_walk.WalkerTest.test_missing">
+    
+  </a>
+  <a name="test_missing">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_missing(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_walk.WalkerTest.test_branch">
+    
+  </a>
+  <a name="test_branch">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_branch(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_walk.WalkerTest.test_merge">
+    
+  </a>
+  <a name="test_merge">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_merge(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_walk.WalkerTest.test_reverse">
+    
+  </a>
+  <a name="test_reverse">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_reverse(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_walk.WalkerTest.test_max_entries">
+    
+  </a>
+  <a name="test_max_entries">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_max_entries(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_walk.WalkerTest.test_reverse_after_max_entries">
+    
+  </a>
+  <a name="test_reverse_after_max_entries">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_reverse_after_max_entries(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_walk.WalkerTest.test_changes_one_parent">
+    
+  </a>
+  <a name="test_changes_one_parent">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_changes_one_parent(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_walk.WalkerTest.test_changes_multiple_parents">
+    
+  </a>
+  <a name="test_changes_multiple_parents">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_changes_multiple_parents(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_walk.WalkerTest.test_path_matches">
+    
+  </a>
+  <a name="test_path_matches">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_path_matches(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_walk.WalkerTest.test_paths">
+    
+  </a>
+  <a name="test_paths">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_paths(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_walk.WalkerTest.test_paths_subtree">
+    
+  </a>
+  <a name="test_paths_subtree">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_paths_subtree(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_walk.WalkerTest.test_paths_max_entries">
+    
+  </a>
+  <a name="test_paths_max_entries">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_paths_max_entries(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_walk.WalkerTest.test_paths_merge">
+    
+  </a>
+  <a name="test_paths_merge">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_paths_merge(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_walk.WalkerTest.test_changes_with_renames">
+    
+  </a>
+  <a name="test_changes_with_renames">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_changes_with_renames(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_walk.WalkerTest.test_follow_rename">
+    
+  </a>
+  <a name="test_follow_rename">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_follow_rename(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_walk.WalkerTest.test_follow_rename_remove_path">
+    
+  </a>
+  <a name="test_follow_rename_remove_path">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_follow_rename_remove_path(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_walk.WalkerTest.test_since">
+    
+  </a>
+  <a name="test_since">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_since(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_walk.WalkerTest.test_until">
+    
+  </a>
+  <a name="test_until">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_until(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_walk.WalkerTest.test_since_until">
+    
+  </a>
+  <a name="test_since_until">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_since_until(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_walk.WalkerTest.test_since_over_scan">
+    
+  </a>
+  <a name="test_since_over_scan">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_since_over_scan(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_walk.WalkerTest.assertTopoOrderEqual">
+    
+  </a>
+  <a name="assertTopoOrderEqual">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    assertTopoOrderEqual(self, expected_commits, commits):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_walk.WalkerTest.test_topo_reorder_linear">
+    
+  </a>
+  <a name="test_topo_reorder_linear">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_topo_reorder_linear(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_walk.WalkerTest.test_topo_reorder_multiple_parents">
+    
+  </a>
+  <a name="test_topo_reorder_multiple_parents">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_topo_reorder_multiple_parents(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_walk.WalkerTest.test_topo_reorder_multiple_children">
+    
+  </a>
+  <a name="test_topo_reorder_multiple_children">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_topo_reorder_multiple_children(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_walk.WalkerTest.test_out_of_order_children">
+    
+  </a>
+  <a name="test_out_of_order_children">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_out_of_order_children(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.tests.test_walk.WalkerTest.test_out_of_order_with_exclude">
+    
+  </a>
+  <a name="test_out_of_order_with_exclude">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    test_out_of_order_with_exclude(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div>
+    <address>
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+    </address>
+  </body>
+</html>

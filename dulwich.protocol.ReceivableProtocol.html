@@ -1,0 +1,202 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>dulwich.protocol.ReceivableProtocol : API documentation</title>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <link href="apidocs.css" type="text/css" rel="stylesheet" />
+    
+    
+  </head>
+  <body>
+    <h1 class="class">d.p.ReceivableProtocol(<a href="dulwich.protocol.Protocol.html">Protocol</a>) : class documentation</h1>
+    <p>
+      <span id="part">Part of <a href="dulwich.html">dulwich</a>.<a href="dulwich.protocol.html">protocol</a></span>
+      
+      <a href="classIndex.html#dulwich.protocol.ReceivableProtocol">View In Hierarchy</a>
+    </p>
+    <div>
+      
+    </div>
+    <div>Variant of Protocol that allows reading up to a size without blocking.</p>
+<p>This class has a recv() method that behaves like socket.recv() in addition
+to a read() method.</p>
+<p>If you want to read n bytes from the wire and block until exactly n bytes
+(or EOF) are read, use read(n). If you want to read at most n bytes from the
+wire but don't care if you get less, use recv(n). Note that recv(n) will
+still block until at least one byte is read.<table class="fieldTable"></table></div>
+
+    
+    
+    <div id="splitTables">
+      <table class="children sortable" id="id348">
+  
+  
+<tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.protocol.ReceivableProtocol.html#__init__">__init__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.protocol.ReceivableProtocol.html#read">read</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.protocol.ReceivableProtocol.html#recv">recv</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr>
+  
+</table>
+      
+        <p>
+          Inherited from <a href="dulwich.protocol.Protocol.html">Protocol</a>:
+        </p>
+        <table class="children sortable" id="id349">
+  
+  
+<tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.protocol.Protocol.html#__enter__">__enter__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.protocol.Protocol.html#__exit__">__exit__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.protocol.Protocol.html#close">close</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.protocol.Protocol.html#read_pkt_line">read_pkt_line</a></td>
+    <td><span>Reads a pkt-line from the remote git process.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.protocol.Protocol.html#eof">eof</a></td>
+    <td><span>Test whether the protocol stream has reached EOF.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.protocol.Protocol.html#unread_pkt_line">unread_pkt_line</a></td>
+    <td><span>Unread a single line of data into the readahead buffer.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.protocol.Protocol.html#read_pkt_seq">read_pkt_seq</a></td>
+    <td><span>Read a sequence of pkt-lines from the remote git process.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.protocol.Protocol.html#write_pkt_line">write_pkt_line</a></td>
+    <td><span>Sends a pkt-line to the remote git process.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.protocol.Protocol.html#write_file">write_file</a></td>
+    <td><span>Return a writable file-like object for this protocol.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.protocol.Protocol.html#write_sideband">write_sideband</a></td>
+    <td><span>Write multiplexed data to the sideband.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.protocol.Protocol.html#send_cmd">send_cmd</a></td>
+    <td><span>Send a command and some arguments to a git server.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.protocol.Protocol.html#read_cmd">read_cmd</a></td>
+    <td><span>Read a command and some arguments from the git client</span></td>
+  </tr>
+  
+</table>
+      
+      
+    </div>
+    
+    
+    
+
+    <div class="function">
+  <a name="dulwich.protocol.ReceivableProtocol.__init__">
+    
+  </a>
+  <a name="__init__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __init__(self, recv, write, close, report_activity=None, rbufsize=_RBUFSIZE):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overrides <a href="dulwich.protocol.Protocol.html#__init__">dulwich.protocol.Protocol.__init__</a></div>
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.protocol.ReceivableProtocol.read">
+    
+  </a>
+  <a name="read">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    read(self, size):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.protocol.ReceivableProtocol.recv">
+    
+  </a>
+  <a name="recv">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    recv(self, size):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div>
+    <address>
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+    </address>
+  </body>
+</html>

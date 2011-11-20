@@ -1,0 +1,467 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>dulwich.object_store.BaseObjectStore : API documentation</title>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <link href="apidocs.css" type="text/css" rel="stylesheet" />
+    
+    
+  </head>
+  <body>
+    <h1 class="class">d.o.BaseObjectStore(<span title="object">object</span>) : class documentation</h1>
+    <p>
+      <span id="part">Part of <a href="dulwich.html">dulwich</a>.<a href="dulwich.object_store.html">object_store</a></span>
+      
+      <a href="classIndex.html#dulwich.object_store.BaseObjectStore">View In Hierarchy</a>
+    </p>
+    <div>
+      <p>Known subclasses: <a href="dulwich.object_store.MemoryObjectStore.html">dulwich.object_store.MemoryObjectStore</a>, <a href="dulwich.object_store.PackBasedObjectStore.html">dulwich.object_store.PackBasedObjectStore</a></p>
+    </div>
+    <div>Object store interface.<table class="fieldTable"></table></div>
+
+    
+    
+    <div id="splitTables">
+      <table class="children sortable" id="id280">
+  
+  
+<tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.BaseObjectStore.html#determine_wants_all">determine_wants_all</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.BaseObjectStore.html#iter_shas">iter_shas</a></td>
+    <td><span>Iterate over the objects for the specified shas.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.BaseObjectStore.html#contains_loose">contains_loose</a></td>
+    <td><span>Check if a particular object is present by SHA1 and is loose.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.BaseObjectStore.html#contains_packed">contains_packed</a></td>
+    <td><span>Check if a particular object is present by SHA1 and is packed.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.BaseObjectStore.html#__contains__">__contains__</a></td>
+    <td><span>Check if a particular object is present by SHA1.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.BaseObjectStore.html#packs">packs</a></td>
+    <td><span>Iterable of pack objects.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.BaseObjectStore.html#get_raw">get_raw</a></td>
+    <td><span>Obtain the raw text for an object.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.BaseObjectStore.html#__getitem__">__getitem__</a></td>
+    <td><span>Obtain an object by SHA1.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.BaseObjectStore.html#__iter__">__iter__</a></td>
+    <td><span>Iterate over the SHAs that are present in this store.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.BaseObjectStore.html#add_object">add_object</a></td>
+    <td><span>Add a single object to this object store.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.BaseObjectStore.html#add_objects">add_objects</a></td>
+    <td><span>Add a set of objects to this object store.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.BaseObjectStore.html#tree_changes">tree_changes</a></td>
+    <td><span>Find the differences between the contents of two trees</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.BaseObjectStore.html#iter_tree_contents">iter_tree_contents</a></td>
+    <td><span>Iterate the contents of a tree and all subtrees.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.BaseObjectStore.html#find_missing_objects">find_missing_objects</a></td>
+    <td><span>Find the missing objects required for a set of revisions.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.BaseObjectStore.html#find_common_revisions">find_common_revisions</a></td>
+    <td><span>Find which revisions this store has in common using graphwalker.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.BaseObjectStore.html#get_graph_walker">get_graph_walker</a></td>
+    <td><span>Obtain a graph walker for this object store.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.BaseObjectStore.html#generate_pack_contents">generate_pack_contents</a></td>
+    <td><span>Iterate over the contents of a pack file.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.object_store.BaseObjectStore.html#peel_sha">peel_sha</a></td>
+    <td><span>Peel all tags from a SHA.</span></td>
+  </tr>
+  
+</table>
+      
+      
+    </div>
+    
+    
+    
+
+    <div class="function">
+  <a name="dulwich.object_store.BaseObjectStore.determine_wants_all">
+    
+  </a>
+  <a name="determine_wants_all">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    determine_wants_all(self, refs):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.object_store.BaseObjectStore.iter_shas">
+    
+  </a>
+  <a name="iter_shas">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    iter_shas(self, shas):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Iterate over the objects for the specified shas.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">shas</td><td>Iterable object with SHAs</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">Object iterator</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.object_store.BaseObjectStore.contains_loose">
+    
+  </a>
+  <a name="contains_loose">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    contains_loose(self, sha):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overridden in <a href="dulwich.object_store.MemoryObjectStore.html">dulwich.object_store.MemoryObjectStore</a>, <a href="dulwich.object_store.PackBasedObjectStore.html">dulwich.object_store.PackBasedObjectStore</a></div>
+    <div>Check if a particular object is present by SHA1 and is loose.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.object_store.BaseObjectStore.contains_packed">
+    
+  </a>
+  <a name="contains_packed">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    contains_packed(self, sha):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overridden in <a href="dulwich.object_store.MemoryObjectStore.html">dulwich.object_store.MemoryObjectStore</a>, <a href="dulwich.object_store.PackBasedObjectStore.html">dulwich.object_store.PackBasedObjectStore</a></div>
+    <div>Check if a particular object is present by SHA1 and is packed.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.object_store.BaseObjectStore.__contains__">
+    
+  </a>
+  <a name="__contains__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __contains__(self, sha):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Check if a particular object is present by SHA1.</p>
+<p>This method makes no distinction between loose and packed objects.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.object_store.BaseObjectStore.packs">
+    
+  </a>
+  <a name="packs">
+    
+  </a>
+  <div class="functionHeader">
+    @property<br />
+    def
+    packs(self):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overridden in <a href="dulwich.object_store.MemoryObjectStore.html">dulwich.object_store.MemoryObjectStore</a>, <a href="dulwich.object_store.PackBasedObjectStore.html">dulwich.object_store.PackBasedObjectStore</a></div>
+    <div>Iterable of pack objects.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.object_store.BaseObjectStore.get_raw">
+    
+  </a>
+  <a name="get_raw">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    get_raw(self, name):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overridden in <a href="dulwich.object_store.MemoryObjectStore.html">dulwich.object_store.MemoryObjectStore</a>, <a href="dulwich.object_store.PackBasedObjectStore.html">dulwich.object_store.PackBasedObjectStore</a></div>
+    <div>Obtain the raw text for an object.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">name</td><td>sha for the object.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">tuple with numeric type and object contents.</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.object_store.BaseObjectStore.__getitem__">
+    
+  </a>
+  <a name="__getitem__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __getitem__(self, sha):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overridden in <a href="dulwich.object_store.MemoryObjectStore.html">dulwich.object_store.MemoryObjectStore</a></div>
+    <div>Obtain an object by SHA1.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.object_store.BaseObjectStore.__iter__">
+    
+  </a>
+  <a name="__iter__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __iter__(self):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overridden in <a href="dulwich.object_store.MemoryObjectStore.html">dulwich.object_store.MemoryObjectStore</a>, <a href="dulwich.object_store.PackBasedObjectStore.html">dulwich.object_store.PackBasedObjectStore</a></div>
+    <div>Iterate over the SHAs that are present in this store.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.object_store.BaseObjectStore.add_object">
+    
+  </a>
+  <a name="add_object">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    add_object(self, obj):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overridden in <a href="dulwich.object_store.DiskObjectStore.html">dulwich.object_store.DiskObjectStore</a>, <a href="dulwich.object_store.MemoryObjectStore.html">dulwich.object_store.MemoryObjectStore</a></div>
+    <div>Add a single object to this object store.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.object_store.BaseObjectStore.add_objects">
+    
+  </a>
+  <a name="add_objects">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    add_objects(self, objects):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overridden in <a href="dulwich.object_store.MemoryObjectStore.html">dulwich.object_store.MemoryObjectStore</a>, <a href="dulwich.object_store.PackBasedObjectStore.html">dulwich.object_store.PackBasedObjectStore</a></div>
+    <div>Add a set of objects to this object store.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">objects</td><td>Iterable over a list of objects.</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.object_store.BaseObjectStore.tree_changes">
+    
+  </a>
+  <a name="tree_changes">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    tree_changes(self, source, target, want_unchanged=False):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Find the differences between the contents of two trees<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">object_store</td><td>Object store to use for retrieving tree contents</td></tr><tr><td></td><td class="fieldArg">tree</td><td>SHA1 of the root tree</td></tr><tr><td></td><td class="fieldArg">want_unchanged</td><td>Whether unchanged files should be reported</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">Iterator over tuples with
+(oldpath, newpath), (oldmode, newmode), (oldsha, newsha)</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.object_store.BaseObjectStore.iter_tree_contents">
+    
+  </a>
+  <a name="iter_tree_contents">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    iter_tree_contents(self, tree_id, include_trees=False):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Iterate the contents of a tree and all subtrees.</p>
+<p>Iteration is depth-first pre-order, as in e.g. os.walk.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">tree_id</td><td>SHA1 of the tree.</td></tr><tr><td></td><td class="fieldArg">include_trees</td><td>If True, include tree objects in the iteration.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">Iterator over TreeEntry namedtuples for all the objects in a
+tree.</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.object_store.BaseObjectStore.find_missing_objects">
+    
+  </a>
+  <a name="find_missing_objects">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    find_missing_objects(self, haves, wants, progress=None, get_tagged=None):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Find the missing objects required for a set of revisions.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">haves</td><td>Iterable over SHAs already in common.</td></tr><tr><td></td><td class="fieldArg">wants</td><td>Iterable over SHAs of objects to fetch.</td></tr><tr><td></td><td class="fieldArg">progress</td><td>Simple progress function that will be called with
+updated progress strings.</td></tr><tr><td></td><td class="fieldArg">get_tagged</td><td>Function that returns a dict of pointed-to sha -&gt; tag
+sha for including tags.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">Iterator over (sha, path) pairs.</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.object_store.BaseObjectStore.find_common_revisions">
+    
+  </a>
+  <a name="find_common_revisions">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    find_common_revisions(self, graphwalker):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Find which revisions this store has in common using graphwalker.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">graphwalker</td><td>A graphwalker object.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">List of SHAs that are in common</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.object_store.BaseObjectStore.get_graph_walker">
+    
+  </a>
+  <a name="get_graph_walker">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    get_graph_walker(self, heads):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Obtain a graph walker for this object store.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">heads</td><td>Local heads to start search with</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">GraphWalker object</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.object_store.BaseObjectStore.generate_pack_contents">
+    
+  </a>
+  <a name="generate_pack_contents">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    generate_pack_contents(self, have, want, progress=None):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Iterate over the contents of a pack file.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">have</td><td>List of SHA1s of objects that should not be sent</td></tr><tr><td></td><td class="fieldArg">want</td><td>List of SHA1s of objects that should be sent</td></tr><tr><td></td><td class="fieldArg">progress</td><td>Optional progress reporting method</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.object_store.BaseObjectStore.peel_sha">
+    
+  </a>
+  <a name="peel_sha">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    peel_sha(self, sha):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Peel all tags from a SHA.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">sha</td><td>The object SHA to peel.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">The fully-peeled SHA1 of a tag object, after peeling all
+intermediate tags; if the original ref does not point to a tag, this
+will equal the original SHA1.</td></tr></table></div>
+  </div>
+</div>
+    <address>
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+    </address>
+  </body>
+</html>

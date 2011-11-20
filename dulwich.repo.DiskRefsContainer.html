@@ -1,0 +1,435 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>dulwich.repo.DiskRefsContainer : API documentation</title>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <link href="apidocs.css" type="text/css" rel="stylesheet" />
+    
+    
+  </head>
+  <body>
+    <h1 class="class">d.r.DiskRefsContainer(<a href="dulwich.repo.RefsContainer.html">RefsContainer</a>) : class documentation</h1>
+    <p>
+      <span id="part">Part of <a href="dulwich.html">dulwich</a>.<a href="dulwich.repo.html">repo</a></span>
+      
+      <a href="classIndex.html#dulwich.repo.DiskRefsContainer">View In Hierarchy</a>
+    </p>
+    <div>
+      
+    </div>
+    <div>Refs container that reads refs from disk.<table class="fieldTable"></table></div>
+
+    
+    
+    <div id="splitTables">
+      <table class="children sortable" id="id6">
+  
+  
+<tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.DiskRefsContainer.html#__init__">__init__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.DiskRefsContainer.html#__repr__">__repr__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.DiskRefsContainer.html#subkeys">subkeys</a></td>
+    <td><span>Refs present in this container under a base.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.DiskRefsContainer.html#allkeys">allkeys</a></td>
+    <td><span>All refs present in this container.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.DiskRefsContainer.html#refpath">refpath</a></td>
+    <td><span>Return the disk path of a ref.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.DiskRefsContainer.html#get_packed_refs">get_packed_refs</a></td>
+    <td><span>Get contents of the packed-refs file.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.DiskRefsContainer.html#get_peeled">get_peeled</a></td>
+    <td><span>Return the cached peeled value of a ref, if available.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.DiskRefsContainer.html#read_loose_ref">read_loose_ref</a></td>
+    <td><span>Read a reference file and return its contents.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.DiskRefsContainer.html#set_symbolic_ref">set_symbolic_ref</a></td>
+    <td><span>Make a ref point at another ref.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.DiskRefsContainer.html#set_if_equals">set_if_equals</a></td>
+    <td><span>Set a refname to new_ref only if it currently equals old_ref.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.DiskRefsContainer.html#add_if_new">add_if_new</a></td>
+    <td><span>Add a new reference only if it does not already exist.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.DiskRefsContainer.html#remove_if_equals">remove_if_equals</a></td>
+    <td><span>Remove a refname only if it currently equals old_ref.</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.DiskRefsContainer.html#_remove_packed_ref">_remove_packed_ref</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr>
+  
+</table>
+      
+        <p>
+          Inherited from <a href="dulwich.repo.RefsContainer.html">RefsContainer</a>:
+        </p>
+        <table class="children sortable" id="id7">
+  
+  
+<tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.RefsContainer.html#set_ref">set_ref</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.RefsContainer.html#import_refs">import_refs</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.RefsContainer.html#keys">keys</a></td>
+    <td><span>Refs present in this container.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.RefsContainer.html#as_dict">as_dict</a></td>
+    <td><span>Return the contents of this container as a dictionary.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.RefsContainer.html#read_ref">read_ref</a></td>
+    <td><span>Read a reference without following any references.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.RefsContainer.html#__contains__">__contains__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.RefsContainer.html#__getitem__">__getitem__</a></td>
+    <td><span>Get the SHA1 for a reference name.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.RefsContainer.html#__setitem__">__setitem__</a></td>
+    <td><span>Set a reference name to point to the given SHA1.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.RefsContainer.html#__delitem__">__delitem__</a></td>
+    <td><span>Remove a refname.</span></td>
+  </tr><tr class="basemethod private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.RefsContainer.html#_check_refname">_check_refname</a></td>
+    <td><span>Ensure a refname is valid and lives in refs or is HEAD.</span></td>
+  </tr><tr class="basemethod private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.repo.RefsContainer.html#_follow">_follow</a></td>
+    <td><span>Follow a reference name.</span></td>
+  </tr>
+  
+</table>
+      
+      
+    </div>
+    
+    
+    
+
+    <div class="function">
+  <a name="dulwich.repo.DiskRefsContainer.__init__">
+    
+  </a>
+  <a name="__init__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __init__(self, path):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.repo.DiskRefsContainer.__repr__">
+    
+  </a>
+  <a name="__repr__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __repr__(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.repo.DiskRefsContainer.subkeys">
+    
+  </a>
+  <a name="subkeys">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    subkeys(self, base):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overrides <a href="dulwich.repo.RefsContainer.html#subkeys">dulwich.repo.RefsContainer.subkeys</a></div>
+    <div>Refs present in this container under a base.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">base</td><td>The base to return refs under.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">A set of valid refs in this container under the base; the base
+prefix is stripped from the ref names returned.</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.repo.DiskRefsContainer.allkeys">
+    
+  </a>
+  <a name="allkeys">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    allkeys(self):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overrides <a href="dulwich.repo.RefsContainer.html#allkeys">dulwich.repo.RefsContainer.allkeys</a></div>
+    <div>All refs present in this container.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.repo.DiskRefsContainer.refpath">
+    
+  </a>
+  <a name="refpath">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    refpath(self, name):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Return the disk path of a ref.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.repo.DiskRefsContainer.get_packed_refs">
+    
+  </a>
+  <a name="get_packed_refs">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    get_packed_refs(self):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overrides <a href="dulwich.repo.RefsContainer.html#get_packed_refs">dulwich.repo.RefsContainer.get_packed_refs</a></div>
+    <div>Get contents of the packed-refs file.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">Dictionary mapping ref names to SHA1s</td></tr><tr class="fieldStart"><td class="fieldName">Note</td><td colspan="2">Will return an empty dictionary when no packed-refs file is
+present.</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.repo.DiskRefsContainer.get_peeled">
+    
+  </a>
+  <a name="get_peeled">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    get_peeled(self, name):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overrides <a href="dulwich.repo.RefsContainer.html#get_peeled">dulwich.repo.RefsContainer.get_peeled</a></div>
+    <div>Return the cached peeled value of a ref, if available.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">name</td><td>Name of the ref to peel</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">The peeled value of the ref. If the ref is known not point to a
+tag, this will be the SHA the ref refers to. If the ref may point to
+a tag, but no cached information is available, None is returned.</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.repo.DiskRefsContainer.read_loose_ref">
+    
+  </a>
+  <a name="read_loose_ref">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    read_loose_ref(self, name):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overrides <a href="dulwich.repo.RefsContainer.html#read_loose_ref">dulwich.repo.RefsContainer.read_loose_ref</a></div>
+    <div>Read a reference file and return its contents.</p>
+<p>If the reference file a symbolic reference, only read the first line of
+the file. Otherwise, only read the first 40 bytes.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">name</td><td>the refname to read, relative to refpath</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">The contents of the ref file, or None if the file does not
+exist.</td></tr><tr class="fieldStart"><td class="fieldName">Raises</td><td class="fieldArg">IOError</td><td>if any other error occurs</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.repo.DiskRefsContainer._remove_packed_ref">
+    
+  </a>
+  <a name="_remove_packed_ref">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _remove_packed_ref(self, name):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.repo.DiskRefsContainer.set_symbolic_ref">
+    
+  </a>
+  <a name="set_symbolic_ref">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    set_symbolic_ref(self, name, other):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overrides <a href="dulwich.repo.RefsContainer.html#set_symbolic_ref">dulwich.repo.RefsContainer.set_symbolic_ref</a></div>
+    <div>Make a ref point at another ref.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">name</td><td>Name of the ref to set</td></tr><tr><td></td><td class="fieldArg">other</td><td>Name of the ref to point at</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.repo.DiskRefsContainer.set_if_equals">
+    
+  </a>
+  <a name="set_if_equals">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    set_if_equals(self, name, old_ref, new_ref):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overrides <a href="dulwich.repo.RefsContainer.html#set_if_equals">dulwich.repo.RefsContainer.set_if_equals</a></div>
+    <div>Set a refname to new_ref only if it currently equals old_ref.</p>
+<p>This method follows all symbolic references, and can be used to perform
+an atomic compare-and-swap operation.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">name</td><td>The refname to set.</td></tr><tr><td></td><td class="fieldArg">old_ref</td><td>The old sha the refname must refer to, or None to set
+unconditionally.</td></tr><tr><td></td><td class="fieldArg">new_ref</td><td>The new sha the refname will refer to.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">True if the set was successful, False otherwise.</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.repo.DiskRefsContainer.add_if_new">
+    
+  </a>
+  <a name="add_if_new">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    add_if_new(self, name, ref):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overrides <a href="dulwich.repo.RefsContainer.html#add_if_new">dulwich.repo.RefsContainer.add_if_new</a></div>
+    <div>Add a new reference only if it does not already exist.</p>
+<p>This method follows symrefs, and only ensures that the last ref in the
+chain does not exist.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">name</td><td>The refname to set.</td></tr><tr><td></td><td class="fieldArg">ref</td><td>The new sha the refname will refer to.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">True if the add was successful, False otherwise.</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.repo.DiskRefsContainer.remove_if_equals">
+    
+  </a>
+  <a name="remove_if_equals">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    remove_if_equals(self, name, old_ref):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overrides <a href="dulwich.repo.RefsContainer.html#remove_if_equals">dulwich.repo.RefsContainer.remove_if_equals</a></div>
+    <div>Remove a refname only if it currently equals old_ref.</p>
+<p>This method does not follow symbolic references. It can be used to
+perform an atomic compare-and-delete operation.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">name</td><td>The refname to delete.</td></tr><tr><td></td><td class="fieldArg">old_ref</td><td>The old sha the refname must refer to, or None to delete
+unconditionally.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">True if the delete was successful, False otherwise.</td></tr></table></div>
+  </div>
+</div>
+    <address>
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+    </address>
+  </body>
+</html>

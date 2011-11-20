@@ -1,0 +1,580 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>dulwich.objects : API documentation</title>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <link href="apidocs.css" type="text/css" rel="stylesheet" />
+    
+    
+  </head>
+  <body>
+    <h1 class="module">d.objects : module documentation</h1>
+    <p>
+      <span id="part">Part of <a href="dulwich.html">dulwich</a></span>
+      
+      
+    </p>
+    <div>
+      
+    </div>
+    <div>Access to base git objects.<table class="fieldTable"></table></div>
+
+    
+    
+    <div id="splitTables">
+      <table class="children sortable" id="id260">
+  
+  
+<tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.objects.html#S_ISGITLINK">S_ISGITLINK</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.objects.html#sha_to_filename">sha_to_filename</a></td>
+    <td><span>Takes a hex sha and returns its filename relative to the given path.</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.objects.html#filename_to_sha">filename_to_sha</a></td>
+    <td><span>Takes an object filename and returns its corresponding hex sha.</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.objects.html#object_header">object_header</a></td>
+    <td><span>Return an object header for the given numeric type and text length.</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.objects.html#serializable_property">serializable_property</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.objects.html#object_class">object_class</a></td>
+    <td><span>Get the object class corresponding to the given type.</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.objects.html#check_hexsha">check_hexsha</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.objects.html#check_identity">check_identity</a></td>
+    <td><span>Check if the specified identity is valid.</span></td>
+  </tr><tr class="class">
+    
+    
+    <td>Class</td>
+    <td><a href="dulwich.objects.Sha1Sum.html">Sha1Sum</a></td>
+    <td><span>Represent a sha-1 sum as bytes, ascii bytes, and a unicode string</span></td>
+  </tr><tr class="class">
+    
+    
+    <td>Class</td>
+    <td><a href="dulwich.objects.ShaFile.html">ShaFile</a></td>
+    <td><span>A git SHA file.</span></td>
+  </tr><tr class="class">
+    
+    
+    <td>Class</td>
+    <td><a href="dulwich.objects.Blob.html">Blob</a></td>
+    <td><span>A Git Blob object.</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.objects.html#parse_tag">parse_tag</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="class">
+    
+    
+    <td>Class</td>
+    <td><a href="dulwich.objects.Tag.html">Tag</a></td>
+    <td><span>A Git Tag object.</span></td>
+  </tr><tr class="class">
+    
+    
+    <td>Class</td>
+    <td><a href="dulwich.objects.TreeEntry.html">TreeEntry</a></td>
+    <td><span>Named tuple encapsulating a single tree entry.</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.objects.html#parse_tree">parse_tree</a></td>
+    <td><span>Parse a tree text.</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.objects.html#serialize_tree">serialize_tree</a></td>
+    <td><span>Serialize the items in a tree to a text.</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.objects.html#cmp_to_key">cmp_to_key</a></td>
+    <td><span>Convert a cmp= function into a key= function</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.objects.html#sorted_tree_items">sorted_tree_items</a></td>
+    <td><span>Iterate over a tree entries dictionary.</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.objects.html#cmp_entry">cmp_entry</a></td>
+    <td><span>Compare two tree entries in tree order.</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.objects.html#cmp_entry_name_order">cmp_entry_name_order</a></td>
+    <td><span>Compare two tree entries in name order.</span></td>
+  </tr><tr class="class">
+    
+    
+    <td>Class</td>
+    <td><a href="dulwich.objects.Tree.html">Tree</a></td>
+    <td><span>A Git tree object</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.objects.html#parse_timezone">parse_timezone</a></td>
+    <td><span>Parse a timezone text fragment (e.g. '+0100').</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.objects.html#format_timezone">format_timezone</a></td>
+    <td><span>Format a timezone for Git serialization.</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.objects.html#parse_commit">parse_commit</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="class">
+    
+    
+    <td>Class</td>
+    <td><a href="dulwich.objects.Commit.html">Commit</a></td>
+    <td><span>A git commit object</span></td>
+  </tr><tr class="function private">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.objects.html#_decompress">_decompress</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="function private">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.objects.html#_as_sha">_as_sha</a></td>
+    <td><span>Try really hard to get a Sha1Sum representation of an object or raise an exception if it can't be done.</span></td>
+  </tr><tr class="function private">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.objects.html#_parse_tag_or_commit">_parse_tag_or_commit</a></td>
+    <td><span>Parse tag or commit text.</span></td>
+  </tr>
+  
+</table>
+      
+      
+    </div>
+    
+    
+    
+
+    <div class="function">
+  <a name="dulwich.objects.S_ISGITLINK">
+    
+  </a>
+  <a name="S_ISGITLINK">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    S_ISGITLINK(m):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects._decompress">
+    
+  </a>
+  <a name="_decompress">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _decompress(string):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.sha_to_filename">
+    
+  </a>
+  <a name="sha_to_filename">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    sha_to_filename(path, sha):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Takes a hex sha and returns its filename relative to the given path.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.filename_to_sha">
+    
+  </a>
+  <a name="filename_to_sha">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    filename_to_sha(filename):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Takes an object filename and returns its corresponding hex sha.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.object_header">
+    
+  </a>
+  <a name="object_header">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    object_header(num_type, length):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Return an object header for the given numeric type and text length.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.serializable_property">
+    
+  </a>
+  <a name="serializable_property">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    serializable_property(name, docstring=None):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.object_class">
+    
+  </a>
+  <a name="object_class">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    object_class(type):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Get the object class corresponding to the given type.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">type</td><td>Either a type name string or a numeric type.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">The ShaFile subclass corresponding to the given type, or None if
+type is not a valid type name/number.</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.check_hexsha">
+    
+  </a>
+  <a name="check_hexsha">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    check_hexsha(hex, error_msg):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.check_identity">
+    
+  </a>
+  <a name="check_identity">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    check_identity(identity, error_msg):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Check if the specified identity is valid.</p>
+<p>This will raise an exception if the identity is not valid.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">identity</td><td>Identity string</td></tr><tr><td></td><td class="fieldArg">error_msg</td><td>Error message to use in exception</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects._as_sha">
+    
+  </a>
+  <a name="_as_sha">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _as_sha(obj):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Try really hard to get a Sha1Sum representation of an object
+or raise an exception if it can't be done.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">obj</td><td>Some object that you want represented as a Sha1Sum</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">A Sha1Sum object</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects._parse_tag_or_commit">
+    
+  </a>
+  <a name="_parse_tag_or_commit">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _parse_tag_or_commit(text):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Parse tag or commit text.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">text</td><td>the raw text of the tag or commit object.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">iterator of tuples of (field, value), one per header line, in the
+order read from the text, possibly including duplicates. Includes a
+field named None for the freeform tag/commit text.</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.parse_tag">
+    
+  </a>
+  <a name="parse_tag">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    parse_tag(text):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.parse_tree">
+    
+  </a>
+  <a name="parse_tree">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    parse_tree(text, strict=False):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Parse a tree text.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">text</td><td>Serialized text to parse</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">iterator of tuples of (name, mode, sha)</td></tr><tr class="fieldStart"><td class="fieldName">Raises</td><td class="fieldArg">ObjectFormatException</td><td>if the object was malformed in some way</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.serialize_tree">
+    
+  </a>
+  <a name="serialize_tree">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    serialize_tree(items):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Serialize the items in a tree to a text.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">items</td><td>Sorted iterable over (name, mode, sha) tuples</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">Serialized tree text as chunks</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.cmp_to_key">
+    
+  </a>
+  <a name="cmp_to_key">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    cmp_to_key(mycmp):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Convert a cmp= function into a key= function<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.sorted_tree_items">
+    
+  </a>
+  <a name="sorted_tree_items">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    sorted_tree_items(entries, name_order):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Iterate over a tree entries dictionary.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">name_order</td><td>If True, iterate entries in order of their name. If
+False, iterate entries in tree order, that is, treat subtree entries as
+having '/' appended.</td></tr><tr><td></td><td class="fieldArg">entries</td><td>Dictionary mapping names to (mode, sha) tuples</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">Iterator over (name, mode, hexsha)</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.cmp_entry">
+    
+  </a>
+  <a name="cmp_entry">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    cmp_entry(tuple_1, tuple_2):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Compare two tree entries in tree order.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.cmp_entry_name_order">
+    
+  </a>
+  <a name="cmp_entry_name_order">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    cmp_entry_name_order(entry1, entry2):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Compare two tree entries in name order.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.parse_timezone">
+    
+  </a>
+  <a name="parse_timezone">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    parse_timezone(text):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Parse a timezone text fragment (e.g. '+0100').<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">text</td><td>Text to parse.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">Tuple with timezone as seconds difference to UTC
+and a boolean indicating whether this was a UTC timezone
+prefixed with a negative sign (-0000).</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.format_timezone">
+    
+  </a>
+  <a name="format_timezone">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    format_timezone(offset, negative_utc=False):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Format a timezone for Git serialization.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">offset</td><td>Timezone offset as seconds difference to UTC</td></tr><tr><td></td><td class="fieldArg">negative_utc</td><td>Whether to use a minus sign for UTC
+(-0000 rather than +0000).</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.objects.parse_commit">
+    
+  </a>
+  <a name="parse_commit">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    parse_commit(text):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div>
+    <address>
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+    </address>
+  </body>
+</html>

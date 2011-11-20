@@ -1,0 +1,220 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>dulwich.walk.Walker : API documentation</title>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <link href="apidocs.css" type="text/css" rel="stylesheet" />
+    
+    
+  </head>
+  <body>
+    <h1 class="class">d.w.Walker(<span title="object">object</span>) : class documentation</h1>
+    <p>
+      <span id="part">Part of <a href="dulwich.html">dulwich</a>.<a href="dulwich.walk.html">walk</a></span>
+      
+      <a href="classIndex.html#dulwich.walk.Walker">View In Hierarchy</a>
+    </p>
+    <div>
+      
+    </div>
+    <div>Object for performing a walk of commits in a store.</p>
+<p>Walker objects are initialized with a store and other options and can then
+be treated as iterators of Commit objects.<table class="fieldTable"></table></div>
+
+    
+    
+    <div id="splitTables">
+      <table class="children sortable" id="id344">
+  
+  
+<tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.walk.Walker.html#__init__">__init__</a></td>
+    <td><span>Constructor.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.walk.Walker.html#__iter__">__iter__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.walk.Walker.html#_path_matches">_path_matches</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.walk.Walker.html#_change_matches">_change_matches</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.walk.Walker.html#_should_return">_should_return</a></td>
+    <td><span>Determine if a walk entry should be returned..</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.walk.Walker.html#_next">_next</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.walk.Walker.html#_reorder">_reorder</a></td>
+    <td><span>Possibly reorder a results iterator.</span></td>
+  </tr>
+  
+</table>
+      
+      
+    </div>
+    
+    
+    
+
+    <div class="function">
+  <a name="dulwich.walk.Walker.__init__">
+    
+  </a>
+  <a name="__init__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __init__(self, store, include, exclude=None, order=ORDER_DATE, reverse=False, max_entries=None, paths=None, rename_detector=None, follow=False, since=None, until=None, queue_cls=_CommitTimeQueue):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Constructor.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">store</td><td>ObjectStore instance for looking up objects.</td></tr><tr><td></td><td class="fieldArg">include</td><td>Iterable of SHAs of commits to include along with their
+ancestors.</td></tr><tr><td></td><td class="fieldArg">exclude</td><td>Iterable of SHAs of commits to exclude along with their
+ancestors, overriding includes.</td></tr><tr><td></td><td class="fieldArg">order</td><td>ORDER_* constant specifying the order of results. Anything
+other than ORDER_DATE may result in O(n) memory usage.</td></tr><tr><td></td><td class="fieldArg">reverse</td><td>If True, reverse the order of output, requiring O(n)
+memory.</td></tr><tr><td></td><td class="fieldArg">max_entries</td><td>The maximum number of entries to yield, or None for
+no limit.</td></tr><tr><td></td><td class="fieldArg">paths</td><td>Iterable of file or subtree paths to show entries for.</td></tr><tr><td></td><td class="fieldArg">rename_detector</td><td>diff.RenameDetector object for detecting
+renames.</td></tr><tr><td></td><td class="fieldArg">follow</td><td>If True, follow path across renames/copies. Forces a
+default rename_detector.</td></tr><tr><td></td><td class="fieldArg">since</td><td>Timestamp to list commits after.</td></tr><tr><td></td><td class="fieldArg">until</td><td>Timestamp to list commits before.</td></tr><tr><td></td><td class="fieldArg">queue_cls</td><td>A class to use for a queue of commits, supporting the
+iterator protocol. The constructor takes a single argument, the
+Walker.</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.walk.Walker._path_matches">
+    
+  </a>
+  <a name="_path_matches">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _path_matches(self, changed_path):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.walk.Walker._change_matches">
+    
+  </a>
+  <a name="_change_matches">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _change_matches(self, change):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.walk.Walker._should_return">
+    
+  </a>
+  <a name="_should_return">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _should_return(self, entry):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Determine if a walk entry should be returned..<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">entry</td><td>The WalkEntry to consider.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">True if the WalkEntry should be returned by this walk, or False
+otherwise (e.g. if it doesn't match any requested paths).</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.walk.Walker._next">
+    
+  </a>
+  <a name="_next">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _next(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.walk.Walker._reorder">
+    
+  </a>
+  <a name="_reorder">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _reorder(self, results):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Possibly reorder a results iterator.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">results</td><td>An iterator of WalkEntry objects, in the order returned
+from the queue_cls.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">An iterator or list of WalkEntry objects, in the order required
+by the Walker.</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.walk.Walker.__iter__">
+    
+  </a>
+  <a name="__iter__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __iter__(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div>
+    <address>
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+    </address>
+  </body>
+</html>

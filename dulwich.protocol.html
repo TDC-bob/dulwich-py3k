@@ -1,0 +1,173 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>dulwich.protocol : API documentation</title>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <link href="apidocs.css" type="text/css" rel="stylesheet" />
+    
+    
+  </head>
+  <body>
+    <h1 class="module">d.protocol : module documentation</h1>
+    <p>
+      <span id="part">Part of <a href="dulwich.html">dulwich</a></span>
+      
+      
+    </p>
+    <div>
+      
+    </div>
+    <div>Generic functions for talking the git smart server protocol.<table class="fieldTable"></table></div>
+
+    
+    
+    <div id="splitTables">
+      <table class="children sortable" id="id345">
+  
+  
+<tr class="class">
+    
+    
+    <td>Class</td>
+    <td><a href="dulwich.protocol.ProtocolFile.html">ProtocolFile</a></td>
+    <td><span>A dummy file for network ops that expect file-like objects.</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.protocol.html#pkt_line">pkt_line</a></td>
+    <td><span>Wrap data in a pkt-line.</span></td>
+  </tr><tr class="class">
+    
+    
+    <td>Class</td>
+    <td><a href="dulwich.protocol.Protocol.html">Protocol</a></td>
+    <td><span>Class for interacting with a remote git process over the wire.</span></td>
+  </tr><tr class="class">
+    
+    
+    <td>Class</td>
+    <td><a href="dulwich.protocol.ReceivableProtocol.html">ReceivableProtocol</a></td>
+    <td><span>Variant of Protocol that allows reading up to a size without blocking.</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.protocol.html#extract_capabilities">extract_capabilities</a></td>
+    <td><span>Extract a capabilities list from a string, if present.</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.protocol.html#extract_want_line_capabilities">extract_want_line_capabilities</a></td>
+    <td><span>Extract a capabilities list from a want line, if present.</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.protocol.html#ack_type">ack_type</a></td>
+    <td><span>Extract the ack type from a capabilities list.</span></td>
+  </tr><tr class="class">
+    
+    
+    <td>Class</td>
+    <td><a href="dulwich.protocol.BufferedPktLineWriter.html">BufferedPktLineWriter</a></td>
+    <td><span>Writer that wraps its data in pkt-lines and has an independent buffer.</span></td>
+  </tr><tr class="class">
+    
+    
+    <td>Class</td>
+    <td><a href="dulwich.protocol.PktLineParser.html">PktLineParser</a></td>
+    <td><span>Packet line parser that hands completed packets off to a callback.</span></td>
+  </tr>
+  
+</table>
+      
+      
+    </div>
+    
+    
+    
+
+    <div class="function">
+  <a name="dulwich.protocol.pkt_line">
+    
+  </a>
+  <a name="pkt_line">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    pkt_line(data):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Wrap data in a pkt-line.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">data</td><td>The data to wrap, as a str or None.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">The data prefixed with its length in pkt-line format; if data was
+None, returns the flush-pkt ('0000').</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.protocol.extract_capabilities">
+    
+  </a>
+  <a name="extract_capabilities">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    extract_capabilities(text):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Extract a capabilities list from a string, if present.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">text</td><td>String to extract from</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">Tuple with text with capabilities removed and list of capabilities</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.protocol.extract_want_line_capabilities">
+    
+  </a>
+  <a name="extract_want_line_capabilities">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    extract_want_line_capabilities(text):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div><p>Extract a capabilities list from a want line, if present.</p>
+<p>Note that want lines have capabilities separated from the rest of the line
+by a space instead of a null byte. Thus want lines have the form:</p>
+<blockquote>
+want obj-id cap1 cap2 ...</blockquote>
+<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">text</td><td>Want line to extract from</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">Tuple with text with capabilities removed and list of capabilities</td></tr></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.protocol.ack_type">
+    
+  </a>
+  <a name="ack_type">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    ack_type(capabilities):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Extract the ack type from a capabilities list.<table class="fieldTable"></table></div>
+  </div>
+</div>
+    <address>
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+    </address>
+  </body>
+</html>

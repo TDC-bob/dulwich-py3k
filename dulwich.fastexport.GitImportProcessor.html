@@ -1,0 +1,275 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>dulwich.fastexport.GitImportProcessor : API documentation</title>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <link href="apidocs.css" type="text/css" rel="stylesheet" />
+    
+    
+  </head>
+  <body>
+    <h1 class="class">d.f.GitImportProcessor(<span title="fastimport.processor.ImportProcessor">processor.ImportProcessor</span>) : class documentation</h1>
+    <p>
+      <span id="part">Part of <a href="dulwich.html">dulwich</a>.<a href="dulwich.fastexport.html">fastexport</a></span>
+      
+      <a href="classIndex.html#dulwich.fastexport.GitImportProcessor">View In Hierarchy</a>
+    </p>
+    <div>
+      
+    </div>
+    <div>An import processor that imports into a Git repository using Dulwich.<table class="fieldTable"></table></div>
+
+    
+    
+    <div id="splitTables">
+      <table class="children sortable" id="id359">
+  
+  
+<tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.fastexport.GitImportProcessor.html#__init__">__init__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.fastexport.GitImportProcessor.html#import_stream">import_stream</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.fastexport.GitImportProcessor.html#blob_handler">blob_handler</a></td>
+    <td><span>Process a BlobCommand.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.fastexport.GitImportProcessor.html#checkpoint_handler">checkpoint_handler</a></td>
+    <td><span>Process a CheckpointCommand.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.fastexport.GitImportProcessor.html#commit_handler">commit_handler</a></td>
+    <td><span>Process a CommitCommand.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.fastexport.GitImportProcessor.html#progress_handler">progress_handler</a></td>
+    <td><span>Process a ProgressCommand.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.fastexport.GitImportProcessor.html#reset_handler">reset_handler</a></td>
+    <td><span>Process a ResetCommand.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.fastexport.GitImportProcessor.html#tag_handler">tag_handler</a></td>
+    <td><span>Process a TagCommand.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.fastexport.GitImportProcessor.html#feature_handler">feature_handler</a></td>
+    <td><span>Process a FeatureCommand.</span></td>
+  </tr><tr class="method private">
+    
+    
+    <td>Method</td>
+    <td><a href="dulwich.fastexport.GitImportProcessor.html#_reset_base">_reset_base</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr>
+  
+</table>
+      
+      
+    </div>
+    
+    
+    
+
+    <div class="function">
+  <a name="dulwich.fastexport.GitImportProcessor.__init__">
+    
+  </a>
+  <a name="__init__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __init__(self, repo, params=None, verbose=False, outf=None):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.fastexport.GitImportProcessor.import_stream">
+    
+  </a>
+  <a name="import_stream">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    import_stream(self, stream):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.fastexport.GitImportProcessor.blob_handler">
+    
+  </a>
+  <a name="blob_handler">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    blob_handler(self, cmd):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Process a BlobCommand.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.fastexport.GitImportProcessor.checkpoint_handler">
+    
+  </a>
+  <a name="checkpoint_handler">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    checkpoint_handler(self, cmd):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Process a CheckpointCommand.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.fastexport.GitImportProcessor.commit_handler">
+    
+  </a>
+  <a name="commit_handler">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    commit_handler(self, cmd):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Process a CommitCommand.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.fastexport.GitImportProcessor.progress_handler">
+    
+  </a>
+  <a name="progress_handler">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    progress_handler(self, cmd):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Process a ProgressCommand.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.fastexport.GitImportProcessor._reset_base">
+    
+  </a>
+  <a name="_reset_base">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    _reset_base(self, commit_id):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.fastexport.GitImportProcessor.reset_handler">
+    
+  </a>
+  <a name="reset_handler">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    reset_handler(self, cmd):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Process a ResetCommand.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.fastexport.GitImportProcessor.tag_handler">
+    
+  </a>
+  <a name="tag_handler">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    tag_handler(self, cmd):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Process a TagCommand.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.fastexport.GitImportProcessor.feature_handler">
+    
+  </a>
+  <a name="feature_handler">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    feature_handler(self, cmd):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Process a FeatureCommand.<table class="fieldTable"></table></div>
+  </div>
+</div>
+    <address>
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+    </address>
+  </body>
+</html>
