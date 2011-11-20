@@ -60,7 +60,6 @@ from dulwich.web import (
 from dulwich.tests.utils import (
     make_object,
     )
-from dulwich.py3k import *
 
 class TestHTTPGitRequest(HTTPGitRequest):
     """HTTPGitRequest with overridden methods to help test caching."""
@@ -274,7 +273,7 @@ class DumbHandlersTestCase(WebTestCase):
                 output = b''.join(get_info_packs(self._req, backend, mat))
                 expected = 'P pack-%s.pack\n' * 3
                 expected %= ('1' * 40, '2' * 40, '3' * 40)
-                self.assertEqual(convert3kstr(expected, BYTES), output)
+                self.assertEqual(expected.encode('utf-8'), output)
                 self.assertEqual(HTTP_OK, self._status)
                 self.assertContentTypeEquals('text/plain')
                 self.assertFalse(self._req.cached)

@@ -61,8 +61,6 @@ from .utils import (
     ext_functest_builder,
     )
 
-from dulwich.py3k import *
-
 a_sha = Sha1Sum('6f670c0fb53f9463760b7295fbb814e965fb20c8')
 b_sha = Sha1Sum('2969be3e8ee1c0222396a5611407e4769f14e54b')
 c_sha = Sha1Sum('954a536f7819d40e6f637f849ee187dd10066349')
@@ -82,32 +80,27 @@ class TestHexToSha(TestCase):
 class BlobReadTests(TestCase):
     """Test decompression of blobs"""
 
-    @enforce_type(sha=Sha1Sum)
     def get_sha_file(self, cls, base, sha):
         dir = os.path.join(os.path.dirname(__file__), 'data', base)
         return cls.from_path(sha_to_filename(dir, sha))
 
-    @enforce_type(sha=Sha1Sum)
     def get_blob(self, sha):
         """Return the blob named sha from the test data dir"""
         return self.get_sha_file(Blob, 'blobs', sha)
 
-    @enforce_type(sha=Sha1Sum)
     def get_tree(self, sha):
         return self.get_sha_file(Tree, 'trees', sha)
 
-    @enforce_type(sha=Sha1Sum)
     def get_tag(self, sha):
         return self.get_sha_file(Tag, 'tags', sha)
 
-    @enforce_type(sha=Sha1Sum)
     def commit(self, sha):
         return self.get_sha_file(Commit, 'commits', sha)
 
     def test_decompress_simple_blob(self):
         b = self.get_blob(a_sha)
         self.assertEqual(b.data, b'test 1\n')
-        self.assertEqual(convert3kstr(b.sha().hexdigest(), BYTES), a_sha)
+        self.assertEqual(Sha1Sum(b.sha()), a_sha)
 
     def test_hash(self):
         b = self.get_blob(a_sha)
@@ -148,7 +141,7 @@ class BlobReadTests(TestCase):
         string = b'test 3\n'
         b = self.get_blob(c_sha)
         self.assertEqual(b.data, string)
-        self.assertEqual(convert3kstr(b.sha().hexdigest(), BYTES), c_sha)
+        self.assertEqual(Sha1Sum(b.sha()), c_sha)
 
     def test_eq(self):
         blob1 = self.get_blob(a_sha)
@@ -554,9 +547,9 @@ class TreeTests(ShaFileCheckTests):
         self.assertCheckFails(t, b'0100644 foo\0' + sha)
 
         # shas
-        self.assertCheckFails(t, b'100644 a\0' + convert3kstr('x' * 5, BYTES))
-        self.assertCheckFails(t, b'100644 a\0' + convert3kstr('x' * 18 + '\0', BYTES))
-        self.assertCheckFails(t, b'100644 a\0' + convert3kstr('x' * 21, BYTES) + b'\n100644 b\0' + sha)
+        self.assertCheckFails(t, b'100644 a\0' + b'x' * 5)
+        self.assertCheckFails(t, b'100644 a\0' + b'x' * 18 + b'\0')
+        self.assertCheckFails(t, b'100644 a\0' + b'x' * 21 + b'\n100644 b\0' + sha)
 
         # ordering
         sha2 = bytes(b_sha)
@@ -606,23 +599,23 @@ OK2XeQOiEeXtT76rV4t2WR4=
 class TagParseTests(ShaFileCheckTests):
 
     def make_tag_lines(self,
-                       object_sha=b"a38d6181ff27824c79fc7df825164a212eff6a3f",
+                       object_sha=Sha1Sum("a38d6181ff27824c79fc7df825164a212eff6a3f"),
                        object_type_name="commit",
                        name="v2.6.22-rc7",
                        tagger=default_tagger,
                        message=default_message):
         lines = []
         if object_sha is not None:
-            lines.append(b"object " + convert3kstr(object_sha, BYTES))
+            lines.append(b'object ' + bytes(object_sha))
         if object_type_name is not None:
-            lines.append(b"type " + convert3kstr(object_type_name, BYTES))
+            lines.append(b'type ' + object_type_name.encode('utf-8'))
         if name is not None:
-            lines.append(b"tag " + convert3kstr(name, BYTES))
+            lines.append(b'tag ' + name.encode('utf-8'))
         if tagger is not None:
-            lines.append(b"tagger " + convert3kstr(tagger, BYTES))
-        lines.append(b"")
+            lines.append(b'tagger ' + tagger.encode('utf-8'))
+        lines.append(b'')
         if message is not None:
-            lines.append(convert3kstr(message, BYTES))
+            lines.append(message.encode('utf-8'))
         return lines
 
     def make_tag_text(self, **kwargs):
@@ -635,11 +628,11 @@ class TagParseTests(ShaFileCheckTests):
             "Linus Torvalds <torvalds@woody.linux-foundation.org>", x.tagger)
         self.assertEqual(b"v2.6.22-rc7", x.name)
         object_type, object_sha = x.object
-        self.assertEqual(b"a38d6181ff27824c79fc7df825164a212eff6a3f",
-                          object_sha)
+        self.assertEqual(Sha1Sum("a38d6181ff27824c79fc7df825164a212eff6a3f"),
+                         object_sha)
         self.assertEqual(Commit, object_type)
         self.assertEqual(datetime.datetime.utcfromtimestamp(x.tag_time),
-                          datetime.datetime(2007, 7, 1, 19, 54, 34))
+                         datetime.datetime(2007, 7, 1, 19, 54, 34))
         self.assertEqual(-25200, x.tag_timezone)
 
     def test_parse_no_tagger(self):
@@ -661,7 +654,7 @@ class TagParseTests(ShaFileCheckTests):
         self.assertCheckFails(Tag, self.make_tag_text(
           tagger=("Linus Torvalds <torvalds@woody.linux-foundation.org> "
                   "Sun 7 Jul 2007 12:54:34 +0700")))
-        self.assertCheckFails(Tag, self.make_tag_text(object_sha="xxx"))
+        self.assertCheckFails(Tag, self.make_tag_text(object_sha=b"xxx"))
 
     def test_check_duplicates(self):
         # duplicate each of the header fields

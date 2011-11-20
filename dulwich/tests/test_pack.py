@@ -74,7 +74,6 @@ from .utils import (
     make_object,
     build_pack,
     )
-from dulwich.py3k import *
 
 pack1_sha = Sha1Sum('bc63ddad95e7321ee734ea11a7a62d314e0d7481')
 a_sha = Sha1Sum('6f670c0fb53f9463760b7295fbb814e965fb20c8')
@@ -185,7 +184,7 @@ class TestPackData(PackTests):
             pass
 
     def test_from_file(self):
-        path = os.path.join(self.datadir, 'pack-%s.pack' % convert3kstr(pack1_sha, STRING))
+        path = os.path.join(self.datadir, 'pack-%s.pack' % str(pack1_sha))
         with PackData.from_file(open(path, 'rb'), os.path.getsize(path)) as p:
             pass
 
@@ -293,13 +292,13 @@ class TestPack(PackTests):
         with self.get_pack(pack1_sha) as p:
             obj = p[a_sha]
             self.assertEqual(obj.type_name, 'blob')
-            self.assertEqual(convert3kstr(obj.sha().hexdigest(), BYTES), a_sha)
+            self.assertEqual(Sha1Sum(obj.sha()), a_sha)
             obj = p[tree_sha]
             self.assertEqual(obj.type_name, 'tree')
-            self.assertEqual(convert3kstr(obj.sha().hexdigest(), BYTES), tree_sha)
+            self.assertEqual(Sha1Sum(obj.sha()), tree_sha)
             obj = p[commit_sha]
             self.assertEqual(obj.type_name, 'commit')
-            self.assertEqual(convert3kstr(obj.sha().hexdigest(), BYTES), commit_sha)
+            self.assertEqual(Sha1Sum(obj.sha()), commit_sha)
 
     def test_copy(self):
         with self.get_pack(pack1_sha) as origpack:
@@ -359,7 +358,7 @@ class TestPack(PackTests):
 
     def test_name(self):
         with self.get_pack(pack1_sha) as p:
-            self.assertEqual(pack1_sha, convert3kstr(p.name(), BYTES))
+            self.assertEqual(pack1_sha, Sha1Sum(p.name()))
 
     def test_length_mismatch(self):
         with self.get_pack_data(pack1_sha) as data:

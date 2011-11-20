@@ -28,8 +28,6 @@ from dulwich.tests import (
     TestCase,
     )
 
-from dulwich.py3k import *
-
 class FancyRenameTests(TestCase):
 
     def setUp(self):
@@ -37,7 +35,7 @@ class FancyRenameTests(TestCase):
         self._tempdir = tempfile.mkdtemp()
         self.foo = self.path('foo')
         self.bar = self.path('bar')
-        self.create(self.foo, 'foo contents')
+        self.create(self.foo, b'foo contents')
 
     def tearDown(self):
         shutil.rmtree(self._tempdir)
@@ -48,7 +46,7 @@ class FancyRenameTests(TestCase):
 
     def create(self, path, contents):
         with open(path, 'wb') as f:
-            f.write(convert3kstr(contents, BYTES))
+            f.write(contents)
 
     def test_no_dest_exists(self):
         self.assertFalse(os.path.exists(self.bar))
@@ -59,7 +57,7 @@ class FancyRenameTests(TestCase):
             self.assertEqual(b'foo contents', new_f.read())
          
     def test_dest_exists(self):
-        self.create(self.bar, 'bar contents')
+        self.create(self.bar, b'bar contents')
         fancy_rename(self.foo, self.bar)
         self.assertFalse(os.path.exists(self.foo))
 
@@ -69,7 +67,7 @@ class FancyRenameTests(TestCase):
     def test_dest_opened(self):
         if sys.platform != "win32":
             raise SkipTest("platform allows overwriting open files")
-        self.create(self.bar, 'bar contents')
+        self.create(self.bar, b'bar contents')
         with open(self.bar, 'rb') as dest_f:
             self.assertRaises(OSError, fancy_rename, self.foo, self.bar)
         self.assertTrue(os.path.exists(self.path('foo')))

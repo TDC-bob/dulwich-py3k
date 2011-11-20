@@ -53,7 +53,6 @@ from dulwich.tests.utils import (
 from dulwich.objects import (
     Sha1Sum,
 )
-from dulwich.py3k import *
 
 missing_sha = Sha1Sum('b91fa4d900e17e99b433218e988c4eb4a3e9a097')
 
@@ -194,7 +193,7 @@ class RepositoryTests(TestCase):
         self.addCleanup(warnings.resetwarnings)
         tree = r.tree(commit.tree)
         self.assertEqual(tree.type_name, 'tree')
-        self.assertEqual(convert3kstr(tree.sha().hexdigest(), BYTES), commit.tree)
+        self.assertEqual(Sha1Sum(tree.sha()), commit.tree)
 
     def test_tree_not_tree(self):
         r = self._repo = open_repo('a.git')
@@ -248,7 +247,7 @@ class RepositoryTests(TestCase):
         self.addCleanup(warnings.resetwarnings)
         blob = r.get_blob(blob_sha)
         self.assertEqual(blob.type_name, 'blob')
-        self.assertEqual(convert3kstr(blob.sha().hexdigest(), BYTES), blob_sha)
+        self.assertEqual(Sha1Sum(blob.sha()), blob_sha)
 
     def test_get_blob_notblob(self):
         r = self._repo = open_repo('a.git')
@@ -270,7 +269,7 @@ class RepositoryTests(TestCase):
         warnings.simplefilter("ignore", DeprecationWarning)
         self.addCleanup(warnings.resetwarnings)
         history = r.revision_history(r.head())
-        shas = [convert3kstr(c.sha().hexdigest(), BYTES) for c in history]
+        shas = [Sha1Sum(c.sha()) for c in history]
         self.assertEqual(shas, [r.head(),
                                 Sha1Sum('2a72d929692c41d8554c07f6301757ba18a65d91')])
 

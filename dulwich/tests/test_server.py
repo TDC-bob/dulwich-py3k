@@ -52,7 +52,6 @@ from dulwich.tests.utils import (
 from dulwich.objects import (
     Sha1Sum,
 )
-from dulwich.py3k import *
 
 ONE = Sha1Sum('1' * 40)
 TWO = Sha1Sum('2' * 40)
