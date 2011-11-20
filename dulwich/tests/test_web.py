@@ -316,7 +316,7 @@ class SmartHandlersTestCase(WebTestCase):
         return self._handler
 
     def _handlers(self):
-        return {'git-upload-pack': self._make_handler}
+        return {b'git-upload-pack': self._make_handler}
 
     def test_handle_service_request_unknown(self):
         mat = re.search('.*', '/git-evil-handler')

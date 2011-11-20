@@ -261,7 +261,6 @@ class HTTPGitRequest(object):
     :ivar environ: the WSGI environment for the request.
     """
 
-    @wrap3kstr(handlers=DICT_KEYS_TO_BYTES)
     def __init__(self, environ, start_response, dumb=False, handlers=None):
         self.environ = environ
         self.dumb = dumb
