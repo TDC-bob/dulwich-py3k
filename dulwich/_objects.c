@@ -31,8 +31,6 @@ size_t rep_strnlen(char *text, size_t maxlen)
 #define strnlen rep_strnlen
 #endif
 
-#define bytehex(x) (((x)<0xa)?('0'+(x)):('a'-0xa+(x)))
-
 static PyObject *tree_entry_cls, *sha1sum_cls;
 static PyObject *object_format_exception_cls;
 
