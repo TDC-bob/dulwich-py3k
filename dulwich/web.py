@@ -161,9 +161,9 @@ def get_info_refs(req, backend, mat):
     params = parse_qs(req.environ['QUERY_STRING'])
     service = params.get('service', [None])[0]
     if service and not req.dumb:
-        handler_cls = req.handlers.get(convert3kstr(service, BYTES), None)
+        handler_cls = req.handlers.get(service.encode('utf-8'), None)
         if handler_cls is None:
-            yield req.forbidden(convert3kstr('Unsupported service %s' % service, BYTES))
+            yield req.forbidden(('Unsupported service %s' % service).encode('utf-8'))
             return
         req.nocache()
         write = req.respond(HTTP_OK, 'application/x-%s-advertisement' % service)
@@ -235,7 +235,7 @@ class _LengthLimitedFile(object):
 def handle_service_request(req, backend, mat):
     service = mat.group().lstrip('/')
     logger.info('Handling service request for %s', service)
-    handler_cls = req.handlers.get(convert3kstr(service, BYTES), None)
+    handler_cls = req.handlers.get(service.encode('utf-8'), None)
     if handler_cls is None:
         yield req.forbidden('Unsupported service %s' % service)
         return
@@ -348,7 +348,6 @@ class HTTPGitApplication(object):
         self.handlers = dict(DEFAULT_HANDLERS)
         if handlers is not None:
             self.handlers.update(handlers)
-        self.handlers = convert3kstr(self.handlers, DICT_KEYS_TO_BYTES)
 
     def __call__(self, environ, start_response):
         path = environ['PATH_INFO']

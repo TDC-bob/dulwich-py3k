@@ -145,7 +145,7 @@ def walk_trees(store, tree1_id, tree2_id, prune_identical=False):
         tree1 = is_tree1 and store[entry1.sha] or None
         tree2 = is_tree2 and store[entry2.sha] or None
         path = entry1.path or entry2.path
-        todo.extend(reversed(_merge_entries(convert3kstr(path, BYTES), tree1, tree2)))
+        todo.extend(reversed(_merge_entries(path, tree1, tree2)))
         yield entry1, entry2
 
 
@@ -291,7 +291,7 @@ def _count_blocks(obj):
     block_getvalue = block.getvalue
 
     for c in itertools.chain(*obj.as_raw_chunks()):
-        c = convert3kstr(c, BYTES|AGGRESSIVE)
+        c = bytes((c,)) # Convert int to bytes object
         block_write(c)
         n += 1
         if c == b'\n' or n == _BLOCK_SIZE:

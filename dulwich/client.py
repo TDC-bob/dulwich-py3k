@@ -99,7 +99,7 @@ class ReportStatusParser(object):
                     ok.add(ref)
                 ref_status[ref] = status
             raise UpdateRefsError('%s failed to update' %
-                                  ', '.join([convert3kstr(ref, STRING) for ref in ref_status
+                                  ', '.join([ref.decode('utf-8') for ref in ref_status
                                              if ref not in ok]),
                                   ref_status=ref_status)
 
@@ -354,7 +354,7 @@ class GitClient(object):
                     else:
                         raise AssertionError(
                             "%s not in ('continue', 'ready', 'common)" %
-                            convert3kstr(parts[2], STRING))
+                            parts[2].decode('utf-8'))
             have = next(graph_walker)
         proto.write_pkt_line(b'done\n')
 
@@ -383,11 +383,11 @@ class GitClient(object):
             # wait for EOF before returning
             data = proto.read()
             if data:
-                raise Exception('Unexpected response %r' % convert3kstr(data, STRING))
+                raise Exception('Unexpected response %r' % data)
         else:
             while True:
                 data = self.read(rbufsize)
-                if data == "":
+                if len(data) == 0:
                     break
                 pack_data(data)
 
@@ -516,7 +516,7 @@ class TCPGitClient(TraditionalGitClient):
                          report_activity=self._report_activity)
         if path.startswith("/~"):
             path = path[1:]
-        proto.send_cmd(b'git-' + cmd.encode('utf-8'), path, b'host=%s' + convert3kstr(self._host, BYTES))
+        proto.send_cmd(b'git-' + cmd.encode('utf-8'), path, b'host=' + self._host.encode('utf-8'))
         return proto, lambda: _fileno_can_read(s)
 
     def close(self):
