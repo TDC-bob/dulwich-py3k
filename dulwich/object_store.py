@@ -58,8 +58,6 @@ from dulwich.pack import (
     PackStreamCopier,
     )
 
-from dulwich.py3k import *
-
 INFODIR = 'info'
 PACKDIR = 'pack'
 

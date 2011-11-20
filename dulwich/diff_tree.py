@@ -30,8 +30,6 @@ from dulwich.objects import (
     TreeEntry,
     )
 
-from dulwich.py3k import *
-
 # TreeChange type constants.
 CHANGE_ADD = 'add'
 CHANGE_MODIFY = 'modify'

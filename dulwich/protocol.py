@@ -31,7 +31,6 @@ from dulwich.objects import (
 )
 
 from os import SEEK_END
-from dulwich.py3k import *
 
 TCP_GIT_PORT = 9418
 

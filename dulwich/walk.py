@@ -37,7 +37,6 @@ from dulwich.errors import (
 from dulwich.objects import (
     Sha1Sum
 )
-from dulwich.py3k import *
 
 ORDER_DATE = 'date'
 ORDER_TOPO = 'topo'

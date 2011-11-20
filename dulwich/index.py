@@ -34,7 +34,6 @@ from dulwich.pack import (
     SHA1Writer,
     )
 
-from dulwich.py3k import *
 
 
 def pathsplit(path):

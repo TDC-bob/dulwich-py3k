@@ -43,7 +43,6 @@ from dulwich.errors import (
     ObjectFormatException,
     )
 from dulwich.file import GitFile
-from dulwich.py3k import *
 
 
 ZERO_SHA = b"0" * 40

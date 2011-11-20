@@ -54,7 +54,6 @@ from dulwich.objects import (
     Sha1Sum,
     )
 import warnings
-from dulwich.py3k import *
 
 OBJECTDIR = 'objects'
 SYMREF = b'ref: '

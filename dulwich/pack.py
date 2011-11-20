@@ -72,7 +72,6 @@ from dulwich.objects import (
     Sha1Sum,
     object_header,
     )
-from dulwich.py3k import *
 
 supports_mmap_offset = (sys.version_info[0] >= 3 or
         (sys.version_info[0] == 2 and sys.version_info[1] >= 6))

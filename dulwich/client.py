@@ -48,7 +48,6 @@ from dulwich.pack import (
 from dulwich.objects import (
     Sha1Sum
 )
-from dulwich.py3k import *
 
 # Python 2.6.6 included these in urlparse.uses_netloc upstream. Do
 # monkeypatching to enable similar behaviour in earlier Pythons:
