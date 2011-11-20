@@ -31,9 +31,9 @@ from getopt import getopt
 from dulwich.client import get_transport_and_path
 from dulwich.errors import ApplyDeltaError
 from dulwich.index import Index
-from dulwich.pack import Pack, sha_to_hex
+from dulwich.pack import Pack
 from dulwich.repo import Repo
-
+from dulwich.objects import Sha1Sum
 
 def cmd_fetch_pack(args):
     opts, args = getopt(args, "", ["all"])
@@ -59,15 +59,14 @@ def cmd_log(args):
     done = set()
     while todo:
         sha = todo.pop()
-        assert isinstance(sha, bytes)
         if sha in done:
             continue
         done.add(sha)
         commit = r[sha]
         print("-" * 50)
-        print("commit: %s" % sha.decode('utf-8'))
+        print("commit: %s" % sha)
         if len(commit.parents) > 1:
-            print("merge: %s" % "...".join([p.decode('utf-8') for p in commit.parents[1:]]))
+            print("merge: %s" % "...".join([str(p) for p in commit.parents[1:]]))
         print("author: %s" % commit.author)
         print("committer: %s" % commit.committer)
         print("")
@@ -86,7 +85,7 @@ def cmd_dump_pack(args):
     basename, _ = os.path.splitext(args[0])
     x = Pack(basename)
     print("Object names checksum: %s" % x.name())
-    print("Checksum: %s" % sha_to_hex(x.get_stored_checksum()))
+    print("Checksum: %s" % Sha1Sum(x.get_stored_checksum()))
     if not x.check():
         print("CHECKSUM DOES NOT MATCH")
     print("Length: %d" % len(x))
@@ -114,7 +113,7 @@ def cmd_dump_index(args):
 
 
 def cmd_init(args):
-    opts, args = getopt(args, "", ["--bare"])
+    opts, args = getopt(args, "", ["bare"])
     opts = dict(opts)
 
     if args == []:
