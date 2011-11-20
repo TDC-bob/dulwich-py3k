@@ -156,7 +156,7 @@ class BlobReadTests(TestCase):
     def test_read_tag_from_file(self):
         t = self.get_tag(tag_sha)
         self.assertEqual(t.object, (Commit, Sha1Sum('51b668fd5bf7061b7d6fa525f88803e6cfadaa51')))
-        self.assertEqual(t.name,b'signed')
+        self.assertEqual(t.name,'signed')
         self.assertEqual(t.tagger,'Ali Sabil <ali.sabil@gmail.com>')
         self.assertEqual(t.tag_time, 1231203091)
         self.assertEqual(t.message, 'This is a signed tag\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1.4.9 (GNU/Linux)\n\niEYEABECAAYFAkliqx8ACgkQqSMmLy9u/kcx5ACfakZ9NnPl02tOyYP6pkBoEkU1\n5EcAn0UFgokaSvS371Ym/4W9iJj6vh3h\n=ql7y\n-----END PGP SIGNATURE-----\n')
@@ -626,7 +626,7 @@ class TagParseTests(ShaFileCheckTests):
         x.set_raw_string(self.make_tag_text())
         self.assertEqual(
             "Linus Torvalds <torvalds@woody.linux-foundation.org>", x.tagger)
-        self.assertEqual(b"v2.6.22-rc7", x.name)
+        self.assertEqual('v2.6.22-rc7', x.name)
         object_type, object_sha = x.object
         self.assertEqual(Sha1Sum("a38d6181ff27824c79fc7df825164a212eff6a3f"),
                          object_sha)
@@ -639,7 +639,7 @@ class TagParseTests(ShaFileCheckTests):
         x = Tag()
         x.set_raw_string(self.make_tag_text(tagger=None))
         self.assertEqual(None, x.tagger)
-        self.assertEqual(b"v2.6.22-rc7", x.name)
+        self.assertEqual('v2.6.22-rc7', x.name)
 
     def test_check(self):
         self.assertCheckSucceeds(Tag, self.make_tag_text())
@@ -711,33 +711,33 @@ class CheckTests(TestCase):
 class TimezoneTests(TestCase):
 
     def test_parse_timezone_utc(self):
-        self.assertEqual((0, False), parse_timezone("+0000"))
+        self.assertEqual((0, False), parse_timezone(b'+0000'))
 
     def test_parse_timezone_utc_negative(self):
-        self.assertEqual((0, True), parse_timezone("-0000"))
+        self.assertEqual((0, True), parse_timezone(b'-0000'))
 
     def test_generate_timezone_utc(self):
-        self.assertEqual("+0000", format_timezone(0))
+        self.assertEqual(b'+0000', format_timezone(0))
 
     def test_generate_timezone_utc_negative(self):
-        self.assertEqual("-0000", format_timezone(0, True))
+        self.assertEqual(b'-0000', format_timezone(0, True))
 
     def test_parse_timezone_cet(self):
-        self.assertEqual((60 * 60, False), parse_timezone("+0100"))
+        self.assertEqual((60 * 60, False), parse_timezone(b'+0100'))
 
     def test_format_timezone_cet(self):
-        self.assertEqual("+0100", format_timezone(60 * 60))
+        self.assertEqual(b'+0100', format_timezone(60 * 60))
 
     def test_format_timezone_pdt(self):
-        self.assertEqual("-0400", format_timezone(-4 * 60 * 60))
+        self.assertEqual(b'-0400', format_timezone(-4 * 60 * 60))
 
     def test_parse_timezone_pdt(self):
-        self.assertEqual((-4 * 60 * 60, False), parse_timezone("-0400"))
+        self.assertEqual((-4 * 60 * 60, False), parse_timezone(b'-0400'))
 
     def test_format_timezone_pdt_half(self):
-        self.assertEqual("-0440",
+        self.assertEqual(b'-0440',
             format_timezone(int(((-4 * 60) - 40) * 60)))
 
     def test_parse_timezone_pdt_half(self):
         self.assertEqual((((-4 * 60) - 40) * 60, False),
-            parse_timezone("-0440"))
+            parse_timezone(b'-0440'))

@@ -900,7 +900,7 @@ class PackStreamCopier(PackStreamReader):
 def obj_sha(type, chunks):
     """Compute the SHA for a numeric type and object chunks."""
     sha = hashlib.sha1(b'')
-    sha.update(object_header(type, chunks_length(chunks)).encode('utf-8'))
+    sha.update(object_header(type, chunks_length(chunks)))
     for chunk in chunks:
         if isinstance(chunk, int):
             chunk = bytes((chunk,))
