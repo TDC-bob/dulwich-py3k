@@ -513,7 +513,7 @@ class TCPGitClient(TraditionalGitClient):
                          report_activity=self._report_activity)
         if path.startswith("/~"):
             path = path[1:]
-        proto.send_cmd(b'git-' + cmd.encode('utf-8'), path, b'host=' + self._host.encode('utf-8'))
+        proto.send_cmd(b'git-' + cmd.encode('utf-8'), path.encode('utf-8'), b'host=' + self._host.encode('utf-8'))
         return proto, lambda: _fileno_can_read(s)
 
     def close(self):
