@@ -470,7 +470,6 @@ class DiskObjectStore(PackBasedObjectStore):
 
         # Complete the pack.
         for ext_sha in indexer.ext_refs():
-            assert isinstance(ext_sha, Sha1Sum)
             type_num, data = self.get_raw(ext_sha)
             offset = f.tell()
             crc32 = write_pack_object(f, type_num, data, sha=new_sha)
@@ -763,10 +762,6 @@ class MissingObjectFinder(object):
     def __init__(self, object_store, haves, wants, progress=None,
                  get_tagged=None):
         haves = set(haves)
-        for h in haves:
-            assert isinstance(h, Sha1Sum)
-        for w in wants:
-            assert isinstance(w, Sha1Sum)
 
         self.sha_done = haves
         self.objects_to_send = set([(w, None, False) for w in wants

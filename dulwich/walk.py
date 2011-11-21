@@ -135,7 +135,6 @@ class _CommitTimeQueue(object):
         while self._pq:
             _, commit = heapq.heappop(self._pq)
             sha = commit.id
-            assert isinstance(sha, Sha1Sum)
             self._pq_set.remove(sha)
             if sha in self._done:
                 continue

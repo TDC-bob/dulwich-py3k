@@ -331,7 +331,6 @@ class GitClient(object):
             whether there is extra graph data to read on proto
         """
 
-        assert isinstance(wants, list) and type(wants[0]) == Sha1Sum
         proto.write_pkt_line(b'want ' + wants[0].hex_bytes + b' ' +
                              b' '.join(capabilities) + b'\n')
         for want in wants[1:]:
@@ -339,7 +338,6 @@ class GitClient(object):
         proto.write_pkt_line(None)
         have = next(graph_walker)
         while have:
-            assert isinstance(have, Sha1Sum)
             proto.write_pkt_line(b'have ' + have.hex_bytes + b'\n')
             if can_read():
                 pkt = proto.read_pkt_line()

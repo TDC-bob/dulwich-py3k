@@ -344,10 +344,6 @@ class DictRefsContainer(RefsContainer):
     """
 
     def __init__(self, refs):
-        for key, val in refs.items():
-            assert isinstance(key, bytes)
-            assert isinstance(val, Sha1Sum) or isinstance(val, bytes)
-
         self._refs = refs
         self._peeled = {}
 
@@ -390,16 +386,10 @@ class DictRefsContainer(RefsContainer):
         """Update multiple refs; intended only for testing."""
         # TODO(dborowitz): replace this with a public function that uses
         # set_if_equal.
-        for key, val in refs.items():
-            assert isinstance(key, bytes)
-            assert isinstance(val, Sha1Sum) or isinstance(val, bytes)
         self._refs.update(refs)
 
     def _update_peeled(self, peeled):
         """Update cached peeled refs; intended only for testing."""
-        for key, val in peeled.items():
-            assert isinstance(key, bytes)
-            assert isinstance(val, Sha1Sum) or isinstance(val, bytes)
         self._peeled.update(peeled)
 
 
@@ -1006,7 +996,6 @@ class BaseRepo(object):
         if isinstance(name, Sha1Sum):
             return self.object_store[name]
         else:
-            assert isinstance(name, bytes)
             try:
                 return self.object_store[self.refs[name]]
             except RefFormatError:
@@ -1019,7 +1008,6 @@ class BaseRepo(object):
         if isinstance(name, Sha1Sum):
             return name in self.object_store or name in self.refs
         else:
-            assert isinstance(name, bytes)
             return name in self.refs
 
     def __setitem__(self, name, value):
@@ -1192,7 +1180,6 @@ class Repo(BaseRepo):
         from dulwich.index import cleanup_mode
         index = self.open_index()
         for path in paths:
-            assert isinstance(path, str)
             full_path = os.path.join(self.path, path)
             blob = Blob()
             try:

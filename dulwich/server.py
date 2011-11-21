@@ -674,10 +674,6 @@ class ReceivePackHandler(Handler):
             # objects. We trust a later GC to clean it up.
 
         for oldsha, sha, ref in refs:
-            assert isinstance(oldsha, Sha1Sum)
-            assert isinstance(sha, Sha1Sum)
-            assert isinstance(ref, bytes)
-
             ref_status = b'ok'
             try:
                 if sha == ZERO_SHA:

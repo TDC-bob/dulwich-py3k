@@ -1467,7 +1467,6 @@ class Commit(ShaFile):
             chunks.append(_ENCODING_HEADER.encode('utf-8') + b' ' + 
                           self.encoding.encode('utf-8') + b'\n')
         for k, v in self.extra:
-            assert isinstance(k, bytes) and isinstance(v, bytes)
             if b'\n' in k or b'\n' in v:
                 raise AssertionError("newline in extra data: %r -> %r" % (k, v))
             chunks.append(k + b' ' + v + b'\n')

@@ -312,7 +312,6 @@ def bisect_find_sha(start, end, sha, unpack_name):
     :return: Index of the SHA, or None if it wasn't found
     """
 
-    assert isinstance(sha, bytes)
     assert start <= end
     while start <= end:
         i = (start + end) // 2
@@ -576,12 +575,10 @@ class PackIndex1(FilePackIndex):
         return (name, offset, None)
 
     def _unpack_name(self, i):
-        assert isinstance(i, int)
         offset = (0x100 * 4) + (i * 24) + 4
         return self._contents[offset:offset+20]
 
     def _unpack_offset(self, i):
-        assert isinstance(i, int)
         offset = (0x100 * 4) + (i * 24)
         return unpack_from('>L', self._contents, offset)[0]
 
@@ -1171,8 +1168,7 @@ class PackData(object):
         """
         if offset in self._offset_cache:
             return self._offset_cache[offset]
-        assert isinstance(offset, int) or isinstance(offset, int),\
-                'offset was %r' % offset
+        assert isinstance(offset, int), 'offset was %r' % offset
         assert offset >= self._header_size
         self._file.seek(offset)
         unpacked, _ = unpack_object(self._file.read)
