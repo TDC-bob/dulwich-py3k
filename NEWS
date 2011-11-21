@@ -1,5 +1,9 @@
 0.8.2	UNRELEASED
 
+ FEATURES
+
+  * Dulwich ported to Python 3. (Chris Eberle)
+
  BUG FIXES
 
   * Cope with different zlib buffer sizes in sha1 file parser.
