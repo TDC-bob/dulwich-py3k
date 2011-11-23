@@ -41,6 +41,7 @@ from dulwich.objects import (
 )
 from wsgiref.simple_server import (
     WSGIRequestHandler,
+    ServerHandler,
     make_server,
 )
 
@@ -123,17 +124,13 @@ def get_text_file(req, backend, mat):
     req.nocache()
     path = _url_to_path(mat.group())
     logger.info('Sending plain text file %s', path)
-    return send_file(req, get_repo(backend, mat).get_named_file(path),
-                     'text/plain')
+    f = get_repo(backend, mat).get_named_file(path)
+    if f is None:
+        raise NoSuchFileException(b'File not found')
+    return send_file(req, f, 'text/plain')
 
 
-def get_loose_object(req, backend, mat):
-    sha = Sha1Sum(mat.group(1) + mat.group(2))
-    logger.info('Sending loose object %s', sha)
-    object_store = get_repo(backend, mat).object_store
-    if not object_store.contains_loose(sha):
-        yield req.not_found(b'Object not found')
-        return
+def send_loose_object(req, object_store, sha):
     try:
         data = object_store[sha].as_legacy_object()
     except IOError:
@@ -144,20 +141,33 @@ def get_loose_object(req, backend, mat):
     yield data
 
 
+def get_loose_object(req, backend, mat):
+    sha = Sha1Sum(mat.group(1) + mat.group(2))
+    logger.info('Sending loose object %s', sha)
+    object_store = get_repo(backend, mat).object_store
+    if not object_store.contains_loose(sha):
+        raise NoSuchFileException(b'Object not found')
+    return send_loose_object(req, object_store, sha)
+
+
 def get_pack_file(req, backend, mat):
     req.cache_forever()
     path = _url_to_path(mat.group())
     logger.info('Sending pack file %s', path)
-    return send_file(req, get_repo(backend, mat).get_named_file(path),
-                     'application/x-git-packed-objects')
+    f = get_repo(backend, mat).get_named_file(path)
+    if f is None:
+        raise NoSuchFileException(b'File not found')
+    return send_file(req, f, 'application/x-git-packed-objects')
 
 
 def get_idx_file(req, backend, mat):
     req.cache_forever()
     path = _url_to_path(mat.group())
     logger.info('Sending pack file %s', path)
-    return send_file(req, get_repo(backend, mat).get_named_file(path),
-                     'application/x-git-packed-objects-toc')
+    f = get_repo(backend, mat).get_named_file(path)
+    if f is None:
+        raise NoSuchFileException(b'File not found')
+    return send_file(req, f, 'application/x-git-packed-objects-toc')
 
 
 def get_info_refs(req, backend, mat):
@@ -369,8 +379,31 @@ class HTTPGitApplication(object):
                 break
         if handler is None:
             return req.not_found(b'Sorry, that method is not supported')
-        return handler(req, self.backend, mat)
+        try:
+            return handler(req, self.backend, mat)
+        except NoSuchFileException as e:
+            file_wrapper = environ.get('wsgi.file_wrapper', None)
+            set_sendfile = environ.get('wsgi.set_sendfile', None)
+            if file_wrapper and set_sendfile:
+                req.not_found(None)
+                set_sendfile(True)
+                return file_wrapper(BytesIO())
+            else:
+                return (req.not_found(e.message))
 
+class HTTPGitServerHandler(ServerHandler):
+    def __init__(self, stdin, stdout, stderr, environ):
+        ServerHandler.__init__(self, stdin, stdout, stderr, environ)
+        self._sendfile = False
+
+    def sendfile(self):
+        return self._sendfile
+
+    def setup_environ(self):
+        ServerHandler.setup_environ(self)
+        def set_sendfile(val):
+            self._sendfile = val
+        self.environ['wsgi.set_sendfile'] = set_sendfile
 
 class HTTPGitRequestHandler(WSGIRequestHandler):
     """Handler that uses dulwich's logger for logging exceptions."""
@@ -384,6 +417,25 @@ class HTTPGitRequestHandler(WSGIRequestHandler):
 
     def log_error(self, *args):
         logger.error(*args)
+
+    # Copied verbatim from handlers.py, changed ServerHandler to HTTPGitServerHandler
+    def handle(self):
+        """Handle a single HTTP request"""
+
+        self.raw_requestline = self.rfile.readline()
+        if not self.parse_request(): # An error code has been sent, just exit
+            return
+
+        handler = HTTPGitServerHandler(
+            self.rfile, self.wfile, self.get_stderr(), self.get_environ()
+        )
+        handler.request_handler = self      # backpointer for logging
+        handler.run(self.server.get_app())
+
+class NoSuchFileException(Exception):
+    def __init__(self, message):
+        Exception.__init__(self)
+        self.message = message
 
 
 def main(argv=sys.argv):
