@@ -30,7 +30,7 @@ try:
     if rst2pdf.version >= '0.16':
         extensions.append('rst2pdf.pdfbuilder')
 except ImportError:
-    print "[NOTE] In order to build PDF you need rst2pdf with version >=0.16"
+    print("[NOTE] In order to build PDF you need rst2pdf with version >=0.16")
 
 
 autoclass_content = "both"
@@ -48,8 +48,8 @@ source_suffix = '.txt'
 master_doc = 'index'
 
 # General information about the project.
-project = u'dulwich'
-copyright = u'2011, Jelmer Vernooij'
+project = 'dulwich'
+copyright = '2011, Jelmer Vernooij'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -184,8 +184,8 @@ htmlhelp_basename = 'dulwichdoc'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'dulwich.tex', u'dulwich Documentation',
-   u'Jelmer Vernooij', 'manual'),
+  ('index', 'dulwich.tex', 'dulwich Documentation',
+   'Jelmer Vernooij', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -206,8 +206,8 @@ latex_documents = [
 #latex_use_modindex = True
 
 pdf_documents = [
-    ('index', u'dulwich', u'Documentation for dulwich',
-        u'Jelmer Vernooij'),
+    ('index', 'dulwich', 'Documentation for dulwich',
+        'Jelmer Vernooij'),
 ]
 pdf_stylesheets = ['sphinx','kerning','a4']
 pdf_break_level = 2
