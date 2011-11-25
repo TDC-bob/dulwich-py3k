@@ -1,0 +1,138 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The Repository &mdash; dulwich 0.8.2 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.8.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="dulwich 0.8.2 documentation" href="../../" />
+    <link rel="up" title="Tutorial" href="../" />
+    <link rel="next" title="The object store" href="" />
+    <link rel="prev" title="Introduction" href="" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex/" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="#" title="The object store"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="#" title="Introduction"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../">dulwich 0.8.2 documentation</a> &raquo;</li>
+          <li><a href="../" accesskey="U">Tutorial</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="the-repository">
+<span id="tutorial-repo"></span><h1>The Repository<a class="headerlink" href="#the-repository" title="Permalink to this headline">¶</a></h1>
+<p>After this introduction, let&#8217;s start directly with code:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">dulwich.repo</span> <span class="kn">import</span> <span class="n">Repo</span>
+</pre></div>
+</div>
+<p>The access to a repository is through the Repo object. You can open an
+existing repository or you can create a new one. There are two types of Git
+repositories:</p>
+<blockquote>
+<div><p>Regular Repositories &#8211; They are the ones you create using <tt class="docutils literal"><span class="pre">git</span> <span class="pre">init</span></tt> and
+you daily use. They contain a <tt class="docutils literal"><span class="pre">.git</span></tt> folder.</p>
+<p>Bare Repositories &#8211; There is not &#8221;.git&#8221; folder. The top-level folder
+contains itself the &#8220;branches&#8221;, &#8220;hooks&#8221;... folders. These are used for
+published repositories (mirrors). They do not have a working tree.</p>
+</div></blockquote>
+<p>Let&#8217;s create a folder and turn it into a repository, like <tt class="docutils literal"><span class="pre">git</span> <span class="pre">init</span></tt> would:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">mkdir</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mkdir</span><span class="p">(</span><span class="s">&quot;myrepo&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">repo</span> <span class="o">=</span> <span class="n">Repo</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="s">&quot;myrepo&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">repo</span>
+<span class="go">&lt;Repo at &#39;myrepo&#39;&gt;</span>
+</pre></div>
+</div>
+<p>You can already look a the structure of the &#8220;myrepo/.git&#8221; folder, though it
+is mostly empty for now.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href=""
+                        title="previous chapter">Introduction</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href=""
+                        title="next chapter">The object store</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../_sources/tutorial/repo.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search/" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex/" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="#" title="The object store"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="#" title="Introduction"
+             >previous</a> |</li>
+        <li><a href="../../">dulwich 0.8.2 documentation</a> &raquo;</li>
+          <li><a href="../" >Tutorial</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Jelmer Vernooij.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2pre.
+    </div>
+  </body>
+</html>

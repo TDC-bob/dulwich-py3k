@@ -1,0 +1,174 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Git Server Protocol &mdash; dulwich 0.8.2 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.8.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="dulwich 0.8.2 documentation" href="../" />
+    <link rel="next" title="Tutorial" href="../tutorial/" />
+    <link rel="prev" title="Possible areas for improvement" href="../performance/" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex/" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../tutorial/" title="Tutorial"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../performance/" title="Possible areas for improvement"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../">dulwich 0.8.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="git-server-protocol">
+<span id="protocol"></span><h1>Git Server Protocol<a class="headerlink" href="#git-server-protocol" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="transport">
+<h2>Transport<a class="headerlink" href="#transport" title="Permalink to this headline">¶</a></h2>
+<p>The Git protocol operates over pipes or TCP/IP. When a client connects over
+TCP/IP, it sends a header that tells the server which program to run and what
+parameters to use. When invoked over SSH, git will run a program with the
+parameters as command line arguments.</p>
+</div>
+<div class="section" id="protocols">
+<h2>Protocols<a class="headerlink" href="#protocols" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="basics">
+<h3>Basics<a class="headerlink" href="#basics" title="Permalink to this headline">¶</a></h3>
+<p>Git communicates with a server by piping data between a local program and a
+remote program.</p>
+<p>A common way of sending a unit of information is a pkt_line. This is a 4 byte
+size as human encoded hex (i.e. totally underusing the 4 bytes...) that tells
+you the size of the payload, followed by the payload. The size includes the 4
+byes used by the size itself.</p>
+<blockquote>
+<div>0009ABCDn</div></blockquote>
+<p>Git can also multiplex data using the sideband. As well as 4 bytes size, there
+would be a 1 byte channel number. This is in binary, so <tt class="docutils literal"><span class="pre">1</span></tt> will be <tt class="docutils literal"><span class="pre">\x01</span></tt>.</p>
+<p>Typically Git will piggyback a list of capabilities on the first pkt_line it
+sends. It will also look for capabilities in the first pkt_like it receives.
+Git will degrade as much as possible when encountering a server or client with
+differing capabilities.</p>
+</div>
+<div class="section" id="git-upload-pack">
+<h3>git-upload-pack<a class="headerlink" href="#git-upload-pack" title="Permalink to this headline">¶</a></h3>
+<p>git-upload pack is used by git-ls-remote, git-clone, git-fetch and git-pull.
+And i&#8217;m sure others. Typically a client will connect a local git-fetch-pack to
+a remote git-upload-pack.</p>
+<p>Capabilities for this protocol include multi_ack, thin-pack, ofs-delta,
+sideband and sideband-64k A thin pack can reference objects not in the current
+pack.</p>
+<p>The server tells the client what refs it has. The client states which of those
+SHA1&#8217;s it would like. It then starts to report which SHA1&#8217;s it has. The server
+ACKs these allowing the client to work out when to stop sending SHA1&#8217;s. This
+saves a lot of transfer because the client can make decisions like &#8220;well if it
+has this SHA, then it has all its parents so i dont need to care about those&#8221;.
+When the client stops sending shas, the server can work out an optimal pack and
+then send it to the client.</p>
+</div>
+<div class="section" id="git-receive-pack">
+<h3>git-receive-pack<a class="headerlink" href="#git-receive-pack" title="Permalink to this headline">¶</a></h3>
+<p>git-receive-pack is used by git push. Typically a client connects a local
+git-send-pack to a remote git-receive-pack.</p>
+<p>Capabilities include report-status and delete-ref.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Git Server Protocol</a><ul>
+<li><a class="reference internal" href="#transport">Transport</a></li>
+<li><a class="reference internal" href="#protocols">Protocols</a><ul>
+<li><a class="reference internal" href="#basics">Basics</a></li>
+<li><a class="reference internal" href="#git-upload-pack">git-upload-pack</a></li>
+<li><a class="reference internal" href="#git-receive-pack">git-receive-pack</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../performance/"
+                        title="previous chapter">Possible areas for improvement</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../tutorial/"
+                        title="next chapter">Tutorial</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/protocol.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search/" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex/" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../tutorial/" title="Tutorial"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../performance/" title="Possible areas for improvement"
+             >previous</a> |</li>
+        <li><a href="../">dulwich 0.8.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Jelmer Vernooij.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2pre.
+    </div>
+  </body>
+</html>

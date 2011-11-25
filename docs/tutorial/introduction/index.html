@@ -1,0 +1,204 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Introduction &mdash; dulwich 0.8.2 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.8.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="dulwich 0.8.2 documentation" href="../../" />
+    <link rel="up" title="Tutorial" href="../" />
+    <link rel="next" title="The Repository" href="" />
+    <link rel="prev" title="Tutorial" href="../" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex/" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="#" title="The Repository"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../" title="Tutorial"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../">dulwich 0.8.2 documentation</a> &raquo;</li>
+          <li><a href="../" accesskey="U">Tutorial</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="introduction">
+<span id="tutorial-introduction"></span><h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="git-repository-format">
+<h2>Git repository format<a class="headerlink" href="#git-repository-format" title="Permalink to this headline">¶</a></h2>
+<p>For a better understanding of Dulwich, we&#8217;ll start by explaining most of the
+Git secrets.</p>
+<p>Open the &#8221;.git&#8221; folder of any Git-managed repository. You&#8217;ll find folders
+like &#8220;branches&#8221;, &#8220;hooks&#8221;... We&#8217;re only interested in &#8220;objects&#8221; here. Open it.</p>
+<p>You&#8217;ll mostly see 2 hex-digits folders. Git identifies content by its SHA-1
+digest. The 2 hex-digits plus the 38 hex-digits of files inside these folders
+form the 40 characters (or 20 bytes) id of Git objects you&#8217;ll manage in
+Dulwich.</p>
+<p>We&#8217;ll first study the three main objects:</p>
+<ul class="simple">
+<li>The Commit;</li>
+<li>The Tree;</li>
+<li>The Blob.</li>
+</ul>
+</div>
+<div class="section" id="the-commit">
+<h2>The Commit<a class="headerlink" href="#the-commit" title="Permalink to this headline">¶</a></h2>
+<p>You&#8217;re used to generate commits using Git. You have set up your name and
+e-mail, and you know how to see the history using <tt class="docutils literal"><span class="pre">git</span> <span class="pre">log</span></tt>.</p>
+<p>A commit file looks like this:</p>
+<div class="highlight-python"><pre>commit &lt;content length&gt;&lt;NUL&gt;tree &lt;tree sha&gt;
+parent &lt;parent sha&gt;
+[parent &lt;parent sha&gt; if several parents from merges]
+author &lt;author name&gt; &lt;author e-mail&gt; &lt;timestamp&gt; &lt;timezone&gt;
+committer &lt;author name&gt; &lt;author e-mail&gt; &lt;timestamp&gt; &lt;timezone&gt;
+
+&lt;commit message&gt;</pre>
+</div>
+<p>But where are the changes you commited? The commit contains a reference to a
+tree.</p>
+</div>
+<div class="section" id="the-tree">
+<h2>The Tree<a class="headerlink" href="#the-tree" title="Permalink to this headline">¶</a></h2>
+<p>A tree is a collection of file information, the state of a single directory at
+a given point in time.</p>
+<p>A tree file looks like this:</p>
+<div class="highlight-python"><pre>tree &lt;content length&gt;&lt;NUL&gt;&lt;file mode&gt; &lt;filename&gt;&lt;NUL&gt;&lt;item sha&gt;...</pre>
+</div>
+<p>And repeats for every file in the tree.</p>
+<p>Note that the SHA-1 digest is in binary form here.</p>
+<p>The file mode is like the octal argument you could give to the <tt class="docutils literal"><span class="pre">chmod</span></tt>
+command.  Except it is in extended form to tell regular files from
+directories and other types.</p>
+<p>We now know how our files are referenced but we haven&#8217;t found their actual
+content yet. That&#8217;s where the reference to a blob comes in.</p>
+</div>
+<div class="section" id="the-blob">
+<h2>The Blob<a class="headerlink" href="#the-blob" title="Permalink to this headline">¶</a></h2>
+<p>A blob is simply the content of files you are versionning.</p>
+<p>A blob file looks like this:</p>
+<div class="highlight-python"><pre>blob &lt;content length&gt;&lt;NUL&gt;&lt;content&gt;</pre>
+</div>
+<p>If you change a single line, another blob will be generated by Git at commit
+time. This is how Git can fastly checkout any version in time.</p>
+<p>On the opposite, several identical files with different filenames generate
+only one blob. That&#8217;s mostly how renames are so cheap and efficient in Git.</p>
+</div>
+<div class="section" id="dulwich-objects">
+<h2>Dulwich Objects<a class="headerlink" href="#dulwich-objects" title="Permalink to this headline">¶</a></h2>
+<p>Dulwich implements these three objects with an API to easily access the
+information you need, while abstracting some more secrets Git is using to
+accelerate operations and reduce space.</p>
+</div>
+<div class="section" id="more-about-git-formats">
+<h2>More About Git formats<a class="headerlink" href="#more-about-git-formats" title="Permalink to this headline">¶</a></h2>
+<p>These three objects make up most of the contents of a Git repository and are
+used for the history. They can either appear as simple files on disk (one file
+per object) or in a <tt class="docutils literal"><span class="pre">pack</span></tt> file, which is a container for a number of these
+objects.</p>
+<p>The is also an index of the current state of the working copy in the
+repository as well as files to track the existing branches and tags.</p>
+<p>For a more detailed explanation of object formats and SHA-1 digests, see:
+<a class="reference external" href="http://www-cs-students.stanford.edu/~blynn/gitmagic/ch08.html">http://www-cs-students.stanford.edu/~blynn/gitmagic/ch08.html</a></p>
+<p>Just note that recent versions of Git compress object files using zlib.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Introduction</a><ul>
+<li><a class="reference internal" href="#git-repository-format">Git repository format</a></li>
+<li><a class="reference internal" href="#the-commit">The Commit</a></li>
+<li><a class="reference internal" href="#the-tree">The Tree</a></li>
+<li><a class="reference internal" href="#the-blob">The Blob</a></li>
+<li><a class="reference internal" href="#dulwich-objects">Dulwich Objects</a></li>
+<li><a class="reference internal" href="#more-about-git-formats">More About Git formats</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../"
+                        title="previous chapter">Tutorial</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href=""
+                        title="next chapter">The Repository</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../_sources/tutorial/introduction.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search/" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex/" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="#" title="The Repository"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../" title="Tutorial"
+             >previous</a> |</li>
+        <li><a href="../../">dulwich 0.8.2 documentation</a> &raquo;</li>
+          <li><a href="../" >Tutorial</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Jelmer Vernooij.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2pre.
+    </div>
+  </body>
+</html>

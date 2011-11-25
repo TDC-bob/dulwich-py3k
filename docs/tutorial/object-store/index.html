@@ -1,0 +1,292 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The object store &mdash; dulwich 0.8.2 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.8.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="dulwich 0.8.2 documentation" href="../../" />
+    <link rel="up" title="Tutorial" href="../" />
+    <link rel="next" title="Conclusion" href="" />
+    <link rel="prev" title="The Repository" href="" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex/" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="#" title="Conclusion"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="#" title="The Repository"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../">dulwich 0.8.2 documentation</a> &raquo;</li>
+          <li><a href="../" accesskey="U">Tutorial</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="the-object-store">
+<span id="tutorial-object-store"></span><h1>The object store<a class="headerlink" href="#the-object-store" title="Permalink to this headline">¶</a></h1>
+<p>The objects are stored in the <tt class="docutils literal"><span class="pre">object</span> <span class="pre">store</span></tt> of the repository.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">dulwich.repo</span> <span class="kn">import</span> <span class="n">Repo</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">repo</span> <span class="o">=</span> <span class="n">Repo</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="s">&quot;myrepo&quot;</span><span class="p">,</span> <span class="n">mkdir</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="section" id="initial-commit">
+<h2>Initial commit<a class="headerlink" href="#initial-commit" title="Permalink to this headline">¶</a></h2>
+<p>When you use Git, you generally add or modify content. As our repository is
+empty for now, we&#8217;ll start by adding a new file:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">dulwich.objects</span> <span class="kn">import</span> <span class="n">Blob</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">blob</span> <span class="o">=</span> <span class="n">Blob</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="n">b</span><span class="s">&quot;My file content</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">blob</span><span class="o">.</span><span class="n">id</span>
+<span class="go">Sha1Sum(&#39;c55063a4d5d37aa1af2b2dad3a70aa34dae54dc6&#39;)</span>
+</pre></div>
+</div>
+<p>Of course you could create a blob from an existing file using <tt class="docutils literal"><span class="pre">from_file</span></tt>
+instead.</p>
+<p>As said in the introduction, file content is separed from file name. Let&#8217;s
+give this content a name:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">dulwich.objects</span> <span class="kn">import</span> <span class="n">Tree</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tree</span> <span class="o">=</span> <span class="n">Tree</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tree</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">b</span><span class="s">&quot;spam&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="n">o100644</span><span class="p">,</span> <span class="n">blob</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note that &#8220;0o100644&#8221; is the octal form for a regular file with common
+permissions. You can hardcode them or you can use the <tt class="docutils literal"><span class="pre">stat</span></tt> module.</p>
+<p>The tree state of our repository still needs to be placed in time. That&#8217;s the
+job of the commit:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">dulwich.objects</span> <span class="kn">import</span> <span class="n">Commit</span><span class="p">,</span> <span class="n">parse_timezone</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">commit</span> <span class="o">=</span> <span class="n">Commit</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">commit</span><span class="o">.</span><span class="n">tree</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">id</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">author</span> <span class="o">=</span> <span class="s">&quot;Your Name &lt;your.email@example.com&gt;&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">commit</span><span class="o">.</span><span class="n">author</span> <span class="o">=</span> <span class="n">commit</span><span class="o">.</span><span class="n">committer</span> <span class="o">=</span> <span class="n">author</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">commit</span><span class="o">.</span><span class="n">commit_time</span> <span class="o">=</span> <span class="n">commit</span><span class="o">.</span><span class="n">author_time</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tz</span> <span class="o">=</span> <span class="n">parse_timezone</span><span class="p">(</span><span class="s">&#39;-0200&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">commit</span><span class="o">.</span><span class="n">commit_timezone</span> <span class="o">=</span> <span class="n">commit</span><span class="o">.</span><span class="n">author_timezone</span> <span class="o">=</span> <span class="n">tz</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">commit</span><span class="o">.</span><span class="n">encoding</span> <span class="o">=</span> <span class="s">&quot;UTF-8&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">commit</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="s">&quot;Initial commit&quot;</span>
+</pre></div>
+</div>
+<p>Note that the initial commit has no parents.</p>
+<p>At this point, the repository is still empty because all operations happen in
+memory. Let&#8217;s &#8220;commit&#8221; it.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">object_store</span> <span class="o">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">object_store</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">object_store</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">blob</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now the &#8221;.git/objects&#8221; folder contains a first SHA-1 file. Let&#8217;s continue
+saving the changes:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">object_store</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">object_store</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">commit</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now the physical repository contains three objects but still has no branch.
+Let&#8217;s create the master branch like Git would:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">repo</span><span class="o">.</span><span class="n">refs</span><span class="p">[</span><span class="n">b</span><span class="s">&#39;refs/heads/master&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">commit</span><span class="o">.</span><span class="n">id</span>
+</pre></div>
+</div>
+<p>The master branch now has a commit where to start. When we commit to master, we
+are also moving HEAD, which is Git&#8217;s currently checked out branch:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">head</span> <span class="o">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">refs</span><span class="p">[</span><span class="n">b</span><span class="s">&#39;HEAD&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">head</span> <span class="o">==</span> <span class="n">commit</span><span class="o">.</span><span class="n">id</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">head</span> <span class="o">==</span> <span class="n">repo</span><span class="o">.</span><span class="n">refs</span><span class="p">[</span><span class="n">b</span><span class="s">&#39;refs/heads/master&#39;</span><span class="p">]</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p>How did that work? As it turns out, HEAD is a special kind of ref called a
+symbolic ref, and it points at master. Most functions on the refs container
+work transparently with symbolic refs, but we can also take a peek inside HEAD:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">repo</span><span class="o">.</span><span class="n">refs</span><span class="o">.</span><span class="n">read_ref</span><span class="p">(</span><span class="n">b</span><span class="s">&#39;HEAD&#39;</span><span class="p">)</span>
+<span class="go">b&#39;ref: refs/heads/master&#39;</span>
+</pre></div>
+</div>
+<p>Normally, you won&#8217;t need to use read_ref. If you want to change what ref HEAD
+points to, in order to check out another branch, just use set_symbolic_ref.</p>
+<p>Now our repository is officially tracking a branch named &#8220;master&#8221; referring to a
+single commit.</p>
+</div>
+<div class="section" id="playing-again-with-git">
+<h2>Playing again with Git<a class="headerlink" href="#playing-again-with-git" title="Permalink to this headline">¶</a></h2>
+<p>At this point you can come back to the shell, go into the &#8220;myrepo&#8221; folder and
+type <tt class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></tt> to let Git confirm that this is a regular repository on
+branch &#8220;master&#8221;.</p>
+<p>Git will tell you that the file &#8220;spam&#8221; is deleted, which is normal because
+Git is comparing the repository state with the current working copy. And we
+have absolutely no working copy using Dulwich because we don&#8217;t need it at
+all!</p>
+<p>You can checkout the last state using <tt class="docutils literal"><span class="pre">git</span> <span class="pre">checkout</span> <span class="pre">-f</span></tt>. The force flag
+will prevent Git from complaining that there are uncommitted changes in the
+working copy.</p>
+<p>The file <tt class="docutils literal"><span class="pre">spam</span></tt> appears and with no surprise contains the same bytes as the
+blob:</p>
+<div class="highlight-python"><pre>$ cat spam
+My file content</pre>
+</div>
+</div>
+<div class="section" id="changing-a-file-and-committing-it">
+<h2>Changing a File and Committing it<a class="headerlink" href="#changing-a-file-and-committing-it" title="Permalink to this headline">¶</a></h2>
+<p>Now we have a first commit, the next one will show a difference.</p>
+<p>As seen in the introduction, it&#8217;s about making a path in a tree point to a
+new blob. The old blob will remain to compute the diff. The tree is altered
+and the new commit&#8217;task is to point to this new version.</p>
+<p>Let&#8217;s first build the blob:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">dulwich.objects</span> <span class="kn">import</span> <span class="n">Blob</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">spam</span> <span class="o">=</span> <span class="n">Blob</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="n">b</span><span class="s">&quot;My new file content</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">spam</span><span class="o">.</span><span class="n">id</span>
+<span class="go">Sha1Sum(&#39;16ee2682887a962f854ebd25a61db16ef4efe49f&#39;)</span>
+</pre></div>
+</div>
+<p>An alternative is to alter the previously constructed blob object:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">blob</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">b</span><span class="s">&quot;My new file content</span><span class="se">\n</span><span class="s">&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">blob</span><span class="o">.</span><span class="n">id</span>
+<span class="go">Sha1Sum(&#39;16ee2682887a962f854ebd25a61db16ef4efe49f&#39;)</span>
+</pre></div>
+</div>
+<p>In any case, update the blob id known as &#8220;spam&#8221;. You also have the
+opportunity of changing its mode:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">tree</span><span class="p">[</span><span class="n">b</span><span class="s">&quot;spam&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="n">o100644</span><span class="p">,</span> <span class="n">spam</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now let&#8217;s record the change:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">dulwich.objects</span> <span class="kn">import</span> <span class="n">Commit</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c2</span> <span class="o">=</span> <span class="n">Commit</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c2</span><span class="o">.</span><span class="n">tree</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">id</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c2</span><span class="o">.</span><span class="n">parents</span> <span class="o">=</span> <span class="p">[</span><span class="n">commit</span><span class="o">.</span><span class="n">id</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c2</span><span class="o">.</span><span class="n">author</span> <span class="o">=</span> <span class="n">c2</span><span class="o">.</span><span class="n">committer</span> <span class="o">=</span> <span class="s">&quot;John Doe &lt;john@example.com&gt;&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c2</span><span class="o">.</span><span class="n">commit_time</span> <span class="o">=</span> <span class="n">c2</span><span class="o">.</span><span class="n">author_time</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c2</span><span class="o">.</span><span class="n">commit_timezone</span> <span class="o">=</span> <span class="n">c2</span><span class="o">.</span><span class="n">author_timezone</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c2</span><span class="o">.</span><span class="n">encoding</span> <span class="o">=</span> <span class="s">&quot;UTF-8&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c2</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="s">&#39;Changing &quot;spam&quot;&#39;</span>
+</pre></div>
+</div>
+<p>In this new commit we record the changed tree id, and most important, the
+previous commit as the parent. Parents are actually a list because a commit
+may happen to have several parents after merging branches.</p>
+<p>Let&#8217;s put the objects in the object store:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">repo</span><span class="o">.</span><span class="n">object_store</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">spam</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">repo</span><span class="o">.</span><span class="n">object_store</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">repo</span><span class="o">.</span><span class="n">object_store</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">c2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can already ask git to introspect this commit using <tt class="docutils literal"><span class="pre">git</span> <span class="pre">show</span></tt> and the
+value of <tt class="docutils literal"><span class="pre">c2.id</span></tt> as an argument. You&#8217;ll see the difference will the
+previous blob recorded as &#8220;spam&#8221;.</p>
+<p>The diff between the previous head and the new one can be printed using
+write_tree_diff:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">dulwich.patch</span> <span class="kn">import</span> <span class="n">write_tree_diff</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">write_tree_diff</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">,</span> <span class="n">repo</span><span class="o">.</span><span class="n">object_store</span><span class="p">,</span> <span class="n">commit</span><span class="o">.</span><span class="n">tree</span><span class="p">,</span> <span class="n">tree</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+<span class="go">diff --git a/spam b/spam</span>
+<span class="go">index c55063a..16ee268 100644</span>
+<span class="go">--- a/spam</span>
+<span class="go">+++ b/spam</span>
+<span class="go">@@ -1,1 +1,1 @@</span>
+<span class="go">-My file content</span>
+<span class="go">+My new file content</span>
+</pre></div>
+</div>
+<p>You won&#8217;t see it using git log because the head is still the previous
+commit. It&#8217;s easy to remedy:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">repo</span><span class="o">.</span><span class="n">refs</span><span class="p">[</span><span class="n">b</span><span class="s">&#39;refs/heads/master&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">c2</span><span class="o">.</span><span class="n">id</span>
+</pre></div>
+</div>
+<p>Now all git tools will work as expected.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">The object store</a><ul>
+<li><a class="reference internal" href="#initial-commit">Initial commit</a></li>
+<li><a class="reference internal" href="#playing-again-with-git">Playing again with Git</a></li>
+<li><a class="reference internal" href="#changing-a-file-and-committing-it">Changing a File and Committing it</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href=""
+                        title="previous chapter">The Repository</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href=""
+                        title="next chapter">Conclusion</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../_sources/tutorial/object-store.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search/" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex/" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="#" title="Conclusion"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="#" title="The Repository"
+             >previous</a> |</li>
+        <li><a href="../../">dulwich 0.8.2 documentation</a> &raquo;</li>
+          <li><a href="../" >Tutorial</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Jelmer Vernooij.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2pre.
+    </div>
+  </body>
+</html>
