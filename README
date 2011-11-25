@@ -12,6 +12,10 @@ Please file bugs in the Dulwich project on Launchpad:
 
 https://bugs.launchpad.net/dulwich/+filebug
 
+Basic documentation and tutorials can be found on Github:
+
+http://eberle1080.github.com/dulwich-py3k/docs/index.html
+
 Full API documentation can be found on Github:
 
-http://eberle1080.github.com/dulwich-py3k/index.html
+http://eberle1080.github.com/dulwich-py3k/apidocs/index.html
