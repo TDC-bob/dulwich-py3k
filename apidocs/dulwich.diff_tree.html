@@ -19,7 +19,7 @@
     <div>
       
     </div>
-    <div>Utilities for diffing files and trees.<table class="fieldTable"></table></div>
+    <pre>Utilities for diffing files and trees.</pre>
 
     
     
@@ -32,31 +32,31 @@
     
     <td>Class</td>
     <td><a href="dulwich.diff_tree.TreeChange.html">TreeChange</a></td>
-    <td><span>Named tuple a single change between two trees.</span></td>
+    <td><tt>Named tuple a single change between two trees.</tt></td>
   </tr><tr class="function">
     
     
     <td>Function</td>
     <td><a href="dulwich.diff_tree.html#walk_trees">walk_trees</a></td>
-    <td><span>Recursively walk all the entries of two trees.</span></td>
+    <td><tt>Recursively walk all the entries of two trees.</tt></td>
   </tr><tr class="function">
     
     
     <td>Function</td>
     <td><a href="dulwich.diff_tree.html#tree_changes">tree_changes</a></td>
-    <td><span>Find the differences between the contents of two trees.</span></td>
+    <td><tt>Find the differences between the contents of two trees.</tt></td>
   </tr><tr class="function">
     
     
     <td>Function</td>
     <td><a href="dulwich.diff_tree.html#tree_changes_for_merge">tree_changes_for_merge</a></td>
-    <td><span>Get the tree changes for a merge tree relative to all its parents.</span></td>
+    <td><tt>Get the tree changes for a merge tree relative to all its parents.</tt></td>
   </tr><tr class="class">
     
     
     <td>Class</td>
     <td><a href="dulwich.diff_tree.RenameDetector.html">RenameDetector</a></td>
-    <td><span>Object for handling rename detection between two trees.</span></td>
+    <td><tt>Object for handling rename detection between two trees.</tt></td>
   </tr><tr class="function private">
     
     
@@ -68,7 +68,7 @@
     
     <td>Function</td>
     <td><a href="dulwich.diff_tree.html#_merge_entries">_merge_entries</a></td>
-    <td><span>Merge the entries of two trees.</span></td>
+    <td><tt>Merge the entries of two trees.</tt></td>
   </tr><tr class="function private">
     
     
@@ -98,19 +98,19 @@
     
     <td>Function</td>
     <td><a href="dulwich.diff_tree.html#_count_blocks">_count_blocks</a></td>
-    <td><span>Count the blocks in an object.</span></td>
+    <td><tt>Count the blocks in an object.</tt></td>
   </tr><tr class="function private">
     
     
     <td>Function</td>
     <td><a href="dulwich.diff_tree.html#_common_bytes">_common_bytes</a></td>
-    <td><span>Count the number of common bytes in two block count dicts.</span></td>
+    <td><tt>Count the number of common bytes in two block count dicts.</tt></td>
   </tr><tr class="function private">
     
     
     <td>Function</td>
     <td><a href="dulwich.diff_tree.html#_similarity_score">_similarity_score</a></td>
-    <td><span>Compute a similarity score for two objects.</span></td>
+    <td><tt>Compute a similarity score for two objects.</tt></td>
   </tr><tr class="function private">
     
     
@@ -159,10 +159,15 @@
   </div>
   <div class="functionBody">
     
-    <div>Merge the entries of two trees.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">path</td><td>A path to prepend to all tree entry names.</td></tr><tr><td></td><td class="fieldArg">tree1</td><td>The first Tree object to iterate, or None.</td></tr><tr><td></td><td class="fieldArg">tree2</td><td>The second Tree object to iterate, or None.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">A list of pairs of TreeEntry objects for each pair of entries in
-the trees. If an entry exists in one tree but not the other, the other
-entry will have all attributes set to None. If neither entry's path is
-None, they are guaranteed to match.</td></tr></table></div>
+    <pre>Merge the entries of two trees.
+
+:param path: A path to prepend to all tree entry names.
+:param tree1: The first Tree object to iterate, or None.
+:param tree2: The second Tree object to iterate, or None.
+:return: A list of pairs of TreeEntry objects for each pair of entries in
+    the trees. If an entry exists in one tree but not the other, the other
+    entry will have all attributes set to None. If neither entry's path is
+    None, they are guaranteed to match.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.diff_tree._is_tree">
@@ -196,12 +201,19 @@ None, they are guaranteed to match.</td></tr></table></div>
   </div>
   <div class="functionBody">
     
-    <div>Recursively walk all the entries of two trees.</p>
-<p>Iteration is depth-first pre-order, as in e.g. os.walk.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">store</td><td>An ObjectStore for looking up objects.</td></tr><tr><td></td><td class="fieldArg">tree1_id</td><td>The SHA of the first Tree object to iterate, or None.</td></tr><tr><td></td><td class="fieldArg">tree2_id</td><td>The SHA of the second Tree object to iterate, or None.</td></tr><tr><td></td><td class="fieldArg">prune_identical</td><td>If True, identical subtrees will not be walked.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">Iterator over Pairs of TreeEntry objects for each pair of entries
-in the trees and their subtrees recursively. If an entry exists in one
-tree but not the other, the other entry will have all attributes set
-to None. If neither entry's path is None, they are guaranteed to
-match.</td></tr></table></div>
+    <pre>Recursively walk all the entries of two trees.
+
+Iteration is depth-first pre-order, as in e.g. os.walk.
+
+:param store: An ObjectStore for looking up objects.
+:param tree1_id: The SHA of the first Tree object to iterate, or None.
+:param tree2_id: The SHA of the second Tree object to iterate, or None.
+:param prune_identical: If True, identical subtrees will not be walked.
+:return: Iterator over Pairs of TreeEntry objects for each pair of entries
+    in the trees and their subtrees recursively. If an entry exists in one
+    tree but not the other, the other entry will have all attributes set
+    to None. If neither entry's path is None, they are guaranteed to
+    match.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.diff_tree._skip_tree">
@@ -235,9 +247,16 @@ match.</td></tr></table></div>
   </div>
   <div class="functionBody">
     
-    <div>Find the differences between the contents of two trees.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">store</td><td>An ObjectStore for looking up objects.</td></tr><tr><td></td><td class="fieldArg">tree1_id</td><td>The SHA of the source tree.</td></tr><tr><td></td><td class="fieldArg">tree2_id</td><td>The SHA of the target tree.</td></tr><tr><td></td><td class="fieldArg">want_unchanged</td><td>If True, include TreeChanges for unmodified entries
-as well.</td></tr><tr><td></td><td class="fieldArg">rename_detector</td><td>RenameDetector object for detecting renames.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">Iterator over TreeChange instances for each change between the
-source and target tree.</td></tr></table></div>
+    <pre>Find the differences between the contents of two trees.
+
+:param store: An ObjectStore for looking up objects.
+:param tree1_id: The SHA of the source tree.
+:param tree2_id: The SHA of the target tree.
+:param want_unchanged: If True, include TreeChanges for unmodified entries
+    as well.
+:param rename_detector: RenameDetector object for detecting renames.
+:return: Iterator over TreeChange instances for each change between the
+    source and target tree.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.diff_tree._all_eq">
@@ -288,13 +307,22 @@ source and target tree.</td></tr></table></div>
   </div>
   <div class="functionBody">
     
-    <div>Get the tree changes for a merge tree relative to all its parents.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">store</td><td>An ObjectStore for looking up objects.</td></tr><tr><td></td><td class="fieldArg">parent_tree_ids</td><td>An iterable of the SHAs of the parent trees.</td></tr><tr><td></td><td class="fieldArg">tree_id</td><td>The SHA of the merge tree.</td></tr><tr><td></td><td class="fieldArg">rename_detector</td><td>RenameDetector object for detecting renames.</td></tr><tr class="fieldStart"><td class="fieldName">Unknown Field: yield</td><td colspan="2">Lists of TreeChange objects, one per conflicted path in the merge.</p>
-<p>Each list contains one element per parent, with the TreeChange for that
-path relative to that parent. An element may be None if it never existed
-in one parent and was deleted in two others.</p>
-<p>A path is only included in the output if it is a conflict, i.e. its SHA
-in the merge tree is not found in any of the parents, or in the case of
-deletes, if not all of the old SHAs match.</td></tr></table></div>
+    <pre>Get the tree changes for a merge tree relative to all its parents.
+
+:param store: An ObjectStore for looking up objects.
+:param parent_tree_ids: An iterable of the SHAs of the parent trees.
+:param tree_id: The SHA of the merge tree.
+:param rename_detector: RenameDetector object for detecting renames.
+
+:yield: Lists of TreeChange objects, one per conflicted path in the merge.
+
+    Each list contains one element per parent, with the TreeChange for that
+    path relative to that parent. An element may be None if it never existed
+    in one parent and was deleted in two others.
+
+    A path is only included in the output if it is a conflict, i.e. its SHA
+    in the merge tree is not found in any of the parents, or in the case of
+    deletes, if not all of the old SHAs match.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.diff_tree._count_blocks">
@@ -311,8 +339,12 @@ deletes, if not all of the old SHAs match.</td></tr></table></div>
   </div>
   <div class="functionBody">
     
-    <div>Count the blocks in an object.</p>
-<p>Splits the data into blocks either on lines or &lt;=64-byte chunks of lines.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">obj</td><td>The object to count blocks for.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">A dict of block hashcode -&gt; total bytes occurring.</td></tr></table></div>
+    <pre>Count the blocks in an object.
+
+Splits the data into blocks either on lines or &lt;=64-byte chunks of lines.
+
+:param obj: The object to count blocks for.
+:return: A dict of block hashcode -&gt; total bytes occurring.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.diff_tree._common_bytes">
@@ -329,8 +361,12 @@ deletes, if not all of the old SHAs match.</td></tr></table></div>
   </div>
   <div class="functionBody">
     
-    <div>Count the number of common bytes in two block count dicts.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">block1</td><td>The first dict of block hashcode -&gt; total bytes.</td></tr><tr><td></td><td class="fieldArg">block2</td><td>The second dict of block hashcode -&gt; total bytes.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">The number of bytes in common between blocks1 and blocks2. This is
-only approximate due to possible hash collisions.</td></tr></table></div>
+    <pre>Count the number of common bytes in two block count dicts.
+
+:param block1: The first dict of block hashcode -&gt; total bytes.
+:param block2: The second dict of block hashcode -&gt; total bytes.
+:return: The number of bytes in common between blocks1 and blocks2. This is
+    only approximate due to possible hash collisions.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.diff_tree._similarity_score">
@@ -347,10 +383,15 @@ only approximate due to possible hash collisions.</td></tr></table></div>
   </div>
   <div class="functionBody">
     
-    <div>Compute a similarity score for two objects.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">obj1</td><td>The first object to score.</td></tr><tr><td></td><td class="fieldArg">obj2</td><td>The second object to score.</td></tr><tr><td></td><td class="fieldArg">block_cache</td><td>An optional dict of SHA to block counts to cache results
-between calls.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">The similarity score between the two objects, defined as the number
-of bytes in common between the two objects divided by the maximum size,
-scaled to the range 0-100.</td></tr></table></div>
+    <pre>Compute a similarity score for two objects.
+
+:param obj1: The first object to score.
+:param obj2: The second object to score.
+:param block_cache: An optional dict of SHA to block counts to cache results
+    between calls.
+:return: The similarity score between the two objects, defined as the number
+    of bytes in common between the two objects divided by the maximum size,
+    scaled to the range 0-100.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.diff_tree._tree_change_key">
@@ -371,7 +412,7 @@ scaled to the range 0-100.</td></tr></table></div>
   </div>
 </div>
     <address>
-      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-25 13:37:30.
     </address>
   </body>
 </html>

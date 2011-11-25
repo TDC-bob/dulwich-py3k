@@ -19,12 +19,12 @@
     <div>
       <p>Known subclasses: <a href="dulwich.object_store.MemoryObjectStore.html">dulwich.object_store.MemoryObjectStore</a>, <a href="dulwich.object_store.PackBasedObjectStore.html">dulwich.object_store.PackBasedObjectStore</a></p>
     </div>
-    <div>Object store interface.<table class="fieldTable"></table></div>
+    <pre>Object store interface.</pre>
 
     
     
     <div id="splitTables">
-      <table class="children sortable" id="id280">
+      <table class="children sortable" id="id278">
   
   
 <tr class="method">
@@ -38,103 +38,103 @@
     
     <td>Method</td>
     <td><a href="dulwich.object_store.BaseObjectStore.html#iter_shas">iter_shas</a></td>
-    <td><span>Iterate over the objects for the specified shas.</span></td>
+    <td><tt>Iterate over the objects for the specified shas.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.object_store.BaseObjectStore.html#contains_loose">contains_loose</a></td>
-    <td><span>Check if a particular object is present by SHA1 and is loose.</span></td>
+    <td><tt>Check if a particular object is present by SHA1 and is loose.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.object_store.BaseObjectStore.html#contains_packed">contains_packed</a></td>
-    <td><span>Check if a particular object is present by SHA1 and is packed.</span></td>
+    <td><tt>Check if a particular object is present by SHA1 and is packed.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.object_store.BaseObjectStore.html#__contains__">__contains__</a></td>
-    <td><span>Check if a particular object is present by SHA1.</span></td>
+    <td><tt>Check if a particular object is present by SHA1.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.object_store.BaseObjectStore.html#packs">packs</a></td>
-    <td><span>Iterable of pack objects.</span></td>
+    <td><tt>Iterable of pack objects.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.object_store.BaseObjectStore.html#get_raw">get_raw</a></td>
-    <td><span>Obtain the raw text for an object.</span></td>
+    <td><tt>Obtain the raw text for an object.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.object_store.BaseObjectStore.html#__getitem__">__getitem__</a></td>
-    <td><span>Obtain an object by SHA1.</span></td>
+    <td><tt>Obtain an object by SHA1.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.object_store.BaseObjectStore.html#__iter__">__iter__</a></td>
-    <td><span>Iterate over the SHAs that are present in this store.</span></td>
+    <td><tt>Iterate over the SHAs that are present in this store.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.object_store.BaseObjectStore.html#add_object">add_object</a></td>
-    <td><span>Add a single object to this object store.</span></td>
+    <td><tt>Add a single object to this object store.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.object_store.BaseObjectStore.html#add_objects">add_objects</a></td>
-    <td><span>Add a set of objects to this object store.</span></td>
+    <td><tt>Add a set of objects to this object store.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.object_store.BaseObjectStore.html#tree_changes">tree_changes</a></td>
-    <td><span>Find the differences between the contents of two trees</span></td>
+    <td><tt>Find the differences between the contents of two trees</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.object_store.BaseObjectStore.html#iter_tree_contents">iter_tree_contents</a></td>
-    <td><span>Iterate the contents of a tree and all subtrees.</span></td>
+    <td><tt>Iterate the contents of a tree and all subtrees.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.object_store.BaseObjectStore.html#find_missing_objects">find_missing_objects</a></td>
-    <td><span>Find the missing objects required for a set of revisions.</span></td>
+    <td><tt>Find the missing objects required for a set of revisions.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.object_store.BaseObjectStore.html#find_common_revisions">find_common_revisions</a></td>
-    <td><span>Find which revisions this store has in common using graphwalker.</span></td>
+    <td><tt>Find which revisions this store has in common using graphwalker.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.object_store.BaseObjectStore.html#get_graph_walker">get_graph_walker</a></td>
-    <td><span>Obtain a graph walker for this object store.</span></td>
+    <td><tt>Obtain a graph walker for this object store.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.object_store.BaseObjectStore.html#generate_pack_contents">generate_pack_contents</a></td>
-    <td><span>Iterate over the contents of a pack file.</span></td>
+    <td><tt>Iterate over the contents of a pack file.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.object_store.BaseObjectStore.html#peel_sha">peel_sha</a></td>
-    <td><span>Peel all tags from a SHA.</span></td>
+    <td><tt>Peel all tags from a SHA.</tt></td>
   </tr>
   
 </table>
@@ -177,7 +177,10 @@
   </div>
   <div class="functionBody">
     
-    <div>Iterate over the objects for the specified shas.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">shas</td><td>Iterable object with SHAs</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">Object iterator</td></tr></table></div>
+    <pre>Iterate over the objects for the specified shas.
+
+:param shas: Iterable object with SHAs
+:return: Object iterator</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.object_store.BaseObjectStore.contains_loose">
@@ -194,7 +197,7 @@
   </div>
   <div class="functionBody">
     <div class="interfaceinfo">overridden in <a href="dulwich.object_store.MemoryObjectStore.html">dulwich.object_store.MemoryObjectStore</a>, <a href="dulwich.object_store.PackBasedObjectStore.html">dulwich.object_store.PackBasedObjectStore</a></div>
-    <div>Check if a particular object is present by SHA1 and is loose.<table class="fieldTable"></table></div>
+    <pre>Check if a particular object is present by SHA1 and is loose.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.object_store.BaseObjectStore.contains_packed">
@@ -211,7 +214,7 @@
   </div>
   <div class="functionBody">
     <div class="interfaceinfo">overridden in <a href="dulwich.object_store.MemoryObjectStore.html">dulwich.object_store.MemoryObjectStore</a>, <a href="dulwich.object_store.PackBasedObjectStore.html">dulwich.object_store.PackBasedObjectStore</a></div>
-    <div>Check if a particular object is present by SHA1 and is packed.<table class="fieldTable"></table></div>
+    <pre>Check if a particular object is present by SHA1 and is packed.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.object_store.BaseObjectStore.__contains__">
@@ -228,8 +231,9 @@
   </div>
   <div class="functionBody">
     
-    <div>Check if a particular object is present by SHA1.</p>
-<p>This method makes no distinction between loose and packed objects.<table class="fieldTable"></table></div>
+    <pre>Check if a particular object is present by SHA1.
+
+This method makes no distinction between loose and packed objects.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.object_store.BaseObjectStore.packs">
@@ -246,7 +250,7 @@
   </div>
   <div class="functionBody">
     <div class="interfaceinfo">overridden in <a href="dulwich.object_store.MemoryObjectStore.html">dulwich.object_store.MemoryObjectStore</a>, <a href="dulwich.object_store.PackBasedObjectStore.html">dulwich.object_store.PackBasedObjectStore</a></div>
-    <div>Iterable of pack objects.<table class="fieldTable"></table></div>
+    <pre>Iterable of pack objects.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.object_store.BaseObjectStore.get_raw">
@@ -263,7 +267,10 @@
   </div>
   <div class="functionBody">
     <div class="interfaceinfo">overridden in <a href="dulwich.object_store.MemoryObjectStore.html">dulwich.object_store.MemoryObjectStore</a>, <a href="dulwich.object_store.PackBasedObjectStore.html">dulwich.object_store.PackBasedObjectStore</a></div>
-    <div>Obtain the raw text for an object.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">name</td><td>sha for the object.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">tuple with numeric type and object contents.</td></tr></table></div>
+    <pre>Obtain the raw text for an object.
+
+:param name: sha for the object.
+:return: tuple with numeric type and object contents.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.object_store.BaseObjectStore.__getitem__">
@@ -280,7 +287,7 @@
   </div>
   <div class="functionBody">
     <div class="interfaceinfo">overridden in <a href="dulwich.object_store.MemoryObjectStore.html">dulwich.object_store.MemoryObjectStore</a></div>
-    <div>Obtain an object by SHA1.<table class="fieldTable"></table></div>
+    <pre>Obtain an object by SHA1.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.object_store.BaseObjectStore.__iter__">
@@ -297,7 +304,7 @@
   </div>
   <div class="functionBody">
     <div class="interfaceinfo">overridden in <a href="dulwich.object_store.MemoryObjectStore.html">dulwich.object_store.MemoryObjectStore</a>, <a href="dulwich.object_store.PackBasedObjectStore.html">dulwich.object_store.PackBasedObjectStore</a></div>
-    <div>Iterate over the SHAs that are present in this store.<table class="fieldTable"></table></div>
+    <pre>Iterate over the SHAs that are present in this store.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.object_store.BaseObjectStore.add_object">
@@ -314,7 +321,9 @@
   </div>
   <div class="functionBody">
     <div class="interfaceinfo">overridden in <a href="dulwich.object_store.DiskObjectStore.html">dulwich.object_store.DiskObjectStore</a>, <a href="dulwich.object_store.MemoryObjectStore.html">dulwich.object_store.MemoryObjectStore</a></div>
-    <div>Add a single object to this object store.<table class="fieldTable"></table></div>
+    <pre>Add a single object to this object store.
+
+        </pre>
   </div>
 </div><div class="function">
   <a name="dulwich.object_store.BaseObjectStore.add_objects">
@@ -331,7 +340,9 @@
   </div>
   <div class="functionBody">
     <div class="interfaceinfo">overridden in <a href="dulwich.object_store.MemoryObjectStore.html">dulwich.object_store.MemoryObjectStore</a>, <a href="dulwich.object_store.PackBasedObjectStore.html">dulwich.object_store.PackBasedObjectStore</a></div>
-    <div>Add a set of objects to this object store.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">objects</td><td>Iterable over a list of objects.</td></tr></table></div>
+    <pre>Add a set of objects to this object store.
+
+:param objects: Iterable over a list of objects.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.object_store.BaseObjectStore.tree_changes">
@@ -348,8 +359,13 @@
   </div>
   <div class="functionBody">
     
-    <div>Find the differences between the contents of two trees<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">object_store</td><td>Object store to use for retrieving tree contents</td></tr><tr><td></td><td class="fieldArg">tree</td><td>SHA1 of the root tree</td></tr><tr><td></td><td class="fieldArg">want_unchanged</td><td>Whether unchanged files should be reported</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">Iterator over tuples with
-(oldpath, newpath), (oldmode, newmode), (oldsha, newsha)</td></tr></table></div>
+    <pre>Find the differences between the contents of two trees
+
+:param object_store: Object store to use for retrieving tree contents
+:param tree: SHA1 of the root tree
+:param want_unchanged: Whether unchanged files should be reported
+:return: Iterator over tuples with
+    (oldpath, newpath), (oldmode, newmode), (oldsha, newsha)</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.object_store.BaseObjectStore.iter_tree_contents">
@@ -366,9 +382,14 @@
   </div>
   <div class="functionBody">
     
-    <div>Iterate the contents of a tree and all subtrees.</p>
-<p>Iteration is depth-first pre-order, as in e.g. os.walk.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">tree_id</td><td>SHA1 of the tree.</td></tr><tr><td></td><td class="fieldArg">include_trees</td><td>If True, include tree objects in the iteration.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">Iterator over TreeEntry namedtuples for all the objects in a
-tree.</td></tr></table></div>
+    <pre>Iterate the contents of a tree and all subtrees.
+
+Iteration is depth-first pre-order, as in e.g. os.walk.
+
+:param tree_id: SHA1 of the tree.
+:param include_trees: If True, include tree objects in the iteration.
+:return: Iterator over TreeEntry namedtuples for all the objects in a
+    tree.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.object_store.BaseObjectStore.find_missing_objects">
@@ -385,9 +406,15 @@ tree.</td></tr></table></div>
   </div>
   <div class="functionBody">
     
-    <div>Find the missing objects required for a set of revisions.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">haves</td><td>Iterable over SHAs already in common.</td></tr><tr><td></td><td class="fieldArg">wants</td><td>Iterable over SHAs of objects to fetch.</td></tr><tr><td></td><td class="fieldArg">progress</td><td>Simple progress function that will be called with
-updated progress strings.</td></tr><tr><td></td><td class="fieldArg">get_tagged</td><td>Function that returns a dict of pointed-to sha -&gt; tag
-sha for including tags.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">Iterator over (sha, path) pairs.</td></tr></table></div>
+    <pre>Find the missing objects required for a set of revisions.
+
+:param haves: Iterable over SHAs already in common.
+:param wants: Iterable over SHAs of objects to fetch.
+:param progress: Simple progress function that will be called with
+    updated progress strings.
+:param get_tagged: Function that returns a dict of pointed-to sha -&gt; tag
+    sha for including tags.
+:return: Iterator over (sha, path) pairs.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.object_store.BaseObjectStore.find_common_revisions">
@@ -404,7 +431,10 @@ sha for including tags.</td></tr><tr class="fieldStart"><td class="fieldName">Re
   </div>
   <div class="functionBody">
     
-    <div>Find which revisions this store has in common using graphwalker.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">graphwalker</td><td>A graphwalker object.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">List of SHAs that are in common</td></tr></table></div>
+    <pre>Find which revisions this store has in common using graphwalker.
+
+:param graphwalker: A graphwalker object.
+:return: List of SHAs that are in common</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.object_store.BaseObjectStore.get_graph_walker">
@@ -421,7 +451,10 @@ sha for including tags.</td></tr><tr class="fieldStart"><td class="fieldName">Re
   </div>
   <div class="functionBody">
     
-    <div>Obtain a graph walker for this object store.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">heads</td><td>Local heads to start search with</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">GraphWalker object</td></tr></table></div>
+    <pre>Obtain a graph walker for this object store.
+
+:param heads: Local heads to start search with
+:return: GraphWalker object</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.object_store.BaseObjectStore.generate_pack_contents">
@@ -438,7 +471,11 @@ sha for including tags.</td></tr><tr class="fieldStart"><td class="fieldName">Re
   </div>
   <div class="functionBody">
     
-    <div>Iterate over the contents of a pack file.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">have</td><td>List of SHA1s of objects that should not be sent</td></tr><tr><td></td><td class="fieldArg">want</td><td>List of SHA1s of objects that should be sent</td></tr><tr><td></td><td class="fieldArg">progress</td><td>Optional progress reporting method</td></tr></table></div>
+    <pre>Iterate over the contents of a pack file.
+
+:param have: List of SHA1s of objects that should not be sent
+:param want: List of SHA1s of objects that should be sent
+:param progress: Optional progress reporting method</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.object_store.BaseObjectStore.peel_sha">
@@ -455,13 +492,16 @@ sha for including tags.</td></tr><tr class="fieldStart"><td class="fieldName">Re
   </div>
   <div class="functionBody">
     
-    <div>Peel all tags from a SHA.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">sha</td><td>The object SHA to peel.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">The fully-peeled SHA1 of a tag object, after peeling all
-intermediate tags; if the original ref does not point to a tag, this
-will equal the original SHA1.</td></tr></table></div>
+    <pre>Peel all tags from a SHA.
+
+:param sha: The object SHA to peel.
+:return: The fully-peeled SHA1 of a tag object, after peeling all
+    intermediate tags; if the original ref does not point to a tag, this
+    will equal the original SHA1.</pre>
   </div>
 </div>
     <address>
-      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-25 13:37:30.
     </address>
   </body>
 </html>

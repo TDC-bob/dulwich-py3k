@@ -19,7 +19,7 @@
     <div>
       
     </div>
-    <div>Repository access.<table class="fieldTable"></table></div>
+    <pre>Repository access.</pre>
 
     
     
@@ -38,67 +38,67 @@
     
     <td>Function</td>
     <td><a href="dulwich.repo.html#check_ref_format">check_ref_format</a></td>
-    <td><span>Check if a refname is correctly formatted.</span></td>
+    <td><tt>Check if a refname is correctly formatted.</tt></td>
   </tr><tr class="class">
     
     
     <td>Class</td>
     <td><a href="dulwich.repo.RefsContainer.html">RefsContainer</a></td>
-    <td><span>A container for refs.</span></td>
+    <td><tt>A container for refs.</tt></td>
   </tr><tr class="class">
     
     
     <td>Class</td>
     <td><a href="dulwich.repo.DictRefsContainer.html">DictRefsContainer</a></td>
-    <td><span>RefsContainer backed by a simple dict.</span></td>
+    <td><tt>RefsContainer backed by a simple dict.</tt></td>
   </tr><tr class="class">
     
     
     <td>Class</td>
     <td><a href="dulwich.repo.DiskRefsContainer.html">DiskRefsContainer</a></td>
-    <td><span>Refs container that reads refs from disk.</span></td>
+    <td><tt>Refs container that reads refs from disk.</tt></td>
   </tr><tr class="function">
     
     
     <td>Function</td>
     <td><a href="dulwich.repo.html#read_packed_refs">read_packed_refs</a></td>
-    <td><span>Read a packed refs file.</span></td>
+    <td><tt>Read a packed refs file.</tt></td>
   </tr><tr class="function">
     
     
     <td>Function</td>
     <td><a href="dulwich.repo.html#read_packed_refs_with_peeled">read_packed_refs_with_peeled</a></td>
-    <td><span>Read a packed refs file including peeled refs.</span></td>
+    <td><tt>Read a packed refs file including peeled refs.</tt></td>
   </tr><tr class="function">
     
     
     <td>Function</td>
     <td><a href="dulwich.repo.html#write_packed_refs">write_packed_refs</a></td>
-    <td><span>Write a packed refs file.</span></td>
+    <td><tt>Write a packed refs file.</tt></td>
   </tr><tr class="class">
     
     
     <td>Class</td>
     <td><a href="dulwich.repo.BaseRepo.html">BaseRepo</a></td>
-    <td><span>Base class for a git repository.</span></td>
+    <td><tt>Base class for a git repository.</tt></td>
   </tr><tr class="class">
     
     
     <td>Class</td>
     <td><a href="dulwich.repo.Repo.html">Repo</a></td>
-    <td><span>A git repository backed by local disk.</span></td>
+    <td><tt>A git repository backed by local disk.</tt></td>
   </tr><tr class="class">
     
     
     <td>Class</td>
     <td><a href="dulwich.repo.MemoryRepo.html">MemoryRepo</a></td>
-    <td><span>Repo that stores refs, objects, and named files in memory.</span></td>
+    <td><tt>Repo that stores refs, objects, and named files in memory.</tt></td>
   </tr><tr class="function private">
     
     
     <td>Function</td>
     <td><a href="dulwich.repo.html#_split_ref_line">_split_ref_line</a></td>
-    <td><span>Split a single ref line into a tuple of SHA1 and name.</span></td>
+    <td><tt>Split a single ref line into a tuple of SHA1 and name.</tt></td>
   </tr>
   
 </table>
@@ -141,9 +141,14 @@
   </div>
   <div class="functionBody">
     
-    <div>Check if a refname is correctly formatted.</p>
-<p>Implements all the same rules as git-check-ref-format[1].</p>
-<p>[1] <a class="rst-reference external" href="http://www.kernel.org/pub/software/scm/git/docs/git-check-ref-format.html" target="_top">http://www.kernel.org/pub/software/scm/git/docs/git-check-ref-format.html</a><table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">refname</td><td>The refname to check</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">True if refname is valid, False otherwise</td></tr></table></div>
+    <pre>Check if a refname is correctly formatted.
+
+Implements all the same rules as git-check-ref-format[1].
+
+[1] http://www.kernel.org/pub/software/scm/git/docs/git-check-ref-format.html
+
+:param refname: The refname to check
+:return: True if refname is valid, False otherwise</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.repo._split_ref_line">
@@ -160,7 +165,7 @@
   </div>
   <div class="functionBody">
     
-    <div>Split a single ref line into a tuple of SHA1 and name.<table class="fieldTable"></table></div>
+    <pre>Split a single ref line into a tuple of SHA1 and name.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.repo.read_packed_refs">
@@ -177,7 +182,10 @@
   </div>
   <div class="functionBody">
     
-    <div>Read a packed refs file.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">f</td><td>file-like object to read from</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">Iterator over tuples with SHA1s and ref names.</td></tr></table></div>
+    <pre>Read a packed refs file.
+
+:param f: file-like object to read from
+:return: Iterator over tuples with SHA1s and ref names.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.repo.read_packed_refs_with_peeled">
@@ -194,9 +202,12 @@
   </div>
   <div class="functionBody">
     
-    <div>Read a packed refs file including peeled refs.</p>
-<p>Assumes the &quot;# pack-refs with: peeled&quot; line was already read. Yields tuples
-with ref names, SHA1s, and peeled SHA1s (or None).<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">f</td><td>file-like object to read from, seek'ed to the second line</td></tr></table></div>
+    <pre>Read a packed refs file including peeled refs.
+
+Assumes the "# pack-refs with: peeled" line was already read. Yields tuples
+with ref names, SHA1s, and peeled SHA1s (or None).
+
+:param f: file-like object to read from, seek'ed to the second line</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.repo.write_packed_refs">
@@ -213,11 +224,15 @@ with ref names, SHA1s, and peeled SHA1s (or None).<table class="fieldTable"><tr 
   </div>
   <div class="functionBody">
     
-    <div>Write a packed refs file.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">f</td><td>empty file-like object to write to</td></tr><tr><td></td><td class="fieldArg">packed_refs</td><td>dict of refname to sha of packed refs to write</td></tr><tr><td></td><td class="fieldArg">peeled_refs</td><td>dict of refname to peeled value of sha</td></tr></table></div>
+    <pre>Write a packed refs file.
+
+:param f: empty file-like object to write to
+:param packed_refs: dict of refname to sha of packed refs to write
+:param peeled_refs: dict of refname to peeled value of sha</pre>
   </div>
 </div>
     <address>
-      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-25 13:37:30.
     </address>
   </body>
 </html>

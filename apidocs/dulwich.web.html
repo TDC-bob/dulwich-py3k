@@ -19,12 +19,12 @@
     <div>
       
     </div>
-    <div>HTTP server for dulwich that implements the git smart HTTP protocol.<table class="fieldTable"></table></div>
+    <pre>HTTP server for dulwich that implements the git smart HTTP protocol.</pre>
 
     
     
     <div id="splitTables">
-      <table class="children sortable" id="id311">
+      <table class="children sortable" id="id309">
   
   
 <tr class="function">
@@ -38,24 +38,30 @@
     
     <td>Function</td>
     <td><a href="dulwich.web.html#url_prefix">url_prefix</a></td>
-    <td><span>Extract the URL prefix from a regex match.</span></td>
+    <td><tt>Extract the URL prefix from a regex match.</tt></td>
   </tr><tr class="function">
     
     
     <td>Function</td>
     <td><a href="dulwich.web.html#get_repo">get_repo</a></td>
-    <td><span>Get a Repo instance for the given backend and URL regex match.</span></td>
+    <td><tt>Get a Repo instance for the given backend and URL regex match.</tt></td>
   </tr><tr class="function">
     
     
     <td>Function</td>
     <td><a href="dulwich.web.html#send_file">send_file</a></td>
-    <td><span>Send a file-like object to the request output.</span></td>
+    <td><tt>Send a file-like object to the request output.</tt></td>
   </tr><tr class="function">
     
     
     <td>Function</td>
     <td><a href="dulwich.web.html#get_text_file">get_text_file</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="function">
+    
+    
+    <td>Function</td>
+    <td><a href="dulwich.web.html#send_loose_object">send_loose_object</a></td>
     <td><span class="undocumented">Undocumented</span></td>
   </tr><tr class="function">
     
@@ -98,25 +104,37 @@
     
     <td>Class</td>
     <td><a href="dulwich.web.HTTPGitRequest.html">HTTPGitRequest</a></td>
-    <td><span>Class encapsulating the state of a single git HTTP request.</span></td>
+    <td><tt>Class encapsulating the state of a single git HTTP request.</tt></td>
   </tr><tr class="class">
     
     
     <td>Class</td>
     <td><a href="dulwich.web.HTTPGitApplication.html">HTTPGitApplication</a></td>
-    <td><span>Class encapsulating the state of a git WSGI application.</span></td>
+    <td><tt>Class encapsulating the state of a git WSGI application.</tt></td>
+  </tr><tr class="class">
+    
+    
+    <td>Class</td>
+    <td><a href="dulwich.web.HTTPGitServerHandler.html">HTTPGitServerHandler</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
   </tr><tr class="class">
     
     
     <td>Class</td>
     <td><a href="dulwich.web.HTTPGitRequestHandler.html">HTTPGitRequestHandler</a></td>
-    <td><span>Handler that uses dulwich's logger for logging exceptions.</span></td>
+    <td><tt>Handler that uses dulwich's logger for logging exceptions.</tt></td>
+  </tr><tr class="class">
+    
+    
+    <td>Class</td>
+    <td><a href="dulwich.web.NoSuchFileException.html">NoSuchFileException</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
   </tr><tr class="function">
     
     
     <td>Function</td>
     <td><a href="dulwich.web.html#main">main</a></td>
-    <td><span>Entry point for starting an HTTP git server.</span></td>
+    <td><tt>Entry point for starting an HTTP git server.</tt></td>
   </tr><tr class="function private">
     
     
@@ -128,7 +146,7 @@
     
     <td>Class</td>
     <td><a href="dulwich.web._LengthLimitedFile.html">_LengthLimitedFile</a></td>
-    <td><span>Wrapper class to limit the length of reads from a file-like object.</span></td>
+    <td><tt>Wrapper class to limit the length of reads from a file-like object.</tt></td>
   </tr>
   
 </table>
@@ -171,9 +189,12 @@
   </div>
   <div class="functionBody">
     
-    <div>Extract the URL prefix from a regex match.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">mat</td><td>A regex match object.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">The URL prefix, defined as the text before the match in the
-original string. Normalized to start with one leading slash and end with
-zero.</td></tr></table></div>
+    <pre>Extract the URL prefix from a regex match.
+
+:param mat: A regex match object.
+:returns: The URL prefix, defined as the text before the match in the
+    original string. Normalized to start with one leading slash and end with
+    zero.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.web.get_repo">
@@ -190,7 +211,7 @@ zero.</td></tr></table></div>
   </div>
   <div class="functionBody">
     
-    <div>Get a Repo instance for the given backend and URL regex match.<table class="fieldTable"></table></div>
+    <pre>Get a Repo instance for the given backend and URL regex match.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.web.send_file">
@@ -207,7 +228,12 @@ zero.</td></tr></table></div>
   </div>
   <div class="functionBody">
     
-    <div>Send a file-like object to the request output.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">req</td><td>The HTTPGitRequest object to send output to.</td></tr><tr><td></td><td class="fieldArg">f</td><td>An open file-like object to send; will be closed.</td></tr><tr><td></td><td class="fieldArg">content_type</td><td>The MIME type for the file.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">Iterator over the contents of the file, as chunks.</td></tr></table></div>
+    <pre>Send a file-like object to the request output.
+
+:param req: The HTTPGitRequest object to send output to.
+:param f: An open file-like object to send; will be closed.
+:param content_type: The MIME type for the file.
+:return: Iterator over the contents of the file, as chunks.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.web._url_to_path">
@@ -237,6 +263,23 @@ zero.</td></tr></table></div>
     
     def
     get_text_file(req, backend, mat):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="dulwich.web.send_loose_object">
+    
+  </a>
+  <a name="send_loose_object">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    send_loose_object(req, object_store, sha):
     
   </div>
   <div class="functionBody">
@@ -360,11 +403,11 @@ zero.</td></tr></table></div>
   </div>
   <div class="functionBody">
     
-    <div>Entry point for starting an HTTP git server.<table class="fieldTable"></table></div>
+    <pre>Entry point for starting an HTTP git server.</pre>
   </div>
 </div>
     <address>
-      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-25 13:37:30.
     </address>
   </body>
 </html>

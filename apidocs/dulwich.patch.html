@@ -19,14 +19,15 @@
     <div>
       
     </div>
-    <div>Classes for dealing with git am-style patches.</p>
-<p>These patches are basically unified diffs with some extra metadata tacked
-on.<table class="fieldTable"></table></div>
+    <pre>Classes for dealing with git am-style patches.
+
+These patches are basically unified diffs with some extra metadata tacked
+on.</pre>
 
     
     
     <div id="splitTables">
-      <table class="children sortable" id="id257">
+      <table class="children sortable" id="id255">
   
   
 <tr class="function">
@@ -34,43 +35,43 @@ on.<table class="fieldTable"></table></div>
     
     <td>Function</td>
     <td><a href="dulwich.patch.html#write_commit_patch">write_commit_patch</a></td>
-    <td><span>Write a individual file patch.</span></td>
+    <td><tt>Write a individual file patch.</tt></td>
   </tr><tr class="function">
     
     
     <td>Function</td>
     <td><a href="dulwich.patch.html#get_summary">get_summary</a></td>
-    <td><span>Determine the summary line for use in a filename.</span></td>
+    <td><tt>Determine the summary line for use in a filename.</tt></td>
   </tr><tr class="function">
     
     
     <td>Function</td>
     <td><a href="dulwich.patch.html#unified_diff">unified_diff</a></td>
-    <td><span>difflib.unified_diff that doesn't write any dates or trailing spaces.</span></td>
+    <td><tt>difflib.unified_diff that doesn't write any dates or trailing spaces.</tt></td>
   </tr><tr class="function">
     
     
     <td>Function</td>
     <td><a href="dulwich.patch.html#write_object_diff">write_object_diff</a></td>
-    <td><span>Write the diff for an object.</span></td>
+    <td><tt>Write the diff for an object.</tt></td>
   </tr><tr class="function">
     
     
     <td>Function</td>
     <td><a href="dulwich.patch.html#write_blob_diff">write_blob_diff</a></td>
-    <td><span>Write diff file header.</span></td>
+    <td><tt>Write diff file header.</tt></td>
   </tr><tr class="function">
     
     
     <td>Function</td>
     <td><a href="dulwich.patch.html#write_tree_diff">write_tree_diff</a></td>
-    <td><span>Write tree diff.</span></td>
+    <td><tt>Write tree diff.</tt></td>
   </tr><tr class="function">
     
     
     <td>Function</td>
     <td><a href="dulwich.patch.html#git_am_patch_split">git_am_patch_split</a></td>
-    <td><span>Parse a git-am-style patch and split it up into bits.</span></td>
+    <td><tt>Parse a git-am-style patch and split it up into bits.</tt></td>
   </tr><tr class="function private">
     
     
@@ -119,7 +120,11 @@ on.<table class="fieldTable"></table></div>
   </div>
   <div class="functionBody">
     
-    <div>Write a individual file patch.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">commit</td><td>Commit object</td></tr><tr><td></td><td class="fieldArg">progress</td><td>Tuple with current patch number and total.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">tuple with filename and contents</td></tr></table></div>
+    <pre>Write a individual file patch.
+
+:param commit: Commit object
+:param progress: Tuple with current patch number and total.
+:return: tuple with filename and contents</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.patch.get_summary">
@@ -136,7 +141,10 @@ on.<table class="fieldTable"></table></div>
   </div>
   <div class="functionBody">
     
-    <div>Determine the summary line for use in a filename.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">commit</td><td>Commit</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">Summary string</td></tr></table></div>
+    <pre>Determine the summary line for use in a filename.
+
+:param commit: Commit
+:return: Summary string</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.patch.unified_diff">
@@ -153,8 +161,9 @@ on.<table class="fieldTable"></table></div>
   </div>
   <div class="functionBody">
     
-    <div>difflib.unified_diff that doesn't write any dates or trailing spaces.</p>
-<p>Based on the same function in Python2.6.5-rc2's difflib.py<table class="fieldTable"></table></div>
+    <pre>difflib.unified_diff that doesn't write any dates or trailing spaces.
+
+Based on the same function in Python2.6.5-rc2's difflib.py</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.patch.write_object_diff">
@@ -171,7 +180,14 @@ on.<table class="fieldTable"></table></div>
   </div>
   <div class="functionBody">
     
-    <div>Write the diff for an object.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">f</td><td>File-like object to write to</td></tr><tr><td></td><td class="fieldArg">store</td><td>Store to retrieve objects from, if necessary</td></tr><tr><td></td><td class="fieldArg">(old_path, old_mode, old_hexsha)</td><td>Old file</td></tr><tr><td></td><td class="fieldArg">(new_path, new_mode, new_hexsha)</td><td>New file</td></tr><tr class="fieldStart"><td class="fieldName">Note</td><td colspan="2">the tuple elements should be None for nonexistant files</td></tr></table></div>
+    <pre>Write the diff for an object.
+
+:param f: File-like object to write to
+:param store: Store to retrieve objects from, if necessary
+:param (old_path, old_mode, old_hexsha): Old file
+:param (new_path, new_mode, new_hexsha): New file
+
+:note: the tuple elements should be None for nonexistant files</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.patch.write_blob_diff">
@@ -188,7 +204,13 @@ on.<table class="fieldTable"></table></div>
   </div>
   <div class="functionBody">
     
-    <div>Write diff file header.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">f</td><td>File-like object to write to</td></tr><tr><td></td><td class="fieldArg">(old_path, old_mode, old_blob)</td><td>Previous file (None if nonexisting)</td></tr><tr><td></td><td class="fieldArg">(new_path, new_mode, new_blob)</td><td>New file (None if nonexisting)</td></tr><tr class="fieldStart"><td class="fieldName">Note</td><td colspan="2">The use of write_object_diff is recommended over this function.</td></tr></table></div>
+    <pre>Write diff file header.
+
+:param f: File-like object to write to
+:param (old_path, old_mode, old_blob): Previous file (None if nonexisting)
+:param (new_path, new_mode, new_blob): New file (None if nonexisting)
+
+:note: The use of write_object_diff is recommended over this function.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.patch.write_tree_diff">
@@ -205,7 +227,11 @@ on.<table class="fieldTable"></table></div>
   </div>
   <div class="functionBody">
     
-    <div>Write tree diff.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">f</td><td>File-like object to write to.</td></tr><tr><td></td><td class="fieldArg">old_tree</td><td>Old tree id</td></tr><tr><td></td><td class="fieldArg">new_tree</td><td>New tree id</td></tr></table></div>
+    <pre>Write tree diff.
+
+:param f: File-like object to write to.
+:param old_tree: Old tree id
+:param new_tree: New tree id</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.patch.git_am_patch_split">
@@ -222,11 +248,14 @@ on.<table class="fieldTable"></table></div>
   </div>
   <div class="functionBody">
     
-    <div>Parse a git-am-style patch and split it up into bits.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">f</td><td>File-like object to parse</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">Tuple with commit object, diff contents and git version</td></tr></table></div>
+    <pre>Parse a git-am-style patch and split it up into bits.
+
+:param f: File-like object to parse
+:return: Tuple with commit object, diff contents and git version</pre>
   </div>
 </div>
     <address>
-      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-25 13:37:30.
     </address>
   </body>
 </html>

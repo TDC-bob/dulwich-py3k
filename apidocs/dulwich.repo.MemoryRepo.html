@@ -19,9 +19,10 @@
     <div>
       
     </div>
-    <div>Repo that stores refs, objects, and named files in memory.</p>
-<p>MemoryRepos are always bare: they have no working tree and no index, since
-those have a stronger dependency on the filesystem.<table class="fieldTable"></table></div>
+    <pre>Repo that stores refs, objects, and named files in memory.
+
+MemoryRepos are always bare: they have no working tree and no index, since
+those have a stronger dependency on the filesystem.</pre>
 
     
     
@@ -40,13 +41,13 @@ those have a stronger dependency on the filesystem.<table class="fieldTable"></t
     
     <td>Method</td>
     <td><a href="dulwich.repo.MemoryRepo.html#get_named_file">get_named_file</a></td>
-    <td><span>Get a file from the control dir with a specific name.</span></td>
+    <td><tt>Get a file from the control dir with a specific name.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.repo.MemoryRepo.html#open_index">open_index</a></td>
-    <td><span>Fail to open index for this repo, since it is bare.</span></td>
+    <td><tt>Fail to open index for this repo, since it is bare.</tt></td>
   </tr><tr class="classmethod">
     
     
@@ -58,7 +59,7 @@ those have a stronger dependency on the filesystem.<table class="fieldTable"></t
     
     <td>Method</td>
     <td><a href="dulwich.repo.MemoryRepo.html#_put_named_file">_put_named_file</a></td>
-    <td><span>Write a file to the control dir with the given name and contents.</span></td>
+    <td><tt>Write a file to the control dir with the given name and contents.</tt></td>
   </tr>
   
 </table>
@@ -92,13 +93,13 @@ those have a stronger dependency on the filesystem.<table class="fieldTable"></t
     
     <td>Method</td>
     <td><a href="dulwich.repo.BaseRepo.html#fetch">fetch</a></td>
-    <td><span>Fetch objects into another repository.</span></td>
+    <td><tt>Fetch objects into another repository.</tt></td>
   </tr><tr class="basemethod">
     
     
     <td>Method</td>
     <td><a href="dulwich.repo.BaseRepo.html#fetch_objects">fetch_objects</a></td>
-    <td><span>Fetch the missing objects required for a set of revisions.</span></td>
+    <td><tt>Fetch the missing objects required for a set of revisions.</tt></td>
   </tr><tr class="basemethod">
     
     
@@ -110,19 +111,19 @@ those have a stronger dependency on the filesystem.<table class="fieldTable"></t
     
     <td>Method</td>
     <td><a href="dulwich.repo.BaseRepo.html#ref">ref</a></td>
-    <td><span>Return the SHA1 a ref is pointing to.</span></td>
+    <td><tt>Return the SHA1 a ref is pointing to.</tt></td>
   </tr><tr class="basemethod">
     
     
     <td>Method</td>
     <td><a href="dulwich.repo.BaseRepo.html#get_refs">get_refs</a></td>
-    <td><span>Get dictionary with all refs.</span></td>
+    <td><tt>Get dictionary with all refs.</tt></td>
   </tr><tr class="basemethod">
     
     
     <td>Method</td>
     <td><a href="dulwich.repo.BaseRepo.html#head">head</a></td>
-    <td><span>Return the SHA1 pointed at by HEAD.</span></td>
+    <td><tt>Return the SHA1 pointed at by HEAD.</tt></td>
   </tr><tr class="basemethod">
     
     
@@ -146,43 +147,43 @@ those have a stronger dependency on the filesystem.<table class="fieldTable"></t
     
     <td>Method</td>
     <td><a href="dulwich.repo.BaseRepo.html#commit">commit</a></td>
-    <td><span>Retrieve the commit with a particular SHA.</span></td>
+    <td><tt>Retrieve the commit with a particular SHA.</tt></td>
   </tr><tr class="basemethod">
     
     
     <td>Method</td>
     <td><a href="dulwich.repo.BaseRepo.html#tree">tree</a></td>
-    <td><span>Retrieve the tree with a particular SHA.</span></td>
+    <td><tt>Retrieve the tree with a particular SHA.</tt></td>
   </tr><tr class="basemethod">
     
     
     <td>Method</td>
     <td><a href="dulwich.repo.BaseRepo.html#tag">tag</a></td>
-    <td><span>Retrieve the tag with a particular SHA.</span></td>
+    <td><tt>Retrieve the tag with a particular SHA.</tt></td>
   </tr><tr class="basemethod">
     
     
     <td>Method</td>
     <td><a href="dulwich.repo.BaseRepo.html#get_blob">get_blob</a></td>
-    <td><span>Retrieve the blob with a particular SHA.</span></td>
+    <td><tt>Retrieve the blob with a particular SHA.</tt></td>
   </tr><tr class="basemethod">
     
     
     <td>Method</td>
     <td><a href="dulwich.repo.BaseRepo.html#get_peeled">get_peeled</a></td>
-    <td><span>Get the peeled value of a ref.</span></td>
+    <td><tt>Get the peeled value of a ref.</tt></td>
   </tr><tr class="basemethod">
     
     
     <td>Method</td>
     <td><a href="dulwich.repo.BaseRepo.html#get_walker">get_walker</a></td>
-    <td><span>Obtain a walker for this repository.</span></td>
+    <td><tt>Obtain a walker for this repository.</tt></td>
   </tr><tr class="basemethod">
     
     
     <td>Method</td>
     <td><a href="dulwich.repo.BaseRepo.html#revision_history">revision_history</a></td>
-    <td><span>Returns a list of the commits reachable from head.</span></td>
+    <td><tt>Returns a list of the commits reachable from head.</tt></td>
   </tr><tr class="basemethod">
     
     
@@ -218,13 +219,13 @@ those have a stronger dependency on the filesystem.<table class="fieldTable"></t
     
     <td>Method</td>
     <td><a href="dulwich.repo.BaseRepo.html#do_commit">do_commit</a></td>
-    <td><span>Create a new commit.</span></td>
+    <td><tt>Create a new commit.</tt></td>
   </tr><tr class="basemethod private">
     
     
     <td>Method</td>
     <td><a href="dulwich.repo.BaseRepo.html#_init_files">_init_files</a></td>
-    <td><span>Initialize a default set of named files.</span></td>
+    <td><tt>Initialize a default set of named files.</tt></td>
   </tr><tr class="basemethod private">
     
     
@@ -273,7 +274,10 @@ those have a stronger dependency on the filesystem.<table class="fieldTable"></t
   </div>
   <div class="functionBody">
     <div class="interfaceinfo">overrides <a href="dulwich.repo.BaseRepo.html#_put_named_file">dulwich.repo.BaseRepo._put_named_file</a></div>
-    <div>Write a file to the control dir with the given name and contents.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">path</td><td>The path to the file, relative to the control dir.</td></tr><tr><td></td><td class="fieldArg">contents</td><td>A string to write to the file.</td></tr></table></div>
+    <pre>Write a file to the control dir with the given name and contents.
+
+:param path: The path to the file, relative to the control dir.
+:param contents: A string to write to the file.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.repo.MemoryRepo.get_named_file">
@@ -290,10 +294,14 @@ those have a stronger dependency on the filesystem.<table class="fieldTable"></t
   </div>
   <div class="functionBody">
     <div class="interfaceinfo">overrides <a href="dulwich.repo.BaseRepo.html#get_named_file">dulwich.repo.BaseRepo.get_named_file</a></div>
-    <div>Get a file from the control dir with a specific name.</p>
-<p>Although the filename should be interpreted as a filename relative to
+    <pre>Get a file from the control dir with a specific name.
+
+Although the filename should be interpreted as a filename relative to
 the control dir in a disk-baked Repo, the object returned need not be
-pointing to a file in that location.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">path</td><td>The path to the file, relative to the control dir.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">An open file object, or None if the file does not exist.</td></tr></table></div>
+pointing to a file in that location.
+
+:param path: The path to the file, relative to the control dir.
+:return: An open file object, or None if the file does not exist.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.repo.MemoryRepo.open_index">
@@ -310,7 +318,7 @@ pointing to a file in that location.<table class="fieldTable"><tr class="fieldSt
   </div>
   <div class="functionBody">
     <div class="interfaceinfo">overrides <a href="dulwich.repo.BaseRepo.html#open_index">dulwich.repo.BaseRepo.open_index</a></div>
-    <div>Fail to open index for this repo, since it is bare.<table class="fieldTable"></table></div>
+    <pre>Fail to open index for this repo, since it is bare.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.repo.MemoryRepo.init_bare">
@@ -331,7 +339,7 @@ pointing to a file in that location.<table class="fieldTable"><tr class="fieldSt
   </div>
 </div>
     <address>
-      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-25 13:37:30.
     </address>
   </body>
 </html>

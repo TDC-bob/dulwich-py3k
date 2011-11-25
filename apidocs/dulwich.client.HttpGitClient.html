@@ -24,7 +24,7 @@
     
     
     <div id="splitTables">
-      <table class="children sortable" id="id309">
+      <table class="children sortable" id="id307">
   
   
 <tr class="method">
@@ -32,19 +32,19 @@
     
     <td>Method</td>
     <td><a href="dulwich.client.HttpGitClient.html#__init__">__init__</a></td>
-    <td><span>Create a new GitClient instance.</span></td>
+    <td><tt>Create a new GitClient instance.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.client.HttpGitClient.html#send_pack">send_pack</a></td>
-    <td><span>Upload a pack to a remote repository.</span></td>
+    <td><tt>Upload a pack to a remote repository.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.client.HttpGitClient.html#fetch_pack">fetch_pack</a></td>
-    <td><span>Retrieve a pack from a git smart server.</span></td>
+    <td><tt>Retrieve a pack from a git smart server.</tt></td>
   </tr><tr class="method">
     
     
@@ -62,7 +62,7 @@
     
     <td>Method</td>
     <td><a href="dulwich.client.HttpGitClient.html#_perform">_perform</a></td>
-    <td><span>Perform a HTTP request.</span></td>
+    <td><tt>Perform a HTTP request.</tt></td>
   </tr><tr class="method private">
     
     
@@ -82,7 +82,7 @@
         <p>
           Inherited from <a href="dulwich.client.GitClient.html">GitClient</a>:
         </p>
-        <table class="children sortable" id="id310">
+        <table class="children sortable" id="id308">
   
   
 <tr class="basemethod">
@@ -90,7 +90,7 @@
     
     <td>Method</td>
     <td><a href="dulwich.client.GitClient.html#fetch">fetch</a></td>
-    <td><span>Fetch into a target repository.</span></td>
+    <td><tt>Fetch into a target repository.</tt></td>
   </tr><tr class="basemethod">
     
     
@@ -120,31 +120,31 @@
     
     <td>Method</td>
     <td><a href="dulwich.client.GitClient.html#_read_side_band64k_data">_read_side_band64k_data</a></td>
-    <td><span>Read per-channel data.</span></td>
+    <td><tt>Read per-channel data.</tt></td>
   </tr><tr class="basemethod private">
     
     
     <td>Method</td>
     <td><a href="dulwich.client.GitClient.html#_handle_receive_pack_head">_handle_receive_pack_head</a></td>
-    <td><span>Handle the head of a 'git-receive-pack' request.</span></td>
+    <td><tt>Handle the head of a 'git-receive-pack' request.</tt></td>
   </tr><tr class="basemethod private">
     
     
     <td>Method</td>
     <td><a href="dulwich.client.GitClient.html#_handle_receive_pack_tail">_handle_receive_pack_tail</a></td>
-    <td><span>Handle the tail of a 'git-receive-pack' request.</span></td>
+    <td><tt>Handle the tail of a 'git-receive-pack' request.</tt></td>
   </tr><tr class="basemethod private">
     
     
     <td>Method</td>
     <td><a href="dulwich.client.GitClient.html#_handle_upload_pack_head">_handle_upload_pack_head</a></td>
-    <td><span>Handle the head of a 'git-upload-pack' request.</span></td>
+    <td><tt>Handle the head of a 'git-upload-pack' request.</tt></td>
   </tr><tr class="basemethod private">
     
     
     <td>Method</td>
     <td><a href="dulwich.client.GitClient.html#_handle_upload_pack_tail">_handle_upload_pack_tail</a></td>
-    <td><span>Handle the tail of a 'git-upload-pack' request.</span></td>
+    <td><tt>Handle the tail of a 'git-upload-pack' request.</tt></td>
   </tr>
   
 </table>
@@ -170,8 +170,11 @@
   </div>
   <div class="functionBody">
     <div class="interfaceinfo">overrides <a href="dulwich.client.GitClient.html#__init__">dulwich.client.GitClient.__init__</a></div>
-    <div>Create a new GitClient instance.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">thin_packs</td><td>Whether or not thin packs should be retrieved</td></tr><tr><td></td><td class="fieldArg">report_activity</td><td>Optional callback for reporting transport
-activity.</td></tr></table></div>
+    <pre>Create a new GitClient instance.
+
+:param thin_packs: Whether or not thin packs should be retrieved
+:param report_activity: Optional callback for reporting transport
+    activity.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.client.HttpGitClient._get_url">
@@ -205,8 +208,12 @@ activity.</td></tr></table></div>
   </div>
   <div class="functionBody">
     
-    <div>Perform a HTTP request.</p>
-<p>This is provided so subclasses can provide their own version.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">req</td><td>urllib2.Request instance</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">matching response</td></tr></table></div>
+    <pre>Perform a HTTP request.
+
+This is provided so subclasses can provide their own version.
+
+:param req: urllib2.Request instance
+:return: matching response</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.client.HttpGitClient._discover_references">
@@ -257,9 +264,16 @@ activity.</td></tr></table></div>
   </div>
   <div class="functionBody">
     <div class="interfaceinfo">overrides <a href="dulwich.client.GitClient.html#send_pack">dulwich.client.GitClient.send_pack</a></div>
-    <div>Upload a pack to a remote repository.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">path</td><td>Repository path</td></tr><tr><td></td><td class="fieldArg">generate_pack_contents</td><td>Function that can return a sequence of the
-shas of the objects to upload.</td></tr><tr><td></td><td class="fieldArg">progress</td><td>Optional progress function</td></tr><tr class="fieldStart"><td class="fieldName">Raises</td><td class="fieldArg">SendPackError</td><td>if server rejects the pack data</td></tr><tr><td></td><td class="fieldArg">UpdateRefsError</td><td>if the server supports report-status
-and rejects ref updates</td></tr></table></div>
+    <pre>Upload a pack to a remote repository.
+
+:param path: Repository path
+:param generate_pack_contents: Function that can return a sequence of the
+    shas of the objects to upload.
+:param progress: Optional progress function
+
+:raises SendPackError: if server rejects the pack data
+:raises UpdateRefsError: if the server supports report-status
+                         and rejects ref updates</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.client.HttpGitClient.fetch_pack">
@@ -276,7 +290,12 @@ and rejects ref updates</td></tr></table></div>
   </div>
   <div class="functionBody">
     <div class="interfaceinfo">overrides <a href="dulwich.client.GitClient.html#fetch_pack">dulwich.client.GitClient.fetch_pack</a></div>
-    <div>Retrieve a pack from a git smart server.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">determine_wants</td><td>Callback that returns list of commits to fetch</td></tr><tr><td></td><td class="fieldArg">graph_walker</td><td>Object with next() and ack().</td></tr><tr><td></td><td class="fieldArg">pack_data</td><td>Callback called for each bit of data in the pack</td></tr><tr><td></td><td class="fieldArg">progress</td><td>Callback for progress reports (strings)</td></tr></table></div>
+    <pre>Retrieve a pack from a git smart server.
+
+:param determine_wants: Callback that returns list of commits to fetch
+:param graph_walker: Object with next() and ack().
+:param pack_data: Callback called for each bit of data in the pack
+:param progress: Callback for progress reports (strings)</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.client.HttpGitClient.close">
@@ -297,7 +316,7 @@ and rejects ref updates</td></tr></table></div>
   </div>
 </div>
     <address>
-      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-25 13:37:30.
     </address>
   </body>
 </html>

@@ -19,12 +19,12 @@
     <div>
       
     </div>
-    <div>Git client that talks to a server using a subprocess.<table class="fieldTable"></table></div>
+    <pre>Git client that talks to a server using a subprocess.</pre>
 
     
     
     <div id="splitTables">
-      <table class="children sortable" id="id302">
+      <table class="children sortable" id="id300">
   
   
 <tr class="method">
@@ -32,7 +32,7 @@
     
     <td>Method</td>
     <td><a href="dulwich.client.SubprocessGitClient.html#__init__">__init__</a></td>
-    <td><span>Create a new GitClient instance.</span></td>
+    <td><tt>Create a new GitClient instance.</tt></td>
   </tr><tr class="method">
     
     
@@ -44,7 +44,7 @@
     
     <td>Method</td>
     <td><a href="dulwich.client.SubprocessGitClient.html#_connect">_connect</a></td>
-    <td><span>Create a connection to the server.</span></td>
+    <td><tt>Create a connection to the server.</tt></td>
   </tr>
   
 </table>
@@ -52,7 +52,7 @@
         <p>
           Inherited from <a href="dulwich.client.TraditionalGitClient.html">TraditionalGitClient</a>:
         </p>
-        <table class="children sortable" id="id303">
+        <table class="children sortable" id="id301">
   
   
 <tr class="basemethod">
@@ -60,13 +60,13 @@
     
     <td>Method</td>
     <td><a href="dulwich.client.TraditionalGitClient.html#send_pack">send_pack</a></td>
-    <td><span>Upload a pack to a remote repository.</span></td>
+    <td><tt>Upload a pack to a remote repository.</tt></td>
   </tr><tr class="basemethod">
     
     
     <td>Method</td>
     <td><a href="dulwich.client.TraditionalGitClient.html#fetch_pack">fetch_pack</a></td>
-    <td><span>Retrieve a pack from a git smart server.</span></td>
+    <td><tt>Retrieve a pack from a git smart server.</tt></td>
   </tr>
   
 </table>
@@ -74,7 +74,7 @@
         <p>
           Inherited from <a href="dulwich.client.GitClient.html">GitClient</a> (via <a href="dulwich.client.TraditionalGitClient.html">TraditionalGitClient</a>):
         </p>
-        <table class="children sortable" id="id304">
+        <table class="children sortable" id="id302">
   
   
 <tr class="basemethod">
@@ -82,7 +82,7 @@
     
     <td>Method</td>
     <td><a href="dulwich.client.GitClient.html#fetch">fetch</a></td>
-    <td><span>Fetch into a target repository.</span></td>
+    <td><tt>Fetch into a target repository.</tt></td>
   </tr><tr class="basemethod">
     
     
@@ -112,31 +112,31 @@
     
     <td>Method</td>
     <td><a href="dulwich.client.GitClient.html#_read_side_band64k_data">_read_side_band64k_data</a></td>
-    <td><span>Read per-channel data.</span></td>
+    <td><tt>Read per-channel data.</tt></td>
   </tr><tr class="basemethod private">
     
     
     <td>Method</td>
     <td><a href="dulwich.client.GitClient.html#_handle_receive_pack_head">_handle_receive_pack_head</a></td>
-    <td><span>Handle the head of a 'git-receive-pack' request.</span></td>
+    <td><tt>Handle the head of a 'git-receive-pack' request.</tt></td>
   </tr><tr class="basemethod private">
     
     
     <td>Method</td>
     <td><a href="dulwich.client.GitClient.html#_handle_receive_pack_tail">_handle_receive_pack_tail</a></td>
-    <td><span>Handle the tail of a 'git-receive-pack' request.</span></td>
+    <td><tt>Handle the tail of a 'git-receive-pack' request.</tt></td>
   </tr><tr class="basemethod private">
     
     
     <td>Method</td>
     <td><a href="dulwich.client.GitClient.html#_handle_upload_pack_head">_handle_upload_pack_head</a></td>
-    <td><span>Handle the head of a 'git-upload-pack' request.</span></td>
+    <td><tt>Handle the head of a 'git-upload-pack' request.</tt></td>
   </tr><tr class="basemethod private">
     
     
     <td>Method</td>
     <td><a href="dulwich.client.GitClient.html#_handle_upload_pack_tail">_handle_upload_pack_tail</a></td>
-    <td><span>Handle the tail of a 'git-upload-pack' request.</span></td>
+    <td><tt>Handle the tail of a 'git-upload-pack' request.</tt></td>
   </tr>
   
 </table>
@@ -162,8 +162,11 @@
   </div>
   <div class="functionBody">
     <div class="interfaceinfo">overrides <a href="dulwich.client.GitClient.html#__init__">dulwich.client.GitClient.__init__</a></div>
-    <div>Create a new GitClient instance.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">thin_packs</td><td>Whether or not thin packs should be retrieved</td></tr><tr><td></td><td class="fieldArg">report_activity</td><td>Optional callback for reporting transport
-activity.</td></tr></table></div>
+    <pre>Create a new GitClient instance.
+
+:param thin_packs: Whether or not thin packs should be retrieved
+:param report_activity: Optional callback for reporting transport
+    activity.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.client.SubprocessGitClient._connect">
@@ -180,12 +183,16 @@ activity.</td></tr></table></div>
   </div>
   <div class="functionBody">
     <div class="interfaceinfo">overrides <a href="dulwich.client.TraditionalGitClient.html#_connect">dulwich.client.TraditionalGitClient._connect</a></div>
-    <div>Create a connection to the server.</p>
-<p>This method is abstract - concrete implementations should
+    <pre>Create a connection to the server.
+
+This method is abstract - concrete implementations should
 implement their own variant which connects to the server and
 returns an initialized Protocol object with the service ready
 for use and a can_read function which may be used to see if
-reads would block.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">cmd</td><td>The git service name to which we should connect.</td></tr><tr><td></td><td class="fieldArg">path</td><td>The path we should pass to the service.</td></tr></table></div>
+reads would block.
+
+:param cmd: The git service name to which we should connect.
+:param path: The path we should pass to the service.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.client.SubprocessGitClient.close">
@@ -206,7 +213,7 @@ reads would block.<table class="fieldTable"><tr class="fieldStart"><td class="fi
   </div>
 </div>
     <address>
-      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-25 13:37:30.
     </address>
   </body>
 </html>

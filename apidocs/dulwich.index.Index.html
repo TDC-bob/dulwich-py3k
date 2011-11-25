@@ -19,7 +19,7 @@
     <div>
       
     </div>
-    <div>A Git Index file.<table class="fieldTable"></table></div>
+    <pre>A Git Index file.</pre>
 
     
     
@@ -32,61 +32,61 @@
     
     <td>Method</td>
     <td><a href="dulwich.index.Index.html#__init__">__init__</a></td>
-    <td><span>Open an index file.</span></td>
+    <td><tt>Open an index file.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.index.Index.html#write">write</a></td>
-    <td><span>Write current contents of index to disk.</span></td>
+    <td><tt>Write current contents of index to disk.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.index.Index.html#read">read</a></td>
-    <td><span>Read current contents of index from disk.</span></td>
+    <td><tt>Read current contents of index from disk.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.index.Index.html#__len__">__len__</a></td>
-    <td><span>Number of entries in this index file.</span></td>
+    <td><tt>Number of entries in this index file.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.index.Index.html#__getitem__">__getitem__</a></td>
-    <td><span>Retrieve entry by relative path.</span></td>
+    <td><tt>Retrieve entry by relative path.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.index.Index.html#__iter__">__iter__</a></td>
-    <td><span>Iterate over the paths in this index.</span></td>
+    <td><tt>Iterate over the paths in this index.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.index.Index.html#get_sha1">get_sha1</a></td>
-    <td><span>Return the (Sha1Sum object) SHA1 for the object at a path.</span></td>
+    <td><tt>Return the (Sha1Sum object) SHA1 for the object at a path.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.index.Index.html#get_mode">get_mode</a></td>
-    <td><span>Return the POSIX file mode for the object at a path.</span></td>
+    <td><tt>Return the POSIX file mode for the object at a path.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.index.Index.html#iterblobs">iterblobs</a></td>
-    <td><span>Iterate over path, sha, mode tuples for use with commit_tree.</span></td>
+    <td><tt>Iterate over path, sha, mode tuples for use with commit_tree.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.index.Index.html#clear">clear</a></td>
-    <td><span>Remove all contents from this index.</span></td>
+    <td><tt>Remove all contents from this index.</tt></td>
   </tr><tr class="method">
     
     
@@ -116,13 +116,13 @@
     
     <td>Method</td>
     <td><a href="dulwich.index.Index.html#changes_from_tree">changes_from_tree</a></td>
-    <td><span>Find the differences between the contents of this index and a tree.</span></td>
+    <td><tt>Find the differences between the contents of this index and a tree.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.index.Index.html#commit">commit</a></td>
-    <td><span>Create a new tree from an index.</span></td>
+    <td><tt>Create a new tree from an index.</tt></td>
   </tr>
   
 </table>
@@ -148,7 +148,9 @@
   </div>
   <div class="functionBody">
     
-    <div>Open an index file.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">filename</td><td>Path to the index file</td></tr></table></div>
+    <pre>Open an index file.
+
+:param filename: Path to the index file</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.index.Index.write">
@@ -165,7 +167,7 @@
   </div>
   <div class="functionBody">
     
-    <div>Write current contents of index to disk.<table class="fieldTable"></table></div>
+    <pre>Write current contents of index to disk.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.index.Index.read">
@@ -182,7 +184,7 @@
   </div>
   <div class="functionBody">
     
-    <div>Read current contents of index from disk.<table class="fieldTable"></table></div>
+    <pre>Read current contents of index from disk.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.index.Index.__len__">
@@ -199,7 +201,7 @@
   </div>
   <div class="functionBody">
     
-    <div>Number of entries in this index file.<table class="fieldTable"></table></div>
+    <pre>Number of entries in this index file.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.index.Index.__getitem__">
@@ -216,7 +218,9 @@
   </div>
   <div class="functionBody">
     
-    <div>Retrieve entry by relative path.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">tuple with (ctime, mtime, dev, ino, mode, uid, gid, size, sha, flags)</td></tr></table></div>
+    <pre>Retrieve entry by relative path.
+
+:return: tuple with (ctime, mtime, dev, ino, mode, uid, gid, size, sha, flags)</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.index.Index.__iter__">
@@ -233,7 +237,7 @@
   </div>
   <div class="functionBody">
     
-    <div>Iterate over the paths in this index.<table class="fieldTable"></table></div>
+    <pre>Iterate over the paths in this index.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.index.Index.get_sha1">
@@ -250,7 +254,7 @@
   </div>
   <div class="functionBody">
     
-    <div>Return the (Sha1Sum object) SHA1 for the object at a path.<table class="fieldTable"></table></div>
+    <pre>Return the (Sha1Sum object) SHA1 for the object at a path.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.index.Index.get_mode">
@@ -267,7 +271,7 @@
   </div>
   <div class="functionBody">
     
-    <div>Return the POSIX file mode for the object at a path.<table class="fieldTable"></table></div>
+    <pre>Return the POSIX file mode for the object at a path.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.index.Index.iterblobs">
@@ -284,7 +288,7 @@
   </div>
   <div class="functionBody">
     
-    <div>Iterate over path, sha, mode tuples for use with commit_tree.<table class="fieldTable"></table></div>
+    <pre>Iterate over path, sha, mode tuples for use with commit_tree.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.index.Index.clear">
@@ -301,7 +305,7 @@
   </div>
   <div class="functionBody">
     
-    <div>Remove all contents from this index.<table class="fieldTable"></table></div>
+    <pre>Remove all contents from this index.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.index.Index.__setitem__">
@@ -386,7 +390,12 @@
   </div>
   <div class="functionBody">
     
-    <div>Find the differences between the contents of this index and a tree.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">object_store</td><td>Object store to use for retrieving tree contents</td></tr><tr><td></td><td class="fieldArg">tree</td><td>SHA1 of the root tree</td></tr><tr><td></td><td class="fieldArg">want_unchanged</td><td>Whether unchanged files should be reported</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">Iterator over tuples with (oldpath, newpath), (oldmode, newmode), (oldsha, newsha)</td></tr></table></div>
+    <pre>Find the differences between the contents of this index and a tree.
+
+:param object_store: Object store to use for retrieving tree contents
+:param tree: SHA1 of the root tree
+:param want_unchanged: Whether unchanged files should be reported
+:return: Iterator over tuples with (oldpath, newpath), (oldmode, newmode), (oldsha, newsha)</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.index.Index.commit">
@@ -403,11 +412,14 @@
   </div>
   <div class="functionBody">
     
-    <div>Create a new tree from an index.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">object_store</td><td>Object store to save the tree in</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">Root tree SHA</td></tr></table></div>
+    <pre>Create a new tree from an index.
+
+:param object_store: Object store to save the tree in
+:return: Root tree SHA</pre>
   </div>
 </div>
     <address>
-      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-25 13:37:30.
     </address>
   </body>
 </html>

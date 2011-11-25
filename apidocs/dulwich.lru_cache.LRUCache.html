@@ -19,12 +19,12 @@
     <div>
       <p>Known subclasses: <a href="dulwich.lru_cache.LRUSizeCache.html">dulwich.lru_cache.LRUSizeCache</a></p>
     </div>
-    <div>A class which manages a cache of entries, removing unused ones.<table class="fieldTable"></table></div>
+    <pre>A class which manages a cache of entries, removing unused ones.</pre>
 
     
     
     <div id="splitTables">
-      <table class="children sortable" id="id274">
+      <table class="children sortable" id="id272">
   
   
 <tr class="method">
@@ -56,13 +56,13 @@
     
     <td>Method</td>
     <td><a href="dulwich.lru_cache.LRUCache.html#add">add</a></td>
-    <td><span>Add a new value to the cache.</span></td>
+    <td><tt>Add a new value to the cache.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.lru_cache.LRUCache.html#cache_size">cache_size</a></td>
-    <td><span>Get the number of entries we will cache.</span></td>
+    <td><tt>Get the number of entries we will cache.</tt></td>
   </tr><tr class="method">
     
     
@@ -74,49 +74,49 @@
     
     <td>Method</td>
     <td><a href="dulwich.lru_cache.LRUCache.html#keys">keys</a></td>
-    <td><span>Get the list of keys currently cached.</span></td>
+    <td><tt>Get the list of keys currently cached.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.lru_cache.LRUCache.html#items">items</a></td>
-    <td><span>Get the key:value pairs as a dict.</span></td>
+    <td><tt>Get the key:value pairs as a dict.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.lru_cache.LRUCache.html#cleanup">cleanup</a></td>
-    <td><span>Clear the cache until it shrinks to the requested size.</span></td>
+    <td><tt>Clear the cache until it shrinks to the requested size.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.lru_cache.LRUCache.html#__setitem__">__setitem__</a></td>
-    <td><span>Add a value to the cache, there will be no cleanup function.</span></td>
+    <td><tt>Add a value to the cache, there will be no cleanup function.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.lru_cache.LRUCache.html#clear">clear</a></td>
-    <td><span>Clear out all of the cache.</span></td>
+    <td><tt>Clear out all of the cache.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.lru_cache.LRUCache.html#resize">resize</a></td>
-    <td><span>Change the number of entries that will be cached.</span></td>
+    <td><tt>Change the number of entries that will be cached.</tt></td>
   </tr><tr class="method private">
     
     
     <td>Method</td>
     <td><a href="dulwich.lru_cache.LRUCache.html#_walk_lru">_walk_lru</a></td>
-    <td><span>Walk the LRU list, only meant to be used in tests.</span></td>
+    <td><tt>Walk the LRU list, only meant to be used in tests.</tt></td>
   </tr><tr class="method private">
     
     
     <td>Method</td>
     <td><a href="dulwich.lru_cache.LRUCache.html#_record_access">_record_access</a></td>
-    <td><span>Record that key was accessed.</span></td>
+    <td><tt>Record that key was accessed.</tt></td>
   </tr><tr class="method private">
     
     
@@ -128,7 +128,7 @@
     
     <td>Method</td>
     <td><a href="dulwich.lru_cache.LRUCache.html#_remove_lru">_remove_lru</a></td>
-    <td><span>Remove one entry from the lru, and handle consequences.</span></td>
+    <td><tt>Remove one entry from the lru, and handle consequences.</tt></td>
   </tr><tr class="method private">
     
     
@@ -228,7 +228,7 @@
   </div>
   <div class="functionBody">
     
-    <div>Walk the LRU list, only meant to be used in tests.<table class="fieldTable"></table></div>
+    <pre>Walk the LRU list, only meant to be used in tests.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.lru_cache.LRUCache.add">
@@ -245,10 +245,15 @@
   </div>
   <div class="functionBody">
     <div class="interfaceinfo">overridden in <a href="dulwich.lru_cache.LRUSizeCache.html">dulwich.lru_cache.LRUSizeCache</a></div>
-    <div>Add a new value to the cache.</p>
-<p>Also, if the entry is ever removed from the cache, call
-cleanup(key, value).<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">key</td><td>The key to store it under</td></tr><tr><td></td><td class="fieldArg">value</td><td>The object to store</td></tr><tr><td></td><td class="fieldArg">cleanup</td><td>None or a function taking (key, value) to indicate
-'value' should be cleaned up.</td></tr></table></div>
+    <pre>Add a new value to the cache.
+
+Also, if the entry is ever removed from the cache, call
+cleanup(key, value).
+
+:param key: The key to store it under
+:param value: The object to store
+:param cleanup: None or a function taking (key, value) to indicate
+                'value' should be cleaned up.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.lru_cache.LRUCache.cache_size">
@@ -265,7 +270,7 @@ cleanup(key, value).<table class="fieldTable"><tr class="fieldStart"><td class="
   </div>
   <div class="functionBody">
     
-    <div>Get the number of entries we will cache.<table class="fieldTable"></table></div>
+    <pre>Get the number of entries we will cache.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.lru_cache.LRUCache.get">
@@ -299,10 +304,13 @@ cleanup(key, value).<table class="fieldTable"><tr class="fieldStart"><td class="
   </div>
   <div class="functionBody">
     
-    <div>Get the list of keys currently cached.</p>
-<p>Note that values returned here may not be available by the time you
+    <pre>Get the list of keys currently cached.
+
+Note that values returned here may not be available by the time you
 request them later. This is simply meant as a peak into the current
-state.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">An unordered list of keys that are currently cached.</td></tr></table></div>
+state.
+
+:return: An unordered list of keys that are currently cached.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.lru_cache.LRUCache.items">
@@ -319,7 +327,7 @@ state.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Ret
   </div>
   <div class="functionBody">
     
-    <div>Get the key:value pairs as a dict.<table class="fieldTable"></table></div>
+    <pre>Get the key:value pairs as a dict.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.lru_cache.LRUCache.cleanup">
@@ -336,9 +344,10 @@ state.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Ret
   </div>
   <div class="functionBody">
     <div class="interfaceinfo">overridden in <a href="dulwich.lru_cache.LRUSizeCache.html">dulwich.lru_cache.LRUSizeCache</a></div>
-    <div>Clear the cache until it shrinks to the requested size.</p>
-<p>This does not completely wipe the cache, just makes sure it is under
-the after_cleanup_count.<table class="fieldTable"></table></div>
+    <pre>Clear the cache until it shrinks to the requested size.
+
+This does not completely wipe the cache, just makes sure it is under
+the after_cleanup_count.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.lru_cache.LRUCache.__setitem__">
@@ -355,7 +364,7 @@ the after_cleanup_count.<table class="fieldTable"></table></div>
   </div>
   <div class="functionBody">
     
-    <div>Add a value to the cache, there will be no cleanup function.<table class="fieldTable"></table></div>
+    <pre>Add a value to the cache, there will be no cleanup function.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.lru_cache.LRUCache._record_access">
@@ -372,7 +381,7 @@ the after_cleanup_count.<table class="fieldTable"></table></div>
   </div>
   <div class="functionBody">
     
-    <div>Record that key was accessed.<table class="fieldTable"></table></div>
+    <pre>Record that key was accessed.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.lru_cache.LRUCache._remove_node">
@@ -406,9 +415,10 @@ the after_cleanup_count.<table class="fieldTable"></table></div>
   </div>
   <div class="functionBody">
     
-    <div>Remove one entry from the lru, and handle consequences.</p>
-<p>If there are no more references to the lru, then this entry should be
-removed from the cache.<table class="fieldTable"></table></div>
+    <pre>Remove one entry from the lru, and handle consequences.
+
+If there are no more references to the lru, then this entry should be
+removed from the cache.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.lru_cache.LRUCache.clear">
@@ -425,7 +435,7 @@ removed from the cache.<table class="fieldTable"></table></div>
   </div>
   <div class="functionBody">
     
-    <div>Clear out all of the cache.<table class="fieldTable"></table></div>
+    <pre>Clear out all of the cache.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.lru_cache.LRUCache.resize">
@@ -442,7 +452,7 @@ removed from the cache.<table class="fieldTable"></table></div>
   </div>
   <div class="functionBody">
     <div class="interfaceinfo">overridden in <a href="dulwich.lru_cache.LRUSizeCache.html">dulwich.lru_cache.LRUSizeCache</a></div>
-    <div>Change the number of entries that will be cached.<table class="fieldTable"></table></div>
+    <pre>Change the number of entries that will be cached.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.lru_cache.LRUCache._update_max_cache">
@@ -463,7 +473,7 @@ removed from the cache.<table class="fieldTable"></table></div>
   </div>
 </div>
     <address>
-      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-25 13:37:30.
     </address>
   </body>
 </html>

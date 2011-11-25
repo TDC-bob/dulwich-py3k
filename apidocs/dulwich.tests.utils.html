@@ -19,12 +19,12 @@
     <div>
       
     </div>
-    <div>Utility functions common to Dulwich tests.<table class="fieldTable"></table></div>
+    <pre>Utility functions common to Dulwich tests.</pre>
 
     
     
     <div id="splitTables">
-      <table class="children sortable" id="id240">
+      <table class="children sortable" id="id238">
   
   
 <tr class="function">
@@ -32,49 +32,49 @@
     
     <td>Function</td>
     <td><a href="dulwich.tests.utils.html#open_repo">open_repo</a></td>
-    <td><span>Open a copy of a repo in a temporary directory.</span></td>
+    <td><tt>Open a copy of a repo in a temporary directory.</tt></td>
   </tr><tr class="function">
     
     
     <td>Function</td>
     <td><a href="dulwich.tests.utils.html#tear_down_repo">tear_down_repo</a></td>
-    <td><span>Tear down a test repository.</span></td>
+    <td><tt>Tear down a test repository.</tt></td>
   </tr><tr class="function">
     
     
     <td>Function</td>
     <td><a href="dulwich.tests.utils.html#make_object">make_object</a></td>
-    <td><span>Make an object for testing and assign some members.</span></td>
+    <td><tt>Make an object for testing and assign some members.</tt></td>
   </tr><tr class="function">
     
     
     <td>Function</td>
     <td><a href="dulwich.tests.utils.html#make_commit">make_commit</a></td>
-    <td><span>Make a Commit object with a default set of members.</span></td>
+    <td><tt>Make a Commit object with a default set of members.</tt></td>
   </tr><tr class="function">
     
     
     <td>Function</td>
     <td><a href="dulwich.tests.utils.html#functest_builder">functest_builder</a></td>
-    <td><span>Generate a test method that tests the given function.</span></td>
+    <td><tt>Generate a test method that tests the given function.</tt></td>
   </tr><tr class="function">
     
     
     <td>Function</td>
     <td><a href="dulwich.tests.utils.html#ext_functest_builder">ext_functest_builder</a></td>
-    <td><span>Generate a test method that tests the given extension function.</span></td>
+    <td><tt>Generate a test method that tests the given extension function.</tt></td>
   </tr><tr class="function">
     
     
     <td>Function</td>
     <td><a href="dulwich.tests.utils.html#build_pack">build_pack</a></td>
-    <td><span>Write test pack data from a concise spec.</span></td>
+    <td><tt>Write test pack data from a concise spec.</tt></td>
   </tr><tr class="function">
     
     
     <td>Function</td>
     <td><a href="dulwich.tests.utils.html#build_commit_graph">build_commit_graph</a></td>
-    <td><span>Build a commit graph from a concise specification.</span></td>
+    <td><tt>Build a commit graph from a concise specification.</tt></td>
   </tr>
   
 </table>
@@ -100,11 +100,15 @@
   </div>
   <div class="functionBody">
     
-    <div>Open a copy of a repo in a temporary directory.</p>
-<p>Use this function for accessing repos in dulwich/tests/data/repos to avoid
+    <pre>Open a copy of a repo in a temporary directory.
+
+Use this function for accessing repos in dulwich/tests/data/repos to avoid
 accidentally or intentionally modifying those repos in place. Use
-tear_down_repo to delete any temp files created.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">name</td><td>The name of the repository, relative to
-dulwich/tests/data/repos</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">An initialized Repo object that lives in a temporary directory.</td></tr></table></div>
+tear_down_repo to delete any temp files created.
+
+:param name: The name of the repository, relative to
+    dulwich/tests/data/repos
+:returns: An initialized Repo object that lives in a temporary directory.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.tests.utils.tear_down_repo">
@@ -121,7 +125,7 @@ dulwich/tests/data/repos</td></tr><tr class="fieldStart"><td class="fieldName">R
   </div>
   <div class="functionBody">
     
-    <div>Tear down a test repository.<table class="fieldTable"></table></div>
+    <pre>Tear down a test repository.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.tests.utils.make_object">
@@ -138,9 +142,13 @@ dulwich/tests/data/repos</td></tr><tr class="fieldStart"><td class="fieldName">R
   </div>
   <div class="functionBody">
     
-    <div>Make an object for testing and assign some members.</p>
-<p>This method creates a new subclass to allow arbitrary attribute
-reassignment, which is not otherwise possible with objects having __slots__.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">attrs</td><td>dict of attributes to set on the new object.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">A newly initialized object of type cls.</td></tr></table></div>
+    <pre>Make an object for testing and assign some members.
+
+This method creates a new subclass to allow arbitrary attribute
+reassignment, which is not otherwise possible with objects having __slots__.
+
+:param attrs: dict of attributes to set on the new object.
+:return: A newly initialized object of type cls.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.tests.utils.make_commit">
@@ -157,7 +165,10 @@ reassignment, which is not otherwise possible with objects having __slots__.<tab
   </div>
   <div class="functionBody">
     
-    <div>Make a Commit object with a default set of members.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">attrs</td><td>dict of attributes to overwrite from the default values.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">A newly initialized Commit object.</td></tr></table></div>
+    <pre>Make a Commit object with a default set of members.
+
+:param attrs: dict of attributes to overwrite from the default values.
+:return: A newly initialized Commit object.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.tests.utils.functest_builder">
@@ -174,7 +185,7 @@ reassignment, which is not otherwise possible with objects having __slots__.<tab
   </div>
   <div class="functionBody">
     
-    <div>Generate a test method that tests the given function.<table class="fieldTable"></table></div>
+    <pre>Generate a test method that tests the given function.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.tests.utils.ext_functest_builder">
@@ -191,23 +202,24 @@ reassignment, which is not otherwise possible with objects having __slots__.<tab
   </div>
   <div class="functionBody">
     
-    <div><p>Generate a test method that tests the given extension function.</p>
-<p>This is intended to generate test methods that test both a pure-Python
+    <pre>Generate a test method that tests the given extension function.
+
+This is intended to generate test methods that test both a pure-Python
 version and an extension version using common test code. The extension test
-will raise SkipTest if the extension is not found.</p>
-<p>Sample usage:</p>
-<dl class="rst-docutils">
-<dt>class MyTest(TestCase);</dt>
-<dd><dl class="rst-first rst-docutils">
-<dt>def _do_some_test(self, func_impl):</dt>
-<dd>self.assertEqual('foo', func_impl())</dd>
-</dl>
-<p class="rst-last">test_foo = functest_builder(_do_some_test, foo_py)
-test_foo_extension = ext_functest_builder(_do_some_test, _foo_c)</p>
-</dd>
-</dl>
-<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">method</td><td>The method to run. It must must two parameters, self and the
-function implementation to test.</td></tr><tr><td></td><td class="fieldArg">func</td><td>The function implementation to pass to method.</td></tr></table></div>
+will raise SkipTest if the extension is not found.
+
+Sample usage:
+
+class MyTest(TestCase);
+    def _do_some_test(self, func_impl):
+        self.assertEqual('foo', func_impl())
+
+    test_foo = functest_builder(_do_some_test, foo_py)
+    test_foo_extension = ext_functest_builder(_do_some_test, _foo_c)
+
+:param method: The method to run. It must must two parameters, self and the
+    function implementation to test.
+:param func: The function implementation to pass to method.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.tests.utils.build_pack">
@@ -224,17 +236,22 @@ function implementation to test.</td></tr><tr><td></td><td class="fieldArg">func
   </div>
   <div class="functionBody">
     
-    <div>Write test pack data from a concise spec.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">f</td><td>A file-like object to write the pack to.</td></tr><tr><td></td><td class="fieldArg">objects_spec</td><td>A list of (type_num, obj). For non-delta types, obj
-is the string of that object's data.
-For delta types, obj is a tuple of (base, data), where:</p>
-<ul class="rst-simple">
-<li>base can be either an index in objects_spec of the base for that</li>
-<li>delta; or for a ref delta, a SHA, in which case the resulting pack</li>
-<li>will be thin and the base will be an external ref.</li>
-<li>data is a string of the full, non-deltified data for that object.</li>
-</ul>
-<p>Note that offsets/refs and deltas are computed within this function.</td></tr><tr><td></td><td class="fieldArg">store</td><td>An optional ObjectStore for looking up external refs.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">A list of tuples in the order specified by objects_spec:
-(offset, type num, data, sha, CRC32)</td></tr></table></div>
+    <pre>Write test pack data from a concise spec.
+
+:param f: A file-like object to write the pack to.
+:param objects_spec: A list of (type_num, obj). For non-delta types, obj
+    is the string of that object's data.
+    For delta types, obj is a tuple of (base, data), where:
+
+    * base can be either an index in objects_spec of the base for that
+    * delta; or for a ref delta, a SHA, in which case the resulting pack
+    * will be thin and the base will be an external ref.
+    * data is a string of the full, non-deltified data for that object.
+
+    Note that offsets/refs and deltas are computed within this function.
+:param store: An optional ObjectStore for looking up external refs.
+:return: A list of tuples in the order specified by objects_spec:
+    (offset, type num, data, sha, CRC32)</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.tests.utils.build_commit_graph">
@@ -251,28 +268,37 @@ For delta types, obj is a tuple of (base, data), where:</p>
   </div>
   <div class="functionBody">
     
-    <div>Build a commit graph from a concise specification.</p>
-<p>Sample usage:
+    <pre>Build a commit graph from a concise specification.
+
+Sample usage:
 &gt;&gt;&gt; c1, c2, c3 = build_commit_graph(store, [[1], [2, 1], [3, 1, 2]])
 &gt;&gt;&gt; store[store[c3].parents[0]] == c1
 True
 &gt;&gt;&gt; store[store[c3].parents[1]] == c2
-True</p>
-<p>If not otherwise specified, commits will refer to the empty tree and have
-commit times increasing in the same order as the commit spec.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">object_store</td><td>An ObjectStore to commit objects to.</td></tr><tr><td></td><td class="fieldArg">commit_spec</td><td>An iterable of iterables of ints defining the commit
-graph. Each entry defines one commit, and entries must be in topological
-order. The first element of each entry is a commit number, and the
-remaining elements are its parents. The commit numbers are only
-meaningful for the call to make_commits; since real commit objects are
-created, they will get created with real, opaque SHAs.</td></tr><tr><td></td><td class="fieldArg">trees</td><td>An optional dict of commit number -&gt; tree spec for building
-trees for commits. The tree spec is an iterable of (path, blob, mode) or
-(path, blob) entries; if mode is omitted, it defaults to the normal file
-mode (0100644).</td></tr><tr><td></td><td class="fieldArg">attrs</td><td>A dict of commit number -&gt; (dict of attribute -&gt; value) for
-assigning additional values to the commits.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">The list of commit objects created.</td></tr><tr class="fieldStart"><td class="fieldName">Raises</td><td class="fieldArg">ValueError</td><td>If an undefined commit identifier is listed as a parent.</td></tr></table></div>
+True
+
+If not otherwise specified, commits will refer to the empty tree and have
+commit times increasing in the same order as the commit spec.
+
+:param object_store: An ObjectStore to commit objects to.
+:param commit_spec: An iterable of iterables of ints defining the commit
+    graph. Each entry defines one commit, and entries must be in topological
+    order. The first element of each entry is a commit number, and the
+    remaining elements are its parents. The commit numbers are only
+    meaningful for the call to make_commits; since real commit objects are
+    created, they will get created with real, opaque SHAs.
+:param trees: An optional dict of commit number -&gt; tree spec for building
+    trees for commits. The tree spec is an iterable of (path, blob, mode) or
+    (path, blob) entries; if mode is omitted, it defaults to the normal file
+    mode (0100644).
+:param attrs: A dict of commit number -&gt; (dict of attribute -&gt; value) for
+    assigning additional values to the commits.
+:return: The list of commit objects created.
+:raise ValueError: If an undefined commit identifier is listed as a parent.</pre>
   </div>
 </div>
     <address>
-      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-25 13:37:30.
     </address>
   </body>
 </html>

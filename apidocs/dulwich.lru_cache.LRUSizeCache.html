@@ -19,16 +19,18 @@
     <div>
       
     </div>
-    <div>An LRUCache that removes things based on the size of the values.</p>
-<p>This differs in that it doesn't care how many actual items there are,
-it just restricts the cache to be cleaned up after so much data is stored.</p>
-<p>The size of items added will be computed using compute_size(value), which
-defaults to len() if not supplied.<table class="fieldTable"></table></div>
+    <pre>An LRUCache that removes things based on the size of the values.
+
+This differs in that it doesn't care how many actual items there are,
+it just restricts the cache to be cleaned up after so much data is stored.
+
+The size of items added will be computed using compute_size(value), which
+defaults to len() if not supplied.</pre>
 
     
     
     <div id="splitTables">
-      <table class="children sortable" id="id275">
+      <table class="children sortable" id="id273">
   
   
 <tr class="method">
@@ -36,25 +38,25 @@ defaults to len() if not supplied.<table class="fieldTable"></table></div>
     
     <td>Method</td>
     <td><a href="dulwich.lru_cache.LRUSizeCache.html#__init__">__init__</a></td>
-    <td><span>Create a new LRUSizeCache.</span></td>
+    <td><tt>Create a new LRUSizeCache.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.lru_cache.LRUSizeCache.html#add">add</a></td>
-    <td><span>Add a new value to the cache.</span></td>
+    <td><tt>Add a new value to the cache.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.lru_cache.LRUSizeCache.html#cleanup">cleanup</a></td>
-    <td><span>Clear the cache until it shrinks to the requested size.</span></td>
+    <td><tt>Clear the cache until it shrinks to the requested size.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.lru_cache.LRUSizeCache.html#resize">resize</a></td>
-    <td><span>Change the number of bytes that will be cached.</span></td>
+    <td><tt>Change the number of bytes that will be cached.</tt></td>
   </tr><tr class="method private">
     
     
@@ -74,7 +76,7 @@ defaults to len() if not supplied.<table class="fieldTable"></table></div>
         <p>
           Inherited from <a href="dulwich.lru_cache.LRUCache.html">LRUCache</a>:
         </p>
-        <table class="children sortable" id="id276">
+        <table class="children sortable" id="id274">
   
   
 <tr class="basemethod">
@@ -100,7 +102,7 @@ defaults to len() if not supplied.<table class="fieldTable"></table></div>
     
     <td>Method</td>
     <td><a href="dulwich.lru_cache.LRUCache.html#cache_size">cache_size</a></td>
-    <td><span>Get the number of entries we will cache.</span></td>
+    <td><tt>Get the number of entries we will cache.</tt></td>
   </tr><tr class="basemethod">
     
     
@@ -112,43 +114,43 @@ defaults to len() if not supplied.<table class="fieldTable"></table></div>
     
     <td>Method</td>
     <td><a href="dulwich.lru_cache.LRUCache.html#keys">keys</a></td>
-    <td><span>Get the list of keys currently cached.</span></td>
+    <td><tt>Get the list of keys currently cached.</tt></td>
   </tr><tr class="basemethod">
     
     
     <td>Method</td>
     <td><a href="dulwich.lru_cache.LRUCache.html#items">items</a></td>
-    <td><span>Get the key:value pairs as a dict.</span></td>
+    <td><tt>Get the key:value pairs as a dict.</tt></td>
   </tr><tr class="basemethod">
     
     
     <td>Method</td>
     <td><a href="dulwich.lru_cache.LRUCache.html#__setitem__">__setitem__</a></td>
-    <td><span>Add a value to the cache, there will be no cleanup function.</span></td>
+    <td><tt>Add a value to the cache, there will be no cleanup function.</tt></td>
   </tr><tr class="basemethod">
     
     
     <td>Method</td>
     <td><a href="dulwich.lru_cache.LRUCache.html#clear">clear</a></td>
-    <td><span>Clear out all of the cache.</span></td>
+    <td><tt>Clear out all of the cache.</tt></td>
   </tr><tr class="basemethod private">
     
     
     <td>Method</td>
     <td><a href="dulwich.lru_cache.LRUCache.html#_walk_lru">_walk_lru</a></td>
-    <td><span>Walk the LRU list, only meant to be used in tests.</span></td>
+    <td><tt>Walk the LRU list, only meant to be used in tests.</tt></td>
   </tr><tr class="basemethod private">
     
     
     <td>Method</td>
     <td><a href="dulwich.lru_cache.LRUCache.html#_record_access">_record_access</a></td>
-    <td><span>Record that key was accessed.</span></td>
+    <td><tt>Record that key was accessed.</tt></td>
   </tr><tr class="basemethod private">
     
     
     <td>Method</td>
     <td><a href="dulwich.lru_cache.LRUCache.html#_remove_lru">_remove_lru</a></td>
-    <td><span>Remove one entry from the lru, and handle consequences.</span></td>
+    <td><tt>Remove one entry from the lru, and handle consequences.</tt></td>
   </tr><tr class="basemethod private">
     
     
@@ -180,14 +182,18 @@ defaults to len() if not supplied.<table class="fieldTable"></table></div>
   </div>
   <div class="functionBody">
     <div class="interfaceinfo">overrides <a href="dulwich.lru_cache.LRUCache.html#__init__">dulwich.lru_cache.LRUCache.__init__</a></div>
-    <div>Create a new LRUSizeCache.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">max_size</td><td>The max number of bytes to store before we start
-clearing out entries.</td></tr><tr><td></td><td class="fieldArg">after_cleanup_size</td><td>After cleaning up, shrink everything to this
-size.</td></tr><tr><td></td><td class="fieldArg">compute_size</td><td>A function to compute the size of the values. We
-use a function here, so that you can pass 'len' if you are just
-using simple strings, or a more complex function if you are using
-something like a list of strings, or even a custom object.
-The function should take the form &quot;compute_size(value) =&gt; integer&quot;.
-If not supplied, it defaults to 'len()'</td></tr></table></div>
+    <pre>Create a new LRUSizeCache.
+
+:param max_size: The max number of bytes to store before we start
+    clearing out entries.
+:param after_cleanup_size: After cleaning up, shrink everything to this
+    size.
+:param compute_size: A function to compute the size of the values. We
+    use a function here, so that you can pass 'len' if you are just
+    using simple strings, or a more complex function if you are using
+    something like a list of strings, or even a custom object.
+    The function should take the form "compute_size(value) =&gt; integer".
+    If not supplied, it defaults to 'len()'</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.lru_cache.LRUSizeCache.add">
@@ -204,10 +210,15 @@ If not supplied, it defaults to 'len()'</td></tr></table></div>
   </div>
   <div class="functionBody">
     <div class="interfaceinfo">overrides <a href="dulwich.lru_cache.LRUCache.html#add">dulwich.lru_cache.LRUCache.add</a></div>
-    <div>Add a new value to the cache.</p>
-<p>Also, if the entry is ever removed from the cache, call
-cleanup(key, value).<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">key</td><td>The key to store it under</td></tr><tr><td></td><td class="fieldArg">value</td><td>The object to store</td></tr><tr><td></td><td class="fieldArg">cleanup</td><td>None or a function taking (key, value) to indicate
-'value' should be cleaned up.</td></tr></table></div>
+    <pre>Add a new value to the cache.
+
+Also, if the entry is ever removed from the cache, call
+cleanup(key, value).
+
+:param key: The key to store it under
+:param value: The object to store
+:param cleanup: None or a function taking (key, value) to indicate
+                'value' should be cleaned up.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.lru_cache.LRUSizeCache.cleanup">
@@ -224,9 +235,10 @@ cleanup(key, value).<table class="fieldTable"><tr class="fieldStart"><td class="
   </div>
   <div class="functionBody">
     <div class="interfaceinfo">overrides <a href="dulwich.lru_cache.LRUCache.html#cleanup">dulwich.lru_cache.LRUCache.cleanup</a></div>
-    <div>Clear the cache until it shrinks to the requested size.</p>
-<p>This does not completely wipe the cache, just makes sure it is under
-the after_cleanup_size.<table class="fieldTable"></table></div>
+    <pre>Clear the cache until it shrinks to the requested size.
+
+This does not completely wipe the cache, just makes sure it is under
+the after_cleanup_size.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.lru_cache.LRUSizeCache._remove_node">
@@ -260,7 +272,7 @@ the after_cleanup_size.<table class="fieldTable"></table></div>
   </div>
   <div class="functionBody">
     <div class="interfaceinfo">overrides <a href="dulwich.lru_cache.LRUCache.html#resize">dulwich.lru_cache.LRUCache.resize</a></div>
-    <div>Change the number of bytes that will be cached.<table class="fieldTable"></table></div>
+    <pre>Change the number of bytes that will be cached.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.lru_cache.LRUSizeCache._update_max_size">
@@ -281,7 +293,7 @@ the after_cleanup_size.<table class="fieldTable"></table></div>
   </div>
 </div>
     <address>
-      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-25 13:37:30.
     </address>
   </body>
 </html>

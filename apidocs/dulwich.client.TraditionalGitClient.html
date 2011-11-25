@@ -19,12 +19,12 @@
     <div>
       <p>Known subclasses: <a href="dulwich.client.SSHGitClient.html">dulwich.client.SSHGitClient</a>, <a href="dulwich.client.SubprocessGitClient.html">dulwich.client.SubprocessGitClient</a>, <a href="dulwich.client.TCPGitClient.html">dulwich.client.TCPGitClient</a>, <a href="dulwich.tests.test_client.DummyClient.html">dulwich.tests.test_client.DummyClient</a></p>
     </div>
-    <div>Traditional Git client.<table class="fieldTable"></table></div>
+    <pre>Traditional Git client.</pre>
 
     
     
     <div id="splitTables">
-      <table class="children sortable" id="id296">
+      <table class="children sortable" id="id294">
   
   
 <tr class="method">
@@ -32,19 +32,19 @@
     
     <td>Method</td>
     <td><a href="dulwich.client.TraditionalGitClient.html#send_pack">send_pack</a></td>
-    <td><span>Upload a pack to a remote repository.</span></td>
+    <td><tt>Upload a pack to a remote repository.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.client.TraditionalGitClient.html#fetch_pack">fetch_pack</a></td>
-    <td><span>Retrieve a pack from a git smart server.</span></td>
+    <td><tt>Retrieve a pack from a git smart server.</tt></td>
   </tr><tr class="method private">
     
     
     <td>Method</td>
     <td><a href="dulwich.client.TraditionalGitClient.html#_connect">_connect</a></td>
-    <td><span>Create a connection to the server.</span></td>
+    <td><tt>Create a connection to the server.</tt></td>
   </tr>
   
 </table>
@@ -52,7 +52,7 @@
         <p>
           Inherited from <a href="dulwich.client.GitClient.html">GitClient</a>:
         </p>
-        <table class="children sortable" id="id297">
+        <table class="children sortable" id="id295">
   
   
 <tr class="basemethod">
@@ -60,13 +60,13 @@
     
     <td>Method</td>
     <td><a href="dulwich.client.GitClient.html#__init__">__init__</a></td>
-    <td><span>Create a new GitClient instance.</span></td>
+    <td><tt>Create a new GitClient instance.</tt></td>
   </tr><tr class="basemethod">
     
     
     <td>Method</td>
     <td><a href="dulwich.client.GitClient.html#fetch">fetch</a></td>
-    <td><span>Fetch into a target repository.</span></td>
+    <td><tt>Fetch into a target repository.</tt></td>
   </tr><tr class="basemethod">
     
     
@@ -102,31 +102,31 @@
     
     <td>Method</td>
     <td><a href="dulwich.client.GitClient.html#_read_side_band64k_data">_read_side_band64k_data</a></td>
-    <td><span>Read per-channel data.</span></td>
+    <td><tt>Read per-channel data.</tt></td>
   </tr><tr class="basemethod private">
     
     
     <td>Method</td>
     <td><a href="dulwich.client.GitClient.html#_handle_receive_pack_head">_handle_receive_pack_head</a></td>
-    <td><span>Handle the head of a 'git-receive-pack' request.</span></td>
+    <td><tt>Handle the head of a 'git-receive-pack' request.</tt></td>
   </tr><tr class="basemethod private">
     
     
     <td>Method</td>
     <td><a href="dulwich.client.GitClient.html#_handle_receive_pack_tail">_handle_receive_pack_tail</a></td>
-    <td><span>Handle the tail of a 'git-receive-pack' request.</span></td>
+    <td><tt>Handle the tail of a 'git-receive-pack' request.</tt></td>
   </tr><tr class="basemethod private">
     
     
     <td>Method</td>
     <td><a href="dulwich.client.GitClient.html#_handle_upload_pack_head">_handle_upload_pack_head</a></td>
-    <td><span>Handle the head of a 'git-upload-pack' request.</span></td>
+    <td><tt>Handle the head of a 'git-upload-pack' request.</tt></td>
   </tr><tr class="basemethod private">
     
     
     <td>Method</td>
     <td><a href="dulwich.client.GitClient.html#_handle_upload_pack_tail">_handle_upload_pack_tail</a></td>
-    <td><span>Handle the tail of a 'git-upload-pack' request.</span></td>
+    <td><tt>Handle the tail of a 'git-upload-pack' request.</tt></td>
   </tr>
   
 </table>
@@ -152,12 +152,16 @@
   </div>
   <div class="functionBody">
     <div class="interfaceinfo">overridden in <a href="dulwich.client.SSHGitClient.html">dulwich.client.SSHGitClient</a>, <a href="dulwich.client.SubprocessGitClient.html">dulwich.client.SubprocessGitClient</a>, <a href="dulwich.client.TCPGitClient.html">dulwich.client.TCPGitClient</a>, <a href="dulwich.tests.test_client.DummyClient.html">dulwich.tests.test_client.DummyClient</a></div>
-    <div>Create a connection to the server.</p>
-<p>This method is abstract - concrete implementations should
+    <pre>Create a connection to the server.
+
+This method is abstract - concrete implementations should
 implement their own variant which connects to the server and
 returns an initialized Protocol object with the service ready
 for use and a can_read function which may be used to see if
-reads would block.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">cmd</td><td>The git service name to which we should connect.</td></tr><tr><td></td><td class="fieldArg">path</td><td>The path we should pass to the service.</td></tr></table></div>
+reads would block.
+
+:param cmd: The git service name to which we should connect.
+:param path: The path we should pass to the service.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.client.TraditionalGitClient.send_pack">
@@ -174,9 +178,16 @@ reads would block.<table class="fieldTable"><tr class="fieldStart"><td class="fi
   </div>
   <div class="functionBody">
     <div class="interfaceinfo">overrides <a href="dulwich.client.GitClient.html#send_pack">dulwich.client.GitClient.send_pack</a></div>
-    <div>Upload a pack to a remote repository.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">path</td><td>Repository path</td></tr><tr><td></td><td class="fieldArg">generate_pack_contents</td><td>Function that can return a sequence of the
-shas of the objects to upload.</td></tr><tr><td></td><td class="fieldArg">progress</td><td>Optional callback called with progress updates</td></tr><tr class="fieldStart"><td class="fieldName">Raises</td><td class="fieldArg">SendPackError</td><td>if server rejects the pack data</td></tr><tr><td></td><td class="fieldArg">UpdateRefsError</td><td>if the server supports report-status
-and rejects ref updates</td></tr></table></div>
+    <pre>Upload a pack to a remote repository.
+
+:param path: Repository path
+:param generate_pack_contents: Function that can return a sequence of the
+    shas of the objects to upload.
+:param progress: Optional callback called with progress updates
+
+:raises SendPackError: if server rejects the pack data
+:raises UpdateRefsError: if the server supports report-status
+                         and rejects ref updates</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.client.TraditionalGitClient.fetch_pack">
@@ -193,11 +204,16 @@ and rejects ref updates</td></tr></table></div>
   </div>
   <div class="functionBody">
     <div class="interfaceinfo">overrides <a href="dulwich.client.GitClient.html#fetch_pack">dulwich.client.GitClient.fetch_pack</a></div>
-    <div>Retrieve a pack from a git smart server.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">determine_wants</td><td>Callback that returns list of commits to fetch</td></tr><tr><td></td><td class="fieldArg">graph_walker</td><td>Object with next() and ack().</td></tr><tr><td></td><td class="fieldArg">pack_data</td><td>Callback called for each bit of data in the pack</td></tr><tr><td></td><td class="fieldArg">progress</td><td>Callback for progress reports (strings)</td></tr></table></div>
+    <pre>Retrieve a pack from a git smart server.
+
+:param determine_wants: Callback that returns list of commits to fetch
+:param graph_walker: Object with next() and ack().
+:param pack_data: Callback called for each bit of data in the pack
+:param progress: Callback for progress reports (strings)</pre>
   </div>
 </div>
     <address>
-      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-25 13:37:30.
     </address>
   </body>
 </html>

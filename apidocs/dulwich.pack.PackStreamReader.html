@@ -19,9 +19,10 @@
     <div>
       <p>Known subclasses: <a href="dulwich.pack.PackStreamCopier.html">dulwich.pack.PackStreamCopier</a></p>
     </div>
-    <div>Class to read a pack stream.</p>
-<p>The pack is read from a ReceivableProtocol using read() or recv() as
-appropriate.<table class="fieldTable"></table></div>
+    <pre>Class to read a pack stream.
+
+The pack is read from a ReceivableProtocol using read() or recv() as
+appropriate.</pre>
 
     
     
@@ -46,13 +47,13 @@ appropriate.<table class="fieldTable"></table></div>
     
     <td>Method</td>
     <td><a href="dulwich.pack.PackStreamReader.html#read">read</a></td>
-    <td><span>Read, blocking until size bytes are read.</span></td>
+    <td><tt>Read, blocking until size bytes are read.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.pack.PackStreamReader.html#recv">recv</a></td>
-    <td><span>Read up to size bytes, blocking until one byte is read.</span></td>
+    <td><tt>Read up to size bytes, blocking until one byte is read.</tt></td>
   </tr><tr class="method">
     
     
@@ -64,13 +65,13 @@ appropriate.<table class="fieldTable"></table></div>
     
     <td>Method</td>
     <td><a href="dulwich.pack.PackStreamReader.html#read_objects">read_objects</a></td>
-    <td><span>Read the objects in this pack file.</span></td>
+    <td><tt>Read the objects in this pack file.</tt></td>
   </tr><tr class="method private">
     
     
     <td>Method</td>
     <td><a href="dulwich.pack.PackStreamReader.html#_read">_read</a></td>
-    <td><span>Read up to size bytes using the given callback.</span></td>
+    <td><tt>Read up to size bytes using the given callback.</tt></td>
   </tr><tr class="method private">
     
     
@@ -119,10 +120,14 @@ appropriate.<table class="fieldTable"></table></div>
   </div>
   <div class="functionBody">
     <div class="interfaceinfo">overridden in <a href="dulwich.pack.PackStreamCopier.html">dulwich.pack.PackStreamCopier</a></div>
-    <div>Read up to size bytes using the given callback.</p>
-<p>As a side effect, update the verifier's hash (excluding the last 20
-bytes read).<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">read</td><td>The read callback to read from.</td></tr><tr><td></td><td class="fieldArg">size</td><td>The maximum number of bytes to read; the particular
-behavior is callback-specific.</td></tr></table></div>
+    <pre>Read up to size bytes using the given callback.
+
+As a side effect, update the verifier's hash (excluding the last 20
+bytes read).
+
+:param read: The read callback to read from.
+:param size: The maximum number of bytes to read; the particular
+    behavior is callback-specific.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.pack.PackStreamReader._buf_len">
@@ -173,7 +178,7 @@ behavior is callback-specific.</td></tr></table></div>
   </div>
   <div class="functionBody">
     
-    <div>Read, blocking until size bytes are read.<table class="fieldTable"></table></div>
+    <pre>Read, blocking until size bytes are read.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.pack.PackStreamReader.recv">
@@ -190,7 +195,7 @@ behavior is callback-specific.</td></tr></table></div>
   </div>
   <div class="functionBody">
     
-    <div>Read up to size bytes, blocking until one byte is read.<table class="fieldTable"></table></div>
+    <pre>Read up to size bytes, blocking until one byte is read.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.pack.PackStreamReader.__len__">
@@ -224,20 +229,26 @@ behavior is callback-specific.</td></tr></table></div>
   </div>
   <div class="functionBody">
     
-    <div>Read the objects in this pack file.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">compute_crc32</td><td>If True, compute the CRC32 of the compressed
-data. If False, the returned CRC32 will be None.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">Iterator over UnpackedObjects with the following members set:
-offset
-obj_type_num
-obj_chunks (for non-delta types)
-delta_base (for delta types)
-decomp_chunks
-decomp_len
-crc32 (if compute_crc32 is True)</td></tr><tr class="fieldStart"><td class="fieldName">Raises</td><td class="fieldArg">ChecksumMismatch</td><td>if the checksum of the pack contents does not
-match the checksum in the pack trailer.</td></tr><tr><td></td><td class="fieldArg">zlib.error</td><td>if an error occurred during zlib decompression.</td></tr><tr><td></td><td class="fieldArg">IOError</td><td>if an error occurred writing to the output file.</td></tr></table></div>
+    <pre>Read the objects in this pack file.
+
+:param compute_crc32: If True, compute the CRC32 of the compressed
+    data. If False, the returned CRC32 will be None.
+:return: Iterator over UnpackedObjects with the following members set:
+    offset
+    obj_type_num
+    obj_chunks (for non-delta types)
+    delta_base (for delta types)
+    decomp_chunks
+    decomp_len
+    crc32 (if compute_crc32 is True)
+:raise ChecksumMismatch: if the checksum of the pack contents does not
+    match the checksum in the pack trailer.
+:raise zlib.error: if an error occurred during zlib decompression.
+:raise IOError: if an error occurred writing to the output file.</pre>
   </div>
 </div>
     <address>
-      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-25 13:37:30.
     </address>
   </body>
 </html>

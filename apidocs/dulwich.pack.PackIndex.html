@@ -19,9 +19,10 @@
     <div>
       <p>Known subclasses: <a href="dulwich.pack.FilePackIndex.html">dulwich.pack.FilePackIndex</a>, <a href="dulwich.pack.MemoryPackIndex.html">dulwich.pack.MemoryPackIndex</a></p>
     </div>
-    <div>An index in to a packfile.</p>
-<p>Given a sha id of an object a pack index can tell you the location in the
-packfile of that object if it has it.<table class="fieldTable"></table></div>
+    <pre>An index in to a packfile.
+
+Given a sha id of an object a pack index can tell you the location in the
+packfile of that object if it has it.</pre>
 
     
     
@@ -46,49 +47,49 @@ packfile of that object if it has it.<table class="fieldTable"></table></div>
     
     <td>Method</td>
     <td><a href="dulwich.pack.PackIndex.html#__len__">__len__</a></td>
-    <td><span>Return the number of entries in this pack index.</span></td>
+    <td><tt>Return the number of entries in this pack index.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.pack.PackIndex.html#__iter__">__iter__</a></td>
-    <td><span>Iterate over the SHAs in this pack.</span></td>
+    <td><tt>Iterate over the SHAs in this pack.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.pack.PackIndex.html#iterentries">iterentries</a></td>
-    <td><span>Iterate over the entries in this pack index.</span></td>
+    <td><tt>Iterate over the entries in this pack index.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.pack.PackIndex.html#get_pack_checksum">get_pack_checksum</a></td>
-    <td><span>Return the SHA1 checksum stored for the corresponding packfile.</span></td>
+    <td><tt>Return the SHA1 checksum stored for the corresponding packfile.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.pack.PackIndex.html#object_index">object_index</a></td>
-    <td><span>Return the index in to the corresponding packfile for the object.</span></td>
+    <td><tt>Return the index in to the corresponding packfile for the object.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.pack.PackIndex.html#objects_sha1">objects_sha1</a></td>
-    <td><span>Return the hex SHA1 over all the shas of all objects in this pack.</span></td>
+    <td><tt>Return the hex SHA1 over all the shas of all objects in this pack.</tt></td>
   </tr><tr class="method private">
     
     
     <td>Method</td>
     <td><a href="dulwich.pack.PackIndex.html#_object_index">_object_index</a></td>
-    <td><span>See object_index.</span></td>
+    <td><tt>See object_index.</tt></td>
   </tr><tr class="method private">
     
     
     <td>Method</td>
     <td><a href="dulwich.pack.PackIndex.html#_itersha">_itersha</a></td>
-    <td><span>Yield all the SHA1's of the objects in the index, sorted.</span></td>
+    <td><tt>Yield all the SHA1's of the objects in the index, sorted.</tt></td>
   </tr>
   
 </table>
@@ -148,7 +149,7 @@ packfile of that object if it has it.<table class="fieldTable"></table></div>
   </div>
   <div class="functionBody">
     <div class="interfaceinfo">overridden in <a href="dulwich.pack.FilePackIndex.html">dulwich.pack.FilePackIndex</a>, <a href="dulwich.pack.MemoryPackIndex.html">dulwich.pack.MemoryPackIndex</a></div>
-    <div>Return the number of entries in this pack index.<table class="fieldTable"></table></div>
+    <pre>Return the number of entries in this pack index.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.pack.PackIndex.__iter__">
@@ -165,7 +166,7 @@ packfile of that object if it has it.<table class="fieldTable"></table></div>
   </div>
   <div class="functionBody">
     
-    <div>Iterate over the SHAs in this pack.<table class="fieldTable"></table></div>
+    <pre>Iterate over the SHAs in this pack.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.pack.PackIndex.iterentries">
@@ -182,8 +183,10 @@ packfile of that object if it has it.<table class="fieldTable"></table></div>
   </div>
   <div class="functionBody">
     <div class="interfaceinfo">overridden in <a href="dulwich.pack.FilePackIndex.html">dulwich.pack.FilePackIndex</a>, <a href="dulwich.pack.MemoryPackIndex.html">dulwich.pack.MemoryPackIndex</a></div>
-    <div>Iterate over the entries in this pack index.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">iterator over tuples with object name, offset in packfile and
-crc32 checksum.</td></tr></table></div>
+    <pre>Iterate over the entries in this pack index.
+
+:return: iterator over tuples with object name, offset in packfile and
+    crc32 checksum.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.pack.PackIndex.get_pack_checksum">
@@ -200,7 +203,9 @@ crc32 checksum.</td></tr></table></div>
   </div>
   <div class="functionBody">
     <div class="interfaceinfo">overridden in <a href="dulwich.pack.FilePackIndex.html">dulwich.pack.FilePackIndex</a>, <a href="dulwich.pack.MemoryPackIndex.html">dulwich.pack.MemoryPackIndex</a></div>
-    <div>Return the SHA1 checksum stored for the corresponding packfile.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">20-byte binary digest</td></tr></table></div>
+    <pre>Return the SHA1 checksum stored for the corresponding packfile.
+
+:return: 20-byte binary digest</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.pack.PackIndex.object_index">
@@ -217,10 +222,11 @@ crc32 checksum.</td></tr></table></div>
   </div>
   <div class="functionBody">
     
-    <div>Return the index in to the corresponding packfile for the object.</p>
-<p>Given the name of an object it will return the offset that object
+    <pre>Return the index in to the corresponding packfile for the object.
+
+Given the name of an object it will return the offset that object
 lives at within the corresponding pack file. If the pack file doesn't
-have the object then None will be returned.<table class="fieldTable"></table></div>
+have the object then None will be returned.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.pack.PackIndex._object_index">
@@ -237,7 +243,9 @@ have the object then None will be returned.<table class="fieldTable"></table></d
   </div>
   <div class="functionBody">
     <div class="interfaceinfo">overridden in <a href="dulwich.pack.FilePackIndex.html">dulwich.pack.FilePackIndex</a>, <a href="dulwich.pack.MemoryPackIndex.html">dulwich.pack.MemoryPackIndex</a></div>
-    <div>See object_index.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">sha</td><td>A <em>binary</em> SHA string. (20 characters long)_</td></tr></table></div>
+    <pre>See object_index.
+
+:param sha: A *binary* SHA string. (20 characters long)_</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.pack.PackIndex.objects_sha1">
@@ -254,7 +262,9 @@ have the object then None will be returned.<table class="fieldTable"></table></d
   </div>
   <div class="functionBody">
     
-    <div>Return the hex SHA1 over all the shas of all objects in this pack.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Note</td><td colspan="2">This is used for the filename of the pack.</td></tr></table></div>
+    <pre>Return the hex SHA1 over all the shas of all objects in this pack.
+
+:note: This is used for the filename of the pack.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.pack.PackIndex._itersha">
@@ -271,11 +281,11 @@ have the object then None will be returned.<table class="fieldTable"></table></d
   </div>
   <div class="functionBody">
     <div class="interfaceinfo">overridden in <a href="dulwich.pack.FilePackIndex.html">dulwich.pack.FilePackIndex</a>, <a href="dulwich.pack.MemoryPackIndex.html">dulwich.pack.MemoryPackIndex</a></div>
-    <div>Yield all the SHA1's of the objects in the index, sorted.<table class="fieldTable"></table></div>
+    <pre>Yield all the SHA1's of the objects in the index, sorted.</pre>
   </div>
 </div>
     <address>
-      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-25 13:37:30.
     </address>
   </body>
 </html>

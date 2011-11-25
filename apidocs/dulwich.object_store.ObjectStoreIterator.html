@@ -19,12 +19,12 @@
     <div>
       
     </div>
-    <div>ObjectIterator that works on top of an ObjectStore.<table class="fieldTable"></table></div>
+    <pre>ObjectIterator that works on top of an ObjectStore.</pre>
 
     
     
     <div id="splitTables">
-      <table class="children sortable" id="id290">
+      <table class="children sortable" id="id288">
   
   
 <tr class="method">
@@ -32,43 +32,43 @@
     
     <td>Method</td>
     <td><a href="dulwich.object_store.ObjectStoreIterator.html#__init__">__init__</a></td>
-    <td><span>Create a new ObjectIterator.</span></td>
+    <td><tt>Create a new ObjectIterator.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.object_store.ObjectStoreIterator.html#__iter__">__iter__</a></td>
-    <td><span>Yield tuple with next object and path.</span></td>
+    <td><tt>Yield tuple with next object and path.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.object_store.ObjectStoreIterator.html#iterobjects">iterobjects</a></td>
-    <td><span>Iterate over just the objects.</span></td>
+    <td><tt>Iterate over just the objects.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.object_store.ObjectStoreIterator.html#itershas">itershas</a></td>
-    <td><span>Iterate over the SHAs.</span></td>
+    <td><tt>Iterate over the SHAs.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.object_store.ObjectStoreIterator.html#__contains__">__contains__</a></td>
-    <td><span>Check if an object is present.</span></td>
+    <td><tt>Check if an object is present.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.object_store.ObjectStoreIterator.html#__getitem__">__getitem__</a></td>
-    <td><span>Find an object by SHA1.</span></td>
+    <td><tt>Find an object by SHA1.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.object_store.ObjectStoreIterator.html#__len__">__len__</a></td>
-    <td><span>Return the number of objects.</span></td>
+    <td><tt>Return the number of objects.</tt></td>
   </tr>
   
 </table>
@@ -94,7 +94,10 @@
   </div>
   <div class="functionBody">
     
-    <div>Create a new ObjectIterator.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">store</td><td>Object store to retrieve from</td></tr><tr><td></td><td class="fieldArg">sha_iter</td><td>Iterator over (sha, path) tuples</td></tr></table></div>
+    <pre>Create a new ObjectIterator.
+
+:param store: Object store to retrieve from
+:param sha_iter: Iterator over (sha, path) tuples</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.object_store.ObjectStoreIterator.__iter__">
@@ -111,7 +114,7 @@
   </div>
   <div class="functionBody">
     
-    <div>Yield tuple with next object and path.<table class="fieldTable"></table></div>
+    <pre>Yield tuple with next object and path.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.object_store.ObjectStoreIterator.iterobjects">
@@ -128,7 +131,7 @@
   </div>
   <div class="functionBody">
     <div class="interfaceinfo">overrides <a href="dulwich.object_store.ObjectIterator.html#iterobjects">dulwich.object_store.ObjectIterator.iterobjects</a></div>
-    <div>Iterate over just the objects.<table class="fieldTable"></table></div>
+    <pre>Iterate over just the objects.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.object_store.ObjectStoreIterator.itershas">
@@ -145,7 +148,7 @@
   </div>
   <div class="functionBody">
     
-    <div>Iterate over the SHAs.<table class="fieldTable"></table></div>
+    <pre>Iterate over the SHAs.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.object_store.ObjectStoreIterator.__contains__">
@@ -162,9 +165,13 @@
   </div>
   <div class="functionBody">
     
-    <div>Check if an object is present.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">needle</td><td>SHA1 of the object to check for</td></tr><tr class="fieldStart"><td class="fieldName">Note</td><td colspan="2">This checks if the object is present in
-the underlying object store, not if it would
-be yielded by the iterator.</td></tr></table></div>
+    <pre>Check if an object is present.
+
+:note: This checks if the object is present in
+    the underlying object store, not if it would
+    be yielded by the iterator.
+
+:param needle: SHA1 of the object to check for</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.object_store.ObjectStoreIterator.__getitem__">
@@ -181,9 +188,11 @@ be yielded by the iterator.</td></tr></table></div>
   </div>
   <div class="functionBody">
     
-    <div>Find an object by SHA1.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Note</td><td colspan="2">This retrieves the object from the underlying
-object store. It will also succeed if the object would
-not be returned by the iterator.</td></tr></table></div>
+    <pre>Find an object by SHA1.
+
+:note: This retrieves the object from the underlying
+    object store. It will also succeed if the object would
+    not be returned by the iterator.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.object_store.ObjectStoreIterator.__len__">
@@ -200,11 +209,11 @@ not be returned by the iterator.</td></tr></table></div>
   </div>
   <div class="functionBody">
     
-    <div>Return the number of objects.<table class="fieldTable"></table></div>
+    <pre>Return the number of objects.</pre>
   </div>
 </div>
     <address>
-      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-25 13:37:30.
     </address>
   </body>
 </html>

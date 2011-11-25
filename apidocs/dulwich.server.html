@@ -19,19 +19,18 @@
     <div>
       
     </div>
-    <div><p>Git smart network protocol server implementation.</p>
-<p>For more detailed implementation on the network protocol, see the
-Documentation/technical directory in the cgit distribution, and in particular:</p>
-<ul class="rst-simple">
-<li>Documentation/technical/protocol-capabilities.txt</li>
-<li>Documentation/technical/pack-protocol.txt</li>
-</ul>
-<table class="fieldTable"></table></div>
+    <pre>Git smart network protocol server implementation.
+
+For more detailed implementation on the network protocol, see the
+Documentation/technical directory in the cgit distribution, and in particular:
+
+* Documentation/technical/protocol-capabilities.txt
+* Documentation/technical/pack-protocol.txt</pre>
 
     
     
     <div id="splitTables">
-      <table class="children sortable" id="id241">
+      <table class="children sortable" id="id239">
   
   
 <tr class="class">
@@ -39,67 +38,67 @@ Documentation/technical directory in the cgit distribution, and in particular:</
     
     <td>Class</td>
     <td><a href="dulwich.server.Backend.html">Backend</a></td>
-    <td><span>A backend for the Git smart server implementation.</span></td>
+    <td><tt>A backend for the Git smart server implementation.</tt></td>
   </tr><tr class="class">
     
     
     <td>Class</td>
     <td><a href="dulwich.server.BackendRepo.html">BackendRepo</a></td>
-    <td><span>Repository abstraction used by the Git server.</span></td>
+    <td><tt>Repository abstraction used by the Git server.</tt></td>
   </tr><tr class="class">
     
     
     <td>Class</td>
     <td><a href="dulwich.server.DictBackend.html">DictBackend</a></td>
-    <td><span>Trivial backend that looks up Git repositories in a dictionary.</span></td>
+    <td><tt>Trivial backend that looks up Git repositories in a dictionary.</tt></td>
   </tr><tr class="class">
     
     
     <td>Class</td>
     <td><a href="dulwich.server.FileSystemBackend.html">FileSystemBackend</a></td>
-    <td><span>Simple backend that looks up Git repositories in the local file system.</span></td>
+    <td><tt>Simple backend that looks up Git repositories in the local file system.</tt></td>
   </tr><tr class="class">
     
     
     <td>Class</td>
     <td><a href="dulwich.server.Handler.html">Handler</a></td>
-    <td><span>Smart protocol command handler base class.</span></td>
+    <td><tt>Smart protocol command handler base class.</tt></td>
   </tr><tr class="class">
     
     
     <td>Class</td>
     <td><a href="dulwich.server.UploadPackHandler.html">UploadPackHandler</a></td>
-    <td><span>Protocol handler for uploading a pack to the server.</span></td>
+    <td><tt>Protocol handler for uploading a pack to the server.</tt></td>
   </tr><tr class="class">
     
     
     <td>Class</td>
     <td><a href="dulwich.server.ProtocolGraphWalker.html">ProtocolGraphWalker</a></td>
-    <td><span>A graph walker that knows the git protocol.</span></td>
+    <td><tt>A graph walker that knows the git protocol.</tt></td>
   </tr><tr class="class">
     
     
     <td>Class</td>
     <td><a href="dulwich.server.SingleAckGraphWalkerImpl.html">SingleAckGraphWalkerImpl</a></td>
-    <td><span>Graph walker implementation that speaks the single-ack protocol.</span></td>
+    <td><tt>Graph walker implementation that speaks the single-ack protocol.</tt></td>
   </tr><tr class="class">
     
     
     <td>Class</td>
     <td><a href="dulwich.server.MultiAckGraphWalkerImpl.html">MultiAckGraphWalkerImpl</a></td>
-    <td><span>Graph walker implementation that speaks the multi-ack protocol.</span></td>
+    <td><tt>Graph walker implementation that speaks the multi-ack protocol.</tt></td>
   </tr><tr class="class">
     
     
     <td>Class</td>
     <td><a href="dulwich.server.MultiAckDetailedGraphWalkerImpl.html">MultiAckDetailedGraphWalkerImpl</a></td>
-    <td><span>Graph walker implementation speaking the multi-ack-detailed protocol.</span></td>
+    <td><tt>Graph walker implementation speaking the multi-ack-detailed protocol.</tt></td>
   </tr><tr class="class">
     
     
     <td>Class</td>
     <td><a href="dulwich.server.ReceivePackHandler.html">ReceivePackHandler</a></td>
-    <td><span>Protocol handler for downloading a pack from the client.</span></td>
+    <td><tt>Protocol handler for downloading a pack from the client.</tt></td>
   </tr><tr class="class">
     
     
@@ -117,13 +116,13 @@ Documentation/technical directory in the cgit distribution, and in particular:</
     
     <td>Function</td>
     <td><a href="dulwich.server.html#main">main</a></td>
-    <td><span>Entry point for starting a TCP git server.</span></td>
+    <td><tt>Entry point for starting a TCP git server.</tt></td>
   </tr><tr class="function">
     
     
     <td>Function</td>
     <td><a href="dulwich.server.html#serve_command">serve_command</a></td>
-    <td><span>Serve a single command.</span></td>
+    <td><tt>Serve a single command.</tt></td>
   </tr><tr class="function private">
     
     
@@ -135,7 +134,7 @@ Documentation/technical directory in the cgit distribution, and in particular:</
     
     <td>Function</td>
     <td><a href="dulwich.server.html#_split_proto_line">_split_proto_line</a></td>
-    <td><span>Split a line read from the wire.</span></td>
+    <td><tt>Split a line read from the wire.</tt></td>
   </tr>
   
 </table>
@@ -178,15 +177,21 @@ Documentation/technical directory in the cgit distribution, and in particular:</
   </div>
   <div class="functionBody">
     
-    <div>Split a line read from the wire.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">line</td><td>The line read from the wire.</td></tr><tr><td></td><td class="fieldArg">allowed</td><td>An iterable of command names that should be allowed.
-Command names not listed below as possible return values will be
-ignored.  If None, any commands from the possible return values are
-allowed.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">a tuple having one of the following forms:
-('want', obj_id)
-('have', obj_id)
-('done', None)
-(None, None)  (for a flush-pkt)</td></tr><tr class="fieldStart"><td class="fieldName">Raises</td><td class="fieldArg">UnexpectedCommandError</td><td>if the line cannot be parsed into one of the
-allowed return values.</td></tr></table></div>
+    <pre>Split a line read from the wire.
+
+:param line: The line read from the wire.
+:param allowed: An iterable of command names that should be allowed.
+    Command names not listed below as possible return values will be
+    ignored.  If None, any commands from the possible return values are
+    allowed.
+:return: a tuple having one of the following forms:
+    ('want', obj_id)
+    ('have', obj_id)
+    ('done', None)
+    (None, None)  (for a flush-pkt)
+
+:raise UnexpectedCommandError: if the line cannot be parsed into one of the
+    allowed return values.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.server.main">
@@ -203,7 +208,7 @@ allowed return values.</td></tr></table></div>
   </div>
   <div class="functionBody">
     
-    <div>Entry point for starting a TCP git server.<table class="fieldTable"></table></div>
+    <pre>Entry point for starting a TCP git server.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.server.serve_command">
@@ -220,12 +225,20 @@ allowed return values.</td></tr></table></div>
   </div>
   <div class="functionBody">
     
-    <div>Serve a single command.</p>
-<p>This is mostly useful for the implementation of commands used by e.g. git+ssh.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">handler_cls</td><td><a href="dulwich.server.Handler.html"><code>Handler</code></a> class to use for the request</td></tr><tr><td></td><td class="fieldArg">argv</td><td>execv-style command-line arguments. Defaults to sys.argv.</td></tr><tr><td></td><td class="fieldArg">backend</td><td><a href="dulwich.server.Backend.html"><code>Backend</code></a> to use</td></tr><tr><td></td><td class="fieldArg">inf</td><td>File-like object to read from, defaults to standard input.</td></tr><tr><td></td><td class="fieldArg">outf</td><td>File-like object to write to, defaults to standard output.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">Exit code for use with sys.exit. 0 on success, 1 on failure.</td></tr></table></div>
+    <pre>Serve a single command.
+
+This is mostly useful for the implementation of commands used by e.g. git+ssh.
+
+:param handler_cls: `Handler` class to use for the request
+:param argv: execv-style command-line arguments. Defaults to sys.argv.
+:param backend: `Backend` to use
+:param inf: File-like object to read from, defaults to standard input.
+:param outf: File-like object to write to, defaults to standard output.
+:return: Exit code for use with sys.exit. 0 on success, 1 on failure.</pre>
   </div>
 </div>
     <address>
-      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-25 13:37:30.
     </address>
   </body>
 </html>

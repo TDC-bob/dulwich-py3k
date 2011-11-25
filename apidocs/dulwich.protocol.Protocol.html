@@ -19,16 +19,15 @@
     <div>
       <p>Known subclasses: <a href="dulwich.protocol.ReceivableProtocol.html">dulwich.protocol.ReceivableProtocol</a></p>
     </div>
-    <div><p>Class for interacting with a remote git process over the wire.</p>
-<p>Parts of the git wire protocol use 'pkt-lines' to communicate. A pkt-line
+    <pre>Class for interacting with a remote git process over the wire.
+
+Parts of the git wire protocol use 'pkt-lines' to communicate. A pkt-line
 consists of the length of the line as a 4-byte hex string, followed by the
 payload data. The length includes the 4-byte header. The special line '0000'
-indicates the end of a section of input and is called a 'flush-pkt'.</p>
-<dl class="rst-docutils">
-<dt>For details on the pkt-line format, see the cgit distribution:</dt>
-<dd>Documentation/technical/protocol-common.txt</dd>
-</dl>
-<table class="fieldTable"></table></div>
+indicates the end of a section of input and is called a 'flush-pkt'.
+
+For details on the pkt-line format, see the cgit distribution:
+    Documentation/technical/protocol-common.txt</pre>
 
     
     
@@ -65,55 +64,55 @@ indicates the end of a section of input and is called a 'flush-pkt'.</p>
     
     <td>Method</td>
     <td><a href="dulwich.protocol.Protocol.html#read_pkt_line">read_pkt_line</a></td>
-    <td><span>Reads a pkt-line from the remote git process.</span></td>
+    <td><tt>Reads a pkt-line from the remote git process.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.protocol.Protocol.html#eof">eof</a></td>
-    <td><span>Test whether the protocol stream has reached EOF.</span></td>
+    <td><tt>Test whether the protocol stream has reached EOF.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.protocol.Protocol.html#unread_pkt_line">unread_pkt_line</a></td>
-    <td><span>Unread a single line of data into the readahead buffer.</span></td>
+    <td><tt>Unread a single line of data into the readahead buffer.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.protocol.Protocol.html#read_pkt_seq">read_pkt_seq</a></td>
-    <td><span>Read a sequence of pkt-lines from the remote git process.</span></td>
+    <td><tt>Read a sequence of pkt-lines from the remote git process.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.protocol.Protocol.html#write_pkt_line">write_pkt_line</a></td>
-    <td><span>Sends a pkt-line to the remote git process.</span></td>
+    <td><tt>Sends a pkt-line to the remote git process.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.protocol.Protocol.html#write_file">write_file</a></td>
-    <td><span>Return a writable file-like object for this protocol.</span></td>
+    <td><tt>Return a writable file-like object for this protocol.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.protocol.Protocol.html#write_sideband">write_sideband</a></td>
-    <td><span>Write multiplexed data to the sideband.</span></td>
+    <td><tt>Write multiplexed data to the sideband.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.protocol.Protocol.html#send_cmd">send_cmd</a></td>
-    <td><span>Send a command and some arguments to a git server.</span></td>
+    <td><tt>Send a command and some arguments to a git server.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.protocol.Protocol.html#read_cmd">read_cmd</a></td>
-    <td><span>Read a command and some arguments from the git client</span></td>
+    <td><tt>Read a command and some arguments from the git client</tt></td>
   </tr>
   
 </table>
@@ -207,9 +206,12 @@ indicates the end of a section of input and is called a 'flush-pkt'.</p>
   </div>
   <div class="functionBody">
     
-    <div>Reads a pkt-line from the remote git process.</p>
-<p>This method may read from the readahead buffer; see unread_pkt_line.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">The next string from the stream, without the length prefix, or
-None for a flush-pkt ('0000').</td></tr></table></div>
+    <pre>Reads a pkt-line from the remote git process.
+
+This method may read from the readahead buffer; see unread_pkt_line.
+
+:return: The next string from the stream, without the length prefix, or
+    None for a flush-pkt ('0000').</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.protocol.Protocol.eof">
@@ -226,8 +228,11 @@ None for a flush-pkt ('0000').</td></tr></table></div>
   </div>
   <div class="functionBody">
     
-    <div>Test whether the protocol stream has reached EOF.</p>
-<p>Note that this refers to the actual stream EOF and not just a flush-pkt.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">True if the stream is at EOF, False otherwise.</td></tr></table></div>
+    <pre>Test whether the protocol stream has reached EOF.
+
+Note that this refers to the actual stream EOF and not just a flush-pkt.
+
+:return: True if the stream is at EOF, False otherwise.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.protocol.Protocol.unread_pkt_line">
@@ -244,9 +249,13 @@ None for a flush-pkt ('0000').</td></tr></table></div>
   </div>
   <div class="functionBody">
     
-    <div>Unread a single line of data into the readahead buffer.</p>
-<p>This method can be used to unread a single pkt-line into a fixed
-readahead buffer.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">data</td><td>The data to unread, without the length prefix.</td></tr><tr class="fieldStart"><td class="fieldName">Raises</td><td class="fieldArg">ValueError</td><td>If more than one pkt-line is unread.</td></tr></table></div>
+    <pre>Unread a single line of data into the readahead buffer.
+
+This method can be used to unread a single pkt-line into a fixed
+readahead buffer.
+
+:param data: The data to unread, without the length prefix.
+:raise ValueError: If more than one pkt-line is unread.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.protocol.Protocol.read_pkt_seq">
@@ -263,7 +272,9 @@ readahead buffer.<table class="fieldTable"><tr class="fieldStart"><td class="fie
   </div>
   <div class="functionBody">
     
-    <div>Read a sequence of pkt-lines from the remote git process.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">Yields each line of data up to but not including the next flush-pkt.</td></tr></table></div>
+    <pre>Read a sequence of pkt-lines from the remote git process.
+
+:return: Yields each line of data up to but not including the next flush-pkt.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.protocol.Protocol.write_pkt_line">
@@ -280,8 +291,10 @@ readahead buffer.<table class="fieldTable"><tr class="fieldStart"><td class="fie
   </div>
   <div class="functionBody">
     
-    <div>Sends a pkt-line to the remote git process.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">line</td><td>A string containing the data to send, without the length
-prefix.</td></tr></table></div>
+    <pre>Sends a pkt-line to the remote git process.
+
+:param line: A string containing the data to send, without the length
+    prefix.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.protocol.Protocol.write_file">
@@ -298,7 +311,7 @@ prefix.</td></tr></table></div>
   </div>
   <div class="functionBody">
     
-    <div>Return a writable file-like object for this protocol.<table class="fieldTable"></table></div>
+    <pre>Return a writable file-like object for this protocol.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.protocol.Protocol.write_sideband">
@@ -315,7 +328,10 @@ prefix.</td></tr></table></div>
   </div>
   <div class="functionBody">
     
-    <div>Write multiplexed data to the sideband.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">channel</td><td>An int specifying the channel to write to.</td></tr><tr><td></td><td class="fieldArg">blob</td><td>A blob of data (as a string) to send on this channel.</td></tr></table></div>
+    <pre>Write multiplexed data to the sideband.
+
+:param channel: An int specifying the channel to write to.
+:param blob: A blob of data (as a string) to send on this channel.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.protocol.Protocol.send_cmd">
@@ -332,8 +348,12 @@ prefix.</td></tr></table></div>
   </div>
   <div class="functionBody">
     
-    <div>Send a command and some arguments to a git server.</p>
-<p>Only used for the TCP git protocol (git://).<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">cmd</td><td>The remote service to access.</td></tr><tr><td></td><td class="fieldArg">args</td><td>List of arguments to send to remove service.</td></tr></table></div>
+    <pre>Send a command and some arguments to a git server.
+
+Only used for the TCP git protocol (git://).
+
+:param cmd: The remote service to access.
+:param args: List of arguments to send to remove service.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.protocol.Protocol.read_cmd">
@@ -350,12 +370,15 @@ prefix.</td></tr></table></div>
   </div>
   <div class="functionBody">
     
-    <div>Read a command and some arguments from the git client</p>
-<p>Only used for the TCP git protocol (git://).<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">A tuple of (command, [list of arguments]).</td></tr></table></div>
+    <pre>Read a command and some arguments from the git client
+
+Only used for the TCP git protocol (git://).
+
+:return: A tuple of (command, [list of arguments]).</pre>
   </div>
 </div>
     <address>
-      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-25 13:37:30.
     </address>
   </body>
 </html>

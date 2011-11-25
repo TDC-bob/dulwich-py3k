@@ -19,12 +19,14 @@
     <div>
       <p>Known subclasses: <a href="dulwich.client.HttpGitClient.html">dulwich.client.HttpGitClient</a>, <a href="dulwich.client.TraditionalGitClient.html">dulwich.client.TraditionalGitClient</a></p>
     </div>
-    <div>Git smart server client.<table class="fieldTable"></table></div>
+    <pre>Git smart server client.
+
+    </pre>
 
     
     
     <div id="splitTables">
-      <table class="children sortable" id="id295">
+      <table class="children sortable" id="id293">
   
   
 <tr class="method">
@@ -32,25 +34,25 @@
     
     <td>Method</td>
     <td><a href="dulwich.client.GitClient.html#__init__">__init__</a></td>
-    <td><span>Create a new GitClient instance.</span></td>
+    <td><tt>Create a new GitClient instance.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.client.GitClient.html#send_pack">send_pack</a></td>
-    <td><span>Upload a pack to a remote repository.</span></td>
+    <td><tt>Upload a pack to a remote repository.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.client.GitClient.html#fetch">fetch</a></td>
-    <td><span>Fetch into a target repository.</span></td>
+    <td><tt>Fetch into a target repository.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.client.GitClient.html#fetch_pack">fetch_pack</a></td>
-    <td><span>Retrieve a pack from a git smart server.</span></td>
+    <td><tt>Retrieve a pack from a git smart server.</tt></td>
   </tr><tr class="method">
     
     
@@ -86,31 +88,31 @@
     
     <td>Method</td>
     <td><a href="dulwich.client.GitClient.html#_read_side_band64k_data">_read_side_band64k_data</a></td>
-    <td><span>Read per-channel data.</span></td>
+    <td><tt>Read per-channel data.</tt></td>
   </tr><tr class="method private">
     
     
     <td>Method</td>
     <td><a href="dulwich.client.GitClient.html#_handle_receive_pack_head">_handle_receive_pack_head</a></td>
-    <td><span>Handle the head of a 'git-receive-pack' request.</span></td>
+    <td><tt>Handle the head of a 'git-receive-pack' request.</tt></td>
   </tr><tr class="method private">
     
     
     <td>Method</td>
     <td><a href="dulwich.client.GitClient.html#_handle_receive_pack_tail">_handle_receive_pack_tail</a></td>
-    <td><span>Handle the tail of a 'git-receive-pack' request.</span></td>
+    <td><tt>Handle the tail of a 'git-receive-pack' request.</tt></td>
   </tr><tr class="method private">
     
     
     <td>Method</td>
     <td><a href="dulwich.client.GitClient.html#_handle_upload_pack_head">_handle_upload_pack_head</a></td>
-    <td><span>Handle the head of a 'git-upload-pack' request.</span></td>
+    <td><tt>Handle the head of a 'git-upload-pack' request.</tt></td>
   </tr><tr class="method private">
     
     
     <td>Method</td>
     <td><a href="dulwich.client.GitClient.html#_handle_upload_pack_tail">_handle_upload_pack_tail</a></td>
-    <td><span>Handle the tail of a 'git-upload-pack' request.</span></td>
+    <td><tt>Handle the tail of a 'git-upload-pack' request.</tt></td>
   </tr>
   
 </table>
@@ -136,8 +138,11 @@
   </div>
   <div class="functionBody">
     <div class="interfaceinfo">overridden in <a href="dulwich.client.HttpGitClient.html">dulwich.client.HttpGitClient</a>, <a href="dulwich.client.SSHGitClient.html">dulwich.client.SSHGitClient</a>, <a href="dulwich.client.SubprocessGitClient.html">dulwich.client.SubprocessGitClient</a>, <a href="dulwich.client.TCPGitClient.html">dulwich.client.TCPGitClient</a>, <a href="dulwich.tests.test_client.DummyClient.html">dulwich.tests.test_client.DummyClient</a></div>
-    <div>Create a new GitClient instance.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">thin_packs</td><td>Whether or not thin packs should be retrieved</td></tr><tr><td></td><td class="fieldArg">report_activity</td><td>Optional callback for reporting transport
-activity.</td></tr></table></div>
+    <pre>Create a new GitClient instance.
+
+:param thin_packs: Whether or not thin packs should be retrieved
+:param report_activity: Optional callback for reporting transport
+    activity.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.client.GitClient._read_refs">
@@ -171,9 +176,16 @@ activity.</td></tr></table></div>
   </div>
   <div class="functionBody">
     <div class="interfaceinfo">overridden in <a href="dulwich.client.HttpGitClient.html">dulwich.client.HttpGitClient</a>, <a href="dulwich.client.TraditionalGitClient.html">dulwich.client.TraditionalGitClient</a></div>
-    <div>Upload a pack to a remote repository.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">path</td><td>Repository path</td></tr><tr><td></td><td class="fieldArg">generate_pack_contents</td><td>Function that can return a sequence of the
-shas of the objects to upload.</td></tr><tr><td></td><td class="fieldArg">progress</td><td>Optional progress function</td></tr><tr class="fieldStart"><td class="fieldName">Raises</td><td class="fieldArg">SendPackError</td><td>if server rejects the pack data</td></tr><tr><td></td><td class="fieldArg">UpdateRefsError</td><td>if the server supports report-status
-and rejects ref updates</td></tr></table></div>
+    <pre>Upload a pack to a remote repository.
+
+:param path: Repository path
+:param generate_pack_contents: Function that can return a sequence of the
+    shas of the objects to upload.
+:param progress: Optional progress function
+
+:raises SendPackError: if server rejects the pack data
+:raises UpdateRefsError: if the server supports report-status
+                         and rejects ref updates</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.client.GitClient.fetch">
@@ -190,8 +202,14 @@ and rejects ref updates</td></tr></table></div>
   </div>
   <div class="functionBody">
     
-    <div>Fetch into a target repository.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">path</td><td>Path to fetch from</td></tr><tr><td></td><td class="fieldArg">target</td><td>Target repository to fetch into</td></tr><tr><td></td><td class="fieldArg">determine_wants</td><td>Optional function to determine what refs
-to fetch</td></tr><tr><td></td><td class="fieldArg">progress</td><td>Optional progress function</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">remote refs</td></tr></table></div>
+    <pre>Fetch into a target repository.
+
+:param path: Path to fetch from
+:param target: Target repository to fetch into
+:param determine_wants: Optional function to determine what refs
+    to fetch
+:param progress: Optional progress function
+:return: remote refs</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.client.GitClient.fetch_pack">
@@ -208,7 +226,12 @@ to fetch</td></tr><tr><td></td><td class="fieldArg">progress</td><td>Optional pr
   </div>
   <div class="functionBody">
     <div class="interfaceinfo">overridden in <a href="dulwich.client.HttpGitClient.html">dulwich.client.HttpGitClient</a>, <a href="dulwich.client.TraditionalGitClient.html">dulwich.client.TraditionalGitClient</a></div>
-    <div>Retrieve a pack from a git smart server.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">determine_wants</td><td>Callback that returns list of commits to fetch</td></tr><tr><td></td><td class="fieldArg">graph_walker</td><td>Object with next() and ack().</td></tr><tr><td></td><td class="fieldArg">pack_data</td><td>Callback called for each bit of data in the pack</td></tr><tr><td></td><td class="fieldArg">progress</td><td>Callback for progress reports (strings)</td></tr></table></div>
+    <pre>Retrieve a pack from a git smart server.
+
+:param determine_wants: Callback that returns list of commits to fetch
+:param graph_walker: Object with next() and ack().
+:param pack_data: Callback called for each bit of data in the pack
+:param progress: Callback for progress reports (strings)</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.client.GitClient._parse_status_report">
@@ -242,9 +265,13 @@ to fetch</td></tr><tr><td></td><td class="fieldArg">progress</td><td>Optional pr
   </div>
   <div class="functionBody">
     
-    <div>Read per-channel data.</p>
-<p>This requires the side-band-64k capability.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">proto</td><td>Protocol object to read from</td></tr><tr><td></td><td class="fieldArg">channel_callbacks</td><td>Dictionary mapping channels to packet
-handlers to use. None for a callback discards channel data.</td></tr></table></div>
+    <pre>Read per-channel data.
+
+This requires the side-band-64k capability.
+
+:param proto: Protocol object to read from
+:param channel_callbacks: Dictionary mapping channels to packet
+    handlers to use. None for a callback discards channel data.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.client.GitClient._handle_receive_pack_head">
@@ -261,7 +288,13 @@ handlers to use. None for a callback discards channel data.</td></tr></table></d
   </div>
   <div class="functionBody">
     
-    <div>Handle the head of a 'git-receive-pack' request.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">proto</td><td>Protocol object to read from</td></tr><tr><td></td><td class="fieldArg">capabilities</td><td>List of negotiated capabilities</td></tr><tr><td></td><td class="fieldArg">old_refs</td><td>Old refs, as received from the server</td></tr><tr><td></td><td class="fieldArg">new_refs</td><td>New refs</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">(have, want) tuple</td></tr></table></div>
+    <pre>Handle the head of a 'git-receive-pack' request.
+
+:param proto: Protocol object to read from
+:param capabilities: List of negotiated capabilities
+:param old_refs: Old refs, as received from the server
+:param new_refs: New refs
+:return: (have, want) tuple</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.client.GitClient._handle_receive_pack_tail">
@@ -278,7 +311,11 @@ handlers to use. None for a callback discards channel data.</td></tr></table></d
   </div>
   <div class="functionBody">
     
-    <div>Handle the tail of a 'git-receive-pack' request.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">proto</td><td>Protocol object to read from</td></tr><tr><td></td><td class="fieldArg">capabilities</td><td>List of negotiated capabilities</td></tr><tr><td></td><td class="fieldArg">progress</td><td>Optional progress reporting function</td></tr></table></div>
+    <pre>Handle the tail of a 'git-receive-pack' request.
+
+:param proto: Protocol object to read from
+:param capabilities: List of negotiated capabilities
+:param progress: Optional progress reporting function</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.client.GitClient._handle_upload_pack_head">
@@ -295,8 +332,14 @@ handlers to use. None for a callback discards channel data.</td></tr></table></d
   </div>
   <div class="functionBody">
     
-    <div>Handle the head of a 'git-upload-pack' request.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">proto</td><td>Protocol object to read from</td></tr><tr><td></td><td class="fieldArg">capabilities</td><td>List of negotiated capabilities</td></tr><tr><td></td><td class="fieldArg">graph_walker</td><td>GraphWalker instance to call .ack() on</td></tr><tr><td></td><td class="fieldArg">wants</td><td>List of commits to fetch</td></tr><tr><td></td><td class="fieldArg">can_read</td><td>function that returns a boolean that indicates
-whether there is extra graph data to read on proto</td></tr></table></div>
+    <pre>Handle the head of a 'git-upload-pack' request.
+
+:param proto: Protocol object to read from
+:param capabilities: List of negotiated capabilities
+:param graph_walker: GraphWalker instance to call .ack() on
+:param wants: List of commits to fetch
+:param can_read: function that returns a boolean that indicates
+    whether there is extra graph data to read on proto</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.client.GitClient._handle_upload_pack_tail">
@@ -313,7 +356,14 @@ whether there is extra graph data to read on proto</td></tr></table></div>
   </div>
   <div class="functionBody">
     
-    <div>Handle the tail of a 'git-upload-pack' request.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">proto</td><td>Protocol object to read from</td></tr><tr><td></td><td class="fieldArg">capabilities</td><td>List of negotiated capabilities</td></tr><tr><td></td><td class="fieldArg">graph_walker</td><td>GraphWalker instance to call .ack() on</td></tr><tr><td></td><td class="fieldArg">pack_data</td><td>Function to call with pack data</td></tr><tr><td></td><td class="fieldArg">progress</td><td>Optional progress reporting function</td></tr><tr><td></td><td class="fieldArg">rbufsize</td><td>Read buffer size</td></tr></table></div>
+    <pre>Handle the tail of a 'git-upload-pack' request.
+
+:param proto: Protocol object to read from
+:param capabilities: List of negotiated capabilities
+:param graph_walker: GraphWalker instance to call .ack() on
+:param pack_data: Function to call with pack data
+:param progress: Optional progress reporting function
+:param rbufsize: Read buffer size</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.client.GitClient.__enter__">
@@ -368,7 +418,7 @@ whether there is extra graph data to read on proto</td></tr></table></div>
   </div>
 </div>
     <address>
-      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-25 13:37:30.
     </address>
   </body>
 </html>

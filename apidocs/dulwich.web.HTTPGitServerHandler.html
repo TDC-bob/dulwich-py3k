@@ -3,47 +3,47 @@
   "DTD/xhtml1-strict.dtd">
 <html>
   <head>
-    <title>dulwich.client.SubprocessWrapper : API documentation</title>
+    <title>dulwich.web.HTTPGitServerHandler : API documentation</title>
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
     <link href="apidocs.css" type="text/css" rel="stylesheet" />
     
     
   </head>
   <body>
-    <h1 class="class">d.c.SubprocessWrapper(<span title="object">object</span>) : class documentation</h1>
+    <h1 class="class">d.w.HTTPGitServerHandler(<span title="wsgiref.simple_server.ServerHandler">ServerHandler</span>) : class documentation</h1>
     <p>
-      <span id="part">Part of <a href="dulwich.html">dulwich</a>.<a href="dulwich.client.html">client</a></span>
+      <span id="part">Part of <a href="dulwich.html">dulwich</a>.<a href="dulwich.web.html">web</a></span>
       
-      <a href="classIndex.html#dulwich.client.SubprocessWrapper">View In Hierarchy</a>
+      <a href="classIndex.html#dulwich.web.HTTPGitServerHandler">View In Hierarchy</a>
     </p>
     <div>
       
     </div>
-    <pre>A socket-like object that talks to a subprocess via pipes.</pre>
+    <div class="undocumented">Undocumented</div>
 
     
     
     <div id="splitTables">
-      <table class="children sortable" id="id299">
+      <table class="children sortable" id="id313">
   
   
 <tr class="method">
     
     
     <td>Method</td>
-    <td><a href="dulwich.client.SubprocessWrapper.html#__init__">__init__</a></td>
+    <td><a href="dulwich.web.HTTPGitServerHandler.html#__init__">__init__</a></td>
     <td><span class="undocumented">Undocumented</span></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
-    <td><a href="dulwich.client.SubprocessWrapper.html#can_read">can_read</a></td>
+    <td><a href="dulwich.web.HTTPGitServerHandler.html#sendfile">sendfile</a></td>
     <td><span class="undocumented">Undocumented</span></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
-    <td><a href="dulwich.client.SubprocessWrapper.html#close">close</a></td>
+    <td><a href="dulwich.web.HTTPGitServerHandler.html#setup_environ">setup_environ</a></td>
     <td><span class="undocumented">Undocumented</span></td>
   </tr>
   
@@ -56,7 +56,7 @@
     
 
     <div class="function">
-  <a name="dulwich.client.SubprocessWrapper.__init__">
+  <a name="dulwich.web.HTTPGitServerHandler.__init__">
     
   </a>
   <a name="__init__">
@@ -65,7 +65,7 @@
   <div class="functionHeader">
     
     def
-    __init__(self, proc, close_stdin=True, close_stdout=True, close_stderr=False):
+    __init__(self, stdin, stdout, stderr, environ):
     
   </div>
   <div class="functionBody">
@@ -73,16 +73,16 @@
     <div class="undocumented">Undocumented</div>
   </div>
 </div><div class="function">
-  <a name="dulwich.client.SubprocessWrapper.can_read">
+  <a name="dulwich.web.HTTPGitServerHandler.sendfile">
     
   </a>
-  <a name="can_read">
+  <a name="sendfile">
     
   </a>
   <div class="functionHeader">
     
     def
-    can_read(self):
+    sendfile(self):
     
   </div>
   <div class="functionBody">
@@ -90,16 +90,16 @@
     <div class="undocumented">Undocumented</div>
   </div>
 </div><div class="function">
-  <a name="dulwich.client.SubprocessWrapper.close">
+  <a name="dulwich.web.HTTPGitServerHandler.setup_environ">
     
   </a>
-  <a name="close">
+  <a name="setup_environ">
     
   </a>
   <div class="functionHeader">
     
     def
-    close(self):
+    setup_environ(self):
     
   </div>
   <div class="functionBody">

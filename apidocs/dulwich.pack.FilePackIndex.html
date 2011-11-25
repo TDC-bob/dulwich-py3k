@@ -19,13 +19,14 @@
     <div>
       <p>Known subclasses: <a href="dulwich.pack.PackIndex1.html">dulwich.pack.PackIndex1</a>, <a href="dulwich.pack.PackIndex2.html">dulwich.pack.PackIndex2</a></p>
     </div>
-    <div>Pack index that is based on a file.</p>
-<p>To do the loop it opens the file, and indexes first 256 4 byte groups
+    <pre>Pack index that is based on a file.
+
+To do the loop it opens the file, and indexes first 256 4 byte groups
 with the first byte of the sha id. The value in the four byte group indexed
 is the end of the group that shares the same starting byte. Subtract one
 from the starting byte and index again to find the start of the group.
 The values are sorted by sha id within the group, so do the math to find
-the start and end offset and then bisect in to find if the value is present.<table class="fieldTable"></table></div>
+the start and end offset and then bisect in to find if the value is present.</pre>
 
     
     
@@ -38,7 +39,7 @@ the start and end offset and then bisect in to find if the value is present.<tab
     
     <td>Method</td>
     <td><a href="dulwich.pack.FilePackIndex.html#__init__">__init__</a></td>
-    <td><span>Create a pack index object.</span></td>
+    <td><tt>Create a pack index object.</tt></td>
   </tr><tr class="method">
     
     
@@ -56,67 +57,67 @@ the start and end offset and then bisect in to find if the value is present.<tab
     
     <td>Method</td>
     <td><a href="dulwich.pack.FilePackIndex.html#__len__">__len__</a></td>
-    <td><span>Return the number of entries in this pack index.</span></td>
+    <td><tt>Return the number of entries in this pack index.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.pack.FilePackIndex.html#iterentries">iterentries</a></td>
-    <td><span>Iterate over the entries in this pack index.</span></td>
+    <td><tt>Iterate over the entries in this pack index.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.pack.FilePackIndex.html#check">check</a></td>
-    <td><span>Check that the stored checksum matches the actual checksum.</span></td>
+    <td><tt>Check that the stored checksum matches the actual checksum.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.pack.FilePackIndex.html#calculate_checksum">calculate_checksum</a></td>
-    <td><span>Calculate the SHA1 checksum over this pack index.</span></td>
+    <td><tt>Calculate the SHA1 checksum over this pack index.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.pack.FilePackIndex.html#get_pack_checksum">get_pack_checksum</a></td>
-    <td><span>Return the SHA1 checksum stored for the corresponding packfile.</span></td>
+    <td><tt>Return the SHA1 checksum stored for the corresponding packfile.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.pack.FilePackIndex.html#get_stored_checksum">get_stored_checksum</a></td>
-    <td><span>Return the SHA1 checksum stored for this index.</span></td>
+    <td><tt>Return the SHA1 checksum stored for this index.</tt></td>
   </tr><tr class="method private">
     
     
     <td>Method</td>
     <td><a href="dulwich.pack.FilePackIndex.html#_unpack_entry">_unpack_entry</a></td>
-    <td><span>Unpack the i-th entry in the index file.</span></td>
+    <td><tt>Unpack the i-th entry in the index file.</tt></td>
   </tr><tr class="method private">
     
     
     <td>Method</td>
     <td><a href="dulwich.pack.FilePackIndex.html#_unpack_name">_unpack_name</a></td>
-    <td><span>Unpack the i-th name from the index file.</span></td>
+    <td><tt>Unpack the i-th name from the index file.</tt></td>
   </tr><tr class="method private">
     
     
     <td>Method</td>
     <td><a href="dulwich.pack.FilePackIndex.html#_unpack_offset">_unpack_offset</a></td>
-    <td><span>Unpack the i-th object offset from the index file.</span></td>
+    <td><tt>Unpack the i-th object offset from the index file.</tt></td>
   </tr><tr class="method private">
     
     
     <td>Method</td>
     <td><a href="dulwich.pack.FilePackIndex.html#_unpack_crc32_checksum">_unpack_crc32_checksum</a></td>
-    <td><span>Unpack the crc32 checksum for the i-th object from the index file.</span></td>
+    <td><tt>Unpack the crc32 checksum for the i-th object from the index file.</tt></td>
   </tr><tr class="method private">
     
     
     <td>Method</td>
     <td><a href="dulwich.pack.FilePackIndex.html#_itersha">_itersha</a></td>
-    <td><span>Yield all the SHA1's of the objects in the index, sorted.</span></td>
+    <td><tt>Yield all the SHA1's of the objects in the index, sorted.</tt></td>
   </tr><tr class="method private">
     
     
@@ -128,7 +129,7 @@ the start and end offset and then bisect in to find if the value is present.<tab
     
     <td>Method</td>
     <td><a href="dulwich.pack.FilePackIndex.html#_object_index">_object_index</a></td>
-    <td><span>See object_index.</span></td>
+    <td><tt>See object_index.</tt></td>
   </tr>
   
 </table>
@@ -150,19 +151,19 @@ the start and end offset and then bisect in to find if the value is present.<tab
     
     <td>Method</td>
     <td><a href="dulwich.pack.PackIndex.html#__iter__">__iter__</a></td>
-    <td><span>Iterate over the SHAs in this pack.</span></td>
+    <td><tt>Iterate over the SHAs in this pack.</tt></td>
   </tr><tr class="basemethod">
     
     
     <td>Method</td>
     <td><a href="dulwich.pack.PackIndex.html#object_index">object_index</a></td>
-    <td><span>Return the index in to the corresponding packfile for the object.</span></td>
+    <td><tt>Return the index in to the corresponding packfile for the object.</tt></td>
   </tr><tr class="basemethod">
     
     
     <td>Method</td>
     <td><a href="dulwich.pack.PackIndex.html#objects_sha1">objects_sha1</a></td>
-    <td><span>Return the hex SHA1 over all the shas of all objects in this pack.</span></td>
+    <td><tt>Return the hex SHA1 over all the shas of all objects in this pack.</tt></td>
   </tr>
   
 </table>
@@ -188,9 +189,10 @@ the start and end offset and then bisect in to find if the value is present.<tab
   </div>
   <div class="functionBody">
     <div class="interfaceinfo">overridden in <a href="dulwich.pack.PackIndex1.html">dulwich.pack.PackIndex1</a>, <a href="dulwich.pack.PackIndex2.html">dulwich.pack.PackIndex2</a></div>
-    <div>Create a pack index object.</p>
-<p>Provide it with the name of the index file to consider, and it will map
-it whenever required.<table class="fieldTable"></table></div>
+    <pre>Create a pack index object.
+
+Provide it with the name of the index file to consider, and it will map
+it whenever required.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.pack.FilePackIndex.__eq__">
@@ -241,7 +243,7 @@ it whenever required.<table class="fieldTable"></table></div>
   </div>
   <div class="functionBody">
     <div class="interfaceinfo">overrides <a href="dulwich.pack.PackIndex.html#__len__">dulwich.pack.PackIndex.__len__</a></div>
-    <div>Return the number of entries in this pack index.<table class="fieldTable"></table></div>
+    <pre>Return the number of entries in this pack index.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.pack.FilePackIndex._unpack_entry">
@@ -258,8 +260,10 @@ it whenever required.<table class="fieldTable"></table></div>
   </div>
   <div class="functionBody">
     <div class="interfaceinfo">overridden in <a href="dulwich.pack.PackIndex1.html">dulwich.pack.PackIndex1</a>, <a href="dulwich.pack.PackIndex2.html">dulwich.pack.PackIndex2</a></div>
-    <div>Unpack the i-th entry in the index file.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">Tuple with object name (SHA), offset in pack file and CRC32
-checksum (if known).</td></tr></table></div>
+    <pre>Unpack the i-th entry in the index file.
+
+:return: Tuple with object name (SHA), offset in pack file and CRC32
+    checksum (if known).</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.pack.FilePackIndex._unpack_name">
@@ -276,7 +280,7 @@ checksum (if known).</td></tr></table></div>
   </div>
   <div class="functionBody">
     <div class="interfaceinfo">overridden in <a href="dulwich.pack.PackIndex1.html">dulwich.pack.PackIndex1</a>, <a href="dulwich.pack.PackIndex2.html">dulwich.pack.PackIndex2</a></div>
-    <div>Unpack the i-th name from the index file.<table class="fieldTable"></table></div>
+    <pre>Unpack the i-th name from the index file.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.pack.FilePackIndex._unpack_offset">
@@ -293,7 +297,7 @@ checksum (if known).</td></tr></table></div>
   </div>
   <div class="functionBody">
     <div class="interfaceinfo">overridden in <a href="dulwich.pack.PackIndex1.html">dulwich.pack.PackIndex1</a>, <a href="dulwich.pack.PackIndex2.html">dulwich.pack.PackIndex2</a></div>
-    <div>Unpack the i-th object offset from the index file.<table class="fieldTable"></table></div>
+    <pre>Unpack the i-th object offset from the index file.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.pack.FilePackIndex._unpack_crc32_checksum">
@@ -310,7 +314,7 @@ checksum (if known).</td></tr></table></div>
   </div>
   <div class="functionBody">
     <div class="interfaceinfo">overridden in <a href="dulwich.pack.PackIndex1.html">dulwich.pack.PackIndex1</a>, <a href="dulwich.pack.PackIndex2.html">dulwich.pack.PackIndex2</a></div>
-    <div>Unpack the crc32 checksum for the i-th object from the index file.<table class="fieldTable"></table></div>
+    <pre>Unpack the crc32 checksum for the i-th object from the index file.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.pack.FilePackIndex._itersha">
@@ -327,7 +331,7 @@ checksum (if known).</td></tr></table></div>
   </div>
   <div class="functionBody">
     <div class="interfaceinfo">overrides <a href="dulwich.pack.PackIndex.html#_itersha">dulwich.pack.PackIndex._itersha</a></div>
-    <div>Yield all the SHA1's of the objects in the index, sorted.<table class="fieldTable"></table></div>
+    <pre>Yield all the SHA1's of the objects in the index, sorted.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.pack.FilePackIndex.iterentries">
@@ -344,8 +348,10 @@ checksum (if known).</td></tr></table></div>
   </div>
   <div class="functionBody">
     <div class="interfaceinfo">overrides <a href="dulwich.pack.PackIndex.html#iterentries">dulwich.pack.PackIndex.iterentries</a></div>
-    <div>Iterate over the entries in this pack index.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">iterator over tuples with object name, offset in packfile and
-crc32 checksum.</td></tr></table></div>
+    <pre>Iterate over the entries in this pack index.
+
+:return: iterator over tuples with object name, offset in packfile and
+    crc32 checksum.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.pack.FilePackIndex._read_fan_out_table">
@@ -379,7 +385,7 @@ crc32 checksum.</td></tr></table></div>
   </div>
   <div class="functionBody">
     
-    <div>Check that the stored checksum matches the actual checksum.<table class="fieldTable"></table></div>
+    <pre>Check that the stored checksum matches the actual checksum.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.pack.FilePackIndex.calculate_checksum">
@@ -396,7 +402,9 @@ crc32 checksum.</td></tr></table></div>
   </div>
   <div class="functionBody">
     
-    <div>Calculate the SHA1 checksum over this pack index.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">This is a 20-byte binary digest</td></tr></table></div>
+    <pre>Calculate the SHA1 checksum over this pack index.
+
+:return: This is a 20-byte binary digest</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.pack.FilePackIndex.get_pack_checksum">
@@ -413,7 +421,9 @@ crc32 checksum.</td></tr></table></div>
   </div>
   <div class="functionBody">
     <div class="interfaceinfo">overrides <a href="dulwich.pack.PackIndex.html#get_pack_checksum">dulwich.pack.PackIndex.get_pack_checksum</a></div>
-    <div>Return the SHA1 checksum stored for the corresponding packfile.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">20-byte binary digest</td></tr></table></div>
+    <pre>Return the SHA1 checksum stored for the corresponding packfile.
+
+:return: 20-byte binary digest</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.pack.FilePackIndex.get_stored_checksum">
@@ -430,7 +440,9 @@ crc32 checksum.</td></tr></table></div>
   </div>
   <div class="functionBody">
     
-    <div>Return the SHA1 checksum stored for this index.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">20-byte binary digest</td></tr></table></div>
+    <pre>Return the SHA1 checksum stored for this index.
+
+:return: 20-byte binary digest</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.pack.FilePackIndex._object_index">
@@ -447,11 +459,13 @@ crc32 checksum.</td></tr></table></div>
   </div>
   <div class="functionBody">
     <div class="interfaceinfo">overrides <a href="dulwich.pack.PackIndex.html#_object_index">dulwich.pack.PackIndex._object_index</a></div>
-    <div>See object_index.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">sha</td><td>A <em>binary</em> SHA string. (20 characters long)_</td></tr></table></div>
+    <pre>See object_index.
+
+:param sha: A *binary* SHA string. (20 characters long)_</pre>
   </div>
 </div>
     <address>
-      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-25 13:37:30.
     </address>
   </body>
 </html>

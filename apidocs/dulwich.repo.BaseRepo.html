@@ -19,8 +19,11 @@
     <div>
       <p>Known subclasses: <a href="dulwich.repo.MemoryRepo.html">dulwich.repo.MemoryRepo</a>, <a href="dulwich.repo.Repo.html">dulwich.repo.Repo</a></p>
     </div>
-    <div>Base class for a git repository.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Instance Variables</td><td class="fieldArg">object_store</td><td>Dictionary-like object for accessing
-the objects</td></tr><tr><td></td><td class="fieldArg">refs</td><td>Dictionary-like object with the refs in this repository</td></tr></table></div>
+    <pre>Base class for a git repository.
+
+:ivar object_store: Dictionary-like object for accessing
+    the objects
+:ivar refs: Dictionary-like object with the refs in this repository</pre>
 
     
     
@@ -57,25 +60,25 @@ the objects</td></tr><tr><td></td><td class="fieldArg">refs</td><td>Dictionary-l
     
     <td>Method</td>
     <td><a href="dulwich.repo.BaseRepo.html#get_named_file">get_named_file</a></td>
-    <td><span>Get a file from the control dir with a specific name.</span></td>
+    <td><tt>Get a file from the control dir with a specific name.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.repo.BaseRepo.html#open_index">open_index</a></td>
-    <td><span>Open the index for this repository.</span></td>
+    <td><tt>Open the index for this repository.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.repo.BaseRepo.html#fetch">fetch</a></td>
-    <td><span>Fetch objects into another repository.</span></td>
+    <td><tt>Fetch objects into another repository.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.repo.BaseRepo.html#fetch_objects">fetch_objects</a></td>
-    <td><span>Fetch the missing objects required for a set of revisions.</span></td>
+    <td><tt>Fetch the missing objects required for a set of revisions.</tt></td>
   </tr><tr class="method">
     
     
@@ -87,19 +90,19 @@ the objects</td></tr><tr><td></td><td class="fieldArg">refs</td><td>Dictionary-l
     
     <td>Method</td>
     <td><a href="dulwich.repo.BaseRepo.html#ref">ref</a></td>
-    <td><span>Return the SHA1 a ref is pointing to.</span></td>
+    <td><tt>Return the SHA1 a ref is pointing to.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.repo.BaseRepo.html#get_refs">get_refs</a></td>
-    <td><span>Get dictionary with all refs.</span></td>
+    <td><tt>Get dictionary with all refs.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.repo.BaseRepo.html#head">head</a></td>
-    <td><span>Return the SHA1 pointed at by HEAD.</span></td>
+    <td><tt>Return the SHA1 pointed at by HEAD.</tt></td>
   </tr><tr class="method">
     
     
@@ -123,43 +126,43 @@ the objects</td></tr><tr><td></td><td class="fieldArg">refs</td><td>Dictionary-l
     
     <td>Method</td>
     <td><a href="dulwich.repo.BaseRepo.html#commit">commit</a></td>
-    <td><span>Retrieve the commit with a particular SHA.</span></td>
+    <td><tt>Retrieve the commit with a particular SHA.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.repo.BaseRepo.html#tree">tree</a></td>
-    <td><span>Retrieve the tree with a particular SHA.</span></td>
+    <td><tt>Retrieve the tree with a particular SHA.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.repo.BaseRepo.html#tag">tag</a></td>
-    <td><span>Retrieve the tag with a particular SHA.</span></td>
+    <td><tt>Retrieve the tag with a particular SHA.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.repo.BaseRepo.html#get_blob">get_blob</a></td>
-    <td><span>Retrieve the blob with a particular SHA.</span></td>
+    <td><tt>Retrieve the blob with a particular SHA.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.repo.BaseRepo.html#get_peeled">get_peeled</a></td>
-    <td><span>Get the peeled value of a ref.</span></td>
+    <td><tt>Get the peeled value of a ref.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.repo.BaseRepo.html#get_walker">get_walker</a></td>
-    <td><span>Obtain a walker for this repository.</span></td>
+    <td><tt>Obtain a walker for this repository.</tt></td>
   </tr><tr class="method">
     
     
     <td>Method</td>
     <td><a href="dulwich.repo.BaseRepo.html#revision_history">revision_history</a></td>
-    <td><span>Returns a list of the commits reachable from head.</span></td>
+    <td><tt>Returns a list of the commits reachable from head.</tt></td>
   </tr><tr class="method">
     
     
@@ -195,19 +198,19 @@ the objects</td></tr><tr><td></td><td class="fieldArg">refs</td><td>Dictionary-l
     
     <td>Method</td>
     <td><a href="dulwich.repo.BaseRepo.html#do_commit">do_commit</a></td>
-    <td><span>Create a new commit.</span></td>
+    <td><tt>Create a new commit.</tt></td>
   </tr><tr class="method private">
     
     
     <td>Method</td>
     <td><a href="dulwich.repo.BaseRepo.html#_init_files">_init_files</a></td>
-    <td><span>Initialize a default set of named files.</span></td>
+    <td><tt>Initialize a default set of named files.</tt></td>
   </tr><tr class="method private">
     
     
     <td>Method</td>
     <td><a href="dulwich.repo.BaseRepo.html#_put_named_file">_put_named_file</a></td>
-    <td><span>Write a file to the control dir with the given name and contents.</span></td>
+    <td><tt>Write a file to the control dir with the given name and contents.</tt></td>
   </tr><tr class="method private">
     
     
@@ -307,7 +310,7 @@ the objects</td></tr><tr><td></td><td class="fieldArg">refs</td><td>Dictionary-l
   </div>
   <div class="functionBody">
     
-    <div>Initialize a default set of named files.<table class="fieldTable"></table></div>
+    <pre>Initialize a default set of named files.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.repo.BaseRepo.get_named_file">
@@ -324,10 +327,14 @@ the objects</td></tr><tr><td></td><td class="fieldArg">refs</td><td>Dictionary-l
   </div>
   <div class="functionBody">
     <div class="interfaceinfo">overridden in <a href="dulwich.repo.MemoryRepo.html">dulwich.repo.MemoryRepo</a>, <a href="dulwich.repo.Repo.html">dulwich.repo.Repo</a></div>
-    <div>Get a file from the control dir with a specific name.</p>
-<p>Although the filename should be interpreted as a filename relative to
+    <pre>Get a file from the control dir with a specific name.
+
+Although the filename should be interpreted as a filename relative to
 the control dir in a disk-based Repo, the object returned need not be
-pointing to a file in that location.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">path</td><td>The path to the file, relative to the control dir.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">An open file object, or None if the file does not exist.</td></tr></table></div>
+pointing to a file in that location.
+
+:param path: The path to the file, relative to the control dir.
+:return: An open file object, or None if the file does not exist.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.repo.BaseRepo._put_named_file">
@@ -344,7 +351,10 @@ pointing to a file in that location.<table class="fieldTable"><tr class="fieldSt
   </div>
   <div class="functionBody">
     <div class="interfaceinfo">overridden in <a href="dulwich.repo.MemoryRepo.html">dulwich.repo.MemoryRepo</a>, <a href="dulwich.repo.Repo.html">dulwich.repo.Repo</a></div>
-    <div>Write a file to the control dir with the given name and contents.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">path</td><td>The path to the file, relative to the control dir.</td></tr><tr><td></td><td class="fieldArg">contents</td><td>A string to write to the file.</td></tr></table></div>
+    <pre>Write a file to the control dir with the given name and contents.
+
+:param path: The path to the file, relative to the control dir.
+:param contents: A string to write to the file.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.repo.BaseRepo.open_index">
@@ -361,7 +371,10 @@ pointing to a file in that location.<table class="fieldTable"><tr class="fieldSt
   </div>
   <div class="functionBody">
     <div class="interfaceinfo">overridden in <a href="dulwich.repo.MemoryRepo.html">dulwich.repo.MemoryRepo</a>, <a href="dulwich.repo.Repo.html">dulwich.repo.Repo</a></div>
-    <div>Open the index for this repository.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">Index instance</td></tr><tr class="fieldStart"><td class="fieldName">Raises</td><td class="fieldArg">NoIndexPresent</td><td>If no index is present</td></tr></table></div>
+    <pre>Open the index for this repository.
+
+:raises NoIndexPresent: If no index is present
+:return: Index instance</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.repo.BaseRepo.fetch">
@@ -378,8 +391,12 @@ pointing to a file in that location.<table class="fieldTable"><tr class="fieldSt
   </div>
   <div class="functionBody">
     
-    <div>Fetch objects into another repository.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">target</td><td>The target repository</td></tr><tr><td></td><td class="fieldArg">determine_wants</td><td>Optional function to determine what refs to
-fetch.</td></tr><tr><td></td><td class="fieldArg">progress</td><td>Optional progress function</td></tr></table></div>
+    <pre>Fetch objects into another repository.
+
+:param target: The target repository
+:param determine_wants: Optional function to determine what refs to
+    fetch.
+:param progress: Optional progress function</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.repo.BaseRepo.fetch_objects">
@@ -396,12 +413,18 @@ fetch.</td></tr><tr><td></td><td class="fieldArg">progress</td><td>Optional prog
   </div>
   <div class="functionBody">
     
-    <div>Fetch the missing objects required for a set of revisions.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">determine_wants</td><td>Function that takes a dictionary with heads
-and returns the list of heads to fetch.</td></tr><tr><td></td><td class="fieldArg">graph_walker</td><td>Object that can iterate over the list of revisions
-to fetch and has an &quot;ack&quot; method that will be called to acknowledge
-that a revision is present.</td></tr><tr><td></td><td class="fieldArg">progress</td><td>Simple progress function that will be called with
-updated progress strings.</td></tr><tr><td></td><td class="fieldArg">get_tagged</td><td>Function that returns a dict of pointed-to sha -&gt; tag
-sha for including tags.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">iterator over objects, with __len__ implemented</td></tr></table></div>
+    <pre>Fetch the missing objects required for a set of revisions.
+
+:param determine_wants: Function that takes a dictionary with heads
+    and returns the list of heads to fetch.
+:param graph_walker: Object that can iterate over the list of revisions
+    to fetch and has an "ack" method that will be called to acknowledge
+    that a revision is present.
+:param progress: Simple progress function that will be called with
+    updated progress strings.
+:param get_tagged: Function that returns a dict of pointed-to sha -&gt; tag
+    sha for including tags.
+:return: iterator over objects, with __len__ implemented</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.repo.BaseRepo.get_graph_walker">
@@ -435,7 +458,7 @@ sha for including tags.</td></tr><tr class="fieldStart"><td class="fieldName">Re
   </div>
   <div class="functionBody">
     
-    <div>Return the SHA1 a ref is pointing to.<table class="fieldTable"></table></div>
+    <pre>Return the SHA1 a ref is pointing to.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.repo.BaseRepo.get_refs">
@@ -452,7 +475,7 @@ sha for including tags.</td></tr><tr class="fieldStart"><td class="fieldName">Re
   </div>
   <div class="functionBody">
     
-    <div>Get dictionary with all refs.<table class="fieldTable"></table></div>
+    <pre>Get dictionary with all refs.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.repo.BaseRepo.head">
@@ -469,7 +492,7 @@ sha for including tags.</td></tr><tr class="fieldStart"><td class="fieldName">Re
   </div>
   <div class="functionBody">
     
-    <div>Return the SHA1 pointed at by HEAD.<table class="fieldTable"></table></div>
+    <pre>Return the SHA1 pointed at by HEAD.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.repo.BaseRepo._get_object">
@@ -554,7 +577,12 @@ sha for including tags.</td></tr><tr class="fieldStart"><td class="fieldName">Re
   </div>
   <div class="functionBody">
     
-    <div>Retrieve the commit with a particular SHA.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">sha</td><td>SHA of the commit to retrieve</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">A <a href="dulwich.objects.Commit.html"><code>Commit</code></a> object</td></tr><tr class="fieldStart"><td class="fieldName">Raises</td><td class="fieldArg">NotCommitError</td><td>If the SHA provided doesn't point at a Commit</td></tr><tr><td></td><td class="fieldArg">KeyError</td><td>If the SHA provided didn't exist</td></tr></table></div>
+    <pre>Retrieve the commit with a particular SHA.
+
+:param sha: SHA of the commit to retrieve
+:raise NotCommitError: If the SHA provided doesn't point at a Commit
+:raise KeyError: If the SHA provided didn't exist
+:return: A `Commit` object</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.repo.BaseRepo.tree">
@@ -571,7 +599,12 @@ sha for including tags.</td></tr><tr class="fieldStart"><td class="fieldName">Re
   </div>
   <div class="functionBody">
     
-    <div>Retrieve the tree with a particular SHA.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">sha</td><td>SHA of the tree to retrieve</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">A <a href="dulwich.objects.Tree.html"><code>Tree</code></a> object</td></tr><tr class="fieldStart"><td class="fieldName">Raises</td><td class="fieldArg">NotTreeError</td><td>If the SHA provided doesn't point at a Tree</td></tr><tr><td></td><td class="fieldArg">KeyError</td><td>If the SHA provided didn't exist</td></tr></table></div>
+    <pre>Retrieve the tree with a particular SHA.
+
+:param sha: SHA of the tree to retrieve
+:raise NotTreeError: If the SHA provided doesn't point at a Tree
+:raise KeyError: If the SHA provided didn't exist
+:return: A `Tree` object</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.repo.BaseRepo.tag">
@@ -588,7 +621,12 @@ sha for including tags.</td></tr><tr class="fieldStart"><td class="fieldName">Re
   </div>
   <div class="functionBody">
     
-    <div>Retrieve the tag with a particular SHA.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">sha</td><td>SHA of the tag to retrieve</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">A <a href="dulwich.objects.Tag.html"><code>Tag</code></a> object</td></tr><tr class="fieldStart"><td class="fieldName">Raises</td><td class="fieldArg">NotTagError</td><td>If the SHA provided doesn't point at a Tag</td></tr><tr><td></td><td class="fieldArg">KeyError</td><td>If the SHA provided didn't exist</td></tr></table></div>
+    <pre>Retrieve the tag with a particular SHA.
+
+:param sha: SHA of the tag to retrieve
+:raise NotTagError: If the SHA provided doesn't point at a Tag
+:raise KeyError: If the SHA provided didn't exist
+:return: A `Tag` object</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.repo.BaseRepo.get_blob">
@@ -605,7 +643,12 @@ sha for including tags.</td></tr><tr class="fieldStart"><td class="fieldName">Re
   </div>
   <div class="functionBody">
     
-    <div>Retrieve the blob with a particular SHA.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">sha</td><td>SHA of the blob to retrieve</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">A <a href="dulwich.objects.Blob.html"><code>Blob</code></a> object</td></tr><tr class="fieldStart"><td class="fieldName">Raises</td><td class="fieldArg">NotBlobError</td><td>If the SHA provided doesn't point at a Blob</td></tr><tr><td></td><td class="fieldArg">KeyError</td><td>If the SHA provided didn't exist</td></tr></table></div>
+    <pre>Retrieve the blob with a particular SHA.
+
+:param sha: SHA of the blob to retrieve
+:raise NotBlobError: If the SHA provided doesn't point at a Blob
+:raise KeyError: If the SHA provided didn't exist
+:return: A `Blob` object</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.repo.BaseRepo.get_peeled">
@@ -622,9 +665,12 @@ sha for including tags.</td></tr><tr class="fieldStart"><td class="fieldName">Re
   </div>
   <div class="functionBody">
     
-    <div>Get the peeled value of a ref.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">ref</td><td>The refname to peel.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">The fully-peeled SHA1 of a tag object, after peeling all
-intermediate tags; if the original ref does not point to a tag, this
-will equal the original SHA1.</td></tr></table></div>
+    <pre>Get the peeled value of a ref.
+
+:param ref: The refname to peel.
+:return: The fully-peeled SHA1 of a tag object, after peeling all
+    intermediate tags; if the original ref does not point to a tag, this
+    will equal the original SHA1.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.repo.BaseRepo.get_walker">
@@ -641,16 +687,28 @@ will equal the original SHA1.</td></tr></table></div>
   </div>
   <div class="functionBody">
     
-    <div>Obtain a walker for this repository.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">include</td><td>Iterable of SHAs of commits to include along with their
-ancestors. Defaults to [HEAD]</td></tr><tr><td></td><td class="fieldArg">exclude</td><td>Iterable of SHAs of commits to exclude along with their
-ancestors, overriding includes.</td></tr><tr><td></td><td class="fieldArg">order</td><td>ORDER_* constant specifying the order of results. Anything
-other than ORDER_DATE may result in O(n) memory usage.</td></tr><tr><td></td><td class="fieldArg">reverse</td><td>If True, reverse the order of output, requiring O(n)
-memory.</td></tr><tr><td></td><td class="fieldArg">max_entries</td><td>The maximum number of entries to yield, or None for
-no limit.</td></tr><tr><td></td><td class="fieldArg">paths</td><td>Iterable of file or subtree paths to show entries for.</td></tr><tr><td></td><td class="fieldArg">rename_detector</td><td>diff.RenameDetector object for detecting
-renames.</td></tr><tr><td></td><td class="fieldArg">follow</td><td>If True, follow path across renames/copies. Forces a
-default rename_detector.</td></tr><tr><td></td><td class="fieldArg">since</td><td>Timestamp to list commits after.</td></tr><tr><td></td><td class="fieldArg">until</td><td>Timestamp to list commits before.</td></tr><tr><td></td><td class="fieldArg">queue_cls</td><td>A class to use for a queue of commits, supporting the
-iterator protocol. The constructor takes a single argument, the
-Walker.</td></tr></table></div>
+    <pre>Obtain a walker for this repository.
+
+:param include: Iterable of SHAs of commits to include along with their
+    ancestors. Defaults to [HEAD]
+:param exclude: Iterable of SHAs of commits to exclude along with their
+    ancestors, overriding includes.
+:param order: ORDER_* constant specifying the order of results. Anything
+    other than ORDER_DATE may result in O(n) memory usage.
+:param reverse: If True, reverse the order of output, requiring O(n)
+    memory.
+:param max_entries: The maximum number of entries to yield, or None for
+    no limit.
+:param paths: Iterable of file or subtree paths to show entries for.
+:param rename_detector: diff.RenameDetector object for detecting
+    renames.
+:param follow: If True, follow path across renames/copies. Forces a
+    default rename_detector.
+:param since: Timestamp to list commits after.
+:param until: Timestamp to list commits before.
+:param queue_cls: A class to use for a queue of commits, supporting the
+    iterator protocol. The constructor takes a single argument, the
+    Walker.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.repo.BaseRepo.revision_history">
@@ -667,9 +725,13 @@ Walker.</td></tr></table></div>
   </div>
   <div class="functionBody">
     
-    <div>Returns a list of the commits reachable from head.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">head</td><td>The SHA of the head to list revision history for.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">A list of commit objects reachable from head, starting with
-head itself, in descending commit time order.</td></tr><tr class="fieldStart"><td class="fieldName">Raises</td><td class="fieldArg">MissingCommitError</td><td>if any missing commits are referenced,
-including if the head parameter isn't the SHA of a commit.</td></tr></table></div>
+    <pre>Returns a list of the commits reachable from head.
+
+:param head: The SHA of the head to list revision history for.
+:return: A list of commit objects reachable from head, starting with
+    head itself, in descending commit time order.
+:raise MissingCommitError: if any missing commits are referenced,
+    including if the head parameter isn't the SHA of a commit.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.repo.BaseRepo.__getitem__">
@@ -771,13 +833,26 @@ including if the head parameter isn't the SHA of a commit.</td></tr></table></di
   </div>
   <div class="functionBody">
     
-    <div>Create a new commit.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">message</td><td>Commit message</td></tr><tr><td></td><td class="fieldArg">committer</td><td>Committer fullname</td></tr><tr><td></td><td class="fieldArg">author</td><td>Author fullname (defaults to committer)</td></tr><tr><td></td><td class="fieldArg">commit_timestamp</td><td>Commit timestamp (defaults to now)</td></tr><tr><td></td><td class="fieldArg">commit_timezone</td><td>Commit timestamp timezone (defaults to GMT)</td></tr><tr><td></td><td class="fieldArg">author_timestamp</td><td>Author timestamp (defaults to commit timestamp)</td></tr><tr><td></td><td class="fieldArg">author_timezone</td><td>Author timestamp timezone
-(defaults to commit timestamp timezone)</td></tr><tr><td></td><td class="fieldArg">tree</td><td>SHA1 of the tree root to use (if not specified the
-current index will be committed).</td></tr><tr><td></td><td class="fieldArg">encoding</td><td>Encoding</td></tr><tr><td></td><td class="fieldArg">ref</td><td>Optional ref to commit to (defaults to current branch)</td></tr><tr><td></td><td class="fieldArg">merge_heads</td><td>Merge heads (defaults to .git/MERGE_HEADS)</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">New commit SHA1</td></tr></table></div>
+    <pre>Create a new commit.
+
+:param message: Commit message
+:param committer: Committer fullname
+:param author: Author fullname (defaults to committer)
+:param commit_timestamp: Commit timestamp (defaults to now)
+:param commit_timezone: Commit timestamp timezone (defaults to GMT)
+:param author_timestamp: Author timestamp (defaults to commit timestamp)
+:param author_timezone: Author timestamp timezone
+    (defaults to commit timestamp timezone)
+:param tree: SHA1 of the tree root to use (if not specified the
+    current index will be committed).
+:param encoding: Encoding
+:param ref: Optional ref to commit to (defaults to current branch)
+:param merge_heads: Merge heads (defaults to .git/MERGE_HEADS)
+:return: New commit SHA1</pre>
   </div>
 </div>
     <address>
-      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-25 13:37:30.
     </address>
   </body>
 </html>

@@ -19,9 +19,10 @@
     <div>
       
     </div>
-    <div>Object for performing a walk of commits in a store.</p>
-<p>Walker objects are initialized with a store and other options and can then
-be treated as iterators of Commit objects.<table class="fieldTable"></table></div>
+    <pre>Object for performing a walk of commits in a store.
+
+Walker objects are initialized with a store and other options and can then
+be treated as iterators of Commit objects.</pre>
 
     
     
@@ -34,7 +35,7 @@ be treated as iterators of Commit objects.<table class="fieldTable"></table></di
     
     <td>Method</td>
     <td><a href="dulwich.walk.Walker.html#__init__">__init__</a></td>
-    <td><span>Constructor.</span></td>
+    <td><tt>Constructor.</tt></td>
   </tr><tr class="method">
     
     
@@ -58,7 +59,7 @@ be treated as iterators of Commit objects.<table class="fieldTable"></table></di
     
     <td>Method</td>
     <td><a href="dulwich.walk.Walker.html#_should_return">_should_return</a></td>
-    <td><span>Determine if a walk entry should be returned..</span></td>
+    <td><tt>Determine if a walk entry should be returned..</tt></td>
   </tr><tr class="method private">
     
     
@@ -70,7 +71,7 @@ be treated as iterators of Commit objects.<table class="fieldTable"></table></di
     
     <td>Method</td>
     <td><a href="dulwich.walk.Walker.html#_reorder">_reorder</a></td>
-    <td><span>Possibly reorder a results iterator.</span></td>
+    <td><tt>Possibly reorder a results iterator.</tt></td>
   </tr>
   
 </table>
@@ -96,16 +97,29 @@ be treated as iterators of Commit objects.<table class="fieldTable"></table></di
   </div>
   <div class="functionBody">
     
-    <div>Constructor.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">store</td><td>ObjectStore instance for looking up objects.</td></tr><tr><td></td><td class="fieldArg">include</td><td>Iterable of SHAs of commits to include along with their
-ancestors.</td></tr><tr><td></td><td class="fieldArg">exclude</td><td>Iterable of SHAs of commits to exclude along with their
-ancestors, overriding includes.</td></tr><tr><td></td><td class="fieldArg">order</td><td>ORDER_* constant specifying the order of results. Anything
-other than ORDER_DATE may result in O(n) memory usage.</td></tr><tr><td></td><td class="fieldArg">reverse</td><td>If True, reverse the order of output, requiring O(n)
-memory.</td></tr><tr><td></td><td class="fieldArg">max_entries</td><td>The maximum number of entries to yield, or None for
-no limit.</td></tr><tr><td></td><td class="fieldArg">paths</td><td>Iterable of file or subtree paths to show entries for.</td></tr><tr><td></td><td class="fieldArg">rename_detector</td><td>diff.RenameDetector object for detecting
-renames.</td></tr><tr><td></td><td class="fieldArg">follow</td><td>If True, follow path across renames/copies. Forces a
-default rename_detector.</td></tr><tr><td></td><td class="fieldArg">since</td><td>Timestamp to list commits after.</td></tr><tr><td></td><td class="fieldArg">until</td><td>Timestamp to list commits before.</td></tr><tr><td></td><td class="fieldArg">queue_cls</td><td>A class to use for a queue of commits, supporting the
-iterator protocol. The constructor takes a single argument, the
-Walker.</td></tr></table></div>
+    <pre>Constructor.
+
+:param store: ObjectStore instance for looking up objects.
+:param include: Iterable of SHAs of commits to include along with their
+    ancestors.
+:param exclude: Iterable of SHAs of commits to exclude along with their
+    ancestors, overriding includes.
+:param order: ORDER_* constant specifying the order of results. Anything
+    other than ORDER_DATE may result in O(n) memory usage.
+:param reverse: If True, reverse the order of output, requiring O(n)
+    memory.
+:param max_entries: The maximum number of entries to yield, or None for
+    no limit.
+:param paths: Iterable of file or subtree paths to show entries for.
+:param rename_detector: diff.RenameDetector object for detecting
+    renames.
+:param follow: If True, follow path across renames/copies. Forces a
+    default rename_detector.
+:param since: Timestamp to list commits after.
+:param until: Timestamp to list commits before.
+:param queue_cls: A class to use for a queue of commits, supporting the
+    iterator protocol. The constructor takes a single argument, the
+    Walker.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.walk.Walker._path_matches">
@@ -156,8 +170,11 @@ Walker.</td></tr></table></div>
   </div>
   <div class="functionBody">
     
-    <div>Determine if a walk entry should be returned..<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">entry</td><td>The WalkEntry to consider.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">True if the WalkEntry should be returned by this walk, or False
-otherwise (e.g. if it doesn't match any requested paths).</td></tr></table></div>
+    <pre>Determine if a walk entry should be returned..
+
+:param entry: The WalkEntry to consider.
+:return: True if the WalkEntry should be returned by this walk, or False
+    otherwise (e.g. if it doesn't match any requested paths).</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.walk.Walker._next">
@@ -191,9 +208,12 @@ otherwise (e.g. if it doesn't match any requested paths).</td></tr></table></div
   </div>
   <div class="functionBody">
     
-    <div>Possibly reorder a results iterator.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">results</td><td>An iterator of WalkEntry objects, in the order returned
-from the queue_cls.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">An iterator or list of WalkEntry objects, in the order required
-by the Walker.</td></tr></table></div>
+    <pre>Possibly reorder a results iterator.
+
+:param results: An iterator of WalkEntry objects, in the order returned
+    from the queue_cls.
+:return: An iterator or list of WalkEntry objects, in the order required
+    by the Walker.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.walk.Walker.__iter__">
@@ -214,7 +234,7 @@ by the Walker.</td></tr></table></div>
   </div>
 </div>
     <address>
-      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-25 13:37:30.
     </address>
   </body>
 </html>

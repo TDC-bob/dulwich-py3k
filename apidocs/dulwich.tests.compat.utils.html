@@ -19,12 +19,12 @@
     <div>
       
     </div>
-    <div>Utilities for interacting with cgit.<table class="fieldTable"></table></div>
+    <pre>Utilities for interacting with cgit.</pre>
 
     
     
     <div id="splitTables">
-      <table class="children sortable" id="id124">
+      <table class="children sortable" id="id122">
   
   
 <tr class="function">
@@ -32,49 +32,49 @@
     
     <td>Function</td>
     <td><a href="dulwich.tests.compat.utils.html#git_version">git_version</a></td>
-    <td><span>Attempt to determine the version of git currently installed.</span></td>
+    <td><tt>Attempt to determine the version of git currently installed.</tt></td>
   </tr><tr class="function">
     
     
     <td>Function</td>
     <td><a href="dulwich.tests.compat.utils.html#require_git_version">require_git_version</a></td>
-    <td><span>Require git version &gt;= version, or skip the calling test.</span></td>
+    <td><tt>Require git version &gt;= version, or skip the calling test.</tt></td>
   </tr><tr class="function">
     
     
     <td>Function</td>
     <td><a href="dulwich.tests.compat.utils.html#run_git">run_git</a></td>
-    <td><span>Run a git command.</span></td>
+    <td><tt>Run a git command.</tt></td>
   </tr><tr class="function">
     
     
     <td>Function</td>
     <td><a href="dulwich.tests.compat.utils.html#run_git_or_fail">run_git_or_fail</a></td>
-    <td><span>Run a git command, capture stdout/stderr, and fail if git fails.</span></td>
+    <td><tt>Run a git command, capture stdout/stderr, and fail if git fails.</tt></td>
   </tr><tr class="function">
     
     
     <td>Function</td>
     <td><a href="dulwich.tests.compat.utils.html#import_repo_to_dir">import_repo_to_dir</a></td>
-    <td><span>Import a repo from a fast-export file in a temporary directory.</span></td>
+    <td><tt>Import a repo from a fast-export file in a temporary directory.</tt></td>
   </tr><tr class="function">
     
     
     <td>Function</td>
     <td><a href="dulwich.tests.compat.utils.html#import_repo">import_repo</a></td>
-    <td><span>Import a repo from a fast-export file in a temporary directory.</span></td>
+    <td><tt>Import a repo from a fast-export file in a temporary directory.</tt></td>
   </tr><tr class="function">
     
     
     <td>Function</td>
     <td><a href="dulwich.tests.compat.utils.html#check_for_daemon">check_for_daemon</a></td>
-    <td><span>Check for a running TCP daemon.</span></td>
+    <td><tt>Check for a running TCP daemon.</tt></td>
   </tr><tr class="class">
     
     
     <td>Class</td>
     <td><a href="dulwich.tests.compat.utils.CompatTestCase.html">CompatTestCase</a></td>
-    <td><span>Test case that requires git for compatibility checks.</span></td>
+    <td><tt>Test case that requires git for compatibility checks.</tt></td>
   </tr>
   
 </table>
@@ -100,9 +100,12 @@
   </div>
   <div class="functionBody">
     
-    <div>Attempt to determine the version of git currently installed.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">git_path</td><td>Path to the git executable; defaults to the version in
-the system path.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">A tuple of ints of the form (major, minor, point, sub-point), or
-None if no git installation was found.</td></tr></table></div>
+    <pre>Attempt to determine the version of git currently installed.
+
+:param git_path: Path to the git executable; defaults to the version in
+    the system path.
+:return: A tuple of ints of the form (major, minor, point, sub-point), or
+    None if no git installation was found.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.tests.compat.utils.require_git_version">
@@ -119,9 +122,14 @@ None if no git installation was found.</td></tr></table></div>
   </div>
   <div class="functionBody">
     
-    <div>Require git version &gt;= version, or skip the calling test.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">required_version</td><td>A tuple of ints of the form (major, minor, point,
-sub-point); ommitted components default to 0.</td></tr><tr><td></td><td class="fieldArg">git_path</td><td>Path to the git executable; defaults to the version in
-the system path.</td></tr><tr class="fieldStart"><td class="fieldName">Raises</td><td class="fieldArg">ValueError</td><td>if the required version tuple has too many parts.</td></tr><tr><td></td><td class="fieldArg">SkipTest</td><td>if no suitable git version was found at the given path.</td></tr></table></div>
+    <pre>Require git version &gt;= version, or skip the calling test.
+
+:param required_version: A tuple of ints of the form (major, minor, point,
+    sub-point); ommitted components default to 0.
+:param git_path: Path to the git executable; defaults to the version in
+    the system path.
+:raise ValueError: if the required version tuple has too many parts.
+:raise SkipTest: if no suitable git version was found at the given path.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.tests.compat.utils.run_git">
@@ -138,11 +146,20 @@ the system path.</td></tr><tr class="fieldStart"><td class="fieldName">Raises</t
   </div>
   <div class="functionBody">
     
-    <div>Run a git command.</p>
-<p>Input is piped from the input parameter and output is sent to the standard
-streams, unless capture_stdout is set.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">args</td><td>A list of args to the git command.</td></tr><tr><td></td><td class="fieldArg">git_path</td><td>Path to to the git executable.</td></tr><tr><td></td><td class="fieldArg">input</td><td>Input data to be sent to stdin.</td></tr><tr><td></td><td class="fieldArg">capture_stdout</td><td>Whether to capture and return stdout.</td></tr><tr><td></td><td class="fieldArg">popen_kwargs</td><td>Additional kwargs for subprocess.Popen;
-stdin/stdout args are ignored.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">A tuple of (returncode, stdout contents). If capture_stdout is
-False, None will be returned as stdout contents.</td></tr><tr class="fieldStart"><td class="fieldName">Raises</td><td class="fieldArg">OSError</td><td>if the git executable was not found.</td></tr></table></div>
+    <pre>Run a git command.
+
+Input is piped from the input parameter and output is sent to the standard
+streams, unless capture_stdout is set.
+
+:param args: A list of args to the git command.
+:param git_path: Path to to the git executable.
+:param input: Input data to be sent to stdin.
+:param capture_stdout: Whether to capture and return stdout.
+:param popen_kwargs: Additional kwargs for subprocess.Popen;
+    stdin/stdout args are ignored.
+:return: A tuple of (returncode, stdout contents). If capture_stdout is
+    False, None will be returned as stdout contents.
+:raise OSError: if the git executable was not found.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.tests.compat.utils.run_git_or_fail">
@@ -159,7 +176,7 @@ False, None will be returned as stdout contents.</td></tr><tr class="fieldStart"
   </div>
   <div class="functionBody">
     
-    <div>Run a git command, capture stdout/stderr, and fail if git fails.<table class="fieldTable"></table></div>
+    <pre>Run a git command, capture stdout/stderr, and fail if git fails.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.tests.compat.utils.import_repo_to_dir">
@@ -176,10 +193,14 @@ False, None will be returned as stdout contents.</td></tr><tr class="fieldStart"
   </div>
   <div class="functionBody">
     
-    <div>Import a repo from a fast-export file in a temporary directory.</p>
-<p>These are used rather than binary repos for compat tests because they are
-more compact an human-editable, and we already depend on git.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">name</td><td>The name of the repository export file, relative to
-dulwich/tests/data/repos.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">The path to the imported repository.</td></tr></table></div>
+    <pre>Import a repo from a fast-export file in a temporary directory.
+
+These are used rather than binary repos for compat tests because they are
+more compact an human-editable, and we already depend on git.
+
+:param name: The name of the repository export file, relative to
+    dulwich/tests/data/repos.
+:returns: The path to the imported repository.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.tests.compat.utils.import_repo">
@@ -196,8 +217,11 @@ dulwich/tests/data/repos.</td></tr><tr class="fieldStart"><td class="fieldName">
   </div>
   <div class="functionBody">
     
-    <div>Import a repo from a fast-export file in a temporary directory.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">name</td><td>The name of the repository export file, relative to
-dulwich/tests/data/repos.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">An initialized Repo object that lives in a temporary directory.</td></tr></table></div>
+    <pre>Import a repo from a fast-export file in a temporary directory.
+
+:param name: The name of the repository export file, relative to
+    dulwich/tests/data/repos.
+:returns: An initialized Repo object that lives in a temporary directory.</pre>
   </div>
 </div><div class="function">
   <a name="dulwich.tests.compat.utils.check_for_daemon">
@@ -214,13 +238,20 @@ dulwich/tests/data/repos.</td></tr><tr class="fieldStart"><td class="fieldName">
   </div>
   <div class="functionBody">
     
-    <div>Check for a running TCP daemon.</p>
-<p>Defaults to checking 10 times with a delay of 0.1 sec between tries.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName">Parameters</td><td class="fieldArg">limit</td><td>Number of attempts before deciding no daemon is running.</td></tr><tr><td></td><td class="fieldArg">delay</td><td>Delay between connection attempts.</td></tr><tr><td></td><td class="fieldArg">timeout</td><td>Socket timeout for connection attempts.</td></tr><tr><td></td><td class="fieldArg">port</td><td>Port on which we expect the daemon to appear.</td></tr><tr class="fieldStart"><td class="fieldName">Returns</td><td colspan="2">A boolean, true if a daemon is running on the specified port,
-false if not.</td></tr></table></div>
+    <pre>Check for a running TCP daemon.
+
+Defaults to checking 10 times with a delay of 0.1 sec between tries.
+
+:param limit: Number of attempts before deciding no daemon is running.
+:param delay: Delay between connection attempts.
+:param timeout: Socket timeout for connection attempts.
+:param port: Port on which we expect the daemon to appear.
+:returns: A boolean, true if a daemon is running on the specified port,
+    false if not.</pre>
   </div>
 </div>
     <address>
-      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-20 14:50:00.
+      <a href="index.html">API Documentation</a> for <a href="http://samba.org/~jelmer/dulwich/">Dulwich</a>, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-11-25 13:37:30.
     </address>
   </body>
 </html>
