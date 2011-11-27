@@ -51,7 +51,7 @@ from dulwich.objects import (
 
 # Python 2.6.6 included these in urlparse.uses_netloc upstream. Do
 # monkeypatching to enable similar behaviour in earlier Pythons:
-for scheme in ('git', 'git+ssh'):
+for scheme in ('git', 'git+ssh', 'ssh'):
     if scheme not in urllib.parse.uses_netloc:
         urllib.parse.uses_netloc.append(scheme)
 
@@ -760,7 +760,7 @@ def get_transport_and_path(uri):
     parsed = urllib.parse.urlparse(uri)
     if parsed.scheme == 'git':
         return TCPGitClient(parsed.hostname, port=parsed.port), parsed.path
-    elif parsed.scheme == 'git+ssh':
+    elif parsed.scheme in ('git+ssh', 'ssh'):
         return SSHGitClient(parsed.hostname, port=parsed.port,
                             username=parsed.username), parsed.path
     elif parsed.scheme in ('http', 'https'):
