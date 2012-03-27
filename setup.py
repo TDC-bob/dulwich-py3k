@@ -53,7 +53,7 @@ if sys.platform == 'darwin' and os.path.exists('/usr/bin/xcodebuild'):
     # distutils.sysconfig
     version = runcmd(['/usr/bin/xcodebuild', '-version'], {}).splitlines()[0]
     # Also parse only first digit, because 3.2.1 can't be parsed nicely
-    if (version.startswith('Xcode') and
+    if (str(version).startswith('Xcode') and
         int(version.split()[1].split('.')[0]) >= 4):
         os.environ['ARCHFLAGS'] = ''
 
