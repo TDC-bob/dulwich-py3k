@@ -19,3 +19,7 @@ http://eberle1080.github.com/dulwich-py3k/docs/index.html
 Full API documentation can be found on Github:
 
 http://eberle1080.github.com/dulwich-py3k/apidocs/index.html
+
+Links:
+(Mailing list)[https://lists.launchpad.net/dulwich-users/maillist.html]
+(Doc officielle)[http://www.samba.org/~jelmer/dulwich/apidocs/dulwich.file.html]
